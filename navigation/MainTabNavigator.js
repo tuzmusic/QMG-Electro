@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import MapScreen from "../js/MapView";
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -53,7 +54,12 @@ SettingsStack.navigationOptions = {
   ),
 };
 
+const MapStack = createStackNavigator({
+  Maps: MapScreen
+})
+
 export default createBottomTabNavigator({
+  MapStack,
   HomeStack,
   LinksStack,
   SettingsStack,
