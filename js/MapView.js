@@ -1,23 +1,20 @@
 import React, { Component } from "react";
-import MapView from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 
 export default class MapScreen extends Component {
-  state = this.getInitialState()
-  
-  getInitialState() {
-    return {
-      region: {
-        latitude: 43.208552,
-        longitude: -71.542526,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
-      }
-    };
-  }
+  state = {
+    region: {
+      latitude: 43.208552,
+      longitude: -71.542526,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421
+    },
+    markers: []
+  };
 
   onRegionChange(region) {
-    this.setState({region})
-  } 
+    this.setState({ region });
+  }
 
   render() {
     return (
@@ -26,7 +23,15 @@ export default class MapScreen extends Component {
         region={this.state.region}
         onRegionChange={this.onRegionChange.bind(this)}
         showsUserLocation={true}
-      />
+      >
+        {this.state.markers.map(marker => (
+          <Marker
+            coordinate={marker.latlng}
+            title={marker.title}
+            description={marker.description}
+          />
+        ))}
+      </MapView>
     );
   }
 }

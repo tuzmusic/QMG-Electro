@@ -72,7 +72,7 @@ MapStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  MapStack,
+  MapScreen,
   HomeStack,
   LinksStack,
   SettingsStack
