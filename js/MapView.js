@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
 import { View, TextInput, Text } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
-import { Icon } from "expo";
 
 export default class MapScreen extends Component {
   state = {
@@ -13,11 +12,18 @@ export default class MapScreen extends Component {
       longitudeDelta: 0.0421
     },
     markers: [],
-    infoText: "Placeholder info text"
+    message: "Placeholder info text"
   };
 
   onRegionChange(region) {
     this.setState({ region });
+  }
+
+  onPress() {
+    this.setState({ message: "You pressed somewhere." });
+    setTimeout(() => {
+      this.setState({message: "Press somewhere else, maybe."})
+    }, 1000);
   }
 
   render() {
@@ -27,6 +33,7 @@ export default class MapScreen extends Component {
           style={{ flex: 1 }}
           region={this.state.region}
           onRegionChange={this.onRegionChange.bind(this)}
+          onPress={this.onPress.bind(this)}
           showsUserLocation={true}
         >
           {this.state.markers.map(marker => (
@@ -42,11 +49,12 @@ export default class MapScreen extends Component {
         </Callout>
         <Callout style={styles.infoCallout}>
           <Text style={styles.infoText}>
-          longitude: {this.state.region.longitude}
+            longitude: {this.state.region.longitude}
           </Text>
           <Text style={styles.infoText}>
             latitude: {this.state.region.latitude}
           </Text>
+          <Text style={styles.infoText}>{this.state.message}</Text>
         </Callout>
       </View>
     );
@@ -67,7 +75,7 @@ const styles = F8StyleSheet.create({
     width: "70%",
     height: "30%",
     marginLeft: "15%",
-    marginTop: "80%"
+    marginTop: "90%"
   },
   searchCallout: {
     flexDirection: "row",
