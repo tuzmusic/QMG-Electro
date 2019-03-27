@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
-import { View, TextInput } from "react-native";
+import { View, TextInput, Text } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
+import { Icon } from "expo";
 
 export default class MapScreen extends Component {
   state = {
@@ -11,7 +12,8 @@ export default class MapScreen extends Component {
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421
     },
-    markers: []
+    markers: [],
+    infoText: "Placeholder info text"
   };
 
   onRegionChange(region) {
@@ -35,10 +37,16 @@ export default class MapScreen extends Component {
             />
           ))}
         </MapView>
-        <Callout>
-          <View style={styles.calloutView}>
-            <TextInput style={styles.calloutSearch} placeholder={"Search"} />
-          </View>
+        <Callout style={styles.searchCallout}>
+          <TextInput style={styles.calloutSearch} placeholder={"Search"} />
+        </Callout>
+        <Callout style={styles.infoCallout}>
+          <Text style={styles.infoText}>
+          longitude: {this.state.region.longitude}
+          </Text>
+          <Text style={styles.infoText}>
+            latitude: {this.state.region.latitude}
+          </Text>
         </Callout>
       </View>
     );
@@ -47,7 +55,21 @@ export default class MapScreen extends Component {
 
 const styles = F8StyleSheet.create({
   container: { flex: 1 },
-  calloutView: {
+  infoText: {
+    marginTop: "5%",
+    marginLeft: "5%",
+    fontSize: 15,
+    color: "darkgrey"
+  },
+  infoCallout: {
+    backgroundColor: "rgba(255, 255, 255, 0.85)",
+    borderRadius: 20,
+    width: "70%",
+    height: "30%",
+    marginLeft: "15%",
+    marginTop: "80%"
+  },
+  searchCallout: {
     flexDirection: "row",
     backgroundColor: "rgba(255, 255, 255, 0.9)",
     borderRadius: 10,
@@ -62,5 +84,5 @@ const styles = F8StyleSheet.create({
     marginRight: 10,
     height: 40,
     borderWidth: 0.0
-  },
+  }
 });
