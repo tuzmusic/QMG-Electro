@@ -166,11 +166,9 @@ const styles = F8StyleSheet.create({
     color: "rgba(96,100,109, 1)",
     lineHeight: 24,
     ios: {
-      textAlign: "left",
       color: "red"
     },
     android: {
-      textAlign: "right",
       color: "green"
     }
   },
