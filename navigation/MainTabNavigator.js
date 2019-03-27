@@ -61,7 +61,7 @@ const MapStack = createStackNavigator({
   Maps: MapScreen
 });
 
-MapStack.navigationOptions = {
+MapScreen.navigationOptions = MapStack.navigationOptions = {
   tabBarLabel: "Maps",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
