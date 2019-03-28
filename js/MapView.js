@@ -34,7 +34,7 @@ export default class MapScreen extends Component {
     places: [dc, concord],
     markers: [],
     message: "Currently in Concord",
-    searchText: ""
+    searchText: "1427 nj ave nw 20001"
   };
 
   calculateRegion(latitude, longitude, accuracy) {
@@ -71,11 +71,11 @@ export default class MapScreen extends Component {
           title: address.title,
           pinColor: "green"
         };
-        this.setState({ markers: this.state.markers.concat(marker) });
+        this.setState({ markers: [marker], region: coordinates });
       })
       .catch(error => console.warn(error));
   }
-  
+
   renderMarkers() {
     return this.state.markers.map(marker => (
       <Marker
@@ -91,7 +91,7 @@ export default class MapScreen extends Component {
   }
 
   handleSearch() {
-    this.dropMarkerFromAddress(this.state.searchText)
+    this.dropMarkerFromAddress(this.state.searchText);
   }
 
   render() {
@@ -110,6 +110,7 @@ export default class MapScreen extends Component {
             onSubmitEditing={this.handleSearch.bind(this)}
             style={styles.calloutSearch}
             placeholder={"Search"}
+            value={this.state.searchText}
           />
         </Callout>
       </View>
