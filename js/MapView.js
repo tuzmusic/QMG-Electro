@@ -56,7 +56,7 @@ export default class MapScreen extends Component {
   };
 
   componentDidMount = () => {
-    this.state.places.forEach(place => this.dropMarkerFromAddress(place.address));
+    // this.state.places.forEach(place => this.dropMarkerFromAddress(place.address));
   };
 
   dropMarkerFromAddress(address) {
@@ -108,7 +108,7 @@ export default class MapScreen extends Component {
   }
 
   handleSearch() {
-    console.log(this.state.searchText, "submitted");
+    this.dropMarkerFromAddress(this.state.searchText)
   }
 
   render() {
