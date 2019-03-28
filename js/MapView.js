@@ -32,8 +32,8 @@ export default class MapScreen extends Component {
     region: concord,
     currentRegion: "Concord",
     markers: [
-      { title: concord.title, latlng: concord, pinColor: 'blue' },
-      { title: dc.title, latlng: dc, pinColor: 'blue' }
+      { title: concord.title, latlng: concord, pinColor: "blue" },
+      { title: dc.title, latlng: dc, pinColor: "blue" }
     ],
     message: "Currently in Concord"
   };
@@ -53,12 +53,18 @@ export default class MapScreen extends Component {
     cities.forEach(location => {
       Geocoder.from(location.address)
         .then(json => {
-          let coordinates = json.results[0].geometry.location;
-          coordinates = {latitude: coordinates.lat, longitude: coordinates.lng}
-          const marker = { latlng: coordinates, title: location.title, pinColor: 'green' };
+          const coordinates = {
+            latitude: json.results[0].geometry.location.lat,
+            longitude: json.results[0].geometry.location.lng
+          };
+          const marker = {
+            latlng: coordinates,
+            title: location.title,
+            pinColor: "green"
+          };
           markers.push(marker);
           console.log(markers);
-          this.setState({markers})
+          this.setState({ markers });
         })
         .catch(error => console.warn(error));
     });
