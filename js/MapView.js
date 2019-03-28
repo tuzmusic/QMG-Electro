@@ -75,24 +75,6 @@ export default class MapScreen extends Component {
       })
       .catch(error => console.warn(error));
   }
-
-  getHereMessage() {
-    this.setState({ message: "Currently in " + this.state.currentRegion });
-  }
-
-  onMapPress() {
-    this.setState({ message: "You pressed somewhere." });
-    setTimeout(this.getHereMessage.bind(this), 1000);
-  }
-
-  onButtonPress() {
-    let newRegion = this.state.currentRegion === "DC" ? concord : dc;
-    this.setState(
-      { region: newRegion, currentRegion: newRegion.name },
-      this.getHereMessage
-    );
-  }
-
   renderMarkers() {
     return this.state.markers.map(marker => (
       <Marker
@@ -117,8 +99,6 @@ export default class MapScreen extends Component {
         <MapView
           style={{ flex: 1 }}
           region={this.state.region}
-          // onRegionChange={region => this.setState({ region })}
-          onPress={this.onMapPress.bind(this)}
           showsUserLocation={true}
         >
           {this.renderMarkers()}
@@ -131,32 +111,6 @@ export default class MapScreen extends Component {
             placeholder={"Search"}
           />
         </Callout>
-        {/*       
-        <Callout style={styles.infoCallout}>
-          <Text style={styles.infoText}>
-            longitude: {this.state.region.longitude}
-          </Text>
-          <Text style={styles.infoText}>
-            latitude: {this.state.region.latitude}
-          </Text>
-          <Text style={styles.infoText}>{this.state.message}</Text>
-        </Callout>
-        <Callout style={styles.buttonCallout}>
-          <Button
-            style={styles.button}
-            title={"Find Me!"}
-            onPress={this.getCurrentLocation.bind(this)}
-          />
-          <Button
-            style={styles.button}
-            title={
-              "Go to " +
-              (this.state.currentRegion === "Concord" ? "DC" : "Concord")
-            }
-            onPress={this.onButtonPress.bind(this)}
-          />
-        </Callout>
-           */}
       </View>
     );
   }
