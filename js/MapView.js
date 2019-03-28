@@ -75,6 +75,7 @@ export default class MapScreen extends Component {
       })
       .catch(error => console.warn(error));
   }
+  
   renderMarkers() {
     return this.state.markers.map(marker => (
       <Marker
