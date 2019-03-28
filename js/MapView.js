@@ -56,11 +56,11 @@ export default class MapScreen extends Component {
   };
 
   componentDidMount = () => {
-    this.state.places.forEach(place => this.setMarkerFromGeolocation(place));
+    this.state.places.forEach(place => this.dropMarkerFromAddress(place.address));
   };
 
-  setMarkerFromGeolocation(location) {
-    Geocoder.from(location.address)
+  dropMarkerFromAddress(address) {
+    Geocoder.from(address)
       .then(json => {
         const coordinates = {
           latitude: json.results[0].geometry.location.lat,
@@ -68,7 +68,7 @@ export default class MapScreen extends Component {
         };
         const marker = {
           latlng: coordinates,
-          title: location.title,
+          title: address.title,
           pinColor: "green"
         };
         this.setState({ markers: this.state.markers.concat(marker) });
