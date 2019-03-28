@@ -20,12 +20,41 @@ export default class MapScreen extends Component {
     longitudeDelta: 0.0421
   };
 
+  nullRegion = {
+    latitude: null,
+    longitude: null,
+    latitudeDelta: null,
+    longitudeDelta: null
+  };
+
   state = {
     region: this.concord,
+    // region: this.nullRegion,
     currentRegion: "Concord",
     markers: [],
     message: "Currently in Concord"
   };
+
+  getLocation = () => {
+    navigator.geolocation.getCurrentPosition(position => {
+      const lat = position.coords.latitude;
+      const long = position.coords.long;
+      const accuracy = position.coords.accuracy;
+      // this.setState({latitiude: lat, longitude: long})
+      this.calculateRegion(lat, long, accuracy);
+    });
+  };
+
+  calculateRegion(latitiude, longitude, accuracy) {
+    const oneDegreeOfLongitudeInMeters = 111.32;
+    const circumference = 40075 / 360;
+    const latitudeDelta = accuracy / oneDegreeOfLongitudeInMeters;
+    const longitudeDelta = accuracy * (1 / Math.cos(latitiude * circumference));
+
+    this.setState({
+      region: { latitude: latitude, longitude: longitude, latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta }
+    });
+  }
 
   getHereMessage() {
     // if region has been changed at all by a tap or anything, it no longer has a name!
@@ -86,6 +115,13 @@ export default class MapScreen extends Component {
         </Callout>
         <Callout style={styles.buttonCallout}>
           <Button
+            style={styles.button}
+            color={Platform.OS === "ios" ? "black" : null}
+            title={"Find Me!"}
+            onPress={this.getLocation.bind(this)}
+          />
+          <Button
+            style={styles.button}
             color={Platform.OS === "ios" ? "black" : null}
             title={
               "Go to " +
@@ -118,7 +154,13 @@ const styles = F8StyleSheet.create({
     marginLeft: "15%",
     marginTop: "90%"
   },
+  button:{
+    flex: 1,
+    margin: 60
+  },
   buttonCallout: {
+    flex: 1,
+    flexDirection: "row",
     backgroundColor: "rgba(255, 255, 255, 0.9)",
     ios: { padding: 5 },
     borderRadius: 20,
