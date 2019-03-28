@@ -135,12 +135,6 @@ export default class MapScreen extends Component {
           <Button
             style={styles.button}
             color={Platform.OS === "ios" ? "black" : null}
-            title={"Markers"}
-            onPress={this.setMarkerFromGeolocation.bind(this)}
-          />
-          <Button
-            style={styles.button}
-            color={Platform.OS === "ios" ? "black" : null}
             title={"Find Me!"}
             onPress={this.getCurrentLocation.bind(this)}
           />
