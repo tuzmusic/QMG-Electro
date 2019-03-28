@@ -31,6 +31,7 @@ export default class MapScreen extends Component {
   state = {
     region: concord,
     currentRegion: "Concord",
+    places: [dc, concord],
     markers: [
       { title: concord.title, latlng: concord, pinColor: "blue" },
       { title: dc.title, latlng: dc, pinColor: "blue" }
@@ -47,30 +48,28 @@ export default class MapScreen extends Component {
     this.setState({ region });
   }
 
-  getMarkersFromGeolocation() {
-    const markers = [];
-    const cities = [dc, concord];
-    cities.forEach(location => {
-      Geocoder.from(location.address)
-        .then(json => {
-          const coordinates = {
-            latitude: json.results[0].geometry.location.lat,
-            longitude: json.results[0].geometry.location.lng
-          };
-          const marker = {
-            latlng: coordinates,
-            title: location.title,
-            pinColor: "green"
-          };
-          markers.push(marker);
-          console.log(markers);
-          this.setState({ markers });
-        })
-        .catch(error => console.warn(error));
-    });
+  componentDidMount = () => {
+    this.state.places.forEach(place => this.getMarkersFromGeolocation(place))
+  };
+
+  getMarkersFromGeolocation(location) {
+    Geocoder.from(location.address)
+      .then(json => {
+        const coordinates = {
+          latitude: json.results[0].geometry.location.lat,
+          longitude: json.results[0].geometry.location.lng
+        };
+        const marker = {
+          latlng: coordinates,
+          title: location.title,
+          pinColor: "green"
+        };
+        this.setState({ markers: this.state.markers.concat(marker) });
+      })
+      .catch(error => console.warn(error));
   }
 
-  getLocation = () => {
+  getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(position => {
       const lat = position.coords.latitude;
       const long = position.coords.longitude;
@@ -146,7 +145,7 @@ export default class MapScreen extends Component {
             style={styles.button}
             color={Platform.OS === "ios" ? "black" : null}
             title={"Find Me!"}
-            onPress={this.getLocation.bind(this)}
+            onPress={this.getCurrentLocation.bind(this)}
           />
           <Button
             style={styles.button}
