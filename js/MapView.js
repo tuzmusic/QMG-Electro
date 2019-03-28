@@ -40,13 +40,8 @@ export default class MapScreen extends Component {
     const circumference = 40075 / 360;
     const latitudeDelta = accuracy / oneDegreeOfLongitudeInMeters;
     const longitudeDelta = accuracy * (1 / Math.cos(latitude * circumference));
-    const region = {
-      latitude: latitude,
-      longitude: longitude,
-      latitudeDelta: latitudeDelta,
-      longitudeDelta: longitudeDelta
-    };
-    this.setState({ region:region, message: JSON.stringify(region) });
+    const region = { latitude, longitude, latitudeDelta, longitudeDelta };
+    this.setState({ region });
   }
 
   componentWillMount = () => {
@@ -54,7 +49,6 @@ export default class MapScreen extends Component {
       const lat = position.coords.latitude;
       const long = position.coords.longitude;
       const accuracy = position.coords.accuracy;
-      // this.setState({latitiude: lat, longitude: long})
       this.calculateRegion(lat, long, accuracy);
     });
   };
@@ -63,10 +57,6 @@ export default class MapScreen extends Component {
     // if region has been changed at all by a tap or anything, it no longer has a name!
     // so we NEED currentRegion
     this.setState({ message: "Currently in " + this.state.currentRegion });
-  }
-
-  onRegionChange(region) {
-    this.setState({ region });
   }
 
   onMapPress() {
@@ -98,8 +88,7 @@ export default class MapScreen extends Component {
         <MapView
           style={{ flex: 1 }}
           region={this.state.region}
-          // region={this.state.region}
-          // onRegionChange={this.onRegionChange.bind(this)}
+          // onRegionChange={region => this.setState({ region })}
           onPress={this.onMapPress.bind(this)}
           showsUserLocation={true}
         >
