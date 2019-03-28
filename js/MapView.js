@@ -118,10 +118,10 @@ export default class MapScreen extends Component {
         >
           {this.renderMarkers()}
         </MapView>
-        {/*       
         <Callout style={styles.searchCallout}>
           <TextInput style={styles.calloutSearch} placeholder={"Search"} />
         </Callout>
+        {/*       
         <Callout style={styles.infoCallout}>
           <Text style={styles.infoText}>
             longitude: {this.state.region.longitude}
@@ -134,13 +134,11 @@ export default class MapScreen extends Component {
         <Callout style={styles.buttonCallout}>
           <Button
             style={styles.button}
-            color={Platform.OS === "ios" ? "black" : null}
             title={"Find Me!"}
             onPress={this.getCurrentLocation.bind(this)}
           />
           <Button
             style={styles.button}
-            color={Platform.OS === "ios" ? "black" : null}
             title={
               "Go to " +
               (this.state.currentRegion === "Concord" ? "DC" : "Concord")
@@ -174,15 +172,16 @@ const styles = F8StyleSheet.create({
   },
   button: {
     flex: 1,
-    margin: 60
   },
   buttonCallout: {
     flex: 1,
     flexDirection: "row",
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    justifyContent: "space-between",
+    width: 180,
+    backgroundColor: "transparent",
     ios: { padding: 5 },
     borderRadius: 20,
-    right: 20,
+    right: "10%",
     bottom: 80
   },
   searchCallout: {
