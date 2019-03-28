@@ -54,7 +54,7 @@ export default class MapScreen extends Component {
   componentWillMount = () => {
     navigator.geolocation.getCurrentPosition(position => {
       const lat = position.coords.latitude;
-      const long = position.coords.long;
+      const long = position.coords.longitude;
       const accuracy = position.coords.accuracy;
       // this.setState({latitiude: lat, longitude: long})
       this.calculateRegion(lat, long, accuracy);
@@ -100,7 +100,7 @@ export default class MapScreen extends Component {
       
         <MapView
           style={{ flex: 1 }}
-          initialRegion={this.state.region}
+          region={this.state.region}
           // region={this.state.region}
           // onRegionChange={this.onRegionChange.bind(this)}
           onPress={this.onMapPress.bind(this)}
