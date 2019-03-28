@@ -35,7 +35,23 @@ export default class MapScreen extends Component {
     message: "Currently in Concord"
   };
 
-  getLocation = () => {
+  calculateRegion(latitiude, longitude, accuracy) {
+    const oneDegreeOfLongitudeInMeters = 111.32;
+    const circumference = 40075 / 360;
+    const latitudeDelta = accuracy / oneDegreeOfLongitudeInMeters;
+    const longitudeDelta = accuracy * (1 / Math.cos(latitiude * circumference));
+
+    this.setState({
+      region: {
+        latitude: latitude,
+        longitude: longitude,
+        latitudeDelta: latitudeDelta,
+        longitudeDelta: longitudeDelta
+      }
+    });
+  }
+
+  componentWillMount = () => {
     navigator.geolocation.getCurrentPosition(position => {
       const lat = position.coords.latitude;
       const long = position.coords.long;
@@ -44,17 +60,6 @@ export default class MapScreen extends Component {
       this.calculateRegion(lat, long, accuracy);
     });
   };
-
-  calculateRegion(latitiude, longitude, accuracy) {
-    const oneDegreeOfLongitudeInMeters = 111.32;
-    const circumference = 40075 / 360;
-    const latitudeDelta = accuracy / oneDegreeOfLongitudeInMeters;
-    const longitudeDelta = accuracy * (1 / Math.cos(latitiude * circumference));
-
-    this.setState({
-      region: { latitude: latitude, longitude: longitude, latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta }
-    });
-  }
 
   getHereMessage() {
     // if region has been changed at all by a tap or anything, it no longer has a name!
@@ -92,15 +97,18 @@ export default class MapScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+      
         <MapView
           style={{ flex: 1 }}
-          region={this.state.region}
-          onRegionChange={this.onRegionChange.bind(this)}
+          initialRegion={this.state.region}
+          // region={this.state.region}
+          // onRegionChange={this.onRegionChange.bind(this)}
           onPress={this.onMapPress.bind(this)}
           showsUserLocation={true}
         >
           {this.renderMarkers()}
         </MapView>
+        
         <Callout style={styles.searchCallout}>
           <TextInput style={styles.calloutSearch} placeholder={"Search"} />
         </Callout>
@@ -118,7 +126,7 @@ export default class MapScreen extends Component {
             style={styles.button}
             color={Platform.OS === "ios" ? "black" : null}
             title={"Find Me!"}
-            onPress={this.getLocation.bind(this)}
+            onPress={this.componentWillMount.bind(this)}
           />
           <Button
             style={styles.button}
@@ -154,7 +162,7 @@ const styles = F8StyleSheet.create({
     marginLeft: "15%",
     marginTop: "90%"
   },
-  button:{
+  button: {
     flex: 1,
     margin: 60
   },
