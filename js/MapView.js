@@ -45,8 +45,17 @@ export default class MapScreen extends Component {
     this.setState({ region });
   }
 
+  getCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition(position => {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      const accuracy = position.coords.accuracy;
+      this.calculateRegion(latitude, longitude, accuracy);
+    });
+  };
+
   componentDidMount = () => {
-    this.state.places.forEach(place => this.setMarkerFromGeolocation(place))
+    this.state.places.forEach(place => this.setMarkerFromGeolocation(place));
   };
 
   setMarkerFromGeolocation(location) {
@@ -65,15 +74,6 @@ export default class MapScreen extends Component {
       })
       .catch(error => console.warn(error));
   }
-
-  getCurrentLocation = () => {
-    navigator.geolocation.getCurrentPosition(position => {
-      const lat = position.coords.latitude;
-      const long = position.coords.longitude;
-      const accuracy = position.coords.accuracy;
-      this.calculateRegion(lat, long, accuracy);
-    });
-  };
 
   getHereMessage() {
     this.setState({ message: "Currently in " + this.state.currentRegion });
