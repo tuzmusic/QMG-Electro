@@ -75,11 +75,12 @@ export default class MapScreen extends Component {
   }
 
   renderMarkers() {
-   return this.state.markers.map(marker => (
+    return this.state.markers.map(marker => (
       <Marker
         coordinate={marker.latlng}
         title={marker.title}
         description={marker.description}
+        key={marker.latlng.latitude + marker.latlng.longitude}
       />
     ));
   }
