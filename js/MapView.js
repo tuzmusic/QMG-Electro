@@ -2,39 +2,39 @@ import React, { Component } from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
 import { Platform, View, TextInput, Text, Button } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
+import { GoogleAPIKey } from "../secrets";
+import Geocoder from "react-native-geocoding";
+
+Geocoder.init(GoogleAPIKey)
+
+let concord = {
+  name: "Concord",
+  title: "Our house in Concord",
+  address: "88 North Spring Street, 03301",
+  latitude: 43.208552,
+  longitude: -71.542526,
+  latitudeDelta: 0.00922,
+  longitudeDelta: 0.00421
+};
+
+let dc = {
+  name: "DC",
+  title: "Our house in DC",
+  address: "1427 New Jersey Ave NW, 20001",
+  latitude: 38.909354,
+  longitude: -77.01586,
+  latitudeDelta: 0.0922,
+  longitudeDelta: 0.0421
+};
 
 export default class MapScreen extends Component {
-  concord = {
-    name: "Concord",
-    title: "Our house in Concord",
-    latitude: 43.208552,
-    longitude: -71.542526,
-    latitudeDelta: 0.00922,
-    longitudeDelta: 0.00421
-  };
-
-  dc = {
-    name: "DC",
-    title: "Our house in DC",
-    latitude: 38.909354,
-    longitude: -77.01586,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421
-  };
-
-  nullRegion = {
-    latitude: null,
-    longitude: null,
-    latitudeDelta: null,
-    longitudeDelta: null
-  };
 
   state = {
-    region: this.concord,
+    region: concord,
     currentRegion: "Concord",
     markers: [
-      { title: this.concord.title, latlng: this.concord, description: null },
-      { title: this.dc.title, latlng: this.dc, description: null }
+      { title: concord.title, latlng: concord },
+      { title: dc.title, latlng: dc }
     ],
     message: "Currently in Concord"
   };
@@ -48,6 +48,10 @@ export default class MapScreen extends Component {
     this.setState({ region });
   }
 
+  getMarkersFromGeolocation() {
+    
+  }
+  
   getLocation = () => {
     navigator.geolocation.getCurrentPosition(position => {
       const lat = position.coords.latitude;
@@ -67,7 +71,7 @@ export default class MapScreen extends Component {
   }
 
   onButtonPress() {
-    let newRegion = this.state.currentRegion === "DC" ? this.concord : this.dc;
+    let newRegion = this.state.currentRegion === "DC" ? concord : dc;
     this.setState(
       { region: newRegion, currentRegion: newRegion.name },
       this.getHereMessage
@@ -80,7 +84,9 @@ export default class MapScreen extends Component {
         coordinate={marker.latlng}
         title={marker.title}
         description={marker.description}
-        key={marker.latlng.latitude + marker.latlng.longitude}
+        key={
+          marker.latlng.latitude.toString() + marker.latlng.longitude.toString()
+        }
       />
     ));
   }
