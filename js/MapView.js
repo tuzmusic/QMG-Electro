@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
 import { Platform, View, TextInput, Text, Button } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
-import { GoogleAPIKey } from "../secrets";
+import GoogleAPIKey from "../secrets";
 import Geocoder from "react-native-geocoding";
-
-Geocoder.init(GoogleAPIKey)
 
 let concord = {
   name: "Concord",
@@ -27,8 +25,9 @@ let dc = {
   longitudeDelta: 0.0421
 };
 
-export default class MapScreen extends Component {
+Geocoder.init(GoogleAPIKey);
 
+export default class MapScreen extends Component {
   state = {
     region: concord,
     currentRegion: "Concord",
@@ -49,9 +48,20 @@ export default class MapScreen extends Component {
   }
 
   getMarkersFromGeolocation() {
-    
+    const markers = [];
+    const cities = [dc, concord];
+    cities.forEach(location => {
+      Geocoder.from(location.address)
+        .then(json => {
+          const coordinates = json.results[0].geometry.location;
+          const marker = { latlng: coordinates, title: location.title };
+          markers.push(marker);
+          console.log(markers);
+        })
+        .catch(error => console.warn(error));
+    });
   }
-  
+
   getLocation = () => {
     navigator.geolocation.getCurrentPosition(position => {
       const lat = position.coords.latitude;
@@ -103,7 +113,7 @@ export default class MapScreen extends Component {
         >
           {this.renderMarkers()}
         </MapView>
-
+        {/*       
         <Callout style={styles.searchCallout}>
           <TextInput style={styles.calloutSearch} placeholder={"Search"} />
         </Callout>
@@ -115,8 +125,14 @@ export default class MapScreen extends Component {
             latitude: {this.state.region.latitude}
           </Text>
           <Text style={styles.infoText}>{this.state.message}</Text>
-        </Callout>
+        </Callout> */}
         <Callout style={styles.buttonCallout}>
+          <Button
+            style={styles.button}
+            color={Platform.OS === "ios" ? "black" : null}
+            title={"Markers"}
+            onPress={this.getMarkersFromGeolocation.bind(this)}
+          />
           <Button
             style={styles.button}
             color={Platform.OS === "ios" ? "black" : null}
@@ -168,7 +184,7 @@ const styles = F8StyleSheet.create({
     ios: { padding: 5 },
     borderRadius: 20,
     right: 20,
-    bottom: 20
+    bottom: 80
   },
   searchCallout: {
     flexDirection: "row",
