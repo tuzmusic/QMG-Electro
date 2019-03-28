@@ -6,14 +6,16 @@ import F8StyleSheet from "../js/F8StyleSheet";
 export default class MapScreen extends Component {
   concord = {
     name: "Concord",
+    title: "Our house in Concord",
     latitude: 43.208552,
     longitude: -71.542526,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421
+    latitudeDelta: 0.00922,
+    longitudeDelta: 0.00421
   };
 
   dc = {
     name: "DC",
+    title: "Our house in DC",
     latitude: 38.909354,
     longitude: -77.01586,
     latitudeDelta: 0.0922,
@@ -29,9 +31,11 @@ export default class MapScreen extends Component {
 
   state = {
     region: this.concord,
-    // region: this.nullRegion,
     currentRegion: "Concord",
-    markers: [],
+    markers: [
+      { title: this.concord.title, latlng: this.concord, description: null },
+      { title: this.dc.title, latlng: this.dc, description: null }
+    ],
     message: "Currently in Concord"
   };
 
@@ -71,7 +75,7 @@ export default class MapScreen extends Component {
   }
 
   renderMarkers() {
-    this.state.markers.map(marker => (
+   return this.state.markers.map(marker => (
       <Marker
         coordinate={marker.latlng}
         title={marker.title}
