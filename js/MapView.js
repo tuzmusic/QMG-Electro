@@ -33,7 +33,8 @@ export default class MapScreen extends Component {
     currentRegion: "Concord",
     places: [dc, concord],
     markers: [],
-    message: "Currently in Concord"
+    message: "Currently in Concord",
+    searchText: ""
   };
 
   calculateRegion(latitude, longitude, accuracy) {
@@ -106,6 +107,10 @@ export default class MapScreen extends Component {
     ));
   }
 
+  handleSearch() {
+    console.log(this.state.searchText, "submitted");
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -119,7 +124,12 @@ export default class MapScreen extends Component {
           {this.renderMarkers()}
         </MapView>
         <Callout style={styles.searchCallout}>
-          <TextInput style={styles.calloutSearch} placeholder={"Search"} />
+          <TextInput
+            onChangeText={searchText => this.setState({ searchText })}
+            onSubmitEditing={this.handleSearch.bind(this)}
+            style={styles.calloutSearch}
+            placeholder={"Search"}
+          />
         </Callout>
         {/*       
         <Callout style={styles.infoCallout}>
