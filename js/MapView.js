@@ -44,7 +44,7 @@ export default class MapScreen extends Component {
     this.setState({ region });
   }
 
-  componentWillMount = () => {
+  getLocation = () => {
     navigator.geolocation.getCurrentPosition(position => {
       const lat = position.coords.latitude;
       const long = position.coords.longitude;
@@ -54,8 +54,6 @@ export default class MapScreen extends Component {
   };
 
   getHereMessage() {
-    // if region has been changed at all by a tap or anything, it no longer has a name!
-    // so we NEED currentRegion
     this.setState({ message: "Currently in " + this.state.currentRegion });
   }
 
@@ -112,7 +110,7 @@ export default class MapScreen extends Component {
             style={styles.button}
             color={Platform.OS === "ios" ? "black" : null}
             title={"Find Me!"}
-            onPress={this.componentWillMount.bind(this)}
+            onPress={this.getLocation.bind(this)}
           />
           <Button
             style={styles.button}
