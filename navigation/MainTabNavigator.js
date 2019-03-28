@@ -10,6 +10,7 @@ import HomeScreen from "../screens/HomeScreen";
 import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import MapScreen from "../js/MapView";
+import MapResultsScreen from "../js/MapResultsView";
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen
@@ -58,7 +59,8 @@ SettingsStack.navigationOptions = {
 };
 
 const MapStack = createStackNavigator({
-  Maps: MapScreen
+  Maps: MapScreen,
+  Results: MapResultsScreen
 });
 
 MapScreen.navigationOptions = MapStack.navigationOptions = {

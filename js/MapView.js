@@ -34,7 +34,7 @@ export default class MapScreen extends Component {
     places: [dc, concord],
     markers: [],
     message: "Currently in Concord",
-    searchText: "1427 nj ave nw 20001"
+    searchText: "la colombe dc"
   };
 
   calculateRegion(latitude, longitude, accuracy) {
@@ -91,7 +91,12 @@ export default class MapScreen extends Component {
   }
 
   handleSearch() {
-    this.dropMarkerFromAddress(this.state.searchText);
+    Geocoder.from(this.state.searchText)
+      .then(json => {
+        const results = json.results;
+        this.props.navigation.navigate('Results', { results })
+      })
+      .catch(error => console.warn(error));
   }
 
   render() {
