@@ -35,20 +35,18 @@ export default class MapScreen extends Component {
     message: "Currently in Concord"
   };
 
-  calculateRegion(latitiude, longitude, accuracy) {
+  calculateRegion(latitude, longitude, accuracy) {
     const oneDegreeOfLongitudeInMeters = 111.32;
     const circumference = 40075 / 360;
     const latitudeDelta = accuracy / oneDegreeOfLongitudeInMeters;
-    const longitudeDelta = accuracy * (1 / Math.cos(latitiude * circumference));
-
-    this.setState({
-      region: {
-        latitude: latitude,
-        longitude: longitude,
-        latitudeDelta: latitudeDelta,
-        longitudeDelta: longitudeDelta
-      }
-    });
+    const longitudeDelta = accuracy * (1 / Math.cos(latitude * circumference));
+    const region = {
+      latitude: latitude,
+      longitude: longitude,
+      latitudeDelta: latitudeDelta,
+      longitudeDelta: longitudeDelta
+    };
+    this.setState({ region:region, message: JSON.stringify(region) });
   }
 
   componentWillMount = () => {
@@ -97,7 +95,6 @@ export default class MapScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-      
         <MapView
           style={{ flex: 1 }}
           region={this.state.region}
@@ -108,7 +105,7 @@ export default class MapScreen extends Component {
         >
           {this.renderMarkers()}
         </MapView>
-        
+
         <Callout style={styles.searchCallout}>
           <TextInput style={styles.calloutSearch} placeholder={"Search"} />
         </Callout>
