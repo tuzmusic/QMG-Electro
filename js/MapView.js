@@ -130,7 +130,7 @@ export default class MapScreen extends Component {
             latitude: {this.state.region.latitude}
           </Text>
           <Text style={styles.infoText}>{this.state.message}</Text>
-        </Callout> */}
+        </Callout>
         <Callout style={styles.buttonCallout}>
           <Button
             style={styles.button}
@@ -146,6 +146,7 @@ export default class MapScreen extends Component {
             onPress={this.onButtonPress.bind(this)}
           />
         </Callout>
+           */}
       </View>
     );
   }
@@ -171,7 +172,7 @@ const styles = F8StyleSheet.create({
     marginTop: "90%"
   },
   button: {
-    flex: 1,
+    flex: 1
   },
   buttonCallout: {
     flex: 1,
