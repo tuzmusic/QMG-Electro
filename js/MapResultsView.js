@@ -2,12 +2,23 @@ import React, { Component } from "react";
 import { Text, Touchable, FlatList } from "react-native";
 
 export default class MapResultsView extends Component {
+  // static navigationOptions = {
+  //   title: this.props.navigation.state.params.searchText
+  // };
+
+  static navigationOptions = ({ navigation }) => {
+    console.log(navigation.state.params.searchText);
+    return {
+      title: navigation.getParam("searchText")
+    };
+  };
+
   constructor(props) {
     super(props);
     this.results = this.props.navigation.state.params.results;
 
     if (this.results.length === 1) {
-      this.results = Array(5).fill(this.results[0])
+      this.results = Array(5).fill(this.results[0]);
     }
   }
 

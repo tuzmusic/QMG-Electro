@@ -4,6 +4,7 @@ import { Platform, View, TextInput, Text, Button } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
 import GoogleAPIKey from "../secrets";
 import Geocoder from "react-native-geocoding";
+import WhiteHouseMock from "../tests/mocks/WhiteHouseMock";
 
 let concord = {
   name: "Concord",
@@ -94,15 +95,20 @@ export default class MapScreen extends Component {
   }
 
   componentDidMount = () => {
-    this.handleSearch();
+    // this.setState({ searchText: "starbucks" }, this.handleSearch);
+    this.props.navigation.navigate("Results", {
+      searchText: "The White House",
+      results: WhiteHouseMock.candidates
+    });
   };
 
   fetchSearch() {
-    let url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${
-      this.state.searchText
-    }&inputtype=textquery&fields=formatted_address,name,geometry&key=${GoogleAPIKey}`;
+    const searchText = this.state.searchText.split(" ").join("%20");
 
-    url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=${GoogleAPIKey}`;
+    let url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${searchText}&inputtype=textquery&fields=formatted_address,name,geometry&key=${GoogleAPIKey}`;
+
+    // url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=${GoogleAPIKey}`;
+    console.log(url);
 
     fetch(url)
       .then(res => JSON.parse(res._bodyText))
@@ -118,7 +124,6 @@ export default class MapScreen extends Component {
     // this.fetchSearch(); return;
 
     try {
-      await this.setState({searchText: "the white house"})
       const json = await Geocoder.from(this.state.searchText);
       this.props.navigation.navigate("Results", { results: json.results });
     } catch (error) {
