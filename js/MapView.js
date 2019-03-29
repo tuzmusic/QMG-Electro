@@ -71,7 +71,7 @@ export default class MapScreen extends Component {
         title: address.title,
         pinColor: "green"
       };
-      this.setState({ markers: [marker], region: coordinates });
+      this.setState({ markers: [marker], region: {...this.state.region, ...coordinates} });
     } catch(error) {
       console.warn(error)
     }
