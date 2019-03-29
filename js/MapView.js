@@ -4,7 +4,6 @@ import { Platform, View, TextInput, Text, Button } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
 import GoogleAPIKey from "../secrets";
 import Geocoder from "react-native-geocoding";
-import WhiteHouseMock from "../tests/mocks/WhiteHouseMock";
 import StationsMock from "../tests/mocks/StationsMock";
 
 let concord = {

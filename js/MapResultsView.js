@@ -13,15 +13,23 @@ export default class MapResultsView extends Component {
     super(props);
     this.results = this.props.navigation.state.params.results;
 
-    // if (this.results.length === 1) {
-    //   this.results = Array(5).fill(this.results[0]);
-    // }
+    if (this.results.length === 1) {
+      this.results = Array(5).fill(this.results[0]);
+    }
   }
 
   renderItem = ({ item }) => {
     return (
-      <View style={styles.cellContainer}>
-        <Text>{item.address}</Text>
+      <View style={{ paddingLeft: 15, paddingRight: 15 }}>
+        <View style={styles.cellContainer}>
+          <Text>{item.name}</Text>
+          <Text>Owner: {item.owner.name}</Text>
+          <Text>{item.address}</Text>
+          <Text>
+            {"Price: " + (item.price === 0 ? "Free" : `$${item.price}`)}
+          </Text>
+          <Text>{item.availableNow ? "Available!" : "Unavailable"}</Text>
+        </View>
       </View>
     );
   };
@@ -44,5 +52,9 @@ export default class MapResultsView extends Component {
 
 const styles = F8StyleSheet.create({
   flatlistContainer: {},
-  cellContainer: {}
+  cellContainer: {
+    padding: 10,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "lightgrey"
+  }
 });
