@@ -34,7 +34,7 @@ export default class MapScreen extends Component {
     places: [dc, concord],
     markers: [],
     message: "Currently in Concord",
-    searchText: "la colombe dc"
+    searchText: "88 North Spring Street, 03301"
   };
 
   calculateRegion(latitude, longitude, accuracy) {
@@ -58,6 +58,20 @@ export default class MapScreen extends Component {
   componentDidMount = () => {
     // this.state.places.forEach(place => this.dropMarkerFromAddress(place.address));
   };
+
+  async dropMarker(address) {
+    const json = await Geocoder.from(address);
+    const coordinates = {
+      latitude: json.results[0].geometry.location.lat,
+      longitude: json.results[0].geometry.location.lng
+    };
+    const marker = {
+      latlng: coordinates,
+      title: address.title,
+      pinColor: "green"
+    };
+    this.setState({ markers: [marker], region: coordinates });
+  }
 
   dropMarkerFromAddress(address) {
     Geocoder.from(address)
@@ -91,12 +105,14 @@ export default class MapScreen extends Component {
   }
 
   handleSearch() {
-    Geocoder.from(this.state.searchText)
-      .then(json => {
-        const results = json.results;
-        this.props.navigation.navigate('Results', { results })
-      })
-      .catch(error => console.warn(error));
+    this.dropMarker(this.state.searchText);
+
+    // Geocoder.from(this.state.searchText)
+    //   .then(json => {
+    //     const results = json.results;
+    //     this.props.navigation.navigate('Results', { results })
+    //   })
+    //   .catch(error => console.warn(error));
   }
 
   render() {
