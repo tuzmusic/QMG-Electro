@@ -34,7 +34,7 @@ export default class MapScreen extends Component {
     places: [dc, concord],
     markers: [],
     message: "Currently in Concord",
-    searchText: "88 North Spring Street, 03301"
+    searchText: "Starbucks"
   };
 
   calculateRegion(latitude, longitude, accuracy) {
@@ -53,10 +53,6 @@ export default class MapScreen extends Component {
       const accuracy = position.coords.accuracy;
       this.calculateRegion(latitude, longitude, accuracy);
     });
-  };
-
-  componentDidMount = () => {
-    // this.state.places.forEach(place => this.dropMarkerFromAddress(place.address));
   };
 
   async dropMarker(address) {
@@ -97,11 +93,18 @@ export default class MapScreen extends Component {
     ));
   }
 
+  componentDidMount = () => {
+    this.handleSearch()
+  }
+  
+
   async handleSearch() {
-    this.dropMarker(this.state.searchText);
-    return;
+    // this.dropMarker(this.state.searchText); return;
+    console.log(this.state.searchText);
+    
+    let json
     try {
-      let json = await Geocoder.from(this.state.searchText);
+      json = await Geocoder.from(this.state.searchText);
     } catch (error) {
       console.warn(error);
       return;
