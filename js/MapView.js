@@ -77,23 +77,6 @@ export default class MapScreen extends Component {
     }
   }
 
-  dropMarkerFromAddress(address) {
-    Geocoder.from(address)
-      .then(json => {
-        const coordinates = {
-          latitude: json.results[0].geometry.location.lat,
-          longitude: json.results[0].geometry.location.lng
-        };
-        const marker = {
-          latlng: coordinates,
-          title: address.title,
-          pinColor: "green"
-        };
-        this.setState({ markers: [marker], region: coordinates });
-      })
-      .catch(error => console.warn(error));
-  }
-
   renderMarkers() {
     return this.state.markers.map(marker => (
       <Marker
