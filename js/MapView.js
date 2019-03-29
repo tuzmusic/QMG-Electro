@@ -94,15 +94,32 @@ export default class MapScreen extends Component {
   }
 
   componentDidMount = () => {
-    this.handleSearch()
+    this.handleSearch();
+  };
+
+  fetchSearch() {
+    let response;
+    let url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${
+      this.state.searchText
+    }&inputtype=textquery&key=${GoogleAPIKey}`;
+
+    url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=${GoogleAPIKey}`;
+
+    fetch(url)
+      .then(res => JSON.parse(res._bodyText))
+      .then(json => {
+        const results = json.candidates;
+        this.props.navigation.navigate("Results", { results });
+      })
+      .catch(err => console.log(err));
   }
-  
 
   async handleSearch() {
     // this.dropMarker(this.state.searchText); return;
+    this.fetchSearch(); return
     console.log(this.state.searchText);
-    
-    let json
+
+    let json;
     try {
       json = await Geocoder.from(this.state.searchText);
     } catch (error) {
