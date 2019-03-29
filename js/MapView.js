@@ -34,7 +34,7 @@ export default class MapScreen extends Component {
     places: [dc, concord],
     markers: [],
     message: "Currently in Concord",
-    searchText: "Starbucks"
+    searchText: ""
   };
 
   calculateRegion(latitude, longitude, accuracy) {
@@ -98,10 +98,9 @@ export default class MapScreen extends Component {
   };
 
   fetchSearch() {
-    let response;
     let url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${
       this.state.searchText
-    }&inputtype=textquery&key=${GoogleAPIKey}`;
+    }&inputtype=textquery&fields=formatted_address,name,geometry&key=${GoogleAPIKey}`;
 
     url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=${GoogleAPIKey}`;
 
@@ -116,18 +115,15 @@ export default class MapScreen extends Component {
 
   async handleSearch() {
     // this.dropMarker(this.state.searchText); return;
-    this.fetchSearch(); return
-    console.log(this.state.searchText);
+    // this.fetchSearch(); return;
 
-    let json;
     try {
-      json = await Geocoder.from(this.state.searchText);
+      await this.setState({searchText: "the white house"})
+      const json = await Geocoder.from(this.state.searchText);
+      this.props.navigation.navigate("Results", { results: json.results });
     } catch (error) {
       console.warn(error);
-      return;
     }
-    const results = json.results;
-    this.props.navigation.navigate("Results", { results });
   }
 
   render() {
