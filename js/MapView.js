@@ -5,6 +5,7 @@ import F8StyleSheet from "../js/F8StyleSheet";
 import GoogleAPIKey from "../secrets";
 import Geocoder from "react-native-geocoding";
 import WhiteHouseMock from "../tests/mocks/WhiteHouseMock";
+import StationsMock from "../tests/mocks/StationsMock";
 
 let concord = {
   name: "Concord",
@@ -97,8 +98,8 @@ export default class MapScreen extends Component {
   componentDidMount = () => {
     // this.setState({ searchText: "starbucks" }, this.handleSearch);
     this.props.navigation.navigate("Results", {
-      searchText: "The White House",
-      results: WhiteHouseMock.candidates
+      searchText: "Stations Near Me",
+      results: StationsMock.stations
     });
   };
 

@@ -4,7 +4,6 @@ import F8StyleSheet from "../js/F8StyleSheet";
 
 export default class MapResultsView extends Component {
   static navigationOptions = ({ navigation }) => {
-    console.log(navigation.state.params.searchText);
     return {
       title: navigation.getParam("searchText")
     };
@@ -14,15 +13,15 @@ export default class MapResultsView extends Component {
     super(props);
     this.results = this.props.navigation.state.params.results;
 
-    if (this.results.length === 1) {
-      this.results = Array(5).fill(this.results[0]);
-    }
+    // if (this.results.length === 1) {
+    //   this.results = Array(5).fill(this.results[0]);
+    // }
   }
 
   renderItem = ({ item }) => {
     return (
       <View style={styles.cellContainer}>
-        <Text>{item.formatted_address}</Text>
+        <Text>{item.address}</Text>
       </View>
     );
   };
