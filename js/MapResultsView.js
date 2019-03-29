@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import { Text, Touchable, FlatList } from "react-native";
+import { View, Text, Touchable, FlatList } from "react-native";
+import F8StyleSheet from "../js/F8StyleSheet";
 
 export default class MapResultsView extends Component {
-  // static navigationOptions = {
-  //   title: this.props.navigation.state.params.searchText
-  // };
-
   static navigationOptions = ({ navigation }) => {
     console.log(navigation.state.params.searchText);
     return {
@@ -23,7 +20,11 @@ export default class MapResultsView extends Component {
   }
 
   renderItem = ({ item }) => {
-    return <Text>{item.formatted_address}</Text>;
+    return (
+      <View style={styles.cellContainer}>
+        <Text>{item.formatted_address}</Text>
+      </View>
+    );
   };
 
   keyExtractor = (item, index) => {
@@ -33,6 +34,7 @@ export default class MapResultsView extends Component {
   render() {
     return (
       <FlatList
+        style={styles.flatlistContainer}
         data={this.results}
         keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
@@ -40,3 +42,8 @@ export default class MapResultsView extends Component {
     );
   }
 }
+
+const styles = F8StyleSheet.create({
+  flatlistContainer: {},
+  cellContainer: {}
+});
