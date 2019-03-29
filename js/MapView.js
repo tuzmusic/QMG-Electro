@@ -60,21 +60,27 @@ export default class MapScreen extends Component {
   };
 
   async dropMarker(address) {
+    let json;
     try {
-      const json = await Geocoder.from(address);
-      const coordinates = {
-        latitude: json.results[0].geometry.location.lat,
-        longitude: json.results[0].geometry.location.lng
-      };
-      const marker = {
-        latlng: coordinates,
-        title: address.title,
-        pinColor: "green"
-      };
-      this.setState({ markers: [marker], region: {...this.state.region, ...coordinates} });
-    } catch(error) {
-      console.warn(error)
+      json = await Geocoder.from(address);
+    } catch (error) {
+      console.warn(error);
+      return;
     }
+
+    const coordinates = {
+      latitude: json.results[0].geometry.location.lat,
+      longitude: json.results[0].geometry.location.lng
+    };
+    const marker = {
+      latlng: coordinates,
+      title: address.title,
+      pinColor: "green"
+    };
+    this.setState({
+      markers: [marker],
+      region: { ...this.state.region, ...coordinates }
+    });
   }
 
   renderMarkers() {
@@ -91,15 +97,17 @@ export default class MapScreen extends Component {
     ));
   }
 
-  handleSearch() {
+  async handleSearch() {
     this.dropMarker(this.state.searchText);
-
-    // Geocoder.from(this.state.searchText)
-    //   .then(json => {
-    //     const results = json.results;
-    //     this.props.navigation.navigate('Results', { results })
-    //   })
-    //   .catch(error => console.warn(error));
+    return;
+    try {
+      let json = await Geocoder.from(this.state.searchText);
+    } catch (error) {
+      console.warn(error);
+      return;
+    }
+    const results = json.results;
+    this.props.navigation.navigate("Results", { results });
   }
 
   render() {
