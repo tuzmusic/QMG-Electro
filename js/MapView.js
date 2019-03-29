@@ -60,17 +60,21 @@ export default class MapScreen extends Component {
   };
 
   async dropMarker(address) {
-    const json = await Geocoder.from(address);
-    const coordinates = {
-      latitude: json.results[0].geometry.location.lat,
-      longitude: json.results[0].geometry.location.lng
-    };
-    const marker = {
-      latlng: coordinates,
-      title: address.title,
-      pinColor: "green"
-    };
-    this.setState({ markers: [marker], region: coordinates });
+    try {
+      const json = await Geocoder.from(address);
+      const coordinates = {
+        latitude: json.results[0].geometry.location.lat,
+        longitude: json.results[0].geometry.location.lng
+      };
+      const marker = {
+        latlng: coordinates,
+        title: address.title,
+        pinColor: "green"
+      };
+      this.setState({ markers: [marker], region: coordinates });
+    } catch(error) {
+      console.warn(error)
+    }
   }
 
   dropMarkerFromAddress(address) {
