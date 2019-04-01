@@ -5,7 +5,7 @@ import F8StyleSheet from "../js/F8StyleSheet";
 import GoogleAPIKey from "../secrets";
 import Geocoder from "react-native-geocoding";
 
-import StationCellView from './StationCellView'
+import StationCellView from "./StationCellView";
 import StationsMock from "../tests/mocks/StationsMock";
 
 let concord = {
@@ -31,11 +31,15 @@ let dc = {
 Geocoder.init(GoogleAPIKey);
 
 export default class MapScreen extends Component {
+  static navigationOptions = {
+    title: "Nearby Stations"
+  };
+
   state = {
     region: concord,
     currentRegion: "Concord",
     places: [dc, concord],
-    markers: StationsMock.stations,
+    stations: StationsMock.stations,
     message: "Currently in Concord",
     searchText: ""
   };
@@ -83,29 +87,30 @@ export default class MapScreen extends Component {
   }
 
   renderMarkers() {
-    return this.state.markers.map(marker => {
+    return this.state.stations.map(station => {
       const logo = require("../assets/logos/BOLTIcon.jpg");
       return (
         <Marker
           coordinate={{
-            latitude: marker.location.lat,
-            longitude: marker.location.lng
+            latitude: station.location.lat,
+            longitude: station.location.lng
           }}
-          title={marker.name}
+          title={station.name}
           // description={marker.description}
           // pinColor={marker.pinColor}
-          key={marker.location.lat.toString() + marker.location.lng.toString()}
+          key={station.location.lat.toString() + station.location.lng.toString()}
         >
-        <Callout>
-          <StationCellView station={marker}/>
-        </Callout>
+          <Callout>
+            <StationCellView station={station} onPress={() => this.props.navigation.navigate("StationDetail", { station })
+            }/>
+          </Callout>
         </Marker>
       );
     });
   }
 
   componentDidMount = () => {
-    return;
+    // return;
     // this.setState({ searchText: "starbucks" }, this.handleSearch);
     this.props.navigation.navigate("Results", {
       searchText: "Stations Near Me",

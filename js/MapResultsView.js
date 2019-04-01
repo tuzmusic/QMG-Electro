@@ -19,7 +19,9 @@ export default class MapResultsView extends Component {
 
   keyExtractor = (item, index) => index.toString();
 
-  renderItem = ({ item }) => <StationCellView station={item} />;
+  renderItem = ({ item }) => (
+    <StationCellView station={item} navigation={this.props.navigation} />
+  );
 
   render() {
     return (

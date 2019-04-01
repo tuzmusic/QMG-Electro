@@ -11,6 +11,7 @@ import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import MapScreen from "../js/MapView";
 import MapResultsScreen from "../js/MapResultsView";
+import StationDetailScreen from "../js/StationDetailView";
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen
@@ -58,13 +59,16 @@ SettingsStack.navigationOptions = {
   )
 };
 
-const MapStack = createStackNavigator({
-  Maps: MapScreen,
-  Results: MapResultsScreen
-});
+const MapStack = createStackNavigator(
+  {
+    Maps: MapScreen,
+    Results: MapResultsScreen,
+    StationDetail: StationDetailScreen
+  }
+);
 
 MapScreen.navigationOptions = MapStack.navigationOptions = {
-  tabBarLabel: "Maps",
+  tabBarLabel: "Map",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}

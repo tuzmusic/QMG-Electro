@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, TouchableOpacity } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
 
 class CellTextRow extends Component {
@@ -13,21 +13,40 @@ class CellTextRow extends Component {
 }
 
 export default class StationCellView extends Component {
+  onTextPress() {
+    console.log("click text");
+    this.props.navigation.navigate("StationDetail", { station: this.props.station });
+  }
+  onImagePress() {
+    console.log("click image");
+    this.props.navigation.navigate("StationDetail", { station: this.props.station });
+  }
+
   render() {
     return (
       <View style={styles.cellContainer}>
-        <View style={styles.textContainer}>
+        <TouchableOpacity
+          style={styles.textContainer}
+          onPress={this.onTextPress.bind(this)}
+        >
           <CellTextRow style={text.name}>{this.props.station.name}</CellTextRow>
-          <CellTextRow style={text.address}>{this.props.station.address}</CellTextRow>
+          <CellTextRow style={text.address}>
+            {this.props.station.address}
+          </CellTextRow>
           <CellTextRow>
             {"Price: " +
-              (this.props.station.price === 0 ? "Free" : `$${this.props.station.price}`)}
+              (this.props.station.price === 0
+                ? "Free"
+                : `$${this.props.station.price}`)}
           </CellTextRow>
           <CellTextRow>
             {this.props.station.availableNow ? "Available!" : "Unavailable"}
           </CellTextRow>
-        </View>
-        <View style={styles.imageContainer}>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.imageContainer}
+          onPress={this.onImagePress.bind(this)}
+        >
           <Image
             style={[styles.image]}
             source={require("../assets/logos/BOLTIcon.jpg")}
@@ -35,7 +54,7 @@ export default class StationCellView extends Component {
           <CellTextRow style={text.caption}>
             {this.props.station.owner.username}
           </CellTextRow>
-        </View>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -55,10 +74,6 @@ const text = F8StyleSheet.create({
 });
 
 const styles = F8StyleSheet.create({
-  flatlistContainer: {
-    marginLeft: 5,
-    marginRight: 5
-  },
   cellContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -67,10 +82,12 @@ const styles = F8StyleSheet.create({
     borderBottomColor: "lightgrey"
   },
   textContainer: {
+    // borderWidth: 0.5,
     flex: 5,
     marginRight: 10
   },
   imageContainer: {
+    // borderWidth: 0.5,
     flex: 2,
     padding: 7
   },
