@@ -19,7 +19,7 @@ export default class StationCellView extends Component {
   }
   onImagePress() {
     console.log("click image");
-    this.props.navigation.navigate("StationDetail", { station: this.props.station });
+    this.props.navigation.navigate("UserDetail", { user: this.props.station.user });
   }
 
   render() {

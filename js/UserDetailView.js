@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
 
-export default class StationDetailView extends Component {
+export default class UserDetailView extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: "Station Detail"
+    title: "User Detail"
   });
 
   render() {
     return (
       <View style={styles.container}>
-        <Text> Station Detail </Text>
+        <Text> User Detail </Text>
       </View>
     );
   }

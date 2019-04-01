@@ -12,6 +12,7 @@ import SettingsScreen from "../screens/SettingsScreen";
 import MapScreen from "../js/MapView";
 import MapResultsScreen from "../js/MapResultsView";
 import StationDetailScreen from "../js/StationDetailView";
+import UserDetailScreen from "../js/UserDetailView";
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen
@@ -63,7 +64,8 @@ const MapStack = createStackNavigator(
   {
     Maps: MapScreen,
     Results: MapResultsScreen,
-    StationDetail: StationDetailScreen
+    StationDetail: StationDetailScreen,
+    UserDetail: UserDetailScreen,
   }
 );
 
