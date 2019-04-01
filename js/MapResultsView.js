@@ -20,15 +20,17 @@ export default class MapResultsView extends Component {
 
   renderItem = ({ item }) => {
     return (
-      <View style={{ paddingLeft: 15, paddingRight: 15 }}>
+      <View style={styles.flatlistContainer}>
         <View style={styles.cellContainer}>
-          <Text>{item.name}</Text>
-          <Text>Owner: {item.owner.name}</Text>
-          <Text>{item.address}</Text>
-          <Text>
+          <CellTextRow style={text.name}>{item.name}</CellTextRow>
+          <CellTextRow>Owner: {item.owner.name}</CellTextRow>
+          <CellTextRow style={text.address}>
+            {item.address}
+          </CellTextRow>
+          <CellTextRow>
             {"Price: " + (item.price === 0 ? "Free" : `$${item.price}`)}
-          </Text>
-          <Text>{item.availableNow ? "Available!" : "Unavailable"}</Text>
+          </CellTextRow>
+          <CellTextRow>{item.availableNow ? "Available!" : "Unavailable"}</CellTextRow>
         </View>
       </View>
     );
@@ -50,8 +52,29 @@ export default class MapResultsView extends Component {
   }
 }
 
+class CellTextRow extends Component {
+  render() {
+    return <Text style={[{padding:1}, this.props.style]}>
+      {this.props.children}
+    </Text>
+  }
+}
+
+const text = F8StyleSheet.create({
+  name: {
+    fontWeight: "bold",
+    fontSize: 18
+  },
+  address: {
+    marginLeft: 10
+  }
+});
+
 const styles = F8StyleSheet.create({
-  flatlistContainer: {},
+  flatlistContainer: {
+    marginLeft: 5,
+    marginRight: 5,
+  },
   cellContainer: {
     padding: 10,
     borderBottomWidth: 0.5,
