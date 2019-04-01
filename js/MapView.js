@@ -95,6 +95,7 @@ export default class MapScreen extends Component {
   }
 
   componentDidMount = () => {
+    return
     // this.setState({ searchText: "starbucks" }, this.handleSearch);
     this.props.navigation.navigate("Results", {
       searchText: "Stations Near Me",
