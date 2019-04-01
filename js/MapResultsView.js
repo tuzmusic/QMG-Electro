@@ -19,7 +19,7 @@ export default class MapResultsView extends Component {
 
   keyExtractor = (item, index) => index.toString();
 
-  renderItem = ({ item }) => <StationCellView item={item} />;
+  renderItem = ({ item }) => <StationCellView station={item} />;
 
   render() {
     return (

@@ -17,14 +17,14 @@ export default class StationCellView extends Component {
     return (
       <View style={styles.cellContainer}>
         <View style={styles.textContainer}>
-          <CellTextRow style={text.name}>{this.props.item.name}</CellTextRow>
-          <CellTextRow style={text.address}>{this.props.item.address}</CellTextRow>
+          <CellTextRow style={text.name}>{this.props.station.name}</CellTextRow>
+          <CellTextRow style={text.address}>{this.props.station.address}</CellTextRow>
           <CellTextRow>
             {"Price: " +
-              (this.props.item.price === 0 ? "Free" : `$${this.props.item.price}`)}
+              (this.props.station.price === 0 ? "Free" : `$${this.props.station.price}`)}
           </CellTextRow>
           <CellTextRow>
-            {this.props.item.availableNow ? "Available!" : "Unavailable"}
+            {this.props.station.availableNow ? "Available!" : "Unavailable"}
           </CellTextRow>
         </View>
         <View style={styles.imageContainer}>
@@ -33,7 +33,7 @@ export default class StationCellView extends Component {
             source={require("../assets/logos/BOLTIcon.jpg")}
           />
           <CellTextRow style={text.caption}>
-            {this.props.item.owner.username}
+            {this.props.station.owner.username}
           </CellTextRow>
         </View>
       </View>

@@ -97,7 +97,7 @@ export default class MapScreen extends Component {
           key={marker.location.lat.toString() + marker.location.lng.toString()}
         >
         <Callout>
-          <StationCellView item={marker}/>
+          <StationCellView station={marker}/>
         </Callout>
         </Marker>
       );
