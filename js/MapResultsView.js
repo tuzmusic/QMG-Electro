@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { View, Text, Touchable, FlatList, Image } from "react-native";
+import { FlatList } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
 import StationCellView from "./StationCellView";
+import StationsMock from "../tests/mocks/StationsMock";
 
 export default class MapResultsView extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -10,11 +11,7 @@ export default class MapResultsView extends Component {
 
   constructor(props) {
     super(props);
-    this.results = this.props.navigation.state.params.results;
-
-    if (this.results.length === 1) {
-      this.results = Array(5).fill(this.results[0]);
-    }
+    this.results = this.props.navigation.state.params?.results || StationsMock.stations
   }
 
   keyExtractor = (item, index) => index.toString();

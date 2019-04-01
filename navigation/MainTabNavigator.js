@@ -69,6 +69,24 @@ const MapStack = createStackNavigator(
   }
 );
 
+const ListStack = createStackNavigator(
+  {
+    List: MapResultsScreen,
+    StationDetail: StationDetailScreen,
+    UserDetail: UserDetailScreen,
+  }
+);
+
+ListStack.navigationOptions = {
+  tabBarLabel: "List",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-list" : "md-list"}
+    />
+  )
+};
+
 MapScreen.navigationOptions = MapStack.navigationOptions = {
   tabBarLabel: "Map",
   tabBarIcon: ({ focused }) => (
@@ -81,7 +99,8 @@ MapScreen.navigationOptions = MapStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   MapStack,
-  HomeStack,
-  LinksStack,
-  SettingsStack
+  ListStack,
+  // HomeStack,
+  // LinksStack,
+  // SettingsStack
 });
