@@ -82,8 +82,7 @@ export default class MapScreen extends Component {
 
   renderMarkers() {
     return this.state.markers.map(marker => {
-      console.log("stop");
-      
+      const logo = require("../assets/logos/BOLTIcon.jpg");
       return (
         <Marker
           coordinate={{
@@ -93,17 +92,18 @@ export default class MapScreen extends Component {
           title={marker.name}
           // description={marker.description}
           // pinColor={marker.pinColor}
-          key={
-            marker.location.lat.toString() +
-            marker.location.lng.toString()
-          }
-        />
+          key={marker.location.lat.toString() + marker.location.lng.toString()}
+        >
+        <Callout>
+          <Text>Hello there</Text>
+        </Callout>
+        </Marker>
       );
     });
   }
 
   componentDidMount = () => {
-    return;
+    // return;
     // this.setState({ searchText: "starbucks" }, this.handleSearch);
     this.props.navigation.navigate("Results", {
       searchText: "Stations Near Me",
