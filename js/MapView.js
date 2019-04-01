@@ -4,6 +4,8 @@ import { Platform, View, TextInput, Text, Button } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
 import GoogleAPIKey from "../secrets";
 import Geocoder from "react-native-geocoding";
+
+import StationCellView from './StationCellView'
 import StationsMock from "../tests/mocks/StationsMock";
 
 let concord = {
@@ -95,7 +97,7 @@ export default class MapScreen extends Component {
           key={marker.location.lat.toString() + marker.location.lng.toString()}
         >
         <Callout>
-          <Text>Hello there</Text>
+          <StationCellView item={marker}/>
         </Callout>
         </Marker>
       );
@@ -103,7 +105,7 @@ export default class MapScreen extends Component {
   }
 
   componentDidMount = () => {
-    // return;
+    return;
     // this.setState({ searchText: "starbucks" }, this.handleSearch);
     this.props.navigation.navigate("Results", {
       searchText: "Stations Near Me",
