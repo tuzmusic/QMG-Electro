@@ -7,7 +7,9 @@ export default (StationMocks = {stations:[
     },
     name: "Tesla Pad",
     owner: {
-      name: "Elon Musk"
+      username: "tesladude",
+      firstName: "Elon",
+      lastName: "Musk",
     },
     price: 0,
     availableNow: false
@@ -20,7 +22,9 @@ export default (StationMocks = {stations:[
     },
     name: "Charging Station",
     owner: {
-      name: "Phil McKarr"
+      username: "punnyname",
+      firstName: "Phil",
+      lastName: "McKarr"
     },
     price: 100,
     availableNow: true
