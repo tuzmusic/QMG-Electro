@@ -47,7 +47,9 @@ export default class MapResultsView extends Component {
               style={[styles.image]}
               source={require("../assets/logos/BOLTIcon.jpg")}
             />
-            <CellTextRow style={text.caption}>{item.owner.username}</CellTextRow>
+            <CellTextRow style={text.caption}>
+              {item.owner.username}
+            </CellTextRow>
           </View>
         </View>
       </View>
@@ -77,32 +79,33 @@ const text = F8StyleSheet.create({
     // marginLeft: 10
   },
   caption: {
-    textAlign: 'center',
-  },
+    textAlign: "center"
+  }
 });
 
 const styles = F8StyleSheet.create({
   flatlistContainer: {
     marginLeft: 5,
-    marginRight: 5
+    marginRight: 5,
   },
   cellContainer: {
     flexDirection: "row",
-    justifyContent: 'space-between',
-    padding: 5,
+    justifyContent: "space-between",
+    padding: 7,
     borderBottomWidth: 0.5,
     borderBottomColor: "lightgrey"
   },
   textContainer: {
     flex: 5,
-    marginRight: 10,
+    marginRight: 10
   },
   imageContainer: {
     flex: 2,
+    padding: 7,
   },
   image: {
-    flex: 1, 
-    resizeMode: 'contain',
+    flex: 1,
+    resizeMode: "contain",
     width: null,
     height: 20
   }
