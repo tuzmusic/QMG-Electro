@@ -33,7 +33,7 @@ export default class MapScreen extends Component {
     region: concord,
     currentRegion: "Concord",
     places: [dc, concord],
-    markers: [],
+    markers: StationsMock.stations,
     message: "Currently in Concord",
     searchText: ""
   };
@@ -81,21 +81,29 @@ export default class MapScreen extends Component {
   }
 
   renderMarkers() {
-    return this.state.markers.map(marker => (
-      <Marker
-        coordinate={marker.latlng}
-        title={marker.title}
-        description={marker.description}
-        pinColor={marker.pinColor}
-        key={
-          marker.latlng.latitude.toString() + marker.latlng.longitude.toString()
-        }
-      />
-    ));
+    return this.state.markers.map(marker => {
+      console.log("stop");
+      
+      return (
+        <Marker
+          coordinate={{
+            latitude: marker.location.lat,
+            longitude: marker.location.lng
+          }}
+          title={marker.name}
+          // description={marker.description}
+          // pinColor={marker.pinColor}
+          key={
+            marker.location.lat.toString() +
+            marker.location.lng.toString()
+          }
+        />
+      );
+    });
   }
 
   componentDidMount = () => {
-    return
+    return;
     // this.setState({ searchText: "starbucks" }, this.handleSearch);
     this.props.navigation.navigate("Results", {
       searchText: "Stations Near Me",
