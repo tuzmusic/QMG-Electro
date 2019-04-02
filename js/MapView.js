@@ -1,13 +1,6 @@
 import React, { Component } from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
-import {
-  Platform,
-  View,
-  TextInput,
-  Text,
-  Button,
-  TouchableOpacity
-} from "react-native";
+import { View, TextInput } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
 import GoogleAPIKey from "../secrets";
 import Geocoder from "react-native-geocoding";
@@ -16,17 +9,12 @@ import { connect } from "react-redux";
 import StationCellView from "./StationCellView";
 import StationsMock from "../tests/mocks/StationsMock";
 
-const concord = {
-  name: "Concord",
-  title: "Our house in Concord",
-  address: "88 North Spring Street, 03301",
+const concordRegion = {
   latitude: 43.208552,
   longitude: -71.542526,
   latitudeDelta: 0.00922,
   longitudeDelta: 0.00421
 };
-
-Geocoder.init(GoogleAPIKey);
 
 class MapScreen extends Component {
   static navigationOptions = {
@@ -34,11 +22,7 @@ class MapScreen extends Component {
   };
 
   state = {
-    region: concord,
-    currentRegion: "Concord",
-    stations: StationsMock.stations,
-    message: "Currently in Concord",
-    searchText: ""
+    region: concordRegion,
   };
 
   calculateRegion(latitude, longitude, accuracy) {
@@ -58,30 +42,6 @@ class MapScreen extends Component {
       this.calculateRegion(latitude, longitude, accuracy);
     });
   };
-
-  async dropMarker(address) {
-    let json;
-    try {
-      json = await Geocoder.from(address);
-    } catch (error) {
-      console.warn(error);
-      return;
-    }
-
-    const coordinates = {
-      latitude: json.results[0].geometry.location.lat,
-      longitude: json.results[0].geometry.location.lng
-    };
-    const marker = {
-      latlng: coordinates,
-      title: address.title,
-      pinColor: "green"
-    };
-    this.setState({
-      markers: [marker],
-      region: { ...this.state.region, ...coordinates }
-    });
-  }
 
   renderMarkers() {
     return this.props.stations.map(station => {
@@ -109,44 +69,6 @@ class MapScreen extends Component {
     });
   }
 
-  componentDidMount = () => {
-    return;
-    // this.setState({ searchText: "starbucks" }, this.handleSearch);
-    this.props.navigation.navigate("Results", {
-      searchText: "Stations Near Me",
-      results: StationsMock.stations
-    });
-  };
-
-  fetchSearch() {
-    const searchText = this.state.searchText.split(" ").join("%20");
-
-    let url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${searchText}&inputtype=textquery&fields=formatted_address,name,geometry&key=${GoogleAPIKey}`;
-
-    // url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=${GoogleAPIKey}`;
-    console.log(url);
-
-    fetch(url)
-      .then(res => JSON.parse(res._bodyText))
-      .then(json => {
-        const results = json.candidates;
-        this.props.navigation.navigate("Results", { results });
-      })
-      .catch(err => console.log(err));
-  }
-
-  async handleSearch() {
-    // this.dropMarker(this.state.searchText); return;
-    // this.fetchSearch(); return;
-
-    try {
-      const json = await Geocoder.from(this.state.searchText);
-      this.props.navigation.navigate("Results", { results: json.results });
-    } catch (error) {
-      console.warn(error);
-    }
-  }
-
   render() {
     return (
       <View style={styles.container}>
@@ -157,15 +79,6 @@ class MapScreen extends Component {
         >
           {this.renderMarkers()}
         </MapView>
-        <Callout style={styles.searchCallout}>
-          <TextInput
-            onChangeText={searchText => this.setState({ searchText })}
-            onSubmitEditing={this.handleSearch.bind(this)}
-            style={styles.calloutSearch}
-            placeholder={"Search"}
-            value={this.state.searchText}
-          />
-        </Callout>
       </View>
     );
   }
@@ -226,16 +139,4 @@ const styles = F8StyleSheet.create({
   button: {
     flex: 1
   },
-  searchCallout: {
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
-    borderRadius: 15,
-    width: "90%",
-    top: 30
-  },
-  calloutSearch: {
-    // width: "90%",
-    marginLeft: 10,
-    marginRight: 10,
-    height: 40
-  }
 });
