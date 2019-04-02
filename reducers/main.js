@@ -1,11 +1,11 @@
-const initialState = { currentStation: null, currentRegion: null, isLoading: false }
+const initialState = { stations: [], currentRegion: null, isLoading: false };
 
-export default mainReducer = (state = initialState, action) => {
+export default (mainReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'SET_STATION':
-      return {...state, currentStation: action.payload.station}
-  
+    case "GET_STATIONS":
+      return { ...state, stations: action.payload.stations, isLoading: false };
+
     default:
-      return state
+      return state;
   }
-} 
+});
