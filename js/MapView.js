@@ -5,6 +5,7 @@ import F8StyleSheet from "../js/F8StyleSheet";
 import GoogleAPIKey from "../secrets";
 import Geocoder from "react-native-geocoding";
 import { connect } from "react-redux";
+import { fetchStations } from "../actions/mainActions";
 
 import StationCellView from "./StationCellView";
 import StationsMock from "../tests/mocks/StationsMock";
@@ -43,6 +44,10 @@ class MapScreen extends Component {
     });
   };
 
+  componentDidMount = () => {
+    this.props.fetchStations()    
+  };
+  
   renderMarkers() {
     return this.props.stations.map(station => {
       const logo = require("../assets/logos/BOLTIcon.jpg");
@@ -88,7 +93,7 @@ const mapDispatchToProps = state => ({
   stations: state.main.stations
 });
 
-export default connect(mapDispatchToProps)(MapScreen);
+export default connect(mapDispatchToProps, {fetchStations})(MapScreen);
 
 const styles = F8StyleSheet.create({
   container: {

@@ -53,4 +53,4 @@ const TabNavigator = createBottomTabNavigator({
   ListStack,
 });
 
-export default TabNavigator
+export default connect()(TabNavigator)
