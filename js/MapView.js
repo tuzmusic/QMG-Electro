@@ -35,7 +35,6 @@ export default class MapScreen extends Component {
   state = {
     region: concord,
     currentRegion: "Concord",
-    places: [dc, concord],
     stations: StationsMock.stations,
     message: "Currently in Concord",
     searchText: ""
@@ -157,7 +156,6 @@ export default class MapScreen extends Component {
         >
           {this.renderMarkers()}
         </MapView>
-        {/* <Callout > */}
         <Callout style={styles.searchCallout}>
           <TextInput
             onChangeText={searchText => this.setState({ searchText })}
@@ -167,23 +165,6 @@ export default class MapScreen extends Component {
             value={this.state.searchText}
           />
         </Callout>
-        <Callout style={styles.buttonCallout}>
-          <TouchableOpacity
-            activeOpacity={0.3}
-            style={[styles.touchable]}
-            onPress={() => console.log("press")}
-          >
-            <Text style={styles.touchableText}>Press Me 1</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.3}
-            style={[styles.touchable]}
-            onPress={() => console.log("press")}
-          >
-            <Text style={styles.touchableText}>Press Me 2</Text>
-          </TouchableOpacity>
-        </Callout>
-        {/* </Callout> */}
       </View>
     );
   }
