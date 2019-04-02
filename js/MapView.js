@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
-import { Platform, View, TextInput, Text, Button } from "react-native";
+import {
+  Platform,
+  View,
+  TextInput,
+  Text,
+  Button,
+  TouchableOpacity
+} from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
 import GoogleAPIKey from "../secrets";
 import Geocoder from "react-native-geocoding";
@@ -104,6 +111,7 @@ export default class MapScreen extends Component {
         >
           {this.renderMarkers()}
         </MapView>
+        {/* <Callout > */}
         <Callout style={styles.searchCallout}>
           <TextInput
             onChangeText={searchText => this.setState({ searchText })}
@@ -113,15 +121,59 @@ export default class MapScreen extends Component {
             value={this.state.searchText}
           />
         </Callout>
+        <Callout style={styles.buttonCallout}>
+          <TouchableOpacity
+            activeOpacity={0.3}
+            style={[styles.touchable]}
+            onPress={() => console.log("press")}
+          >
+            <Text style={styles.touchableText}>Press Me 1</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.3}
+            style={[styles.touchable]}
+            onPress={() => console.log("press")}
+          >
+            <Text style={styles.touchableText}>Press Me 2</Text>
+          </TouchableOpacity>
+        </Callout>
+        {/* </Callout> */}
       </View>
     );
   }
 }
 
 const styles = F8StyleSheet.create({
-  container: { flex: 1 },
-  calloutsContainer: {
+  container: {
     flex: 1,
+    flexDirection: "row",
+    justifyContent: "center"
+  },
+  buttonCallout: {
+    flex: 1,
+    // alignSelf: "flex-end",
+    justifyContent: "space-between",
+    backgroundColor: "transparent",
+    borderWidth: 0.4,
+    borderColor: 'grey',
+    ios: { padding: 5 },
+    borderRadius: 20,
+    right: 10,
+    bottom: 10
+  },
+  touchable: {
+    backgroundColor: "lightblue",
+    padding: 10,
+    margin: 10,
+    borderRadius: 15
+  },
+  touchableText: {
+    fontSize: 24,
+    color: "blue"
+  },
+  calloutsContainer: {
+    // flex: 1,
+    // flexDirection: 'row',
     backgroundColor: "blue"
   },
   infoText: {
@@ -140,31 +192,16 @@ const styles = F8StyleSheet.create({
   button: {
     flex: 1
   },
-  buttonCallout: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: 180,
-    backgroundColor: "transparent",
-    ios: { padding: 5 },
-    borderRadius: 20,
-    right: "10%",
-    bottom: 80
-  },
   searchCallout: {
-    flexDirection: "row",
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
-    borderRadius: 10,
-    width: "80%",
-    marginLeft: "5%",
-    marginTop: 40
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    borderRadius: 15,
+    width: "90%",
+    top: 30
   },
   calloutSearch: {
-    borderColor: "transparent",
+    // width: "90%",
     marginLeft: 10,
-    width: "90%",
     marginRight: 10,
-    height: 40,
-    borderWidth: 0.0
+    height: 40
   }
 });
