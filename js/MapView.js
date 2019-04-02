@@ -12,7 +12,10 @@ import F8StyleSheet from "../js/F8StyleSheet";
 import GoogleAPIKey from "../secrets";
 import Geocoder from "react-native-geocoding";
 
-let concord = {
+import StationCellView from "./StationCellView";
+import StationsMock from "../tests/mocks/StationsMock";
+
+const concord = {
   name: "Concord",
   title: "Our house in Concord",
   address: "88 North Spring Street, 03301",
@@ -22,26 +25,20 @@ let concord = {
   longitudeDelta: 0.00421
 };
 
-let dc = {
-  name: "DC",
-  title: "Our house in DC",
-  address: "1427 New Jersey Ave NW, 20001",
-  latitude: 38.909354,
-  longitude: -77.01586,
-  latitudeDelta: 0.0922,
-  longitudeDelta: 0.0421
-};
-
 Geocoder.init(GoogleAPIKey);
 
 export default class MapScreen extends Component {
+  static navigationOptions = {
+    title: "Nearby Stations"
+  };
+
   state = {
     region: concord,
     currentRegion: "Concord",
     places: [dc, concord],
-    markers: [],
+    stations: StationsMock.stations,
     message: "Currently in Concord",
-    searchText: "1427 nj ave nw 20001"
+    searchText: ""
   };
 
   calculateRegion(latitude, longitude, accuracy) {
@@ -62,43 +59,92 @@ export default class MapScreen extends Component {
     });
   };
 
-  componentDidMount = () => {
-    // this.state.places.forEach(place => this.dropMarkerFromAddress(place.address));
-  };
+  async dropMarker(address) {
+    let json;
+    try {
+      json = await Geocoder.from(address);
+    } catch (error) {
+      console.warn(error);
+      return;
+    }
 
-  dropMarkerFromAddress(address) {
-    Geocoder.from(address)
-      .then(json => {
-        const coordinates = {
-          latitude: json.results[0].geometry.location.lat,
-          longitude: json.results[0].geometry.location.lng
-        };
-        const marker = {
-          latlng: coordinates,
-          title: address.title,
-          pinColor: "green"
-        };
-        this.setState({ markers: [marker], region: coordinates });
-      })
-      .catch(error => console.warn(error));
+    const coordinates = {
+      latitude: json.results[0].geometry.location.lat,
+      longitude: json.results[0].geometry.location.lng
+    };
+    const marker = {
+      latlng: coordinates,
+      title: address.title,
+      pinColor: "green"
+    };
+    this.setState({
+      markers: [marker],
+      region: { ...this.state.region, ...coordinates }
+    });
   }
 
   renderMarkers() {
-    return this.state.markers.map(marker => (
-      <Marker
-        coordinate={marker.latlng}
-        title={marker.title}
-        description={marker.description}
-        pinColor={marker.pinColor}
-        key={
-          marker.latlng.latitude.toString() + marker.latlng.longitude.toString()
-        }
-      />
-    ));
+    return this.state.stations.map(station => {
+      const logo = require("../assets/logos/BOLTIcon.jpg");
+      return (
+        <Marker
+          coordinate={{
+            latitude: station.location.lat,
+            longitude: station.location.lng
+          }}
+          key={
+            station.location.lat.toString() + station.location.lng.toString()
+          }
+        >
+          <Callout>
+            <StationCellView
+              station={station}
+              // onPress={() =>
+              //   this.props.navigation.navigate("StationDetail", { station })
+              // }
+            />
+          </Callout>
+        </Marker>
+      );
+    });
   }
 
-  handleSearch() {
-    this.dropMarkerFromAddress(this.state.searchText);
+  componentDidMount = () => {
+    return;
+    // this.setState({ searchText: "starbucks" }, this.handleSearch);
+    this.props.navigation.navigate("Results", {
+      searchText: "Stations Near Me",
+      results: StationsMock.stations
+    });
+  };
+
+  fetchSearch() {
+    const searchText = this.state.searchText.split(" ").join("%20");
+
+    let url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${searchText}&inputtype=textquery&fields=formatted_address,name,geometry&key=${GoogleAPIKey}`;
+
+    // url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=${GoogleAPIKey}`;
+    console.log(url);
+
+    fetch(url)
+      .then(res => JSON.parse(res._bodyText))
+      .then(json => {
+        const results = json.candidates;
+        this.props.navigation.navigate("Results", { results });
+      })
+      .catch(err => console.log(err));
+  }
+
+  async handleSearch() {
+    // this.dropMarker(this.state.searchText); return;
+    // this.fetchSearch(); return;
+
+    try {
+      const json = await Geocoder.from(this.state.searchText);
+      this.props.navigation.navigate("Results", { results: json.results });
+    } catch (error) {
+      console.warn(error);
+    }
   }
 
   render() {

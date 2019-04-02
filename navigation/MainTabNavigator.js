@@ -10,6 +10,9 @@ import HomeScreen from "../screens/HomeScreen";
 import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import MapScreen from "../js/MapView";
+import MapResultsScreen from "../js/MapResultsView";
+import StationDetailScreen from "../js/StationDetailView";
+import UserDetailScreen from "../js/UserDetailView";
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen
@@ -57,12 +60,35 @@ SettingsStack.navigationOptions = {
   )
 };
 
-const MapStack = createStackNavigator({
-  Maps: MapScreen
-});
+const MapStack = createStackNavigator(
+  {
+    Maps: MapScreen,
+    Results: MapResultsScreen,
+    StationDetail: StationDetailScreen,
+    UserDetail: UserDetailScreen,
+  }
+);
+
+const ListStack = createStackNavigator(
+  {
+    List: MapResultsScreen,
+    StationDetail: StationDetailScreen,
+    UserDetail: UserDetailScreen,
+  }
+);
+
+ListStack.navigationOptions = {
+  tabBarLabel: "List",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-list" : "md-list"}
+    />
+  )
+};
 
 MapScreen.navigationOptions = MapStack.navigationOptions = {
-  tabBarLabel: "Maps",
+  tabBarLabel: "Map",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -73,7 +99,8 @@ MapScreen.navigationOptions = MapStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   MapStack,
-  HomeStack,
-  LinksStack,
-  SettingsStack
+  ListStack,
+  // HomeStack,
+  // LinksStack,
+  // SettingsStack
 });
