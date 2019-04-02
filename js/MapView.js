@@ -8,7 +8,7 @@ import Geocoder from "react-native-geocoding";
 import StationCellView from "./StationCellView";
 import StationsMock from "../tests/mocks/StationsMock";
 
-let concord = {
+const concord = {
   name: "Concord",
   title: "Our house in Concord",
   address: "88 North Spring Street, 03301",
@@ -16,16 +16,6 @@ let concord = {
   longitude: -71.542526,
   latitudeDelta: 0.00922,
   longitudeDelta: 0.00421
-};
-
-let dc = {
-  name: "DC",
-  title: "Our house in DC",
-  address: "1427 New Jersey Ave NW, 20001",
-  latitude: 38.909354,
-  longitude: -77.01586,
-  latitudeDelta: 0.0922,
-  longitudeDelta: 0.0421
 };
 
 Geocoder.init(GoogleAPIKey);
@@ -95,14 +85,17 @@ export default class MapScreen extends Component {
             latitude: station.location.lat,
             longitude: station.location.lng
           }}
-          title={station.name}
-          // description={marker.description}
-          // pinColor={marker.pinColor}
-          key={station.location.lat.toString() + station.location.lng.toString()}
+          key={
+            station.location.lat.toString() + station.location.lng.toString()
+          }
         >
           <Callout>
-            <StationCellView station={station} onPress={() => this.props.navigation.navigate("StationDetail", { station })
-            }/>
+            <StationCellView
+              station={station}
+              // onPress={() =>
+              //   this.props.navigation.navigate("StationDetail", { station })
+              // }
+            />
           </Callout>
         </Marker>
       );
