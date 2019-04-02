@@ -3,8 +3,9 @@ import { FlatList } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
 import StationCellView from "./StationCellView";
 import StationsMock from "../tests/mocks/StationsMock";
+import { connect } from "react-redux";
 
-export default class MapResultsView extends Component {
+class MapResultsView extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam("searchText")
   });
@@ -24,10 +25,17 @@ export default class MapResultsView extends Component {
     return (
       <FlatList
         style={{ marginLeft: 5, marginRight: 5 }}
-        data={this.results}
+        // data={this.results}
+        data={this.props.stations}
         keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
       />
     );
   }
 }
+
+const mapDispatchToProps = state => ({
+  stations: state.main.stations
+});
+
+export default connect(mapDispatchToProps)(MapResultsView);

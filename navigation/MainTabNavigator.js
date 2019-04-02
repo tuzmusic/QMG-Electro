@@ -5,20 +5,13 @@ import {
   createBottomTabNavigator
 } from "react-navigation";
 
+import { connect } from "react-redux";
+
 import TabBarIcon from "../components/TabBarIcon";
 import MapScreen from "../js/MapView";
 import MapResultsScreen from "../js/MapResultsView";
 import StationDetailScreen from "../js/StationDetailView";
 import UserDetailScreen from "../js/UserDetailView";
-
-const MapStack = createStackNavigator(
-  {
-    Maps: MapScreen,
-    Results: MapResultsScreen,
-    StationDetail: StationDetailScreen,
-    UserDetail: UserDetailScreen,
-  }
-);
 
 const ListStack = createStackNavigator(
   {
@@ -38,7 +31,14 @@ ListStack.navigationOptions = {
   )
 };
 
-MapScreen.navigationOptions = MapStack.navigationOptions = {
+const MapStack = createStackNavigator({
+  Maps: MapScreen,
+  Results: MapResultsScreen,
+  StationDetail: StationDetailScreen,
+  UserDetail: UserDetailScreen
+});
+
+MapStack.navigationOptions = {
   tabBarLabel: "Map",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -48,10 +48,9 @@ MapScreen.navigationOptions = MapStack.navigationOptions = {
   )
 };
 
-export default createBottomTabNavigator({
+const TabNavigator = createBottomTabNavigator({
   MapStack,
   ListStack,
-  // HomeStack,
-  // LinksStack,
-  // SettingsStack
 });
+
+export default TabNavigator

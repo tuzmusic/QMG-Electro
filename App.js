@@ -4,7 +4,7 @@ import { AppLoading, Asset, Font, Icon } from "expo";
 import AppNavigator from "./navigation/AppNavigator";
 import { combineReducers, createStore } from "redux";
 import { Provider } from "react-redux";
-import mainReducer from "./reducers/main";
+import mainReducer from "./reducers/mainReducer";
 
 combinedReducer = combineReducers({ main: mainReducer });
 store = createStore(combinedReducer);

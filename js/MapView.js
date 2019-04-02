@@ -11,6 +11,7 @@ import {
 import F8StyleSheet from "../js/F8StyleSheet";
 import GoogleAPIKey from "../secrets";
 import Geocoder from "react-native-geocoding";
+import { connect } from "react-redux";
 
 import StationCellView from "./StationCellView";
 import StationsMock from "../tests/mocks/StationsMock";
@@ -27,7 +28,7 @@ const concord = {
 
 Geocoder.init(GoogleAPIKey);
 
-export default class MapScreen extends Component {
+class MapScreen extends Component {
   static navigationOptions = {
     title: "Nearby Stations"
   };
@@ -83,7 +84,7 @@ export default class MapScreen extends Component {
   }
 
   renderMarkers() {
-    return this.state.stations.map(station => {
+    return this.props.stations.map(station => {
       const logo = require("../assets/logos/BOLTIcon.jpg");
       return (
         <Marker
@@ -170,6 +171,12 @@ export default class MapScreen extends Component {
   }
 }
 
+const mapDispatchToProps = state => ({
+  stations: state.main.stations
+});
+
+export default connect(mapDispatchToProps)(MapScreen);
+
 const styles = F8StyleSheet.create({
   container: {
     flex: 1,
@@ -182,7 +189,7 @@ const styles = F8StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: "transparent",
     borderWidth: 0.4,
-    borderColor: 'grey',
+    borderColor: "grey",
     ios: { padding: 5 },
     borderRadius: 20,
     right: 10,
