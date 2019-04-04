@@ -49,8 +49,8 @@ MapStack.navigationOptions = {
 };
 
 const TabNavigator = createBottomTabNavigator({
-  MapStack,
   ListStack,
+  MapStack,
 });
 
 export default connect()(TabNavigator)
