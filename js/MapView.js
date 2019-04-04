@@ -1,21 +1,11 @@
 import React, { Component } from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
-import { View, TextInput } from "react-native";
+import { View } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
-import GoogleAPIKey from "../secrets";
-import Geocoder from "react-native-geocoding";
 import { connect } from "react-redux";
 import { fetchStations } from "../actions/mainActions";
 
 import StationCellView from "./StationCellView";
-import StationsMock from "../tests/mocks/StationsMock";
-
-const concordRegion = {
-  latitude: 43.208552,
-  longitude: -71.542526,
-  latitudeDelta: 0.00922,
-  longitudeDelta: 0.00421
-};
 
 class MapScreen extends Component {
   static navigationOptions = {
@@ -23,7 +13,12 @@ class MapScreen extends Component {
   };
 
   state = {
-    region: concordRegion,
+    region: { // Center on 88 N Spring St Concord NH
+      latitude: 43.208552,
+      longitude: -71.542526,
+      latitudeDelta: 0.00922,
+      longitudeDelta: 0.00421
+    }
   };
 
   calculateRegion(latitude, longitude, accuracy) {
@@ -45,9 +40,9 @@ class MapScreen extends Component {
   };
 
   componentDidMount = () => {
-    this.props.fetchStations()    
+    this.props.fetchStations();
   };
-  
+
   renderMarkers() {
     return this.props.stations.map(station => {
       const logo = require("../assets/logos/BOLTIcon.jpg");
@@ -93,55 +88,15 @@ const mapDispatchToProps = state => ({
   stations: state.main.stations
 });
 
-export default connect(mapDispatchToProps, {fetchStations})(MapScreen);
+export default connect(
+  mapDispatchToProps,
+  { fetchStations }
+)(MapScreen);
 
 const styles = F8StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "center"
-  },
-  buttonCallout: {
-    flex: 1,
-    // alignSelf: "flex-end",
-    justifyContent: "space-between",
-    backgroundColor: "transparent",
-    borderWidth: 0.4,
-    borderColor: "grey",
-    ios: { padding: 5 },
-    borderRadius: 20,
-    right: 10,
-    bottom: 10
-  },
-  touchable: {
-    backgroundColor: "lightblue",
-    padding: 10,
-    margin: 10,
-    borderRadius: 15
-  },
-  touchableText: {
-    fontSize: 24,
-    color: "blue"
-  },
-  calloutsContainer: {
-    // flex: 1,
-    // flexDirection: 'row',
-    backgroundColor: "blue"
-  },
-  infoText: {
-    marginTop: "5%",
-    marginLeft: "5%",
-    fontSize: 15,
-    color: "darkgrey"
-  },
-  infoCallout: {
-    backgroundColor: "rgba(255, 255, 255, 0.85)",
-    borderRadius: 20,
-    height: 2,
-    marginLeft: "15%",
-    marginTop: "90%"
-  },
-  button: {
-    flex: 1
   },
 });

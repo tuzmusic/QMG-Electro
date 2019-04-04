@@ -2,8 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 98810,
-  "expoServerNgrokUrl": "https://7i-wxv.anonymous.f8-elements.exp.direct",
-  "packagerNgrokUrl": "https://packager.7i-wxv.anonymous.f8-elements.exp.direct",
-  "ngrokPid": 98832
+  "packagerPid": 2767,
+  "expoServerNgrokUrl": "https://7i-wxv.tuzmusic.f8-elements.exp.direct",
+  "packagerNgrokUrl": "https://packager.7i-wxv.tuzmusic.f8-elements.exp.direct",
+  "ngrokPid": 2784,
+  "webpackServerPort": null
 }
