@@ -1,5 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
+import './setup-tests'
 import TabNavigator from "../navigation/MainTabNavigator";
 import TabBarIcon from "../components/TabBarIcon";
 
