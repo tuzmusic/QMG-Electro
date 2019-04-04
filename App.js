@@ -2,12 +2,13 @@ import React from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { AppLoading, Asset, Font, Icon } from "expo";
 import AppNavigator from "./navigation/AppNavigator";
-import { combineReducers, createStore } from "redux";
+import { combineReducers, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import mainReducer from "./reducers/mainReducer";
+import ReduxThunk from "redux-thunk";
 
 combinedReducer = combineReducers({ main: mainReducer });
-store = createStore(combinedReducer);
+store = createStore(combinedReducer, {}, applyMiddleware(ReduxThunk) );
 
 export default class App extends React.Component {
   state = {
