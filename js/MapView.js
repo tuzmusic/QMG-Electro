@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import MapView, { Marker, Callout } from "react-native-maps";
+// import MapView, { Marker, Callout } from "react-native-maps";
+import { MapView } from "expo";
+// import { Marker, Callout } from "expo";
 import { View } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
 import { connect } from "react-redux";
@@ -47,7 +49,7 @@ class MapScreen extends Component {
     return this.props.stations.map(station => {
       const logo = require("../assets/logos/BOLTIcon.jpg");
       return (
-        <Marker
+        <MapView.Marker
           coordinate={{
             latitude: station.location.lat,
             longitude: station.location.lng
@@ -56,15 +58,15 @@ class MapScreen extends Component {
             station.location.lat.toString() + station.location.lng.toString()
           }
         >
-          <Callout>
+          <MapView.Callout>
             <StationCellView
               station={station}
               // onPress={() =>
               //   this.props.navigation.navigate("StationDetail", { station })
               // }
             />
-          </Callout>
-        </Marker>
+          </MapView.Callout>
+        </MapView.Marker>
       );
     });
   }
@@ -73,6 +75,7 @@ class MapScreen extends Component {
     return (
       <View style={styles.container}>
         <MapView
+          provider={MapView.PROVIDER_GOOGLE}
           style={{ flex: 1 }}
           region={this.state.region}
           showsUserLocation={true}
