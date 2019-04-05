@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-// import MapView, { Marker, Callout } from "react-native-maps";
 import { MapView } from "expo";
-// import { Marker, Callout } from "expo";
 import { View } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
 import { connect } from "react-redux";
