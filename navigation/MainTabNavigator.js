@@ -59,8 +59,6 @@ const TabNavigator = createBottomTabNavigator(
   }
 );
 
-const Container = createAppContainer(TabNavigator);
-
 class TabContainer extends Component {
   componentDidMount = () => {
     this.props.fetchStations();
