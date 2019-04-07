@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Platform } from "react-native";
 import {
   createStackNavigator,
@@ -6,13 +7,13 @@ import {
   createAppContainer
 } from "react-navigation";
 
-import { connect } from "react-redux";
-
 import TabBarIcon from "../components/TabBarIcon";
 import MapScreen from "../js/MapView";
 import MapResultsScreen from "../js/MapResultsView";
 import StationDetailScreen from "../js/StationDetailView";
 import UserDetailScreen from "../js/UserDetailView";
+
+import { fetchStations } from "../actions/mainActions";
 
 const ListStack = createStackNavigator({
   List: MapResultsScreen,
@@ -54,25 +55,24 @@ const TabNavigator = createBottomTabNavigator(
   },
   {
     initialRouteName: "MapStack",
-    initialRouteName: 'ListStack',
+    initialRouteName: "ListStack"
   }
 );
 
 const Container = createAppContainer(TabNavigator);
 
-class TabContainer extends Component {
+class TabNav extends Component {
   componentDidMount = () => {
     this.props.fetchStations();
   };
 
+  static router = TabNavigator.router;
   render() {
-    return <Container />;
+    return <TabNavigator navigation={this.props.navigation} />;
   }
 }
-
-import { fetchStations } from "../actions/mainActions";
 
 export default connect(
   null,
   { fetchStations }
-)(TabContainer);
+)(TabNav);

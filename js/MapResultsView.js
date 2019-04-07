@@ -4,7 +4,6 @@ import F8StyleSheet from "../js/F8StyleSheet";
 import StationCellView from "./StationCellView";
 import StationsMock from "../tests/mocks/StationsMock";
 import { connect } from "react-redux";
-import { fetchStations } from "../actions/mainActions";
 
 class MapResultsView extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -35,13 +34,12 @@ class MapResultsView extends Component {
   }
 }
 
-const mapDispatchToProps = state => ({
+const mapStateToProps = state => ({
   stations: state.main.stations
 });
 
-export const MapResultsViewBasic = MapResultsView
+export const MapResultsViewBasic = MapResultsView;
 
 export default connect(
-  mapDispatchToProps,
-  { fetchStations }
+  mapStateToProps,
 )(MapResultsView);

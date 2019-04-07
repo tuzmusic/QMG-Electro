@@ -3,7 +3,6 @@ import { MapView } from "expo";
 import { View } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
 import { connect } from "react-redux";
-import { fetchStations } from "../actions/mainActions";
 
 import StationCellView from "./StationCellView";
 
@@ -81,13 +80,12 @@ class MapScreen extends Component {
   }
 }
 
-const mapDispatchToProps = state => ({
+const mapStateToProps = state => ({
   stations: state.main.stations
 });
 
 export default connect(
-  mapDispatchToProps,
-  { fetchStations }
+  mapStateToProps,
 )(MapScreen);
 
 const styles = F8StyleSheet.create({
