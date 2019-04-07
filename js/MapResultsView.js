@@ -14,7 +14,7 @@ class MapResultsView extends Component {
   constructor(props) {
     super(props);
     this.results =
-      this.props.navigation.state.params?.results || StationsMock.stations;
+      this.props.navigation?.state.params?.results || StationsMock.stations;
   }
 
   keyExtractor = (item, index) => index.toString();
@@ -25,8 +25,7 @@ class MapResultsView extends Component {
 
   componentDidMount = () => {
     this.props.fetchStations()
-  };
-  
+  };  
 
   render() {
     return (
@@ -43,6 +42,8 @@ class MapResultsView extends Component {
 const mapDispatchToProps = state => ({
   stations: state.main.stations
 });
+
+export const MapResultsViewBasic = MapResultsView
 
 export default connect(
   mapDispatchToProps,

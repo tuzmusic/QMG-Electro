@@ -7,8 +7,8 @@ import { Provider } from "react-redux";
 import mainReducer from "./reducers/mainReducer";
 import ReduxThunk from "redux-thunk";
 
-combinedReducer = combineReducers({ main: mainReducer });
-store = createStore(combinedReducer, {}, applyMiddleware(ReduxThunk) );
+const combinedReducer = combineReducers({ main: mainReducer });
+const store = createStore(combinedReducer, {}, applyMiddleware(ReduxThunk) );
 
 export default class App extends React.Component {
   state = {

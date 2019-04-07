@@ -7152,11 +7152,6 @@ react-native-gesture-handler@~1.0.14:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
-react-native-maps@^0.23.0:
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.23.0.tgz#edbfdcad0e42190627eb1c8067eaba5965c8f81e"
-  integrity sha512-qxOIQGsDtQXQlSJdXMW1wg8pvLaVYdbiIolB7tZTTgTGgIA/hDxXwZbQZ08c4KDD6/VTk8krfd1APaHkqvh6og==
-
 react-native-maps@expo/react-native-maps#v0.22.1-exp.0:
   version "0.22.1"
   resolved "https://codeload.github.com/expo/react-native-maps/tar.gz/e6f98ff7272e5d0a7fe974a41f28593af2d77bb2"
@@ -7464,6 +7459,13 @@ realpath-native@^1.0.0, realpath-native@^1.1.0:
   integrity sha512-wlgPA6cCIIg9gKz0fgAPjnzh4yR/LnXovwuo9hvyGvx3h8nX4+/iLZplfUWasXpqD8BdnGnP5njOFjkUwPzvjA==
   dependencies:
     util.promisify "^1.0.0"
+
+redux-test-utils@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/redux-test-utils/-/redux-test-utils-0.3.0.tgz#0a788c1c7d73f8360af7d2559ffc7c3788fce173"
+  integrity sha512-Ee0SB+FjOJ1efnJZY/0MptkmgKodyZfMiHu/g7O5EfoYDOZvWGHF+WD2xBNuwE6sfEzBiHP/7MkJsASoV/Pq/A==
+  dependencies:
+    fast-deep-equal "^2.0.1"
 
 redux-thunk@^2.3.0:
   version "2.3.0"
