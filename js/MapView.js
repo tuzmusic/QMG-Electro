@@ -39,10 +39,6 @@ class MapScreen extends Component {
     });
   };
 
-  componentDidMount = () => {
-    this.props.fetchStations();
-  };
-
   renderMarkers() {
     return this.props.stations.map(station => {
       const logo = require("../assets/logos/BOLTIcon.jpg");

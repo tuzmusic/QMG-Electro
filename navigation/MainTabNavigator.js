@@ -1,8 +1,9 @@
-import React from "react";
+import React, { Component } from "react";
 import { Platform } from "react-native";
 import {
   createStackNavigator,
-  createBottomTabNavigator
+  createBottomTabNavigator,
+  createAppContainer
 } from "react-navigation";
 
 import { connect } from "react-redux";
@@ -13,13 +14,11 @@ import MapResultsScreen from "../js/MapResultsView";
 import StationDetailScreen from "../js/StationDetailView";
 import UserDetailScreen from "../js/UserDetailView";
 
-const ListStack = createStackNavigator(
-  {
-    List: MapResultsScreen,
-    StationDetail: StationDetailScreen,
-    UserDetail: UserDetailScreen,
-  }
-);
+const ListStack = createStackNavigator({
+  List: MapResultsScreen,
+  StationDetail: StationDetailScreen,
+  UserDetail: UserDetailScreen
+});
 
 ListStack.navigationOptions = {
   tabBarLabel: "List",
@@ -48,12 +47,32 @@ MapStack.navigationOptions = {
   )
 };
 
-const TabNavigator = createBottomTabNavigator({
-  MapStack,
-  ListStack,
-},{
-  initialRouteName: 'MapStack',
-  // initialRouteName: 'ListStack',
-});
+const TabNavigator = createBottomTabNavigator(
+  {
+    MapStack,
+    ListStack
+  },
+  {
+    initialRouteName: "MapStack",
+    initialRouteName: 'ListStack',
+  }
+);
 
-export default connect()(TabNavigator)
+const Container = createAppContainer(TabNavigator);
+
+class TabContainer extends Component {
+  componentDidMount = () => {
+    this.props.fetchStations();
+  };
+
+  render() {
+    return <Container />;
+  }
+}
+
+import { fetchStations } from "../actions/mainActions";
+
+export default connect(
+  null,
+  { fetchStations }
+)(TabContainer);

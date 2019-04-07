@@ -23,10 +23,6 @@ class MapResultsView extends Component {
     <StationCellView station={item} navigation={this.props.navigation} />
   );
 
-  componentDidMount = () => {
-    this.props.fetchStations()
-  };  
-
   render() {
     return (
       <FlatList
