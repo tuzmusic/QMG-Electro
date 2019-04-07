@@ -61,7 +61,7 @@ const TabNavigator = createBottomTabNavigator(
 
 const Container = createAppContainer(TabNavigator);
 
-class TabNav extends Component {
+class TabContainer extends Component {
   componentDidMount = () => {
     this.props.fetchStations();
   };
@@ -72,7 +72,4 @@ class TabNav extends Component {
   }
 }
 
-export default connect(
-  null,
-  { fetchStations }
-)(TabNav);
+export default connect( null, { fetchStations } )(TabContainer);
