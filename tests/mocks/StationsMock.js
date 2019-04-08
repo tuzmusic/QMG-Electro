@@ -62,4 +62,5 @@ const ourHouse = {
   availableNow: false
 };
 
-export default (StationsMock = {stations: [ourHouse, theWorks, gibsons, trueBrew]});
+// export default (StationsMock = {stations: [ourHouse, theWorks, gibsons, trueBrew]});
+module.exports = {stations: [ourHouse, theWorks, gibsons, trueBrew]}
