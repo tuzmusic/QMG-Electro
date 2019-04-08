@@ -2,20 +2,16 @@ import React, { Component } from "react";
 import { Text, View, Image, TouchableOpacity } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
 
-class CellTextRow extends Component {
-  render() {
-    return (
-      <Text style={[{ padding: 1 }, this.props.style]}>
-        {this.props.children}
-      </Text>
-    );
-  }
-}
+const CellTextRow = props => (
+  <Text style={[{ padding: 1 }, props.style]}>{props.children}</Text>
+);
 
 export default class StationCellView extends Component {
   onImagePress() {
     console.log("click image");
-    this.props.navigation.navigate("UserDetail", { user: this.props.station.user });
+    this.props.navigation.navigate("UserDetail", {
+      user: this.props.station.user
+    });
   }
 
   render() {
@@ -23,7 +19,6 @@ export default class StationCellView extends Component {
       <View style={styles.cellContainer}>
         <TouchableOpacity
           style={styles.textContainer}
-          // onPress={this.onTextPress.bind(this)}
           onPress={this.props.onTextPress}
         >
           <CellTextRow style={text.name}>{this.props.station.name}</CellTextRow>

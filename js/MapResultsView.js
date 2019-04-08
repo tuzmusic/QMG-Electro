@@ -2,27 +2,23 @@ import React, { Component } from "react";
 import { FlatList } from "react-native";
 import StationCellView from "./StationCellView";
 import { connect } from "react-redux";
+import { setCurrentStation } from "../actions/mainActions";
 
 class MapResultsContainer extends Component {
   static navigationOptions = ({ navigation }) => ({
-    // title: navigation.getParam("searchText")
     title: "Nearby Stations"
   });
 
   onStationClick = station => {
     console.log("onStationClick defined in MapResultsView");
-
-    this.props.navigation.navigate("StationDetail", {
-      station: station
-    });
+    this.props.setCurrentStation(station)
+    this.props.navigation.navigate("StationDetail");
   };
 
   onUserClick = user => {
     console.log("onUserClick defined in MapResultsView");
-    this.props.navigation.navigate("UserDetail", {
-      user: user
-    });
-  }
+    this.props.navigation.navigate("UserDetail")
+  };
 
   render() {
     return (
@@ -40,7 +36,10 @@ const mapStateToProps = state => ({
   stations: state.main.stations
 });
 
-export default connect(mapStateToProps)(MapResultsContainer);
+export default connect(
+  mapStateToProps,
+  { setCurrentStation }
+)(MapResultsContainer);
 
 const StationsList = props => (
   <FlatList
@@ -51,7 +50,7 @@ const StationsList = props => (
       <StationCellView
         station={item}
         navigation={props.navigation}
-        onTextPress={props.onTextPress}
+        onTextPress={props.onTextPress.bind(this, item)}
       />
     )}
   />

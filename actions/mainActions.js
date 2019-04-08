@@ -19,3 +19,9 @@ export function fetchStations() {
       });
   };
 }
+
+export function setCurrentStation(station) {
+  return dispatch => {
+    dispatch({type: "SET_CURRENT_STATION", payload: station})
+  }
+}

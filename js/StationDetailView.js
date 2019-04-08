@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
+import { connect } from "react-redux";
 
-export default class StationDetailView extends Component {
+class StationDetailView extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: "Station Detail"
   });
@@ -10,11 +11,17 @@ export default class StationDetailView extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text> Station Detail </Text>
+        <Text> {this.props.station.name} </Text>
       </View>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  station: state.main.currentStation
+});
+
+export default connect(mapStateToProps)(StationDetailView);
 
 styles = F8StyleSheet.create({
   container: { flex: 1, justifyContent: "center", alignItems: "center" }
