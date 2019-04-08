@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 class UserDetailView extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: "User Detail"
+    title: navigation.getParam("title")
   });
 
   render() {

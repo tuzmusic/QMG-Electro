@@ -11,12 +11,12 @@ class MapResultsContainer extends Component {
 
   onStationClick = station => {
     this.props.setCurrentStation(station);
-    this.props.navigation.navigate("StationDetail");
+    this.props.navigation.navigate("StationDetail", { title: station.name });
   };
 
   onUserClick = user => {
     this.props.setUserInQuestion(user);
-    this.props.navigation.navigate("UserDetail");
+    this.props.navigation.navigate("UserDetail", { title: user.username });
   };
 
   render() {

@@ -4,9 +4,11 @@ import F8StyleSheet from "../js/F8StyleSheet";
 import { connect } from "react-redux";
 
 class StationDetailView extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: "Station Detail"
-  });
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam("title")
+    };
+  };
 
   render() {
     return (
