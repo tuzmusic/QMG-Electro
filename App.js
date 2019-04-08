@@ -10,13 +10,14 @@ import { combineReducers, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import mainReducer from "./reducers/mainReducer";
 import thunk from "redux-thunk";
+import AuthNavigator from "./navigation/AuthNavigator";
 
 const combinedReducer = combineReducers({ main: mainReducer });
 const store = createStore(combinedReducer, {}, applyMiddleware(thunk));
 
-const AppNavigator = createAppContainer(
+const AppContainer = createAppContainer(
   createSwitchNavigator({
-    // Auth: AuthStack,
+    Auth: AuthNavigator,
     Main: MainTabNavigator
   })
 );
@@ -40,8 +41,7 @@ export default class App extends Component {
         <Provider store={store}>
           <View style={styles.container}>
             {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-            <AppNavigator />
-            {/* <AppContainer /> */}
+            <AppContainer />
           </View>
         </Provider>
       );
