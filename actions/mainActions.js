@@ -1,5 +1,6 @@
 import StationsMock from "../tests/mocks/StationsMock";
-
+const searchText = "whatever"
+const GoogleAPIKey = "BS_key"
 const url =
   "/Users/TuzMacbookPro2017/Development/QMG-local/F8-Elements/tests/mocks/StationsMock.json";
   // "http://localhost:3000/stations";
@@ -9,7 +10,7 @@ export function fetchStations() {
     dispatch({ type: "GET_STATIONS_START" });
     fetch(url)
       .then(res => {
-        return res.json()
+        return res.json();
       })
       .then(json => {
         dispatch({ type: "GET_STATIONS_SUCCESS", payload: json.stations });
