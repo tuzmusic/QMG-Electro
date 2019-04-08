@@ -1,7 +1,11 @@
-import React from "react";
+// Components & Navigation
+import React, { Component } from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { AppLoading, Asset, Font, Icon } from "expo";
-import AppContainer from "./navigation/AppNavigator";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import MainTabNavigator from "./navigation/MainTabNavigator";
+
+// Redux
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import mainReducer from "./reducers/mainReducer";
@@ -10,7 +14,14 @@ import thunk from "redux-thunk";
 const combinedReducer = combineReducers({ main: mainReducer });
 const store = createStore(combinedReducer, {}, applyMiddleware(thunk));
 
-export default class App extends React.Component {
+const AppNavigator = createAppContainer(
+  createSwitchNavigator({
+    // Auth: AuthStack,
+    Main: MainTabNavigator
+  })
+);
+
+export default class App extends Component {
   state = {
     isLoadingComplete: false
   };
@@ -29,7 +40,8 @@ export default class App extends React.Component {
         <Provider store={store}>
           <View style={styles.container}>
             {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-            <AppContainer />
+            <AppNavigator />
+            {/* <AppContainer /> */}
           </View>
         </Provider>
       );
