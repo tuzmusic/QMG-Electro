@@ -13,10 +13,6 @@ class CellTextRow extends Component {
 }
 
 export default class StationCellView extends Component {
-  onTextPress() {
-    console.log("click text");
-    this.props.navigation.navigate("StationDetail", { station: this.props.station });
-  }
   onImagePress() {
     console.log("click image");
     this.props.navigation.navigate("UserDetail", { user: this.props.station.user });
@@ -27,7 +23,8 @@ export default class StationCellView extends Component {
       <View style={styles.cellContainer}>
         <TouchableOpacity
           style={styles.textContainer}
-          onPress={this.onTextPress.bind(this)}
+          // onPress={this.onTextPress.bind(this)}
+          onPress={this.props.onTextPress}
         >
           <CellTextRow style={text.name}>{this.props.station.name}</CellTextRow>
           <CellTextRow style={text.address}>
@@ -46,6 +43,7 @@ export default class StationCellView extends Component {
         <TouchableOpacity
           style={styles.imageContainer}
           onPress={this.onImagePress.bind(this)}
+          // onPress={this.props.onImagePress}
         >
           <Image
             style={[styles.image]}

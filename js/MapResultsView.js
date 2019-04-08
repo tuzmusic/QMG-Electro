@@ -1,34 +1,36 @@
 import React, { Component } from "react";
 import { FlatList } from "react-native";
-import F8StyleSheet from "../js/F8StyleSheet";
 import StationCellView from "./StationCellView";
-import StationsMock from "../tests/mocks/StationsMock";
 import { connect } from "react-redux";
 
-class MapResultsView extends Component {
+class MapResultsContainer extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: navigation.getParam("searchText")
+    // title: navigation.getParam("searchText")
+    title: "Nearby Stations"
   });
 
-  constructor(props) {
-    super(props);
-    this.results =
-      this.props.navigation?.state.params?.results || StationsMock.stations;
+  onStationClick = station => {
+    console.log("onStationClick defined in MapResultsView");
+
+    this.props.navigation.navigate("StationDetail", {
+      station: station
+    });
+  };
+
+  onUserClick = user => {
+    console.log("onUserClick defined in MapResultsView");
+    this.props.navigation.navigate("UserDetail", {
+      user: user
+    });
   }
-
-  keyExtractor = (item, index) => index.toString();
-
-  renderItem = ({ item }) => (
-    <StationCellView station={item} navigation={this.props.navigation} />
-  );
 
   render() {
     return (
-      <FlatList
-        style={{ marginLeft: 5, marginRight: 5 }}
-        data={this.props.stations}
-        keyExtractor={this.keyExtractor}
-        renderItem={this.renderItem}
+      <StationsList
+        stations={this.props.stations}
+        navigation={this.props.navigation}
+        onTextPress={this.onStationClick.bind(this)}
+        onImagePress={this.onUserClick.bind(this)}
       />
     );
   }
@@ -38,8 +40,21 @@ const mapStateToProps = state => ({
   stations: state.main.stations
 });
 
-export const MapResultsViewBasic = MapResultsView;
+export default connect(mapStateToProps)(MapResultsContainer);
 
-export default connect(
-  mapStateToProps,
-)(MapResultsView);
+const StationsList = props => (
+  <FlatList
+    style={{ marginLeft: 5, marginRight: 5 }}
+    data={props.stations}
+    keyExtractor={(item, index) => index.toString()}
+    renderItem={({ item }) => (
+      <StationCellView
+        station={item}
+        navigation={props.navigation}
+        onTextPress={props.onTextPress}
+      />
+    )}
+  />
+);
+
+export const MapResultsViewBasic = MapResultsContainer;
