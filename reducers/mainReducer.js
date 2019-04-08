@@ -1,8 +1,7 @@
-import StationsMock from "../tests/mocks/StationsMock";
-
 const initialState = {
   stations: [],
   currentStation: null,
+  userInQuestion: null,
   isLoading: false,
   error: null,
   currentRegion: null
@@ -18,6 +17,8 @@ export default (mainReducer = (state = initialState, action) => {
       return { ...state, error: action.payload, isLoading: false };
     case "SET_CURRENT_STATION":
       return { ...state, currentStation: action.payload };
+    case "SET_USER_IN_QUESTION":
+      return { ...state, userInQuestion: action.payload };
     default:
       return state;
   }

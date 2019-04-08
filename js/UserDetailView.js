@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
+import { connect } from "react-redux";
 
-export default class UserDetailView extends Component {
+class UserDetailView extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: "User Detail"
   });
@@ -10,11 +11,17 @@ export default class UserDetailView extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text> User Detail </Text>
+        <Text> {this.props.user.username} </Text>
       </View>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  user: state.main.userInQuestion
+});
+
+export default connect(mapStateToProps)(UserDetailView);
 
 styles = F8StyleSheet.create({
   container: { flex: 1, justifyContent: "center", alignItems: "center" }

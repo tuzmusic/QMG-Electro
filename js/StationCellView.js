@@ -7,13 +7,6 @@ const CellTextRow = props => (
 );
 
 export default class StationCellView extends Component {
-  onImagePress() {
-    console.log("click image");
-    this.props.navigation.navigate("UserDetail", {
-      user: this.props.station.user
-    });
-  }
-
   render() {
     return (
       <View style={styles.cellContainer}>
@@ -37,8 +30,7 @@ export default class StationCellView extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.imageContainer}
-          onPress={this.onImagePress.bind(this)}
-          // onPress={this.props.onImagePress}
+          onPress={this.props.onImagePress}
         >
           <Image
             style={[styles.image]}

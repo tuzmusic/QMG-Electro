@@ -25,3 +25,9 @@ export function setCurrentStation(station) {
     dispatch({type: "SET_CURRENT_STATION", payload: station})
   }
 }
+
+export function setUserInQuestion(user) {
+  return dispatch => {
+    dispatch({type: "SET_USER_IN_QUESTION", payload: user})
+  }
+}
