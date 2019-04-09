@@ -8,7 +8,6 @@ const initialState = {
 export default (authReducer = (state = initialState, action) => {
   switch (action.type) {
     case "LOGIN_START":
-    console.log("Login start from reducer");    
       return { ...state, isLoading: true };
     case "LOGIN_SUCCESS":
       return { ...state, stations: action.payload, isLoading: false };

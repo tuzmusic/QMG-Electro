@@ -1,12 +1,7 @@
 import React, { Component } from "react";
-import {
-  Input,
-  Button,
-  Image,
-  ThemeProvider,
-  Overlay
-} from "react-native-elements";
+import { Input, Button, ThemeProvider, Overlay } from "react-native-elements";
 import { View, ActivityIndicator, Text } from "react-native";
+import { DotIndicator } from "react-native-indicators";
 import { connect } from "react-redux";
 import { login } from "../actions/authActions";
 import F8StyleSheet from "./F8StyleSheet";
@@ -22,7 +17,6 @@ class LoginView extends Component {
   }
 
   render() {
-    console.log("isLoading =", this.props.isLoading);
     return (
       <View style={styles.container}>
         <Overlay
@@ -34,7 +28,7 @@ class LoginView extends Component {
           borderRadius={20}
         >
           <View style={styles.modalContainer}>
-            <ActivityIndicator size="large" color="#0000ff" />
+            <DotIndicator color={'darkgrey'}/>
             <Text>Logging in...</Text>
           </View>
         </Overlay>

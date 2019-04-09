@@ -1,5 +1,4 @@
 export function login() {
-  console.log("logging in from authActions");
   
   return dispatch => {
     dispatch({ type: "LOGIN_START" });
