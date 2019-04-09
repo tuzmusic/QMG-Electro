@@ -3,19 +3,33 @@ import { Input, Button, ThemeProvider, Overlay } from "react-native-elements";
 import { View, ActivityIndicator, Text } from "react-native";
 import { DotIndicator } from "react-native-indicators";
 import { connect } from "react-redux";
-import { login } from "../actions/authActions";
+import { /* login, */ assignUser } from "../actions/authActions";
 import F8StyleSheet from "./F8StyleSheet";
 
 class LoginView extends Component {
   state = {
     username: "",
-    password: ""
+    password: "",
+    isLoading: false
   };
 
-  async handleLogin() {
-    await this.props.login.call(this);
-    console.log("Navigating to main screen");
-    this.props.navigation.navigate("Main");
+  performLogin() {
+    fetch("http://127.0.0.1:3000/users") // this will need to be a POST session (not a GET user)
+      .then(res => res.json())
+      .then(users => {
+        console.log("Login succeeded");
+        this.props.assignUser(users[0]);
+        console.log("Navigating to main screen");
+        this.props.navigation.navigate("Main");
+      })
+      .catch(error => {
+        console.warn("login failed", error);
+        this.setState({isLoading: false})
+      });
+  }
+
+  handleLogin() {
+    this.setState({ isLoading: true }, this.performLogin);
   }
 
   render() {
@@ -25,7 +39,7 @@ class LoginView extends Component {
           containerStyle={styles.modal}
           height={200}
           width={200}
-          isVisible={this.props.isLoading}
+          isVisible={this.state.isLoading}
           style={styles.modal}
           borderRadius={20}
         >
@@ -64,7 +78,7 @@ export default connect(
     user: state.auth.user,
     error: state.auth.error
   }),
-  { login }
+  { /* login, */ assignUser }
 )(LoginView);
 
 const theme = {
