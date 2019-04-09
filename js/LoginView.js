@@ -1,15 +1,28 @@
 import React, { Component } from "react";
-import { Text, View, Input } from "react-native";
+import { Input, Button, Image } from "react-native-elements";
+import { Text, View } from "react-native";
 import { connect } from "react-redux";
+import F8StyleSheet from "./F8StyleSheet";
 
-export default class LoginView extends Component {
+class LoginView extends Component {
   render() {
     return (
-      <View>
-        <Text> Login Screen </Text>
+      <View style={styles.container}>
+        <Input containerStyle={{ padding: 10 }} placeholder="Email" />
+        <Input containerStyle={{ padding: 10 }} placeholder="Password" />
+        <Button title='Login'/>
       </View>
     );
   }
 }
 
- connect()(LoginView)
+export default connect()(LoginView);
+
+styles = F8StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 10
+  }
+});
