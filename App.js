@@ -17,8 +17,8 @@ const store = createStore(combinedReducer, {}, applyMiddleware(thunk));
 
 const AppContainer = createAppContainer(
   createSwitchNavigator({
+    Main: MainTabNavigator,
     Auth: AuthNavigator,
-    Main: MainTabNavigator
   })
 );
 
