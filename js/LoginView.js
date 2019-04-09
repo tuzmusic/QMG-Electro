@@ -1,6 +1,12 @@
 import React, { Component } from "react";
-import { Input, Button, ThemeProvider, Overlay } from "react-native-elements";
-import { View, ActivityIndicator, Text } from "react-native";
+import {
+  Image,
+  Input,
+  Button,
+  ThemeProvider,
+  Overlay
+} from "react-native-elements";
+import { View, Text } from "react-native";
 import { DotIndicator } from "react-native-indicators";
 import { connect } from "react-redux";
 import { /* login, */ assignUser } from "../actions/authActions";
@@ -42,6 +48,7 @@ class LoginView extends Component {
           isVisible={this.state.isLoading}
           style={styles.modal}
           borderRadius={20}
+          overlayBackgroundColor={"lightblue"}
         >
           <View style={styles.modalContainer}>
             <DotIndicator color={"darkgrey"} />
@@ -50,6 +57,10 @@ class LoginView extends Component {
         </Overlay>
 
         <ThemeProvider theme={theme}>
+          <Image
+            source={require("../assets/logos/BOLTLogoTransparent.png")}
+            style={styles.image}
+          />
           <Input
             placeholder="Username"
             value={this.state.username}
@@ -101,7 +112,16 @@ const styles = F8StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "lightblue"
+  },
+  inputContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  image: {
+    height: 200,
+    width: 200,
+    marginBottom: 40
   },
   modalContainer: {
     flex: 1,
