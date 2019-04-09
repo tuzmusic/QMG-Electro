@@ -2,7 +2,7 @@ const initialState = {
   stations: [],
   user: null,
   isLoading: false,
-  error: null,
+  error: null
 };
 
 export default (authReducer = (state = initialState, action) => {
@@ -10,7 +10,8 @@ export default (authReducer = (state = initialState, action) => {
     case "LOGIN_START":
       return { ...state, isLoading: true };
     case "LOGIN_SUCCESS":
-      return { ...state, stations: action.payload, isLoading: false };
+      console.log("Login succeeded");
+      return { ...state, user: action.payload, isLoading: false };
     case "LOGIN_FAILURE":
       return { ...state, error: action.payload, isLoading: false };
     default:

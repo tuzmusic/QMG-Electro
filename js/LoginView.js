@@ -12,8 +12,10 @@ class LoginView extends Component {
     password: ""
   };
 
-  handleLogin() {
-    this.props.login();
+  async handleLogin() {
+    await this.props.login.call(this);
+    console.log("Navigating to main screen");
+    this.props.navigation.navigate("Main");
   }
 
   render() {
@@ -23,15 +25,16 @@ class LoginView extends Component {
           containerStyle={styles.modal}
           height={200}
           width={200}
-          isVisible={this.props.isLoading || true}
+          isVisible={this.props.isLoading}
           style={styles.modal}
           borderRadius={20}
         >
           <View style={styles.modalContainer}>
-            <DotIndicator color={'darkgrey'}/>
+            <DotIndicator color={"darkgrey"} />
             <Text>Logging in...</Text>
           </View>
         </Overlay>
+
         <ThemeProvider theme={theme}>
           <Input
             placeholder="Username"
@@ -48,11 +51,7 @@ class LoginView extends Component {
               this.setState({ password });
             }}
           />
-          <Button
-            title="Login"
-            onPress={this.handleLogin.bind(this)}
-            loading={this.props.isLoading}
-          />
+          <Button title="Login" onPress={this.handleLogin.bind(this)} />
         </ThemeProvider>
       </View>
     );
@@ -60,7 +59,11 @@ class LoginView extends Component {
 }
 
 export default connect(
-  state => ({ isLoading: state.auth.isLoading }),
+  state => ({
+    isLoading: state.auth.isLoading,
+    user: state.auth.user,
+    error: state.auth.error
+  }),
   { login }
 )(LoginView);
 
