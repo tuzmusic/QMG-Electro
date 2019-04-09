@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-import { createStackNavigator } from "react-navigation";
+import { createSwitchNavigator } from "react-navigation";
 import LoginScreen from "../js/LoginView";
 
-const AuthStack = createStackNavigator({ Login: LoginScreen });
+const AuthStack = createSwitchNavigator({ Login: LoginScreen });
 
 export default class AuthNavigator extends Component {
-  static router = AuthStack.router
+  static router = AuthStack.router;
   render() {
-    return (
-      <AuthStack navigation={this.props.navigation}/>
-    );
+    return <AuthStack navigation={this.props.navigation} />;
   }
 }

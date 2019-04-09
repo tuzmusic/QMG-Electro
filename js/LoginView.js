@@ -14,7 +14,7 @@ class LoginView extends Component {
     return (
       <View style={styles.container}>
         <Input
-          containerStyle={{ padding: 10 }}
+          // containerStyle={{ padding: 10 }}
           placeholder="Username"
           value={this.state.username}
           onChangeText={username => {
@@ -22,7 +22,7 @@ class LoginView extends Component {
           }}
         />
         <Input
-          containerStyle={{ padding: 10 }}
+          // containerStyle={{ padding: 10 }}
           placeholder="Password"
           secureTextEntry={true}
           value={this.state.password}
@@ -43,6 +43,6 @@ styles = F8StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    margin: 10
+    margin: 10,
   }
 });
