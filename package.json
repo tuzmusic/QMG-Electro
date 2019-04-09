@@ -5,7 +5,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "test": "node ./node_modules/jest/bin/jest.js --watchAll"
+    "test": "node ./node_modules/jest/bin/jest.js --watchAll",
+    "watch": "nodemon --watch tests/mocks/dyson-server --exec dyson tests/mocks/dyson-server"
   },
   "jest": {
     "preset": "jest-expo"
@@ -14,6 +15,7 @@
     "@expo/samples": "2.1.1",
     "expo": "^32.0.0",
     "jest-enzyme": "^7.0.2",
+    "nodemon": "^1.18.11",
     "react": "16.5.0",
     "react-dom": "^16.8.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
