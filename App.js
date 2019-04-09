@@ -9,10 +9,11 @@ import MainTabNavigator from "./navigation/MainTabNavigator";
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import mainReducer from "./reducers/mainReducer";
+import authReducer from "./reducers/authReducer";
 import thunk from "redux-thunk";
 import AuthNavigator from "./navigation/AuthNavigator";
 
-const combinedReducer = combineReducers({ main: mainReducer });
+const combinedReducer = combineReducers({ main: mainReducer, auth: authReducer });
 const store = createStore(combinedReducer, {}, applyMiddleware(thunk));
 
 const AppContainer = createAppContainer(

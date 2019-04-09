@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Input, Button, Image, ThemeProvider } from "react-native-elements";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { connect } from "react-redux";
+import { login } from "../actions/authActions";
 import F8StyleSheet from "./F8StyleSheet";
 
 class LoginView extends Component {
@@ -10,7 +11,13 @@ class LoginView extends Component {
     password: ""
   };
 
+  handleLogin() {
+    this.props.login();
+  }
+
   render() {
+    console.log("isLoading =", this.props.isLoading);
+  
     return (
       <View style={styles.container}>
         <ThemeProvider theme={theme}>
@@ -29,14 +36,21 @@ class LoginView extends Component {
               this.setState({ password });
             }}
           />
-          <Button title="Login" />
+          <Button
+            title="Login"
+            onPress={this.handleLogin.bind(this)}
+            loading={this.props.isLoading}
+          />
         </ThemeProvider>
       </View>
     );
   }
 }
 
-export default connect()(LoginView);
+export default connect(
+  state => ({ isLoading: state.auth.isLoading }),
+  { login }
+)(LoginView);
 
 const theme = {
   Input: {
@@ -46,7 +60,8 @@ const theme = {
   },
   Button: {
     containerStyle: {
-      padding: 30
+      padding: 30,
+      width: '100%'
     }
   }
 };
