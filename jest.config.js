@@ -1,1 +1,3 @@
-export const setupTestFrameworkScriptFile = '<rootDir>setup-tests.js';
+module.exports = {
+  setupFilesAfterEnv: "<rootDir>setup-tests.js"
+};
