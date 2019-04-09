@@ -10,7 +10,6 @@ export default (authReducer = (state = initialState, action) => {
     case "LOGIN_START":
       return { ...state, isLoading: true };
     case "LOGIN_SUCCESS":
-      console.log("Login succeeded");
       return { ...state, user: action.payload, isLoading: false };
     case "LOGIN_FAILURE":
       return { ...state, error: action.payload, isLoading: false };

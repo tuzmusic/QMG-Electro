@@ -24,7 +24,7 @@ class LoginView extends Component {
       })
       .catch(error => {
         console.warn("login failed", error);
-        this.setState({isLoading: false})
+        this.setState({ isLoading: false });
       });
   }
 
