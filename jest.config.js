@@ -1,0 +1,1 @@
+export const setupTestFrameworkScriptFile = '<rootDir>setup-tests.js';
