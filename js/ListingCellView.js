@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Text, View, Image, TouchableOpacity } from "react-native";
-import { WaveIndicator } from "react-native-indicators";
+import { Text, View, TouchableOpacity } from "react-native";
+import { Image } from "react-native-elements";
 import F8StyleSheet from "../js/F8StyleSheet";
+import HTML from "react-native-render-html";
 
 const CellTextRow = props => (
   <Text style={[{ padding: 1 }, props.style]}>{props.children}</Text>
@@ -15,8 +16,11 @@ export default class ListingCellView extends Component {
           style={styles.textContainer}
           // onPress={this.props.onTextPress}
         >
-          <CellTextRow style={text.name}>{this.props.station.title.rendered}</CellTextRow>
-          <CellTextRow >{this.props.station.content.rendered}</CellTextRow>
+          <CellTextRow style={text.name}>
+            {this.props.station.title.rendered}
+          </CellTextRow>
+          <HTML html={this.props.station.content.rendered} />
+          {/* <CellTextRow>{this.props.station.content.rendered}</CellTextRow> */}
         </TouchableOpacity>
       </View>
     );
@@ -27,9 +31,6 @@ const text = F8StyleSheet.create({
   name: {
     fontWeight: "bold",
     fontSize: 18
-  },
-  address: {
-    // marginLeft: 10
   },
   caption: {
     textAlign: "center"
@@ -45,12 +46,10 @@ const styles = F8StyleSheet.create({
     borderBottomColor: "lightgrey"
   },
   textContainer: {
-    // borderWidth: 0.5,
     flex: 5,
     marginRight: 10
   },
   imageContainer: {
-    // borderWidth: 0.5,
     flex: 2,
     padding: 7
   },
