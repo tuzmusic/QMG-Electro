@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { FlatList, View } from "react-native";
-import StationCellView from "./StationCellView";
+import { FlatList, View, Text } from "react-native";
 import ListingCellView from "./ListingCellView";
+import LoadingIndicator from "../components/LoadingIndicator";
 import { connect } from "react-redux";
 import { setCurrentStation, setUserInQuestion } from "../actions/mainActions";
 
@@ -23,11 +23,16 @@ class MapResultsContainer extends Component {
   render() {
     return (
       <View>
+        {/* <LoadingIndicator
+          message={"Loading Stations..."}
+          isVisible={this.props.isLoading}
+        /> */}
         <StationsList
           stations={this.props.stations}
           navigation={this.props.navigation}
           onTextPress={this.onStationClick.bind(this)}
           onImagePress={this.onUserClick.bind(this)}
+          isLoading={this.props.isLoading}
         />
       </View>
     );
@@ -45,19 +50,41 @@ export default connect(
 )(MapResultsContainer);
 
 const StationsList = props => (
-  <FlatList
-    style={{ marginLeft: 5, marginRight: 5 }}
-    data={props.stations}
-    keyExtractor={(item, index) => index.toString()}
-    renderItem={({ item }) => (
-      <ListingCellView
-        station={item}
-        navigation={props.navigation}
-        onTextPress={props.onTextPress.bind(this, item)}
-        onImagePress={props.onImagePress.bind(this, item.owner)}
-      />
-    )}
-  />
+  <View>
+    {/*     <Overlay
+      containerStyle={styles.modal}
+      height={200}
+      width={200}
+      isVisible={props.isLoading}
+      style={styles.modal}
+      borderRadius={20}
+      overlayBackgroundColor={"lightblue"}
+    >
+      <View style={styles.modalContainer}>
+        <DotIndicator color={"darkgrey"} />
+        <Text>{"Loading..."}</Text>
+      </View>
+    </Overlay> */}
+
+    <LoadingIndicator
+      message={"Loading Stations..."}
+      isVisible={props.isLoading}
+    />
+
+    <FlatList
+      style={{ marginLeft: 5, marginRight: 5 }}
+      data={props.stations}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={({ item }) => (
+        <ListingCellView
+          station={item}
+          navigation={props.navigation}
+          onTextPress={props.onTextPress.bind(this, item)}
+          onImagePress={props.onImagePress.bind(this, item.owner)}
+        />
+      )}
+    />
+  </View>
 );
 
 export const MapResultsViewBasic = MapResultsContainer;
