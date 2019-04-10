@@ -22,19 +22,13 @@ class MapResultsContainer extends Component {
 
   render() {
     return (
-      <View>
-        {/* <LoadingIndicator
-          message={"Loading Stations..."}
-          isVisible={this.props.isLoading}
-        /> */}
-        <StationsList
-          stations={this.props.stations}
-          navigation={this.props.navigation}
-          onTextPress={this.onStationClick.bind(this)}
-          onImagePress={this.onUserClick.bind(this)}
-          isLoading={this.props.isLoading}
-        />
-      </View>
+      <StationsList
+        stations={this.props.stations}
+        navigation={this.props.navigation}
+        onTextPress={this.onStationClick.bind(this)}
+        onImagePress={this.onUserClick.bind(this)}
+        isLoading={this.props.isLoading}
+      />
     );
   }
 }
@@ -51,26 +45,10 @@ export default connect(
 
 const StationsList = props => (
   <View>
-    {/*     <Overlay
-      containerStyle={styles.modal}
-      height={200}
-      width={200}
-      isVisible={props.isLoading}
-      style={styles.modal}
-      borderRadius={20}
-      overlayBackgroundColor={"lightblue"}
-    >
-      <View style={styles.modalContainer}>
-        <DotIndicator color={"darkgrey"} />
-        <Text>{"Loading..."}</Text>
-      </View>
-    </Overlay> */}
-
     <LoadingIndicator
       message={"Loading Stations..."}
       isVisible={props.isLoading}
     />
-
     <FlatList
       style={{ marginLeft: 5, marginRight: 5 }}
       data={props.stations}
