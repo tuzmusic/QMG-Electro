@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import StationCellView from "./StationCellView";
 import ListingCellView from "./ListingCellView";
 import { connect } from "react-redux";
@@ -22,18 +22,21 @@ class MapResultsContainer extends Component {
 
   render() {
     return (
-      <StationsList
-        stations={this.props.stations}
-        navigation={this.props.navigation}
-        onTextPress={this.onStationClick.bind(this)}
-        onImagePress={this.onUserClick.bind(this)}
-      />
+      <View>
+        <StationsList
+          stations={this.props.stations}
+          navigation={this.props.navigation}
+          onTextPress={this.onStationClick.bind(this)}
+          onImagePress={this.onUserClick.bind(this)}
+        />
+      </View>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  stations: state.main.stations
+  stations: state.main.stations,
+  isLoading: state.main.isLoading
 });
 
 export default connect(

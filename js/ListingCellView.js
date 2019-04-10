@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, Image, TouchableOpacity } from "react-native";
+import { WaveIndicator } from "react-native-indicators";
 import F8StyleSheet from "../js/F8StyleSheet";
 
 const CellTextRow = props => (
