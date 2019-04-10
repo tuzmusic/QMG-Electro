@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { FlatList } from "react-native";
 import StationCellView from "./StationCellView";
+import ListingCellView from "./ListingCellView";
 import { connect } from "react-redux";
 import { setCurrentStation, setUserInQuestion } from "../actions/mainActions";
 
@@ -46,7 +47,7 @@ const StationsList = props => (
     data={props.stations}
     keyExtractor={(item, index) => index.toString()}
     renderItem={({ item }) => (
-      <StationCellView
+      <ListingCellView
         station={item}
         navigation={props.navigation}
         onTextPress={props.onTextPress.bind(this, item)}
