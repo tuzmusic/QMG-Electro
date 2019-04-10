@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import { FlatList, View, Text } from "react-native";
-import ListingCellView from "./ListingCellView";
-import LoadingIndicator from "../components/LoadingIndicator";
 import { connect } from "react-redux";
+import StationsList from "./StationsList";
 import { setCurrentStation, setUserInQuestion } from "../actions/mainActions";
 
 class MapResultsContainer extends Component {
@@ -38,31 +36,10 @@ const mapStateToProps = state => ({
   isLoading: state.main.isLoading
 });
 
+export const MapResultsViewBasic = MapResultsContainer;
+
 export default connect(
   mapStateToProps,
   { setCurrentStation, setUserInQuestion }
 )(MapResultsContainer);
 
-const StationsList = props => (
-  <View>
-    <LoadingIndicator
-      message={"Loading Stations..."}
-      isVisible={props.isLoading}
-    />
-    <FlatList
-      style={{ marginLeft: 5, marginRight: 5 }}
-      data={props.stations}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={({ item }) => (
-        <ListingCellView
-          station={item}
-          navigation={props.navigation}
-          onTextPress={props.onTextPress.bind(this, item)}
-          onImagePress={props.onImagePress.bind(this, item.owner)}
-        />
-      )}
-    />
-  </View>
-);
-
-export const MapResultsViewBasic = MapResultsContainer;
