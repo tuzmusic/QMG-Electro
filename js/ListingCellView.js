@@ -12,9 +12,10 @@ export default class ListingCellView extends Component {
       <View style={styles.cellContainer}>
         <TouchableOpacity
           style={styles.textContainer}
-          onPress={this.props.onTextPress}
+          // onPress={this.props.onTextPress}
         >
           <CellTextRow style={text.name}>{this.props.station.title.rendered}</CellTextRow>
+          <CellTextRow >{this.props.station.content.rendered}</CellTextRow>
         </TouchableOpacity>
       </View>
     );
