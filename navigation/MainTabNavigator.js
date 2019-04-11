@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Platform } from "react-native";
 import {
   createStackNavigator,
-  createBottomTabNavigator,
+  createBottomTabNavigator
 } from "react-navigation";
 
 import TabBarIcon from "../components/TabBarIcon";
@@ -58,9 +58,10 @@ const TabNavigator = createBottomTabNavigator(
   }
 );
 
+import { AsyncStorage } from "react-native";
 class TabContainer extends Component {
   componentDidMount = () => {
-    this.props.fetchStations();
+    this.props.fetchStations(true);
   };
 
   static router = TabNavigator.router;
@@ -69,4 +70,9 @@ class TabContainer extends Component {
   }
 }
 
-export default connect( null, { fetchStations } )(TabContainer);
+const mapDispatchToProps = { fetchStations };
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(TabContainer);
