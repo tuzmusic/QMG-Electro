@@ -34,6 +34,12 @@ function downloadStations() {
     });
 }
 
+function save(json) {
+  console.log(json);
+  const storage = { stations: json, fetchedDate: new Date() };
+  AsyncStorage.setItem("bolt_fetched_stations", JSON.stringify(storage));
+}
+
 export function fetchStations(useCache) {
   return dispatch => {
     dispatch({ type: "GET_STATIONS_START" });
@@ -42,7 +48,10 @@ export function fetchStations(useCache) {
       AsyncStorage.getItem("bolt_fetched_stations")
         .then(data => {
           console.log(JSON.parse(data));
-          dispatch({ type: "GET_STATIONS_SUCCESS", payload: JSON.parse(data).stations });
+          dispatch({
+            type: "GET_STATIONS_SUCCESS",
+            payload: JSON.parse(data).stations
+          });
         })
         .catch(error => {
           console.warn("Couldn't get cached stations:", error);
@@ -54,13 +63,7 @@ export function fetchStations(useCache) {
           return res.json();
         })
         .then(json => {
-          console.log(json); // [{…}, {…}, {…}, {…}, {…}, {…}, {…}]
-
-          const storage = { stations: json, fetchedDate: new Date() };
-          AsyncStorage.setItem(
-            "bolt_fetched_stations",
-            JSON.stringify(storage)
-          );
+          save(json);
           dispatch({ type: "GET_STATIONS_SUCCESS", payload: json });
         })
         .catch(error => {

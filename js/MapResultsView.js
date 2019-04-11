@@ -1,12 +1,31 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Button } from "react-native";
 import StationsList from "./StationsList";
-import { setCurrentStation, setUserInQuestion } from "../actions/mainActions";
+import {
+  setCurrentStation,
+  setUserInQuestion,
+  fetchStations
+} from "../actions/mainActions";
 
 class MapResultsContainer extends Component {
-  static navigationOptions = {
-    title: "Nearby Stations"
-  };
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: "Nearby Stations",
+    headerLeft: (
+      <Button title="Download" onPress={null || navigation.getParam("download")} />
+    ),
+    headerRight: (
+      <Button title="Get Cached" onPress={null || navigation.getParam("getCached")} />
+    )
+  });
+  componentDidMount() {
+    this.props.navigation.setParams({
+      download: () => this.props.fetchStations()
+    });
+    this.props.navigation.setParams({
+      getCached: () => this.props.fetchStations(true)
+    });
+  }
 
   onStationClick = station => {
     this.props.setCurrentStation(station);
@@ -40,6 +59,5 @@ export const MapResultsViewBasic = MapResultsContainer;
 
 export default connect(
   mapStateToProps,
-  { setCurrentStation, setUserInQuestion }
+  { setCurrentStation, setUserInQuestion, fetchStations }
 )(MapResultsContainer);
-
