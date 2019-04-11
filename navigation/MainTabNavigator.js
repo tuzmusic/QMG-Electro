@@ -58,7 +58,6 @@ const TabNavigator = createBottomTabNavigator(
   }
 );
 
-import { AsyncStorage } from "react-native";
 class TabContainer extends Component {
   componentDidMount = () => {
     this.props.fetchStations(true);
