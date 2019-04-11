@@ -9,6 +9,21 @@ const CellTextRow = props => (
 );
 
 export default class ListingCellView extends Component {
+  state = { imageURL: "" };
+
+  getImage() {
+    let url = this.props.station._links["wp:featuredmedia"][0].href;
+    fetch(url)
+      .then(res => res.json())
+      .then(json => {
+        this.setState({ imageURL: json.media_details.sizes.thumbnail.source_url });
+      });
+  }
+
+  componentDidMount = () => {
+    // getImage()
+  };
+
   render() {
     return (
       <View style={styles.cellContainer}>
@@ -22,6 +37,7 @@ export default class ListingCellView extends Component {
           <HTML html={this.props.station.content.rendered} />
           {/* <CellTextRow>{this.props.station.content.rendered}</CellTextRow> */}
         </TouchableOpacity>
+        {/* <Image source={{ uri: this.state.imageURL }} /> */}
       </View>
     );
   }

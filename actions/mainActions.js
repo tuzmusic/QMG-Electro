@@ -14,6 +14,7 @@ export function fetchStations() {
         return res.json();
       })
       .then(json => {
+        
         dispatch({ type: "GET_STATIONS_SUCCESS", payload: json });
       })
       .catch(error => {
