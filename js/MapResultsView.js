@@ -18,6 +18,7 @@ class MapResultsContainer extends Component {
       <Button title="Get Cached" onPress={navigation.getParam("getCached") || (() => {})} />
     )
   });
+  
   componentDidMount() {
     this.props.navigation.setParams({
       download: () => this.props.fetchStations()
