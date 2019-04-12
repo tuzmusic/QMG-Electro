@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
 import { connect } from "react-redux";
+import Station from "../models/Station";
 
 class StationDetailView extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -13,14 +14,17 @@ class StationDetailView extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text> {this.props.station.name} </Text>
+        {Object.entries(this.props.station).map((k,i) => (
+          <Text key={i} style={{padding:5}}>{`${k}`.replace(",", ": ")}</Text>
+        ))}
       </View>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  station: state.main.currentStation
+  // station: state.main.currentStation
+  station: new Station(state.main.currentStation)
 });
 
 export default connect(mapStateToProps)(StationDetailView);

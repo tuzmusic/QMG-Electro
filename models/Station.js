@@ -1,4 +1,4 @@
-class Station {
+export default class Station {
   constructor({
     fields,
     id,
@@ -17,6 +17,12 @@ class Station {
     this.amenityIDs = [...job_listing_amenity];
     this.tagline = fields._company_tagline;
     this.twitter = fields._company_twitter;
-    this.mediaJSONurl = _links["wp:featuredmedia"]?[0].href;
+    // this.mediaJSONurl = _links["wp:featuredmedia"]?[0].href;
+  }
+
+  printProperties = () => {
+    for (prop in this) {
+      
+    }
   }
 }
