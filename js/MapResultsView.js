@@ -12,10 +12,10 @@ class MapResultsContainer extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "Nearby Stations",
     headerLeft: (
-      <Button title="Download" onPress={null || navigation.getParam("download")} />
+      <Button title="Download" onPress={navigation.getParam("download") || (() => {})} />
     ),
     headerRight: (
-      <Button title="Get Cached" onPress={null || navigation.getParam("getCached")} />
+      <Button title="Get Cached" onPress={navigation.getParam("getCached") || (() => {})} />
     )
   });
   componentDidMount() {
