@@ -17,12 +17,12 @@ export default class Station {
     this.amenityIDs = [...job_listing_amenity];
     this.tagline = fields._company_tagline;
     this.twitter = fields._company_twitter;
-    // this.mediaJSONurl = _links["wp:featuredmedia"]?[0].href;
+    this.mediaJSONurl = "no image provided";
+    if ((urls = _links["wp:featuredmedia"])) this.mediaJSONurl = urls[0].href;
   }
 
   printProperties = () => {
     for (prop in this) {
-      
     }
-  }
+  };
 }

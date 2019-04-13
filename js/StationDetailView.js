@@ -23,8 +23,8 @@ class StationDetailView extends Component {
 }
 
 const mapStateToProps = state => ({
-  // station: state.main.currentStation
   station: new Station(state.main.currentStation)
+  // station: state.main.currentStation
 });
 
 export default connect(mapStateToProps)(StationDetailView);
