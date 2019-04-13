@@ -11,9 +11,12 @@ export default class Station {
       this.tagline = json.fields._company_tagline;
       this.twitter = json.fields._company_twitter;
     }
-    this.amenityIDs = [...json.job_listing_amenity];
-    this.mediaJSONurl = "no image provided";
-    if ((urls = json._links["wp:featuredmedia"]))
+    // this.amenityIDs = [...json.job_listing_amenity];
+
+    if ((urls = json._links["wp:featuredmedia"])) {
       this.mediaJSONurl = urls[0].href;
+    } else {
+      this.mediaJSONurl = "no image provided";
+    }
   }
 }
