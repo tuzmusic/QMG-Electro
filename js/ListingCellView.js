@@ -32,9 +32,9 @@ export default class ListingCellView extends Component {
           onPress={this.props.onTextPress}
         >
           <CellTextRow style={text.name}>
-            {this.props.station.title.rendered}
+            {this.props.station.title}
           </CellTextRow>
-          <HTML html={this.props.station.content.rendered} />
+          <HTML html={this.props.station.address} />
         </TouchableOpacity>
         {/* <Image source={{ uri: this.state.imageURL }} /> */}
       </View>
