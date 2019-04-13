@@ -1,11 +1,5 @@
 import { AsyncStorage } from "react-native";
-import StationsMock from "../tests/mocks/StationsMock";
-const searchText = "whatever";
-const GoogleAPIKey = "BS_key";
-const url =
-  "/Users/TuzMacbookPro2017/Development/QMG-local/F8-Elements/tests/mocks/StationsMock.json";
-// "http://localhost:3000/stations";
-const wpURL = "http://joinelectro.com/wp-json/wp/v2/job-listings/";
+import Station from '../models/Station'
 
 function getCachedStations() {
   AsyncStorage.getItem("bolt_fetched_stations")
@@ -19,7 +13,7 @@ function getCachedStations() {
 }
 
 function downloadStations() {
-  fetch(wpURL)
+  fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
     .then(res => {
       return res.json();
     })
@@ -56,13 +50,14 @@ export function fetchStations(useCache) {
           dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
         });
     } else {
-      fetch(wpURL)
+      fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
         .then(res => {
           return res.json();
         })
         .then(json => {
-          save(json);
-          dispatch({ type: "GET_STATIONS_SUCCESS", payload: json });
+          const stations = json.map(hash => new Station(hash))
+          save(stations);
+          dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
         })
         .catch(error => {
           console.warn(error);
