@@ -4,7 +4,8 @@ import {
   Text,
   View,
   Linking,
-  TouchableOpacity, Platform
+  TouchableOpacity,
+  Platform
 } from "react-native";
 import { Image } from "react-native-elements";
 import F8StyleSheet from "../js/F8StyleSheet";
@@ -57,21 +58,13 @@ class StationDetailView extends Component {
     }
   }
 
-  createMapLink(addressStr, mapProvider) {
-    // if (mapProvider === "apple") {
-    //   return `http://maps.apple.com/?q=${addressStr}`;
-    // }
-    return `https://www.google.com/maps/search/?api=1&query=${addressStr}`;
-  };
-
-  openNavigationApp() {
-    const mapProvider = Platform.OS === "ios" ? "apple" : "google";
-    const mapLink = this.createMapLink(this.props.station.address, mapProvider);
-
-    Linking.openURL(mapLink).catch(err =>
+  openMap() {
+    let baseURL = "https://www.google.com/maps/search/?api=1&query=";
+    // if (Platform.OS === 'ios') baseURL = "http://maps.apple.com/?q="
+    Linking.openURL(baseURL+this.props.station.address).catch(err =>
       console.error("An error occurred", err)
     );
-  };
+  }
 
   render() {
     station = this.props.station;
@@ -83,7 +76,7 @@ class StationDetailView extends Component {
         <ScrollView contentContainerStyle={styles.textContainer}>
           <CellTextRow style={text.title}>{station.title}</CellTextRow>
 
-          <TouchableOpacity onPress={this.openNavigationApp.bind(this)}>
+          <TouchableOpacity onPress={this.openMap.bind(this)}>
             <CellTextRow style={text.address}>{station.address}</CellTextRow>
           </TouchableOpacity>
 
