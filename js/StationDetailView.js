@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View } from "react-native";
+import {
+  ScrollView,
+  Text,
+  View,
+  Linking,
+  TouchableOpacity, Platform
+} from "react-native";
 import { Image } from "react-native-elements";
 import F8StyleSheet from "../js/F8StyleSheet";
 import { connect } from "react-redux";
@@ -12,6 +18,8 @@ const CellTextRow = props => (
     {props.children}
   </Text>
 );
+
+const Spinner = <MaterialIndicator color={"blue"} />;
 
 class StationDetailView extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -31,24 +39,56 @@ class StationDetailView extends Component {
     }
   }
 
+  stationImage() {
+    if (this.props.station.mediaID > 0 && (url = this.props.station.imageURL)) {
+      return (
+        <Image
+          style={[styles.image, { resizeMode: "cover" }]}
+          source={{ uri: url }}
+          PlaceholderContent={Spinner}
+        />
+      );
+    } else {
+      return (
+        <View style={[styles.centered, styles.image]}>
+          <Text>No Image Provided</Text>
+        </View>
+      );
+    }
+  }
+
+  createMapLink(addressStr, mapProvider) {
+    // if (mapProvider === "apple") {
+    //   return `http://maps.apple.com/?q=${addressStr}`;
+    // }
+    return `https://www.google.com/maps/search/?api=1&query=${addressStr}`;
+  };
+
+  openNavigationApp() {
+    const mapProvider = Platform.OS === "ios" ? "apple" : "google";
+    const mapLink = this.createMapLink(this.props.station.address, mapProvider);
+
+    Linking.openURL(mapLink).catch(err =>
+      console.error("An error occurred", err)
+    );
+  };
+
   render() {
     station = this.props.station;
     console.log("rendering station", station.title);
 
     return (
       <View style={[styles.container]}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={[styles.image]}
-            source={{ uri: station.imageURL }}
-            PlaceholderContent={<MaterialIndicator color={"blue"} />}
-          />
-        </View>
+        <View style={styles.imageContainer}>{this.stationImage()}</View>
         <ScrollView contentContainerStyle={styles.textContainer}>
           <CellTextRow style={text.title}>{station.title}</CellTextRow>
-          <CellTextRow style={text.address}>{station.address}</CellTextRow>
+
+          <TouchableOpacity onPress={this.openNavigationApp.bind(this)}>
+            <CellTextRow style={text.address}>{station.address}</CellTextRow>
+          </TouchableOpacity>
+
           <CellTextRow style={text.website}>{station.website}</CellTextRow>
-          <HTML style={text.content} html={station.content}/>
+          <HTML style={text.content} html={station.content} />
         </ScrollView>
       </View>
     );
@@ -90,21 +130,19 @@ const styles = F8StyleSheet.create({
     // alignItems: "flex-start"
   },
   imageContainer: {
-    // flex: 1,
-    // position: "absolute",
-    // top: 0,
-    // left: 0,
-    // bottom: 0,
-    // right: 0
+    backgroundColor: "lightgrey"
   },
   textContainer: { alignItems: "flex-start", padding: 15 },
   image: {
     height: 350,
-    width: null,
-    resizeMode: "cover"
+    width: null
   },
   bordered: {
     borderColor: "black",
     borderWidth: 1
+  },
+  centered: {
+    justifyContent: "center",
+    alignItems: "center"
   }
 });

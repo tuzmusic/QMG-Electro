@@ -33,7 +33,7 @@ class MapResultsContainer extends Component {
       getCached: async () => await this.props.fetchStations(true, 2)
     });
     setTimeout(() => {
-      this.onStationClick(this.props.stations[636]);
+      this.onStationClick(this.props.stations[846]);
     }, 1000);
   }
 
