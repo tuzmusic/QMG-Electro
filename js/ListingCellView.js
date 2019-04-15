@@ -16,7 +16,9 @@ export default class ListingCellView extends Component {
     fetch(url)
       .then(res => res.json())
       .then(json => {
-        this.setState({ imageURL: json.media_details.sizes.thumbnail.source_url });
+        this.setState({
+          imageURL: json.media_details.sizes.thumbnail.source_url
+        });
       });
   }
 
@@ -34,7 +36,7 @@ export default class ListingCellView extends Component {
           <CellTextRow style={text.name}>
             {this.props.station.title}
           </CellTextRow>
-          <HTML html={this.props.station.address} />
+          <CellTextRow>{this.props.station.address}</CellTextRow>
         </TouchableOpacity>
         {/* <Image source={{ uri: this.state.imageURL }} /> */}
       </View>
