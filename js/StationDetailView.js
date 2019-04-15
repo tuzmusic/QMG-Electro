@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { Image } from "react-native-elements";
 import F8StyleSheet from "../js/F8StyleSheet";
 import { connect } from "react-redux";
 import { getImageForStation } from "../actions/mainActions";
 import { MaterialIndicator } from "react-native-indicators";
+import HTML from "react-native-render-html";
 
 const CellTextRow = props => (
-  <Text style={[{ padding: 1, textAlign: "left" }, props.style]}>
+  <Text style={[{ padding: 2, textAlign: "left" }, props.style]}>
     {props.children}
   </Text>
 );
@@ -43,9 +44,12 @@ class StationDetailView extends Component {
             PlaceholderContent={<MaterialIndicator color={"blue"} />}
           />
         </View>
-        <View style={styles.textContainer}>
+        <ScrollView contentContainerStyle={styles.textContainer}>
           <CellTextRow style={text.title}>{station.title}</CellTextRow>
-        </View>
+          <CellTextRow style={text.address}>{station.address}</CellTextRow>
+          <CellTextRow style={text.website}>{station.website}</CellTextRow>
+          <HTML style={text.content} html={station.content}/>
+        </ScrollView>
       </View>
     );
   }
@@ -61,13 +65,20 @@ export default connect(
   { getImageForStation }
 )(StationDetailView);
 
+const baseSize = 16;
 const text = F8StyleSheet.create({
   title: {
     fontWeight: "bold",
-    fontSize: 18
+    fontSize: 24
   },
-  caption: {
-    textAlign: "center"
+  address: {
+    fontSize: baseSize
+  },
+  content: {
+    fontSize: baseSize
+  },
+  website: {
+    fontSize: baseSize
   }
 });
 
@@ -86,7 +97,7 @@ const styles = F8StyleSheet.create({
     // bottom: 0,
     // right: 0
   },
-  textContainer: { alignItems: "flex-start", padding: 20 },
+  textContainer: { alignItems: "flex-start", padding: 15 },
   image: {
     height: 350,
     width: null,
