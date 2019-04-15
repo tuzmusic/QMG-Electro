@@ -15,16 +15,18 @@ function getCachedStations(dispatch) {
     });
 }
 
-function downloadStations() {
+function downloadStations(dispatch) {
   fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
-    .then(res => res.json())
+    .then(res => {
+      return res.json();
+    })
     .then(json => {
-      const storage = { ...json, fetchedDate: new Date() };
-      AsyncStorage.setItem("bolt_fetched_stations", JSON.stringify(storage));
-      dispatch({ type: "GET_STATIONS_SUCCESS", payload: json });
+      const stations = json.map(hash => new Station(hash));
+      save(stations);
+      dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
     })
     .catch(error => {
-      console.warn("Couldn't download stations:", error);
+      console.warn(error);
       dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
     });
 }
@@ -41,19 +43,7 @@ export function fetchStations(useCache) {
     if (useCache) {
       getCachedStations(dispatch);
     } else {
-      fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
-        .then(res => {
-          return res.json();
-        })
-        .then(json => {
-          const stations = json.map(hash => new Station(hash));
-          save(stations);
-          dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
-        })
-        .catch(error => {
-          console.warn(error);
-          dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
-        });
+      downloadStations(dispatch)
     }
   };
 }
