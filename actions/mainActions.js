@@ -1,11 +1,14 @@
 import { AsyncStorage } from "react-native";
-import Station from '../models/Station'
+import Station from "../models/Station";
 
-function getCachedStations() {
+function getCachedStations(dispatch) {
   AsyncStorage.getItem("bolt_fetched_stations")
-    .then(data =>
-      dispatch({ type: "GET_STATIONS_SUCCESS", payload: JSON.parse(data) })
-    )
+    .then(data => {
+      dispatch({
+        type: "GET_STATIONS_SUCCESS",
+        payload: JSON.parse(data).stations
+      });
+    })
     .catch(error => {
       console.warn("Couldn't get cached stations:", error);
       dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
@@ -14,9 +17,7 @@ function getCachedStations() {
 
 function downloadStations() {
   fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
-    .then(res => {
-      return res.json();
-    })
+    .then(res => res.json())
     .then(json => {
       const storage = { ...json, fetchedDate: new Date() };
       AsyncStorage.setItem("bolt_fetched_stations", JSON.stringify(storage));
@@ -38,24 +39,14 @@ export function fetchStations(useCache) {
     dispatch({ type: "GET_STATIONS_START" });
 
     if (useCache) {
-      AsyncStorage.getItem("bolt_fetched_stations")
-        .then(data => {
-          dispatch({
-            type: "GET_STATIONS_SUCCESS",
-            payload: JSON.parse(data).stations
-          });
-        })
-        .catch(error => {
-          console.warn("Couldn't get cached stations:", error);
-          dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
-        });
+      getCachedStations(dispatch);
     } else {
       fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
         .then(res => {
           return res.json();
         })
         .then(json => {
-          const stations = json.map(hash => new Station(hash))
+          const stations = json.map(hash => new Station(hash));
           save(stations);
           dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
         })
