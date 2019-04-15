@@ -1,6 +1,15 @@
 import { AsyncStorage } from "react-native";
 import Station from "../models/Station";
 
+function save(json) {
+  const storage = { stations: json, fetchedDate: new Date() };
+  AsyncStorage.setItem("bolt_fetched_stations", JSON.stringify(storage));
+}
+
+function updateStation(dispatch, station, key, value) {
+  dispatch({ type: "UPDATE_STATION", payload: { ...station, [key]: value } });
+}
+
 function downloadStations(dispatch, attempt = 0) {
   console.log("Downloading stations");
   fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
@@ -8,7 +17,7 @@ function downloadStations(dispatch, attempt = 0) {
     .then(async json => {
       let stations = {};
       json.forEach(hash => (stations[hash.id] = new Station(hash)));
-      await getImagesForAllStations(stations);
+      await getImagesForAllStations(dispatch, stations);
       save(stations);
       dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
     })
@@ -27,8 +36,8 @@ function getCachedStations(dispatch, attempt = 0) {
         type: "GET_STATIONS_SUCCESS",
         payload: JSON.parse(data).stations
       });
-      // downloadStations(dispatch, 2); // after getting cached stations, update station list
-      // TO-DO: show user that we're updating.
+      downloadStations(dispatch, 2); // after getting cached stations, update station list
+      // TO-DO: show user that we're updating. 
     })
     .catch(error => {
       console.warn("Couldn't get cached stations:", error);
@@ -37,17 +46,10 @@ function getCachedStations(dispatch, attempt = 0) {
     });
 }
 
-function save(json) {
-  const storage = { stations: json, fetchedDate: new Date() };
-  AsyncStorage.setItem("bolt_fetched_stations", JSON.stringify(storage));
-}
-
-function getImagesForAllStations(stations) {
-  Object.keys(stations).forEach(key => getImageForStation(stations[key]));
-}
-
-function updateStation(station, key, value, dispatch) {
-  dispatch({ type: "UPDATE_STATION", payload: {...station, [key]: value} });
+function getImagesForAllStations(dispatch, stations) {
+  Object.keys(stations).forEach(key =>
+    getImageForStation(dispatch, stations[key])
+  );
 }
 
 export function getImageForStationAsync(station) {
@@ -58,25 +60,27 @@ export function getImageForStationAsync(station) {
         .then(json => {
           const imageURL = json.media_details.sizes.thumbnail.source_url;
           console.log(
-            `thumbnail imageURL for station #${station.id} from "async" method: ${imageURL}`
+            `thumbnail imageURL for station #${
+              station.id
+            } from "async" method: ${imageURL}`
           );
-          updateStation(station, 'imageURL', imageURL, dispatch )
+          updateStation(dispatch, station, "imageURL", imageURL);
         })
         .catch(error => console.warn(error));
-    };
-  }
+    }
+  };
 }
 
-async function getImageForStation(station) {
+async function getImageForStation(dispatch, station) {
   if ((url = station.mediaDataURL)) {
     fetch(url)
       .then(res => res.json())
       .then(json => {
-        station.imageURL = json.media_details.sizes.thumbnail.source_url;
+        const imageURL = json.media_details.sizes.thumbnail.source_url;
         console.log(
           `thumbnail imageURL for station #${station.id}: ${station.imageURL}`
         );
-        return station.imageURL;
+        updateStation(dispatch, station, "imageURL", imageURL);
       })
       .catch(error => console.warn(error));
   }
