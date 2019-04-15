@@ -37,7 +37,7 @@ function getCachedStations(dispatch, attempt = 0) {
         payload: JSON.parse(data).stations
       });
       downloadStations(dispatch, 2); // after getting cached stations, update station list
-      // TO-DO: show user that we're updating. 
+      // TO-DO: show user that we're updating.
     })
     .catch(error => {
       console.warn("Couldn't get cached stations:", error);
@@ -48,37 +48,24 @@ function getCachedStations(dispatch, attempt = 0) {
 
 function getImagesForAllStations(dispatch, stations) {
   Object.keys(stations).forEach(key =>
-    getImageForStation(dispatch, stations[key])
+    _getImageForStation(dispatch, stations[key])
   );
 }
 
-export function getImageForStationAsync(station) {
+export function getImageForStation(station) {
   return dispatch => {
-    if ((url = station.mediaDataURL)) {
-      fetch(url)
-        .then(res => res.json())
-        .then(json => {
-          const imageURL = json.media_details.sizes.thumbnail.source_url;
-          console.log(
-            `thumbnail imageURL for station #${
-              station.id
-            } from "async" method: ${imageURL}`
-          );
-          updateStation(dispatch, station, "imageURL", imageURL);
-        })
-        .catch(error => console.warn(error));
-    }
+    _getImageForStation(dispatch, station)
   };
 }
 
-async function getImageForStation(dispatch, station) {
+function _getImageForStation(dispatch, station) {
   if ((url = station.mediaDataURL)) {
     fetch(url)
       .then(res => res.json())
       .then(json => {
         const imageURL = json.media_details.sizes.thumbnail.source_url;
         console.log(
-          `thumbnail imageURL for station #${station.id}: ${station.imageURL}`
+          `thumbnail imageURL for station #${station.id}: ${imageURL}`
         );
         updateStation(dispatch, station, "imageURL", imageURL);
       })

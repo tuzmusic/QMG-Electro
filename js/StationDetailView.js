@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 import { Image } from "react-native-elements";
 import F8StyleSheet from "../js/F8StyleSheet";
 import { connect } from "react-redux";
-import { getImageForStationAsync } from "../actions/mainActions";
+import { getImageForStation } from "../actions/mainActions";
 
 const CellTextRow = props => (
   <Text style={[{ padding: 1, textAlign: "left" }, props.style]}>
@@ -22,7 +22,7 @@ class StationDetailView extends Component {
     console.log("station", station.title, "mounted");
     if (!this.props.station.imageURL) {
       try {
-        await this.props.getImageForStationAsync(this.props.station);
+        await this.props.getImageForStation(this.props.station);
       } catch (error) {
         console.warn(error);
       }
@@ -56,7 +56,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getImageForStationAsync }
+  { getImageForStation }
 )(StationDetailView);
 
 const text = F8StyleSheet.create({
