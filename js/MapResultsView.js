@@ -32,9 +32,9 @@ class MapResultsContainer extends Component {
     this.props.navigation.setParams({
       getCached: async () => await this.props.fetchStations(true, 2)
     });
-    // setTimeout(() => {
-    //   this.onStationClick(this.props.stations[5]);
-    // }, 1000);
+    setTimeout(() => {
+      this.onStationClick(this.props.stations[636]);
+    }, 1000);
   }
 
   onStationClick = station => {
@@ -50,7 +50,7 @@ class MapResultsContainer extends Component {
   render() {
     return (
       <StationsList
-        stations={this.props.stations}
+        stations={Object.values(this.props.stations)}
         navigation={this.props.navigation}
         onTextPress={this.onStationClick.bind(this)}
         onImagePress={this.onUserClick.bind(this)}
@@ -61,7 +61,7 @@ class MapResultsContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  stations: Object.values(state.main.stations),
+  stations: state.main.stations,
   isLoading: state.main.isLoading
 });
 
