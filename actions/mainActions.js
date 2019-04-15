@@ -27,7 +27,7 @@ function getCachedStations(dispatch, attempt = 0) {
         type: "GET_STATIONS_SUCCESS",
         payload: JSON.parse(data).stations
       });
-      downloadStations(dispatch, 2); // after getting cached stations, update station list
+      // downloadStations(dispatch, 2); // after getting cached stations, update station list
       // TO-DO: show user that we're updating.
     })
     .catch(error => {
@@ -46,7 +46,28 @@ function getImagesForAllStations(stations) {
   Object.keys(stations).forEach(key => getImageForStation(stations[key]));
 }
 
-function getImageForStation(station) {
+function updateStation(station, key, value, dispatch) {
+  dispatch({ type: "UPDATE_STATION", payload: {...station, [key]: value} });
+}
+
+export function getImageForStationAsync(station) {
+  return dispatch => {
+    if ((url = station.mediaDataURL)) {
+      fetch(url)
+        .then(res => res.json())
+        .then(json => {
+          const imageURL = json.media_details.sizes.thumbnail.source_url;
+          console.log(
+            `thumbnail imageURL for station #${station.id}: ${station.imageURL}`
+          );
+          updateStation(station, 'imageURL', imageURL, dispatch )
+        })
+        .catch(error => console.warn(error));
+    };
+  }
+}
+
+async function getImageForStation(station) {
   if ((url = station.mediaDataURL)) {
     fetch(url)
       .then(res => res.json())
@@ -55,7 +76,9 @@ function getImageForStation(station) {
         console.log(
           `thumbnail imageURL for station #${station.id}: ${station.imageURL}`
         );
-      });
+        return station.imageURL;
+      })
+      .catch(error => console.warn(error));
   }
 }
 

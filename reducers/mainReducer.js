@@ -19,6 +19,8 @@ export default (mainReducer = (state = initialState, action) => {
       return { ...state, currentStation: action.payload };
     case "SET_USER_IN_QUESTION":
       return { ...state, userInQuestion: action.payload };
+    case "UPDATE_STATION":
+      return { ...state, stations: { ...state.stations, [action.payload.id]: action.payload } };
     default:
       return state;
   }
