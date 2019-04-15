@@ -60,7 +60,7 @@ const TabNavigator = createBottomTabNavigator(
 
 class TabContainer extends Component {
   componentDidMount = async () => {
-    await this.props.fetchStations(true);
+    if (this.props.stations.length === 0) await this.props.fetchStations(true);
   };
 
   static router = TabNavigator.router;
@@ -68,10 +68,12 @@ class TabContainer extends Component {
     return <TabNavigator navigation={this.props.navigation} />;
   }
 }
-
+const mapStateToProps = state => {
+  return { stations: state.main.stations };
+};
 const mapDispatchToProps = { fetchStations };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(TabContainer);
