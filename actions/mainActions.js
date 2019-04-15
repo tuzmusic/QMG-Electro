@@ -63,9 +63,9 @@ function _getImageForStation(dispatch, station) {
     fetch(url)
       .then(res => res.json())
       .then(json => {
-        const imageURL = json.media_details.sizes.thumbnail.source_url;
+        const imageURL = json.media_details.sizes.medium.source_url;
         console.log(
-          `thumbnail imageURL for station #${station.id}: ${imageURL}`
+          `medium imageURL for station #${station.id}: ${imageURL}`
         );
         updateStation(dispatch, station, "imageURL", imageURL);
       })

@@ -4,6 +4,7 @@ import { Image } from "react-native-elements";
 import F8StyleSheet from "../js/F8StyleSheet";
 import { connect } from "react-redux";
 import { getImageForStation } from "../actions/mainActions";
+import { MaterialIndicator } from "react-native-indicators";
 
 const CellTextRow = props => (
   <Text style={[{ padding: 1, textAlign: "left" }, props.style]}>
@@ -32,32 +33,23 @@ class StationDetailView extends Component {
   render() {
     station = this.props.station;
     console.log("rendering station", station.title);
-    const logo = (
-      <Image
-        style={[styles.image]}
-        source={require("../assets/logos/BOLTIcon.jpg")}
-      />
+    const spinner = (
+      <MaterialIndicator style={{ backgroundColor: "white", flex: 1 }} />
     );
 
     return (
       <View style={[styles.container]}>
         <View style={styles.imageContainer}>
           <Image
-            style={[styles.bordered, styles.image]}
+            style={[styles.image]}
             source={{ uri: station.imageURL }}
-            PlaceholderContent={logo}
+            PlaceholderContent={spinner}
           />
         </View>
         <View style={styles.textContainer}>
           <CellTextRow style={text.title}>{station.title}</CellTextRow>
           <CellTextRow>Image URL: {station.imageURL}</CellTextRow>
         </View>
-
-        {/* {Object.entries(station).map((k, i) => (
-          <Text key={i} style={{ padding: 5 }}>
-            {`${k}`.replace(",", ": ")}
-          </Text>
-        ))} */}
       </View>
     );
   }
@@ -84,21 +76,28 @@ const text = F8StyleSheet.create({
 });
 
 const styles = F8StyleSheet.create({
+  container: {
+    // flex: 1,
+    // padding: 10,
+    // justifyContent: "flex-start",
+    // alignItems: "flex-start"
+  },
+  imageContainer: {
+    // flex: 1,
+    // position: "absolute",
+    // top: 0,
+    // left: 0,
+    // bottom: 0,
+    // right: 0
+  },
+  textContainer: { alignItems: "flex-start", padding: 20 },
+  image: {
+    height: 350,
+    width: null,
+    resizeMode: "cover"
+  },
   bordered: {
     borderColor: "black",
     borderWidth: 1
-  },
-  container: {
-    flex: 1,
-    padding: 10,
-    justifyContent: "flex-start",
-    alignItems: "flex-start"
-  },
-  imageContainer: { alignItems: "center" },
-  textContainer: { alignItems: "flex-start" },
-  image: {
-    height: 300,
-    width: 300,
-    resizeMode: "contain"
   }
 });
