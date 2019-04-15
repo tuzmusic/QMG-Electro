@@ -30,6 +30,25 @@ function openMap(address) {
   );
 }
 
+const StationWebsite = ({ station }) => {
+  if (station.website) {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          Linking.openURL(station.website).catch(err =>
+            console.error("An error occurred", err)
+          );
+        }}
+      >
+        <CellTextRow style={[text.address, text.link]}>
+          {station.website}
+        </CellTextRow>
+      </TouchableOpacity>
+    );
+  }
+  return null;
+};
+
 const StationImage = ({ station }) => {
   if (station.mediaID > 0 && (url = station.imageURL)) {
     return (
@@ -75,6 +94,7 @@ class StationDetailView extends Component {
         <View style={styles.imageContainer}>
           <StationImage station={station} />
         </View>
+
         <ScrollView contentContainerStyle={styles.textContainer}>
           <CellTextRow style={text.title}>{station.title}</CellTextRow>
 
@@ -84,18 +104,8 @@ class StationDetailView extends Component {
             </CellTextRow>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => {
-              Linking.openURL(station.website).catch(err =>
-                console.error("An error occurred", err)
-              );
-            }}
-          >
-            <CellTextRow style={[text.address, text.link]}>
-              {station.website}
-            </CellTextRow>
-          </TouchableOpacity>
-
+          <StationWebsite station={station} />
+          
           <HTML style={text.content} html={station.content} />
         </ScrollView>
       </View>
