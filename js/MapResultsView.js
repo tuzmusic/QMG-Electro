@@ -10,7 +10,7 @@ import {
 
 class MapResultsContainer extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: "Nearby Stations",
+    headerTitle: "Stations",
     headerLeft: (
       <Button
         title="Download"
@@ -33,7 +33,7 @@ class MapResultsContainer extends Component {
       getCached: async () => await this.props.fetchStations(true, 2)
     });
     setTimeout(() => {
-      this.onStationClick(this.props.stations[846]);
+      this.onStationClick(this.props.stations[636]);
     }, 1000);
   }
 
