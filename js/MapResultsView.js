@@ -30,7 +30,7 @@ class MapResultsContainer extends Component {
       download: async () => await this.props.fetchStations(false)
     });
     this.props.navigation.setParams({
-      getCached: async () => await this.props.fetchStations(true)
+      getCached: async () => await this.props.fetchStations(true, 2)
     });
     setTimeout(() => {
       this.onStationClick(this.props.stations[5]);

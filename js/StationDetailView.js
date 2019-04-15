@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
+import { Image } from "react-native-elements";
 import F8StyleSheet from "../js/F8StyleSheet";
 import { connect } from "react-redux";
+import { getImageForStation } from "../actions/mainActions";
 
 const CellTextRow = props => (
   <Text style={[{ padding: 1, textAlign: "left" }, props.style]}>
@@ -15,13 +17,27 @@ class StationDetailView extends Component {
       title: navigation.getParam("title")
     };
   };
-  
+
+  async componentDidMount() {
+    if (!this.props.station.imageURL) {
+      try {
+        await this.props.getImageForStation(this.props.station);
+      } catch (error) {
+        console.warn(error);
+      }
+    }
+  }
+
   render() {
+    station = this.props.station;
+
     return (
       <View style={styles.container}>
-        <CellTextRow style={text.name}>{this.props.station.title}</CellTextRow>
+        <Image source={{ uri: station.imageURL }} />
+        <CellTextRow style={text.name}>{station.title}</CellTextRow>
+        <CellTextRow>Image URL: {station.imageURL}</CellTextRow>
 
-        {/* {Object.entries(this.props.station).map((k, i) => (
+        {/* {Object.entries(station).map((k, i) => (
           <Text key={i} style={{ padding: 5 }}>
             {`${k}`.replace(",", ": ")}
           </Text>
@@ -35,7 +51,10 @@ const mapStateToProps = state => ({
   station: state.main.currentStation
 });
 
-export default connect(mapStateToProps)(StationDetailView);
+export default connect(
+  mapStateToProps,
+  { getImageForStation }
+)(StationDetailView);
 
 const text = F8StyleSheet.create({
   name: {

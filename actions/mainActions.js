@@ -19,13 +19,16 @@ function getCachedStations(dispatch, attempt = 0) {
     });
 }
 
- function downloadStations(dispatch, attempt = 0) {
+function downloadStations(dispatch, attempt = 0) {
   console.log("Downloading stations");
   fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
     .then(res => res.json())
     .then(async json => {
+      // let stations = {};
+      // json.forEach(hash => (stations[hash.id] = new Station(hash)));
+
       const stations = json.map(hash => new Station(hash));
-      await getImagesForAllStations(stations)
+      await getImagesForAllStations(stations);
       save(stations);
       dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
     })
@@ -63,9 +66,9 @@ export function fetchStations(useCache, attempt = 0) {
     dispatch({ type: "GET_STATIONS_START" });
 
     if (useCache) {
-      getCachedStations(dispatch);
+      getCachedStations(dispatch, attempt);
     } else {
-      downloadStations(dispatch);
+      downloadStations(dispatch, attempt);
     }
   };
 }
