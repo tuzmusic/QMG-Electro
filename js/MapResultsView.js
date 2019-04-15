@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Button } from "react-native";
 import StationsList from "./StationsList";
 import {
-  setcurrentStationID,
+  setCurrentStationID,
   setUserInQuestion,
   fetchStations
 } from "../actions/mainActions";
@@ -38,7 +38,7 @@ class MapResultsContainer extends Component {
   }
 
   onStationClick = station => {
-    this.props.setcurrentStationID(station.id);
+    this.props.setCurrentStationID(station.id);
     this.props.navigation.navigate("StationDetail", { title: station.name });
   };
 
@@ -69,5 +69,5 @@ export const MapResultsViewBasic = MapResultsContainer;
 
 export default connect(
   mapStateToProps,
-  { setcurrentStationID, setUserInQuestion, fetchStations }
+  { setCurrentStationID, setUserInQuestion, fetchStations }
 )(MapResultsContainer);

@@ -54,7 +54,7 @@ function getImagesForAllStations(dispatch, stations) {
 
 export function getImageForStation(station) {
   return dispatch => {
-    _getImageForStation(dispatch, station)
+    _getImageForStation(dispatch, station);
   };
 }
 
@@ -85,9 +85,9 @@ export function fetchStations(useCache, attempt = 0) {
   };
 }
 
-export function setcurrentStationID(stationID) {
+export function setCurrentStationID(id) {
   return dispatch => {
-    dispatch({ type: "SET_CURRENT_STATION", payload: stationID });
+    dispatch({ type: "SET_CURRENT_STATION", payload: id });
   };
 }
 
