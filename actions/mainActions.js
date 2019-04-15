@@ -19,12 +19,13 @@ function getCachedStations(dispatch, attempt = 0) {
     });
 }
 
-function downloadStations(dispatch, attempt = 0) {
+ function downloadStations(dispatch, attempt = 0) {
   console.log("Downloading stations");
   fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
     .then(res => res.json())
-    .then(json => {
+    .then(async json => {
       const stations = json.map(hash => new Station(hash));
+      await getImagesForAllStations(stations)
       save(stations);
       dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
     })
@@ -38,6 +39,23 @@ function downloadStations(dispatch, attempt = 0) {
 function save(json) {
   const storage = { stations: json, fetchedDate: new Date() };
   AsyncStorage.setItem("bolt_fetched_stations", JSON.stringify(storage));
+}
+
+function getImagesForAllStations(stations) {
+  stations.forEach(station => getImageForStation(station));
+}
+
+function getImageForStation(station) {
+  if ((url = station.mediaDataURL)) {
+    fetch(url)
+      .then(res => res.json())
+      .then(json => {
+        station.imageURL = json.media_details.sizes.thumbnail.source_url;
+        console.log(
+          `thumbnail imageURL for station #${station.id}: ${station.imageURL}`
+        );
+      });
+  }
 }
 
 export function fetchStations(useCache, attempt = 0) {

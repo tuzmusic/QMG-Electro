@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 import F8StyleSheet from "../js/F8StyleSheet";
 import { connect } from "react-redux";
-import Station from "../models/Station";
 
 const CellTextRow = props => (
   <Text style={[{ padding: 1, textAlign: "left" }, props.style]}>
@@ -15,22 +14,6 @@ class StationDetailView extends Component {
     return {
       title: navigation.getParam("title")
     };
-  };
-
-  getImage() {
-    if ((url = this.props.station.mediaDataURL)) {
-      fetch(url)
-        .then(res => res.json())
-        .then(json => {
-          this.setState({
-            imageURL: json.media_details.sizes.thumbnail.source_url
-          }, () => console.log("thumbnail imageURL:", this.state.imageURL));
-        });
-    }
-  }
-
-  componentDidMount = () => {
-    this.getImage()  
   };
   
   render() {
