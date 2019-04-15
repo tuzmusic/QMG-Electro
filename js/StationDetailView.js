@@ -33,9 +33,6 @@ class StationDetailView extends Component {
   render() {
     station = this.props.station;
     console.log("rendering station", station.title);
-    const spinner = (
-      <MaterialIndicator style={{ backgroundColor: "white", flex: 1 }} />
-    );
 
     return (
       <View style={[styles.container]}>
@@ -43,7 +40,7 @@ class StationDetailView extends Component {
           <Image
             style={[styles.image]}
             source={{ uri: station.imageURL }}
-            PlaceholderContent={spinner}
+            PlaceholderContent={<MaterialIndicator color={"blue"} />}
           />
         </View>
         <View style={styles.textContainer}>
