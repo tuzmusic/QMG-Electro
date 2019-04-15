@@ -32,9 +32,9 @@ class MapResultsContainer extends Component {
     this.props.navigation.setParams({
       getCached: async () => await this.props.fetchStations(true, 2)
     });
-    setTimeout(() => {
-      this.onStationClick(this.props.stations[5]);
-    }, 1000);
+    // setTimeout(() => {
+    //   this.onStationClick(this.props.stations[5]);
+    // }, 1000);
   }
 
   onStationClick = station => {
@@ -61,7 +61,7 @@ class MapResultsContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  stations: state.main.stations,
+  stations: Object.values(state.main.stations),
   isLoading: state.main.isLoading
 });
 
