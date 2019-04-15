@@ -22,6 +22,14 @@ const CellTextRow = props => (
 
 const Spinner = <MaterialIndicator color={"blue"} />;
 
+function openMap(address) {
+  let baseURL = "https://www.google.com/maps/search/?api=1&query=";
+  // if (Platform.OS === 'ios') baseURL = "http://maps.apple.com/?q="
+  Linking.openURL(baseURL + address).catch(err =>
+    console.error("An error occurred", err)
+  );
+}
+
 class StationDetailView extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -58,14 +66,6 @@ class StationDetailView extends Component {
     }
   }
 
-  openMap() {
-    let baseURL = "https://www.google.com/maps/search/?api=1&query=";
-    // if (Platform.OS === 'ios') baseURL = "http://maps.apple.com/?q="
-    Linking.openURL(baseURL+this.props.station.address).catch(err =>
-      console.error("An error occurred", err)
-    );
-  }
-
   render() {
     station = this.props.station;
     console.log("rendering station", station.title);
@@ -76,11 +76,24 @@ class StationDetailView extends Component {
         <ScrollView contentContainerStyle={styles.textContainer}>
           <CellTextRow style={text.title}>{station.title}</CellTextRow>
 
-          <TouchableOpacity onPress={this.openMap.bind(this)}>
-            <CellTextRow style={text.address}>{station.address}</CellTextRow>
+          <TouchableOpacity onPress={openMap.bind(null, station.address)}>
+            <CellTextRow style={[text.address, text.link]}>
+              {station.address}
+            </CellTextRow>
           </TouchableOpacity>
 
-          <CellTextRow style={text.website}>{station.website}</CellTextRow>
+          <TouchableOpacity
+            onPress={() => {
+              Linking.openURL(station.website).catch(err =>
+                console.error("An error occurred", err)
+              );
+            }}
+          >
+            <CellTextRow style={[text.address, text.link]}>
+              {station.website}
+            </CellTextRow>
+          </TouchableOpacity>
+
           <HTML style={text.content} html={station.content} />
         </ScrollView>
       </View>
@@ -112,6 +125,10 @@ const text = F8StyleSheet.create({
   },
   website: {
     fontSize: baseSize
+  },
+  link: {
+    color: "blue",
+    textDecorationLine: "underline"
   }
 });
 

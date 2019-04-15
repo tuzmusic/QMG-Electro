@@ -8,9 +8,12 @@ export default class Station {
     this.title = json.title.rendered;
     if ((fields = json.fields)) {
       this.address = json.fields._job_location;
-      this.website = json.fields._company_website;
       this.tagline = json.fields._company_tagline;
       this.twitter = json.fields._company_twitter;
+
+      this.website = json.fields._company_website;
+      if (this.website && !this.website.startsWith("http"))
+        this.website = "http://" + this.website;
     }
     // this.amenityIDs = [...json.job_listing_amenity];
 
