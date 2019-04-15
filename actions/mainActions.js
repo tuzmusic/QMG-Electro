@@ -24,10 +24,10 @@ function downloadStations(dispatch, attempt = 0) {
   fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
     .then(res => res.json())
     .then(async json => {
-      // let stations = {};
-      // json.forEach(hash => (stations[hash.id] = new Station(hash)));
+      let stations = {};
+      json.forEach(hash => (stations[hash.id] = new Station(hash)));
 
-      const stations = json.map(hash => new Station(hash));
+      // const stations = json.map(hash => new Station(hash));
       await getImagesForAllStations(stations);
       save(stations);
       dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
@@ -45,7 +45,7 @@ function save(json) {
 }
 
 function getImagesForAllStations(stations) {
-  stations.forEach(station => getImageForStation(station));
+  Object.keys(stations).forEach(key => getImageForStation(stations[key]))
 }
 
 function getImageForStation(station) {

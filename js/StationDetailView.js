@@ -21,7 +21,7 @@ class StationDetailView extends Component {
   async componentDidMount() {
     if (!this.props.station.imageURL) {
       try {
-        await this.props.getImageForStation(this.props.station);
+        // await this.props.getImageForStation(this.props.station);
       } catch (error) {
         console.warn(error);
       }
