@@ -21,10 +21,10 @@ class MapResultsContainer extends Component {
   
   componentDidMount() {
     this.props.navigation.setParams({
-      download: () => this.props.fetchStations(false)
+      download: async () => await this.props.fetchStations(false)
     });
     this.props.navigation.setParams({
-      getCached: () => this.props.fetchStations(true)
+      getCached: async () => await this.props.fetchStations(true)
     });
   }
 

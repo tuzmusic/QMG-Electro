@@ -8,6 +8,8 @@ function getCachedStations(dispatch, attempt = 0) {
         type: "GET_STATIONS_SUCCESS",
         payload: JSON.parse(data).stations
       });
+      downloadStations(dispatch, 2); // after getting cached stations, update station list
+      // TO-DO: show user that we're updating.
     })
     .catch(error => {
       console.warn("Couldn't get cached stations:", error);
@@ -18,16 +20,14 @@ function getCachedStations(dispatch, attempt = 0) {
 
 function downloadStations(dispatch, attempt = 0) {
   fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
-    .then(res => {
-      return res.json();
-    })
+    .then(res => res.json())
     .then(json => {
       const stations = json.map(hash => new Station(hash));
       save(stations);
       dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
     })
     .catch(error => {
-      console.warn(error);
+      console.warn("Couldn't download stations:", error);
       dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
       if (attempt < 2) getCachedStations(dispatch, attempt + 1);
     });
