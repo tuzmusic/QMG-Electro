@@ -12,13 +12,19 @@ class MapResultsContainer extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "Nearby Stations",
     headerLeft: (
-      <Button title="Download" onPress={navigation.getParam("download") || (() => {})} />
+      <Button
+        title="Download"
+        onPress={navigation.getParam("download") || (() => {})}
+      />
     ),
     headerRight: (
-      <Button title="Get Cached" onPress={navigation.getParam("getCached") || (() => {})} />
+      <Button
+        title="Get Cached"
+        onPress={navigation.getParam("getCached") || (() => {})}
+      />
     )
   });
-  
+
   componentDidMount() {
     this.props.navigation.setParams({
       download: async () => await this.props.fetchStations(false)
@@ -26,6 +32,9 @@ class MapResultsContainer extends Component {
     this.props.navigation.setParams({
       getCached: async () => await this.props.fetchStations(true)
     });
+    setTimeout(() => {
+      this.onStationClick(this.props.stations[5]);
+    }, 1000);
   }
 
   onStationClick = station => {

@@ -1,5 +1,6 @@
 export default class Station {
   constructor(json) {
+    // console.log("constructor for station", json.id);
     this.originalJSON = json;
     this.id = json.id;
     this.listingURL = json.link;
@@ -13,10 +14,9 @@ export default class Station {
     }
     // this.amenityIDs = [...json.job_listing_amenity];
 
-    if ((urls = json._links["wp:featuredmedia"])) {
-      this.mediaJSONurl = urls[0].href;
-    } else {
-      this.mediaJSONurl = "no image provided";
-    }
+    this.mediaID = json.featured_media;
+    if (this.mediaID > 0)
+      this.mediaDataURL =
+        "http://joinelectro.com/wp-json/wp/v2/media/" + this.mediaID;
   }
 }

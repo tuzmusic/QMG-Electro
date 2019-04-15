@@ -2,6 +2,7 @@ import { AsyncStorage } from "react-native";
 import Station from "../models/Station";
 
 function getCachedStations(dispatch, attempt = 0) {
+  console.log("Getting cached stations");
   AsyncStorage.getItem("bolt_fetched_stations")
     .then(data => {
       dispatch({
@@ -19,6 +20,7 @@ function getCachedStations(dispatch, attempt = 0) {
 }
 
 function downloadStations(dispatch, attempt = 0) {
+  console.log("Downloading stations");
   fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
     .then(res => res.json())
     .then(json => {

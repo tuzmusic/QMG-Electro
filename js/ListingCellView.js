@@ -11,17 +11,6 @@ const CellTextRow = props => (
 export default class ListingCellView extends Component {
   state = { imageURL: "" };
 
-  getImage() {
-    let url = this.props.station._links["wp:featuredmedia"][0].href;
-    fetch(url)
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          imageURL: json.media_details.sizes.thumbnail.source_url
-        });
-      });
-  }
-
   componentDidMount = () => {
     // getImage()
   };
