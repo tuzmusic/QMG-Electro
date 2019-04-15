@@ -25,6 +25,12 @@ class MapResultsContainer extends Component {
     )
   });
 
+  goToStation(id) {
+    setTimeout(() => {
+      this.onStationClick(this.props.stations[id]);
+    }, 1000);
+  }
+
   componentDidMount() {
     this.props.navigation.setParams({
       download: async () => await this.props.fetchStations(false)
@@ -32,9 +38,7 @@ class MapResultsContainer extends Component {
     this.props.navigation.setParams({
       getCached: async () => await this.props.fetchStations(true, 2)
     });
-    setTimeout(() => {
-      this.onStationClick(this.props.stations[636]);
-    }, 1000);
+    // this.goToStation(850)
   }
 
   onStationClick = station => {
