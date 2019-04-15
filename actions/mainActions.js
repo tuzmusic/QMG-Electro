@@ -1,7 +1,7 @@
 import { AsyncStorage } from "react-native";
 import Station from "../models/Station";
 
-function getCachedStations(dispatch) {
+function getCachedStations(dispatch, attempt = 0) {
   AsyncStorage.getItem("bolt_fetched_stations")
     .then(data => {
       dispatch({
@@ -12,10 +12,11 @@ function getCachedStations(dispatch) {
     .catch(error => {
       console.warn("Couldn't get cached stations:", error);
       dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
+      if (attempt < 2) downloadStations(dispatch, attempt + 1);
     });
 }
 
-function downloadStations(dispatch) {
+function downloadStations(dispatch, attempt = 0) {
   fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
     .then(res => {
       return res.json();
@@ -28,6 +29,7 @@ function downloadStations(dispatch) {
     .catch(error => {
       console.warn(error);
       dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
+      if (attempt < 2) getCachedStations(dispatch, attempt + 1);
     });
 }
 
@@ -36,14 +38,14 @@ function save(json) {
   AsyncStorage.setItem("bolt_fetched_stations", JSON.stringify(storage));
 }
 
-export function fetchStations(useCache) {
+export function fetchStations(useCache, attempt = 0) {
   return dispatch => {
     dispatch({ type: "GET_STATIONS_START" });
 
     if (useCache) {
       getCachedStations(dispatch);
     } else {
-      downloadStations(dispatch)
+      downloadStations(dispatch);
     }
   };
 }

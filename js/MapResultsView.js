@@ -21,7 +21,7 @@ class MapResultsContainer extends Component {
   
   componentDidMount() {
     this.props.navigation.setParams({
-      download: () => this.props.fetchStations()
+      download: () => this.props.fetchStations(false)
     });
     this.props.navigation.setParams({
       getCached: () => this.props.fetchStations(true)
