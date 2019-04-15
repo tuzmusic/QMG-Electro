@@ -1,6 +1,6 @@
 const initialState = {
   stations: [],
-  currentStation: null,
+  currentStationID: null,
   userInQuestion: null,
   isLoading: false,
   error: null,
@@ -16,7 +16,7 @@ export default (mainReducer = (state = initialState, action) => {
     case "GET_STATIONS_FAILURE":
       return { ...state, error: action.payload, isLoading: false };
     case "SET_CURRENT_STATION":
-      return { ...state, currentStation: action.payload };
+      return { ...state, currentStationID: action.payload };
     case "SET_USER_IN_QUESTION":
       return { ...state, userInQuestion: action.payload };
     case "UPDATE_STATION":

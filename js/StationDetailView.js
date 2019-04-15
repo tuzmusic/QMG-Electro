@@ -19,6 +19,7 @@ class StationDetailView extends Component {
   };
 
   async componentDidMount() {
+    console.log("station", station.title, "mounted");
     if (!this.props.station.imageURL) {
       try {
         await this.props.getImageForStationAsync(this.props.station);
@@ -30,6 +31,7 @@ class StationDetailView extends Component {
 
   render() {
     station = this.props.station;
+    console.log("rendering station", station.title);
 
     return (
       <View style={styles.container}>
@@ -48,7 +50,8 @@ class StationDetailView extends Component {
 }
 
 const mapStateToProps = state => ({
-  station: state.main.currentStation
+  station: state.main.stations[state.main.currentStationID],
+  stations: state.main.stations
 });
 
 export default connect(

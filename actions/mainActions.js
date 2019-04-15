@@ -58,7 +58,7 @@ export function getImageForStationAsync(station) {
         .then(json => {
           const imageURL = json.media_details.sizes.thumbnail.source_url;
           console.log(
-            `thumbnail imageURL for station #${station.id}: ${station.imageURL}`
+            `thumbnail imageURL for station #${station.id} from "async" method: ${imageURL}`
           );
           updateStation(station, 'imageURL', imageURL, dispatch )
         })
@@ -94,9 +94,9 @@ export function fetchStations(useCache, attempt = 0) {
   };
 }
 
-export function setCurrentStation(station) {
+export function setcurrentStationID(stationID) {
   return dispatch => {
-    dispatch({ type: "SET_CURRENT_STATION", payload: station });
+    dispatch({ type: "SET_CURRENT_STATION", payload: stationID });
   };
 }
 
