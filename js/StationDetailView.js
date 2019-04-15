@@ -45,7 +45,6 @@ class StationDetailView extends Component {
         </View>
         <View style={styles.textContainer}>
           <CellTextRow style={text.title}>{station.title}</CellTextRow>
-          <CellTextRow>Image URL: {station.imageURL}</CellTextRow>
         </View>
       </View>
     );

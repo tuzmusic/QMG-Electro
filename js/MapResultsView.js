@@ -39,7 +39,7 @@ class MapResultsContainer extends Component {
 
   onStationClick = station => {
     this.props.setCurrentStationID(station.id);
-    this.props.navigation.navigate("StationDetail", { title: station.name });
+    this.props.navigation.navigate("StationDetail", { title: station.title });
   };
 
   onUserClick = user => {

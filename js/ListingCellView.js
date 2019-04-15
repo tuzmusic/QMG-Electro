@@ -9,12 +9,6 @@ const CellTextRow = props => (
 );
 
 export default class ListingCellView extends Component {
-  state = { imageURL: "" };
-
-  componentDidMount = () => {
-    // getImage()
-  };
-
   render() {
     return (
       <View style={styles.cellContainer}>
@@ -27,7 +21,6 @@ export default class ListingCellView extends Component {
           </CellTextRow>
           <CellTextRow>{this.props.station.address}</CellTextRow>
         </TouchableOpacity>
-        {/* <Image source={{ uri: this.state.imageURL }} /> */}
       </View>
     );
   }
