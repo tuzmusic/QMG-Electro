@@ -30,6 +30,24 @@ function openMap(address) {
   );
 }
 
+const StationImage = ({ station }) => {
+  if (station.mediaID > 0 && (url = station.imageURL)) {
+    return (
+      <Image
+        style={[styles.image, { resizeMode: "cover" }]}
+        source={{ uri: url }}
+        PlaceholderContent={Spinner}
+      />
+    );
+  } else {
+    return (
+      <View style={[styles.centered, styles.image]}>
+        <Text>No Image Provided</Text>
+      </View>
+    );
+  }
+};
+
 class StationDetailView extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -48,31 +66,15 @@ class StationDetailView extends Component {
     }
   }
 
-  stationImage() {
-    if (this.props.station.mediaID > 0 && (url = this.props.station.imageURL)) {
-      return (
-        <Image
-          style={[styles.image, { resizeMode: "cover" }]}
-          source={{ uri: url }}
-          PlaceholderContent={Spinner}
-        />
-      );
-    } else {
-      return (
-        <View style={[styles.centered, styles.image]}>
-          <Text>No Image Provided</Text>
-        </View>
-      );
-    }
-  }
-
   render() {
     station = this.props.station;
     console.log("rendering station", station.title);
 
     return (
       <View style={[styles.container]}>
-        <View style={styles.imageContainer}>{this.stationImage()}</View>
+        <View style={styles.imageContainer}>
+          <StationImage station={station} />
+        </View>
         <ScrollView contentContainerStyle={styles.textContainer}>
           <CellTextRow style={text.title}>{station.title}</CellTextRow>
 
