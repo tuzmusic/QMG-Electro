@@ -12,9 +12,13 @@ function ControlledInput(props) {
         style={props.inputStyle}
         placeholder={props.placeholder || props.propName.titleize()}
         value={this.state[props.propName]}
-        onChangeText={value => {
-          this.setState({ [props.propName]: value });
-        }}
+        onChangeText={
+          props.onChangeText ||
+          (value => {
+            this.setState({ [props.propName]: value });
+          })
+        }
+        keyboardType={props.keyboardType}
         multiline={props.multiline}
         numberOfLines={5} // android only, eh?
       />
@@ -66,7 +70,12 @@ class CreateStationView extends Component {
           <Text style={text.title}>
             API-Friendly, but Complicated, and not implemented yet:
           </Text>
-          {ControlledInput.call(this, { propName: "Amenities" })}
+          {ControlledInput.call(this, {
+            propName: "Amenities",
+            placeholder:
+              "Amenities (this will have to be checkboxes or something)",
+            multiline: true
+          })}
           <Button
             style={styles.button}
             title="Upload Photo"
@@ -76,9 +85,24 @@ class CreateStationView extends Component {
         <Divider style={styles.divider} />
         <View style={styles.textContainer}>
           <Text style={text.title}>API-Absent:</Text>
-          {ControlledInput.call(this, { propName: "priceFrom" })}
-          {ControlledInput.call(this, { propName: "priceTo" })}
+          <View style={styles.rowContainer}>
+            {ControlledInput.call(this, {
+              propName: "priceFrom",
+              containerStyle: styles.rowElement,
+              keyboardType: "numeric"
+            })}
+            {ControlledInput.call(this, {
+              propName: "priceTo",
+              containerStyle: styles.rowElement,
+              keyboardType: "numeric"
+            })}
+          </View>
+          {ControlledInput.call(this, { propName: "contactEmail" })}
+          {ControlledInput.call(this, { propName: "contactPhone" })}
+          {ControlledInput.call(this, { propName: "hours", placeholder: "Hours: if we want opening hours, it'll probably be its own screen since we need a line for every day", multiline: true })}
         </View>
+        <Divider style={styles.divider} />
+
         <View style={[styles.textContainer]}>
           <Button
             title="Submit"
@@ -107,6 +131,14 @@ const text = {
 };
 
 const styles = {
+  rowElement: {
+    width: 150
+  },
+  rowContainer: {
+    flex: 1,
+    justifyContent: "space-between",
+    flexDirection: "row"
+  },
   button: {
     padding: 15,
     paddingBottom: 0
@@ -115,8 +147,7 @@ const styles = {
     padding: 5
   },
   textContainer: {
-    padding: 10,
-    paddingTop: 20
+    padding: 20
   },
   divider: {
     margin: 15,
