@@ -64,7 +64,7 @@ class CreateStationView extends Component {
           {ControlledInput.call(this, { propName: "(website)" })}
           {ControlledInput.call(this, { propName: "(tagline)" })}
           {ControlledInput.call(this, {
-            propName: "description",
+            propName: "description"
             // multiline: true,
             // containerStyle: {
             //   height: 100,
@@ -104,7 +104,10 @@ class CreateStationView extends Component {
               keyboardType: "numeric"
             })}
           </View>
-          {ControlledInput.call(this, { propName: "contactEmail" })}
+          {ControlledInput.call(this, {
+            propName: "contactEmail",
+            keyboardType: "email-address"
+          })}
           {ControlledInput.call(this, {
             propName: "contactPhone",
             keyboardType: "phone-pad"
