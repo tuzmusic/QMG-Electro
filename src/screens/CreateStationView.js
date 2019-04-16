@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 import { Input, Button } from "react-native-elements";
 import { connect } from "react-redux";
+import Sugar from "sugar";
+Sugar.extend() 
 
 function createControlledComponent(propName, placeholder) {
   return (
     <Input
-      placeholder={placeholder || propName[0].toUpperCase() + propName.slice(1)}
+      placeholder={placeholder || propName.titleize()}
       value={this.state[propName]}
       onChangeText={value => {
         this.setState({ [propName]: value });
@@ -16,10 +18,9 @@ function createControlledComponent(propName, placeholder) {
 }
 
 class CreateStationView extends Component {
-
   state = {
-    listingName: ''
-  }
+    listingName: ""
+  };
 
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "Stations"
@@ -29,7 +30,9 @@ class CreateStationView extends Component {
     return (
       <View>
         <Text> Create New Station </Text>
-        {createControlledComponent.call(this, 'listingName', 'Listing Name')}
+        {createControlledComponent.call(this, "listingName")}
+        {createControlledComponent.call(this, "priceFrom")}
+        {createControlledComponent.call(this, "priceTo")}
       </View>
     );
   }
