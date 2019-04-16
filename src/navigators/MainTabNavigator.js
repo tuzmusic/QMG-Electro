@@ -11,6 +11,7 @@ import MapScreen from "../screens/MapView";
 import MapResultsScreen from "../screens/MapResultsView";
 import StationDetailScreen from "../screens/StationDetailView";
 import UserDetailScreen from "../screens/UserDetailView";
+import CreateScreen from "../screens/CreateStationView";
 
 import { fetchStations } from "../redux/actions/mainActions";
 
@@ -47,10 +48,25 @@ MapStack.navigationOptions = {
   )
 };
 
+const CreateStationStack = createStackNavigator({
+  Create: CreateScreen,
+});
+
+CreateStationStack.navigationOptions = {
+  tabBarLabel: "Add Station",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-add-circle" : "md-add"}
+    />
+  )
+};
+
 const TabNavigator = createBottomTabNavigator(
   {
     MapStack,
-    ListStack
+    ListStack,
+    CreateStationStack
   },
   {
     initialRouteName: "MapStack",
