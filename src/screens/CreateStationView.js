@@ -49,6 +49,7 @@ class CreateStationView extends Component {
   };
 
   render() {
+    // TO-DO: Fix issue where multiline inputs don't avoid the keyboard. See https://github.com/APSL/react-native-keyboard-aware-scroll-view/issues/227 (and others on Google, probably)
     return (
       <KeyboardAwareScrollView>
         <View style={styles.textContainer}>
@@ -65,7 +66,7 @@ class CreateStationView extends Component {
           {ControlledInput.call(this, { propName: "(tagline)" })}
           {ControlledInput.call(this, {
             propName: "description",
-            multiline: false,
+            multiline: false
             // containerStyle: {
             //   height: 100,
             //   justifyContent: "flex-end"
@@ -79,10 +80,13 @@ class CreateStationView extends Component {
           </Text>
           {ControlledInput.call(this, {
             propName: "Amenities",
-            placeholder:
-              "Amenities (this will have to be checkboxes or something)",
+            placeholder: "Amenities",
             multiline: false
           })}
+          <Text style={text.note}>
+            (this will have to be checkboxes or something)
+          </Text>
+
           <Button
             style={styles.button}
             title="Upload Photo"
@@ -114,14 +118,17 @@ class CreateStationView extends Component {
           })}
           {ControlledInput.call(this, {
             propName: "hours",
-            placeholder:
-              "Hours: if we want opening hours, it'll probably be its own screen since we need a line for every day",
+            placeholder: "Hours",
             multiline: false
           })}
+          <Text style={text.note}>
+            if we want opening hours, it'll probably be its own screen since we
+            need a line for every day
+          </Text>
         </View>
         <Divider style={styles.divider} />
 
-        <View style={[styles.textContainer]}>
+        <View style={[styles.textContainer, {paddingTop: 0}]}>
           <Button
             title="Submit"
             style={styles.button}
@@ -149,7 +156,8 @@ const text = {
   body: {
     fontSize: 15,
     textAlign: "center"
-  }
+  },
+  note: { textAlign: "center", fontStyle: "italic" }
 };
 
 const styles = {
