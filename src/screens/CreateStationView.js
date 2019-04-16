@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { Text, View, ScrollView } from "react-native";
+import { Input, Button, Divider } from "react-native-elements";
 import { connect } from "react-redux";
 import Sugar from "sugar";
 Sugar.extend();
@@ -26,6 +26,8 @@ class CreateStationView extends Component {
   initialState = {
     name: "",
     description: "",
+    "(website)": "",
+    "(tagline)": "",
     priceFrom: "",
     priceTo: ""
   };
@@ -43,10 +45,13 @@ class CreateStationView extends Component {
 
   render() {
     return (
-      <View>
+      <ScrollView>
         <View style={styles.textContainer}>
           <Text style={text.title}>API-Friendly:</Text>
-          {ControlledInput.call(this, { propName: "name" })}
+          {ControlledInput.call(this, { propName: "title" })}
+          {ControlledInput.call(this, { propName: "address" })}
+          {ControlledInput.call(this, { propName: "(website)" })}
+          {ControlledInput.call(this, { propName: "(tagline)" })}
           {ControlledInput.call(this, {
             propName: "description",
             multiline: true,
@@ -55,24 +60,38 @@ class CreateStationView extends Component {
               justifyContent: "flex-end"
             }
           })}
-          {ControlledInput.call(this, { propName: "Address" })}
-          {ControlledInput.call(this, { propName: "(Website)" })}
-          {ControlledInput.call(this, { propName: "(Tagline)" })}
         </View>
+        <Divider style={styles.divider} />
+        <View style={styles.textContainer}>
+          <Text style={text.title}>
+            API-Friendly, but Complicated, and not implemented yet:
+          </Text>
+          {ControlledInput.call(this, { propName: "Amenities" })}
+          <Button
+            style={styles.button}
+            title="Upload Photo"
+            onPress={() => {}}
+          />
+        </View>
+        <Divider style={styles.divider} />
         <View style={styles.textContainer}>
           <Text style={text.title}>API-Absent:</Text>
           {ControlledInput.call(this, { propName: "priceFrom" })}
           {ControlledInput.call(this, { propName: "priceTo" })}
         </View>
-        <View style={[styles.textContainer, { padding: 20 }]}>
-          <Button title="Submit" onPress={this.handleSubmit.bind(this)} />
+        <View style={[styles.textContainer]}>
+          <Button
+            title="Submit"
+            style={styles.button}
+            onPress={this.handleSubmit.bind(this)}
+          />
           <Button
             title="Submit & Clear"
-            style={{ paddingTop: 15 }}
+            style={styles.button}
             onPress={this.handleSubmit.bind(this, true)}
           />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -88,11 +107,21 @@ const text = {
 };
 
 const styles = {
+  button: {
+    padding: 15,
+    paddingBottom: 0
+  },
   inputContainer: {
     padding: 5
   },
   textContainer: {
     padding: 10,
     paddingTop: 20
+  },
+  divider: {
+    margin: 15,
+    height: 4,
+    borderRadius: 15,
+    backgroundColor: "lightblue"
   }
 };
