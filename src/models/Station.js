@@ -22,4 +22,7 @@ export default class Station {
       this.mediaDataURL =
         "http://joinelectro.com/wp-json/wp/v2/media/" + this.mediaID;
   }
+
+  static create(json) {
+  }
 }
