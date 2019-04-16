@@ -5,14 +5,14 @@ import { connect } from "react-redux";
 import Sugar from "sugar";
 Sugar.extend();
 
-function createControlledComponent(propName, placeholder) {
+function ControlledInput(props) {
   return (
     <View style={styles.inputContainer}>
       <Input
-        placeholder={placeholder || propName.titleize()}
-        value={this.state[propName]}
+        placeholder={props.placeholder || props.propName.titleize()}
+        value={this.state[props.propName]}
         onChangeText={value => {
-          this.setState({ [propName]: value });
+          this.setState({ [props.propName]: value });
         }}
       />
     </View>
@@ -20,19 +20,22 @@ function createControlledComponent(propName, placeholder) {
 }
 
 class CreateStationView extends Component {
-  state = {
+  initialState = {
     name: "",
     description: "",
     priceFrom: "",
     priceTo: ""
   };
 
+  state = this.initialState
+
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "New Station"
   });
 
-  handleSubmit = () => {
+  handleSubmit = (clear) => {
     console.log(this.state);
+    if (clear) this.setState(this.initialState)
   };
 
   render() {
@@ -40,16 +43,21 @@ class CreateStationView extends Component {
       <View>
         <View style={styles.textContainer}>
           <Text style={text.title}>API-Friendly:</Text>
-          {createControlledComponent.call(this, "name")}
-          {createControlledComponent.call(this, "description")}
+          {ControlledInput.call(this, { propName: "name" })}
+          {ControlledInput.call(this, { propName: "description" })}
         </View>
         <View style={styles.textContainer}>
           <Text style={text.title}>API-Absent:</Text>
-          {createControlledComponent.call(this, "priceFrom")}
-          {createControlledComponent.call(this, "priceTo")}
+          {ControlledInput.call(this, { propName: "priceFrom" })}
+          {ControlledInput.call(this, { propName: "priceTo" })}
         </View>
         <View style={[styles.textContainer, { padding: 20 }]}>
           <Button title="Submit" onPress={this.handleSubmit.bind(this)} />
+          <Button
+            title="Submit & Clear"
+            style={{ paddingTop: 15 }}
+            onPress={this.handleSubmit.bind(this, true)}
+          />
         </View>
       </View>
     );
