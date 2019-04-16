@@ -20,7 +20,7 @@ class LoginView extends Component {
   };
 
   performLogin() {
-    this.setState({ isLoading: true }, this.props.navigation.navigate("Main"));
+    this.props.navigation.navigate("Main");
     return;
     fetch("http://127.0.0.1:3000/users") // this will need to be a POST session (not a GET user)
       .then(res => res.json())
