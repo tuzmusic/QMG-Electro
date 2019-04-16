@@ -52,6 +52,9 @@ class CreateStationView extends Component {
       <ScrollView>
         <View style={styles.textContainer}>
           <Text style={text.title}>API-Friendly:</Text>
+          <Text style={text.body}>NOTE: These fields are <Text style={{fontStyle: 'italic',}}>
+            returned
+          </Text> by the API but it's unconfirmed whether we can post to these fields. (We can't post anything yet anyway, period!)</Text>
           {ControlledInput.call(this, { propName: "title" })}
           {ControlledInput.call(this, { propName: "address" })}
           {ControlledInput.call(this, { propName: "(website)" })}
@@ -126,6 +129,10 @@ const text = {
   title: {
     fontWeight: "bold",
     fontSize: 18,
+    textAlign: "center"
+  },
+  body: {
+    fontSize: 15,
     textAlign: "center"
   }
 };
