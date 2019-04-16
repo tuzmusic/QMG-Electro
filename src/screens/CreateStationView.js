@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Text, View, ScrollView } from "react-native";
+import { Text, View, ScrollView, KeyboardAvoidingView } from "react-native";
 import { Input, Button, Divider } from "react-native-elements";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import { connect } from "react-redux";
 import Sugar from "sugar";
 Sugar.extend();
@@ -49,76 +50,92 @@ class CreateStationView extends Component {
 
   render() {
     return (
+      // <KeyboardAwareScrollView
+      //   resetScrollToCoords={{ x: 0, y: 0 }}
+      //   keyboardDismissMode="interactive"
+      //   keyboardShouldPersistTaps="always"
+      // >
       <ScrollView>
-        <View style={styles.textContainer}>
-          <Text style={text.title}>API-Friendly:</Text>
-          <Text style={text.body}>NOTE: These fields are <Text style={{fontStyle: 'italic',}}>
-            returned
-          </Text> by the API but it's unconfirmed whether we can post to these fields. (We can't post anything yet anyway, period!)</Text>
-          {ControlledInput.call(this, { propName: "title" })}
-          {ControlledInput.call(this, { propName: "address" })}
-          {ControlledInput.call(this, { propName: "(website)" })}
-          {ControlledInput.call(this, { propName: "(tagline)" })}
-          {ControlledInput.call(this, {
-            propName: "description",
-            multiline: true,
-            containerStyle: {
-              height: 100,
-              justifyContent: "flex-end"
-            }
-          })}
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.textContainer}>
-          <Text style={text.title}>
-            API-Friendly, but Complicated, and not implemented yet:
-          </Text>
-          {ControlledInput.call(this, {
-            propName: "Amenities",
-            placeholder:
-              "Amenities (this will have to be checkboxes or something)",
-            multiline: true
-          })}
-          <Button
-            style={styles.button}
-            title="Upload Photo"
-            onPress={() => {}}
-          />
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.textContainer}>
-          <Text style={text.title}>API-Absent:</Text>
-          <View style={styles.rowContainer}>
+        <KeyboardAvoidingView behavior='padding'>
+          <View style={styles.textContainer}>
+            <Text style={text.title}>API-Friendly:</Text>
+            <Text style={text.body}>
+              NOTE: These fields are{" "}
+              <Text style={{ fontStyle: "italic" }}>returned</Text> by the API
+              but it's unconfirmed whether we can post to these fields. (We
+              can't post anything yet anyway, period!)
+            </Text>
+            {ControlledInput.call(this, { propName: "title" })}
+            {ControlledInput.call(this, { propName: "address" })}
+            {ControlledInput.call(this, { propName: "(website)" })}
+            {ControlledInput.call(this, { propName: "(tagline)" })}
             {ControlledInput.call(this, {
-              propName: "priceFrom",
-              containerStyle: styles.rowElement,
-              keyboardType: "numeric"
-            })}
-            {ControlledInput.call(this, {
-              propName: "priceTo",
-              containerStyle: styles.rowElement,
-              keyboardType: "numeric"
+              propName: "description",
+              multiline: true,
+              containerStyle: {
+                height: 100,
+                justifyContent: "flex-end"
+              }
             })}
           </View>
-          {ControlledInput.call(this, { propName: "contactEmail" })}
-          {ControlledInput.call(this, { propName: "contactPhone" })}
-          {ControlledInput.call(this, { propName: "hours", placeholder: "Hours: if we want opening hours, it'll probably be its own screen since we need a line for every day", multiline: true })}
-        </View>
-        <Divider style={styles.divider} />
+          <Divider style={styles.divider} />
+          <View style={styles.textContainer}>
+            <Text style={text.title}>
+              API-Friendly, but Complicated, and not implemented yet:
+            </Text>
+            {ControlledInput.call(this, {
+              propName: "Amenities",
+              placeholder:
+                "Amenities (this will have to be checkboxes or something)",
+              multiline: true
+            })}
+            <Button
+              style={styles.button}
+              title="Upload Photo"
+              onPress={() => {}}
+            />
+          </View>
+          <Divider style={styles.divider} />
+          <View style={styles.textContainer}>
+            <Text style={text.title}>API-Absent:</Text>
+            <View style={styles.rowContainer}>
+              {ControlledInput.call(this, {
+                propName: "priceFrom",
+                containerStyle: styles.rowElement,
+                keyboardType: "numeric"
+              })}
+              {ControlledInput.call(this, {
+                propName: "priceTo",
+                containerStyle: styles.rowElement,
+                keyboardType: "numeric"
+              })}
+            </View>
+            {ControlledInput.call(this, { propName: "contactEmail" })}
+            {ControlledInput.call(this, { propName: "contactPhone" })}
+            {ControlledInput.call(this, {
+              propName: "hours",
+              placeholder:
+                "Hours: if we want opening hours, it'll probably be its own screen since we need a line for every day",
+              multiline: true
+            })}
+          </View>
+          <Divider style={styles.divider} />
 
-        <View style={[styles.textContainer]}>
-          <Button
-            title="Submit"
-            style={styles.button}
-            onPress={this.handleSubmit.bind(this)}
-          />
-          <Button
-            title="Submit & Clear"
-            style={styles.button}
-            onPress={this.handleSubmit.bind(this, true)}
-          />
-        </View>
+          <View style={[styles.textContainer]}>
+            <Button
+              title="Submit"
+              style={styles.button}
+              onPress={this.handleSubmit.bind(this)}
+            />
+            <Button
+              title="Submit & Clear"
+              style={styles.button}
+              onPress={this.handleSubmit.bind(this, true)}
+            />
+          </View>
+        </KeyboardAvoidingView>
       </ScrollView>
+      // </KeyboardAwareScrollView>
     );
   }
 }
