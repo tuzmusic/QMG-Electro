@@ -7,13 +7,16 @@ Sugar.extend();
 
 function ControlledInput(props) {
   return (
-    <View style={styles.inputContainer}>
+    <View style={[styles.inputContainer, props.containerStyle]}>
       <Input
+        style={props.inputStyle}
         placeholder={props.placeholder || props.propName.titleize()}
         value={this.state[props.propName]}
         onChangeText={value => {
           this.setState({ [props.propName]: value });
         }}
+        multiline={props.multiline}
+        numberOfLines={5} // android only, eh?
       />
     </View>
   );
@@ -27,15 +30,15 @@ class CreateStationView extends Component {
     priceTo: ""
   };
 
-  state = this.initialState
+  state = this.initialState;
 
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "New Station"
   });
 
-  handleSubmit = (clear) => {
+  handleSubmit = clear => {
     console.log(this.state);
-    if (clear) this.setState(this.initialState)
+    if (clear) this.setState(this.initialState);
   };
 
   render() {
@@ -44,7 +47,17 @@ class CreateStationView extends Component {
         <View style={styles.textContainer}>
           <Text style={text.title}>API-Friendly:</Text>
           {ControlledInput.call(this, { propName: "name" })}
-          {ControlledInput.call(this, { propName: "description" })}
+          {ControlledInput.call(this, {
+            propName: "description",
+            multiline: true,
+            containerStyle: {
+              height: 100,
+              justifyContent: "flex-end"
+            }
+          })}
+          {ControlledInput.call(this, { propName: "Address" })}
+          {ControlledInput.call(this, { propName: "(Website)" })}
+          {ControlledInput.call(this, { propName: "(Tagline)" })}
         </View>
         <View style={styles.textContainer}>
           <Text style={text.title}>API-Absent:</Text>
