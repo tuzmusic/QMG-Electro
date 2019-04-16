@@ -16,7 +16,7 @@ import {
   Button,
   TouchableOpacity
 } from "react-native";
-import F8StyleSheet from "../js/F8StyleSheet";
+import F8StyleSheet from "../components/F8StyleSheet";
 import GoogleAPIKey from "../secrets";
 import Geocoder from "react-native-geocoding";
 import { connect } from "react-redux";

@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View } from "react-native";
 import { Overlay } from "react-native-elements";
 import { DotIndicator } from "react-native-indicators";
-import F8StyleSheet from "../js/F8StyleSheet";
+import F8StyleSheet from "./F8StyleSheet";
 
 const LoadingIndicator = ({ isVisible, message }) => (
   <Overlay

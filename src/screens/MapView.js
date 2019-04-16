@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { MapView } from "expo";
-import { View } from "react-native";
-import F8StyleSheet from "../js/F8StyleSheet";
+import { View, Text } from "react-native";
+import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 
 import StationCellView from "./StationCellView";
@@ -12,7 +12,8 @@ class MapScreen extends Component {
   };
 
   state = {
-    region: { // Center on 88 N Spring St Concord NH
+    region: {
+      // Center on 88 N Spring St Concord NH
       latitude: 43.208552,
       longitude: -71.542526,
       latitudeDelta: 0.00922,
@@ -39,8 +40,11 @@ class MapScreen extends Component {
   };
 
   renderMarkers() {
+    throw new Error(
+      "\nrenderMarkers still uses map, but stations is now an object instead of an array"
+    );
     return this.props.stations.map(station => {
-      const logo = require("../assets/logos/BOLTIcon.jpg");
+      const logo = require("../../assets/logos/BOLTIcon.jpg");
       return (
         <MapView.Marker
           coordinate={{
@@ -73,7 +77,13 @@ class MapScreen extends Component {
           region={this.state.region}
           showsUserLocation={true}
         >
-          {this.renderMarkers()}
+          <View style={{justifyContent: 'center', alignItems: 'center',}}>
+            <Text>
+              renderMarkers still uses map function, but stations is now an object
+              instead of an array
+            </Text>
+          </View>
+          {/* {this.renderMarkers()} */}
         </MapView>
       </View>
     );
@@ -84,14 +94,12 @@ const mapStateToProps = state => ({
   stations: state.main.stations
 });
 
-export default connect(
-  mapStateToProps,
-)(MapScreen);
+export default connect(mapStateToProps)(MapScreen);
 
 const styles = F8StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "center"
-  },
+    justifyContent: "center",
+  }
 });

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import { Image } from "react-native-elements";
-import F8StyleSheet from "../js/F8StyleSheet";
+import F8StyleSheet from "../components/F8StyleSheet";
 import HTML from "react-native-render-html";
 
 const CellTextRow = props => (

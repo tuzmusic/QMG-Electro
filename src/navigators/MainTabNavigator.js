@@ -7,12 +7,12 @@ import {
 } from "react-navigation";
 
 import TabBarIcon from "../components/TabBarIcon";
-import MapScreen from "../js/MapView";
-import MapResultsScreen from "../js/MapResultsView";
-import StationDetailScreen from "../js/StationDetailView";
-import UserDetailScreen from "../js/UserDetailView";
+import MapScreen from "../screens/MapView";
+import MapResultsScreen from "../screens/MapResultsView";
+import StationDetailScreen from "../screens/StationDetailView";
+import UserDetailScreen from "../screens/UserDetailView";
 
-import { fetchStations } from "../actions/mainActions";
+import { fetchStations } from "../redux/actions/mainActions";
 
 const ListStack = createStackNavigator({
   List: MapResultsScreen,

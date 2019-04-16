@@ -6,7 +6,7 @@ import {
   setCurrentStationID,
   setUserInQuestion,
   fetchStations
-} from "../actions/mainActions";
+} from "../redux/actions/mainActions";
 
 class MapResultsContainer extends Component {
   static navigationOptions = ({ navigation }) => ({

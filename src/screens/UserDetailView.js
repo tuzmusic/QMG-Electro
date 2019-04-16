@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
-import F8StyleSheet from "../js/F8StyleSheet";
+import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 
 class UserDetailView extends Component {

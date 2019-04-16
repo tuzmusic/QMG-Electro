@@ -8,9 +8,9 @@ import {
   Platform
 } from "react-native";
 import { Image } from "react-native-elements";
-import F8StyleSheet from "../js/F8StyleSheet";
+import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
-import { getImageForStation } from "../actions/mainActions";
+import { getImageForStation } from "../redux/actions/mainActions";
 import { MaterialIndicator } from "react-native-indicators";
 import HTML from "react-native-render-html";
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, Image, TouchableOpacity } from "react-native";
-import F8StyleSheet from "../js/F8StyleSheet";
+import F8StyleSheet from "../components/F8StyleSheet";
 
 const CellTextRow = props => (
   <Text style={[{ padding: 1 }, props.style]}>{props.children}</Text>
@@ -34,7 +34,7 @@ export default class StationCellView extends Component {
         >
           <Image
             style={[styles.image]}
-            source={require("../assets/logos/BOLTIcon.jpg")}
+            source={require("../../assets/logos/BOLTIcon.jpg")}
           />
           <CellTextRow style={text.caption}>
             {this.props.station.owner.username}

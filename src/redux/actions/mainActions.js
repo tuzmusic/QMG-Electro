@@ -1,5 +1,5 @@
 import { AsyncStorage } from "react-native";
-import Station from "../models/Station";
+import Station from "../../models/Station";
 
 function save(json) {
   const storage = { stations: json, fetchedDate: new Date() };

@@ -1,10 +1,10 @@
 import React from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { AppLoading, Asset, Font, Icon } from "expo";
-import AppContainer from "./navigation/AppNavigator";
+import AppContainer from "./src/navigators/AppNavigator";
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
-import mainReducer from "./reducers/mainReducer";
+import mainReducer from "./src/redux/reducers/mainReducer";
 import thunk from "redux-thunk";
 
 const combinedReducer = combineReducers({ main: mainReducer });
@@ -39,8 +39,8 @@ export default class App extends React.Component {
   _loadResourcesAsync = async () => {
     return Promise.all([
       Asset.loadAsync([
-        require("./assets/images/robot-dev.png"),
-        require("./assets/images/robot-prod.png")
+        // require("./assets/images/robot-dev.png"),
+        // require("./assets/images/robot-prod.png")
       ]),
       Font.loadAsync({
         ...Icon.Ionicons.font
