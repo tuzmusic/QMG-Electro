@@ -9,7 +9,7 @@ import {
 import { View, Text } from "react-native";
 import { DotIndicator } from "react-native-indicators";
 import { connect } from "react-redux";
-import { /* login, */ assignUser } from "../redux/actions/authActions";
+import { login, assignUser } from "../redux/actions/authActions";
 import F8StyleSheet from "../components/F8StyleSheet";
 
 class LoginView extends Component {
@@ -20,6 +20,8 @@ class LoginView extends Component {
   };
 
   performLogin() {
+    this.setState({ isLoading: true }, this.props.navigation.navigate("Main"));
+    return;
     fetch("http://127.0.0.1:3000/users") // this will need to be a POST session (not a GET user)
       .then(res => res.json())
       .then(users => {
@@ -89,7 +91,7 @@ export default connect(
     user: state.auth.user,
     error: state.auth.error
   }),
-  { /* login, */ assignUser }
+  { login, assignUser }
 )(LoginView);
 
 const theme = {
@@ -111,7 +113,7 @@ const styles = F8StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
+    padding: 20
   },
   inputContainer: {
     flex: 1,

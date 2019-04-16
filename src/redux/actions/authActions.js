@@ -4,7 +4,7 @@ export function assignUser(user) {
     dispatch({ type: "LOGIN_SUCCESS", payload: user });
   };
 }
-/* 
+
 export function login() {
   return dispatch => {
     dispatch({ type: "LOGIN_START" });
@@ -20,4 +20,3 @@ export function login() {
       });
   };
 }
- */
