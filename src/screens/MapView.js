@@ -4,7 +4,7 @@ import { View, Text } from "react-native";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 
-import StationCellView from "./StationCellView";
+import StationCellView from "../subviews/StationCellView";
 
 class MapScreen extends Component {
   static navigationOptions = {

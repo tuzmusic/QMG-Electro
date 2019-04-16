@@ -21,7 +21,7 @@ import GoogleAPIKey from "../secrets";
 import Geocoder from "react-native-geocoding";
 import { connect } from "react-redux";
 
-import StationCellView from "./StationCellView";
+import StationCellView from "../subviews/StationCellView";
 import StationsMock from "../tests/mocks/StationsMock";
 
 const concord = {
