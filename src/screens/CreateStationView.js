@@ -64,8 +64,8 @@ class CreateStationView extends Component {
           {ControlledInput.call(this, { propName: "(website)" })}
           {ControlledInput.call(this, { propName: "(tagline)" })}
           {ControlledInput.call(this, {
-            propName: "description"
-            // multiline: true,
+            propName: "description",
+            multiline: false,
             // containerStyle: {
             //   height: 100,
             //   justifyContent: "flex-end"
@@ -80,8 +80,8 @@ class CreateStationView extends Component {
           {ControlledInput.call(this, {
             propName: "Amenities",
             placeholder:
-              "Amenities (this will have to be checkboxes or something)"
-            // multiline: true
+              "Amenities (this will have to be checkboxes or something)",
+            multiline: false
           })}
           <Button
             style={styles.button}
@@ -115,8 +115,8 @@ class CreateStationView extends Component {
           {ControlledInput.call(this, {
             propName: "hours",
             placeholder:
-              "Hours: if we want opening hours, it'll probably be its own screen since we need a line for every day"
-            // multiline: true
+              "Hours: if we want opening hours, it'll probably be its own screen since we need a line for every day",
+            multiline: false
           })}
         </View>
         <Divider style={styles.divider} />
