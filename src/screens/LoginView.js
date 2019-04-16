@@ -9,8 +9,8 @@ import {
 import { View, Text } from "react-native";
 import { DotIndicator } from "react-native-indicators";
 import { connect } from "react-redux";
-import { /* login, */ assignUser } from "../actions/authActions";
-import F8StyleSheet from "./F8StyleSheet";
+import { /* login, */ assignUser } from "../redux/actions/authActions";
+import F8StyleSheet from "../components/F8StyleSheet";
 
 class LoginView extends Component {
   state = {
@@ -58,7 +58,7 @@ class LoginView extends Component {
 
         <ThemeProvider theme={theme}>
           <Image
-            source={require("../assets/logos/BOLTLogoTransparent.png")}
+            source={require("../../assets/logos/BOLTLogoTransparent.png")}
             style={styles.image}
           />
           <Input

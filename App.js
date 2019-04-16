@@ -1,29 +1,17 @@
-// Components & Navigation
-import React, { Component } from "react";
+import React from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { AppLoading, Asset, Font, Icon } from "expo";
-import { createAppContainer, createSwitchNavigator } from "react-navigation";
-import MainTabNavigator from "./navigation/MainTabNavigator";
-
-// Redux
+import AppContainer from "./src/navigators/AppNavigator";
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
-import mainReducer from "./reducers/mainReducer";
-import authReducer from "./reducers/authReducer";
+import mainReducer from "./src/redux/reducers/mainReducer";
+import authReducer from "./src/redux/reducers/authReducer";
 import thunk from "redux-thunk";
-import AuthNavigator from "./navigation/AuthNavigator";
 
 const combinedReducer = combineReducers({ main: mainReducer, auth: authReducer });
 const store = createStore(combinedReducer, {}, applyMiddleware(thunk));
 
-const AppContainer = createAppContainer(
-  createSwitchNavigator({
-    Auth: AuthNavigator,
-    Main: MainTabNavigator,
-  })
-);
-
-export default class App extends Component {
+export default class App extends React.Component {
   state = {
     isLoadingComplete: false
   };
@@ -52,8 +40,8 @@ export default class App extends Component {
   _loadResourcesAsync = async () => {
     return Promise.all([
       Asset.loadAsync([
-        require("./assets/images/robot-dev.png"),
-        require("./assets/images/robot-prod.png")
+        // require("./assets/images/robot-dev.png"),
+        // require("./assets/images/robot-prod.png")      
       ]),
       Font.loadAsync({
         ...Icon.Ionicons.font
