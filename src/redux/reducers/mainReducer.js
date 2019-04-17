@@ -24,9 +24,8 @@ export default (mainReducer = (state = initialState, action) => {
         ...state.stations,
         [action.payload.id]: action.payload
       };
-      console.log("previous Stations:", state.stations);
-      console.log("newStations:", newStations);
-      
+      // console.log("previous Stations:", state.stations);
+      // console.log("newStations:", newStations);
       return { ...state, stations: newStations };
     case "UPDATE_STATION":
       // console.log("Reducer action:", action.type);

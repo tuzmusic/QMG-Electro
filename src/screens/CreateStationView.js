@@ -31,11 +31,11 @@ function ControlledInput(props) {
 
 class CreateStationView extends Component {
   initialState = {
-    title: "App Submitted Station",
+    title: "*** App Submitted Station ***",
     address: "88 N Spring St 03301",
-    description: "This station is awesome",
-    "(website)": "www.station.com",
-    "(tagline)": "The best!",
+    content: "This station is awesome",
+    website: "www.station.com",
+    tagline: "The best!",
     priceFrom: "100",
     priceTo: "200",
     openingTime: "9am",
@@ -80,10 +80,10 @@ class CreateStationView extends Component {
           </Text>
           {ControlledInput.call(this, { propName: "title" })}
           {ControlledInput.call(this, { propName: "address" })}
-          {ControlledInput.call(this, { propName: "(website)" })}
-          {ControlledInput.call(this, { propName: "(tagline)" })}
+          {ControlledInput.call(this, { propName: "website" })}
+          {ControlledInput.call(this, { propName: "tagline" })}
           {ControlledInput.call(this, {
-            propName: "description",
+            propName: "content",
             multiline: false
             // containerStyle: {
             //   height: 100,

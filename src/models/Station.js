@@ -28,14 +28,18 @@ export default class Station {
   static createFromForm(json) {
     return {
       // API-friendly
+      originalJSON: json,
       id: uuid.v1(), // ultimately this may need to be a string
       title: { rendered: json.title },
-      content: { rendered: json.description },
+      content: {
+        rendered: `<p>
+        ${json.content}
+      </p>`
+      },
       fields: {
         _job_location: json.address,
         _company_tagline: json.tagline,
-        _company_website: json["(website)"],
-        _company_tagline: json["(tagline)"]
+        _company_website: json.website
       },
       // job_listing_amenity: (array of amenity numbers),
       // featured_media: (media id)
