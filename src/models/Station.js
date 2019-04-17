@@ -1,3 +1,5 @@
+import uuid from "react-native-uuid";
+
 export default class Station {
   constructor(json) {
     // console.log("constructor for station", json.id);
@@ -24,25 +26,27 @@ export default class Station {
   }
 
   static createFromForm(json) {
-    let stn = {};
-    // API-friendly
-    stn.title.rendered = json.title;
-    stn.content.rendered = json.description;
-    stn.fields._job_location = json.address
-    stn.fields._company_tagline = json.tagline
-    stn.fields._company_website = json["(website)"]
-    stn.fields._company_tagline = json["(tagline)"]
+    return {
+      // API-friendly
+      id: uuid.v1(), // ultimately this may need to be a string
+      title: { rendered: json.title },
+      content: { rendered: json.description },
+      fields: {
+        _job_location: json.address,
+        _company_tagline: json.tagline,
+        _company_website: json["(website)"],
+        _company_tagline: json["(tagline)"]
+      },
+      // job_listing_amenity: (array of amenity numbers),
+      // featured_media: (media id)
 
-    // stn.job_listing_amenity = (array of amenity numbers)
-    // amenities: "60"
-
-    // API-absent
-    stn.closingTime = json.closingTime
-    stn.contactEmail = json.contactEmail
-    stn.contactPhone = json.contactPhone
-    stn.openingTime = json.openingTime
-    stn.priceFrom = json.priceFrom
-    stn.priceTo = json.priceTo
-    
+      // API-absent
+      closingTime: json.closingTime,
+      contactEmail: json.contactEmail,
+      contactPhone: json.contactPhone,
+      openingTime: json.openingTime,
+      priceFrom: json.priceFrom,
+      priceTo: json.priceTo
+    };
   }
 }

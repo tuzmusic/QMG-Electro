@@ -1,5 +1,5 @@
 const initialState = {
-  stations: [],
+  stations: [], // should be {}, but that doesn't work, for some buried reason. This isn't doing any harm.
   currentStationID: null,
   userInQuestion: null,
   isLoading: false,
@@ -19,8 +19,18 @@ export default (mainReducer = (state = initialState, action) => {
       return { ...state, currentStationID: action.payload };
     case "SET_USER_IN_QUESTION":
       return { ...state, userInQuestion: action.payload };
+    case "CREATE_STATION":
+      console.log("CREATE_STATION");
+      return {
+        ...state,
+        stations: { ...state.stations, [action.payload.id]: action.payload }
+      };
     case "UPDATE_STATION":
-      return { ...state, stations: { ...state.stations, [action.payload.id]: action.payload } };
+      // console.log("Reducer action:", action.type);
+      return {
+        ...state,
+        stations: { ...state.stations, [action.payload.id]: action.payload }
+      };
     default:
       return state;
   }

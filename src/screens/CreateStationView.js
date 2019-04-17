@@ -51,8 +51,13 @@ class CreateStationView extends Component {
     headerTitle: "New Station"
   });
 
+  componentDidMount() {
+    this.handleSubmit.call(this)
+  }
+  
+
   handleSubmit = clear => {
-    console.log(this.state);
+    console.log("State:", this.state);
     this.props.createStation(this.state);
     if (clear) this.setState(this.initialState);
   };
