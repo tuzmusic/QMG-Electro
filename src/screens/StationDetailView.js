@@ -103,8 +103,8 @@ class StationDetailView extends Component {
           </TouchableOpacity>
 
           <StationWebsite station={station} />
-
-          <HTML style={text.content} html={station.content} />
+          <CellTextRow style={[text.content, {paddingTop:20}]}>{station.content.replace("<p>", "").replace("</p>", "")}</CellTextRow>
+          {/* <HTML style={text.content} html={station.content} /> */}
         </ScrollView>
       </View>
     );
@@ -121,7 +121,7 @@ export default connect(
   { getImageForStation }
 )(StationDetailView);
 
-const baseSize = 16;
+const baseSize = 17;
 const text = F8StyleSheet.create({
   title: {
     fontWeight: "bold",
