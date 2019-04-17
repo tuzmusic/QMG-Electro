@@ -31,7 +31,7 @@ function ControlledInput(props) {
 
 class CreateStationView extends Component {
   initialState = {
-    title: "Cool Station",
+    title: "App Submitted Station",
     address: "88 N Spring St 03301",
     description: "This station is awesome",
     "(website)": "www.station.com",
@@ -52,12 +52,10 @@ class CreateStationView extends Component {
   });
 
   componentDidMount() {
-    this.handleSubmit.call(this)
+    // this.handleSubmit.call(this);
   }
-  
 
   handleSubmit = clear => {
-    console.log("State:", this.state);
     this.props.createStation(this.state);
     if (clear) this.setState(this.initialState);
   };
@@ -67,6 +65,12 @@ class CreateStationView extends Component {
     return (
       <KeyboardAwareScrollView>
         <View style={styles.textContainer}>
+          <Button
+            title="Submit"
+            style={styles.button}
+            onPress={this.handleSubmit.bind(this)}
+          />
+
           <Text style={text.title}>API-Friendly:</Text>
           <Text style={text.body}>
             {"NOTE: These fields are "}
@@ -115,13 +119,13 @@ class CreateStationView extends Component {
               propName: "priceFrom",
               containerStyle: styles.rowElement,
               keyboardType: "numeric",
-              textAlign: 'center'
+              textAlign: "center"
             })}
             {ControlledInput.call(this, {
               propName: "priceTo",
               containerStyle: styles.rowElement,
               keyboardType: "numeric",
-              textAlign: 'center'
+              textAlign: "center"
             })}
           </View>
           {ControlledInput.call(this, {
@@ -136,12 +140,12 @@ class CreateStationView extends Component {
             {ControlledInput.call(this, {
               propName: "openingTime",
               containerStyle: styles.rowElement,
-              textAlign: 'center'
+              textAlign: "center"
             })}
             {ControlledInput.call(this, {
               propName: "closingTime",
               containerStyle: styles.rowElement,
-              textAlign: 'center'
+              textAlign: "center"
             })}
           </View>
           <Text style={text.note}>
@@ -169,7 +173,9 @@ class CreateStationView extends Component {
 }
 
 export default connect(
-  null,
+  state => ({
+    stations: state.main.stations
+  }),
   { createStation }
 )(CreateStationView);
 

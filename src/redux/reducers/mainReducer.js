@@ -20,11 +20,14 @@ export default (mainReducer = (state = initialState, action) => {
     case "SET_USER_IN_QUESTION":
       return { ...state, userInQuestion: action.payload };
     case "CREATE_STATION":
-      console.log("CREATE_STATION");
-      return {
-        ...state,
-        stations: { ...state.stations, [action.payload.id]: action.payload }
+      const newStations = {
+        ...state.stations,
+        [action.payload.id]: action.payload
       };
+      console.log("previous Stations:", state.stations);
+      console.log("newStations:", newStations);
+      
+      return { ...state, stations: newStations };
     case "UPDATE_STATION":
       // console.log("Reducer action:", action.type);
       return {
