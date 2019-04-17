@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Platform
 } from "react-native";
+import { BLText } from "../components/BoltStyles";
 import { Image } from "react-native-elements";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
@@ -15,9 +16,9 @@ import { MaterialIndicator } from "react-native-indicators";
 import HTML from "react-native-render-html";
 
 const CellTextRow = props => (
-  <Text style={[{ padding: 2, textAlign: "left" }, props.style]}>
+  <BLText style={[{ padding: 2, textAlign: "left" }, props.style]}>
     {props.children}
-  </Text>
+  </BLText>
 );
 
 const Spinner = <MaterialIndicator color={"blue"} />;
@@ -61,7 +62,7 @@ const StationImage = ({ station }) => {
   } else {
     return (
       <View style={[styles.centered, styles.image]}>
-        <Text>No Image Provided</Text>
+        <BLText>No Image Provided</BLText>
       </View>
     );
   }
@@ -102,7 +103,7 @@ class StationDetailView extends Component {
           </TouchableOpacity>
 
           <StationWebsite station={station} />
-          
+
           <HTML style={text.content} html={station.content} />
         </ScrollView>
       </View>
