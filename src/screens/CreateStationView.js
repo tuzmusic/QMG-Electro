@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
+import { BLText } from '../components/BoltStyles'
 import { Input, Button, Divider } from "react-native-elements";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import { connect } from "react-redux";
@@ -68,13 +69,13 @@ class CreateStationView extends Component {
     return (
       <KeyboardAwareScrollView>
         <View style={styles.textContainer}>
-          <Text style={text.title}>API-Friendly:</Text>
-          <Text style={text.body}>
+          <BLText style={text.title}>API-Friendly:</BLText>
+          <BLText style={text.body}>
             {"NOTE: These fields are "}
-            <Text style={{ fontStyle: "italic" }}>returned</Text> by the API but
+            <BLText style={{ fontStyle: "italic" }}>returned</BLText> by the API but
             it's unconfirmed whether we can post to these fields. (We can't post
             anything yet anyway, period!)
-          </Text>
+          </BLText>
           {ControlledInput.call(this, { propName: "title" })}
           {ControlledInput.call(this, { propName: "address" })}
           {ControlledInput.call(this, { propName: "website" })}
@@ -90,17 +91,17 @@ class CreateStationView extends Component {
         </View>
         <Divider style={styles.divider} />
         <View style={styles.textContainer}>
-          <Text style={text.title}>
+          <BLText style={text.title}>
             API-Friendly, but Complicated, and not implemented yet:
-          </Text>
+          </BLText>
           {ControlledInput.call(this, {
             propName: "amenities",
             multiline: false,
             keyboardType: "number-pad"
           })}
-          <Text style={text.note}>
+          <BLText style={text.note}>
             (this will have to be checkboxes or something)
-          </Text>
+          </BLText>
 
           <Button
             style={styles.button}
@@ -110,7 +111,7 @@ class CreateStationView extends Component {
         </View>
         <Divider style={styles.divider} />
         <View style={styles.textContainer}>
-          <Text style={text.title}>API-Absent:</Text>
+          <BLText style={text.title}>API-Absent:</BLText>
           <View style={styles.rowContainer}>
             {ControlledInput.call(this, {
               propName: "priceFrom",
@@ -145,10 +146,10 @@ class CreateStationView extends Component {
               textAlign: "center"
             })}
           </View>
-          <Text style={text.note}>
+          <BLText style={text.note}>
             if we want opening hours, it'll probably be its own screen since we
             need a line for every day
-          </Text>
+          </BLText>
         </View>
         <Divider style={styles.divider} />
 
