@@ -1,5 +1,5 @@
 const initialState = {
-  stations: [], // should be {}, but that doesn't work, for some buried reason. This isn't doing any harm.
+  stations: [], // should be {}, but that doesn't work currently, for some buried reason. This isn't doing any harm.
   currentStationID: null,
   userInQuestion: null,
   isLoading: false,
@@ -28,7 +28,6 @@ export default (mainReducer = (state = initialState, action) => {
       // console.log("newStations:", newStations);
       return { ...state, stations: newStations };
     case "UPDATE_STATION":
-      // console.log("Reducer action:", action.type);
       return {
         ...state,
         stations: { ...state.stations, [action.payload.id]: action.payload }

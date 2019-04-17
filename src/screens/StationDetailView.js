@@ -75,7 +75,6 @@ class StationDetailView extends Component {
   };
 
   async componentDidMount() {
-    console.log("station", station.title, "mounted");
     if (!this.props.station.imageURL) {
       try {
         await this.props.getImageForStation(this.props.station);
@@ -87,8 +86,6 @@ class StationDetailView extends Component {
 
   render() {
     station = this.props.station;
-    console.log("rendering station", station.title);
-
     return (
       <View style={[styles.container]}>
         <View style={styles.imageContainer}>

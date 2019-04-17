@@ -32,9 +32,8 @@ export default class Station {
       id: uuid.v1(), // ultimately this may need to be a string
       title: { rendered: json.title },
       content: {
-        rendered: `<p>
-        ${json.content}
-      </p>`
+        rendered: json.content,
+        rendered: `<p>${json.content}</p>`
       },
       fields: {
         _job_location: json.address,
