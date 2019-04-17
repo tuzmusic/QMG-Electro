@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { BLText } from "../components/StyledComponents";
 import {
   ScrollView,
   Text,

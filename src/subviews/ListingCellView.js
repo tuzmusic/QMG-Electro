@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { BLText } from '../components/StyledComponents'
 import { Text, View, TouchableOpacity } from "react-native";
 import { Image } from "react-native-elements";
 import F8StyleSheet from "../components/F8StyleSheet";
