@@ -4,6 +4,7 @@ import { Input, Button, Divider } from "react-native-elements";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import { connect } from "react-redux";
 import { createStation } from "../redux/actions/writeActions";
+import { setCurrentStationID } from "../redux/actions/readActions";
 import Sugar from "sugar";
 Sugar.extend();
 
@@ -56,8 +57,9 @@ class CreateStationView extends Component {
   }
 
   handleSubmit = clear => {
-    this.props.createStation(this.state);
-    if (clear) this.setState(this.initialState);
+    const station = this.props.createStation(this.state);
+    this.props.setCurrentStationID(station.id);
+    this.props.navigation.navigate("List");
   };
 
   render() {
@@ -176,7 +178,7 @@ export default connect(
   state => ({
     stations: state.main.stations
   }),
-  { createStation }
+  { createStation, setCurrentStationID }
 )(CreateStationView);
 
 const text = {

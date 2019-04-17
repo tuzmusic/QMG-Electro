@@ -11,5 +11,6 @@ export function createStation(formData) {
     // and dispatch that station object inside the fetch's "then"
 
     dispatch({ type: "CREATE_STATION", payload: station });
+    return station
   };
 }

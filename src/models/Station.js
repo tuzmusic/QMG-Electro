@@ -2,7 +2,6 @@ import uuid from "react-native-uuid";
 
 export default class Station {
   constructor(json) {
-    // console.log("constructor for station", json.id);
     this.originalJSON = json;
     this.id = json.id;
     this.listingURL = json.link;
@@ -32,7 +31,6 @@ export default class Station {
       id: uuid.v1(), // ultimately this may need to be a string
       title: { rendered: json.title },
       content: {
-        rendered: json.content,
         rendered: `<p>${json.content}</p>`
       },
       fields: {
