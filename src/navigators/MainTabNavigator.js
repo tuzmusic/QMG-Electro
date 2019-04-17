@@ -13,7 +13,7 @@ import StationDetailScreen from "../screens/StationDetailView";
 import UserDetailScreen from "../screens/UserDetailView";
 import CreateScreen from "../screens/CreateStationView";
 
-import { fetchStations } from "../redux/actions/mainActions";
+import { fetchStations } from "../redux/actions/readActions";
 
 const ListStack = createStackNavigator({
   List: MapResultsScreen,

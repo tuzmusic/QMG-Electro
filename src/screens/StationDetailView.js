@@ -10,7 +10,7 @@ import {
 import { Image } from "react-native-elements";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
-import { getImageForStation } from "../redux/actions/mainActions";
+import { getImageForStation } from "../redux/actions/readActions";
 import { MaterialIndicator } from "react-native-indicators";
 import HTML from "react-native-render-html";
 
