@@ -68,12 +68,6 @@ class CreateStationView extends Component {
     return (
       <KeyboardAwareScrollView>
         <View style={styles.textContainer}>
-          <Button
-            title="Submit"
-            style={styles.button}
-            onPress={this.handleSubmit.bind(this)}
-          />
-
           <Text style={text.title}>API-Friendly:</Text>
           <Text style={text.body}>
             {"NOTE: These fields are "}
