@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Text, View, ScrollView, KeyboardAvoidingView } from "react-native";
+import { Text, View } from "react-native";
 import { Input, Button, Divider } from "react-native-elements";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import { connect } from "react-redux";
+import { createStation } from "../redux/actions/writeActions";
 import Sugar from "sugar";
 Sugar.extend();
 
@@ -20,6 +21,7 @@ function ControlledInput(props) {
           })
         }
         keyboardType={props.keyboardType}
+        textAlign={props.textAlign}
         multiline={props.multiline}
         numberOfLines={5} // android only, eh?
       />
@@ -29,12 +31,18 @@ function ControlledInput(props) {
 
 class CreateStationView extends Component {
   initialState = {
-    name: "",
-    description: "",
-    "(website)": "",
-    "(tagline)": "",
-    priceFrom: "",
-    priceTo: ""
+    title: "Cool Station",
+    address: "88 N Spring St 03301",
+    description: "This station is awesome",
+    "(website)": "www.station.com",
+    "(tagline)": "The best!",
+    priceFrom: "100",
+    priceTo: "200",
+    openingTime: "9am",
+    closingTime: "10pm",
+    contactEmail: "me@place.com",
+    contactPhone: "444-333-1111",
+    amenities: "60"
   };
 
   state = this.initialState;
@@ -45,6 +53,7 @@ class CreateStationView extends Component {
 
   handleSubmit = clear => {
     console.log(this.state);
+    this.props.createStation(this.state);
     if (clear) this.setState(this.initialState);
   };
 
@@ -55,7 +64,7 @@ class CreateStationView extends Component {
         <View style={styles.textContainer}>
           <Text style={text.title}>API-Friendly:</Text>
           <Text style={text.body}>
-            NOTE: These fields are{" "}
+            {"NOTE: These fields are "}
             <Text style={{ fontStyle: "italic" }}>returned</Text> by the API but
             it's unconfirmed whether we can post to these fields. (We can't post
             anything yet anyway, period!)
@@ -79,8 +88,7 @@ class CreateStationView extends Component {
             API-Friendly, but Complicated, and not implemented yet:
           </Text>
           {ControlledInput.call(this, {
-            propName: "Amenities",
-            placeholder: "Amenities",
+            propName: "amenities",
             multiline: false,
             keyboardType: "number-pad"
           })}
@@ -101,12 +109,14 @@ class CreateStationView extends Component {
             {ControlledInput.call(this, {
               propName: "priceFrom",
               containerStyle: styles.rowElement,
-              keyboardType: "numeric"
+              keyboardType: "numeric",
+              textAlign: 'center'
             })}
             {ControlledInput.call(this, {
               propName: "priceTo",
               containerStyle: styles.rowElement,
-              keyboardType: "numeric"
+              keyboardType: "numeric",
+              textAlign: 'center'
             })}
           </View>
           {ControlledInput.call(this, {
@@ -120,11 +130,13 @@ class CreateStationView extends Component {
           <View style={styles.rowContainer}>
             {ControlledInput.call(this, {
               propName: "openingTime",
-              containerStyle: styles.rowElement
+              containerStyle: styles.rowElement,
+              textAlign: 'center'
             })}
             {ControlledInput.call(this, {
               propName: "closingTime",
-              containerStyle: styles.rowElement
+              containerStyle: styles.rowElement,
+              textAlign: 'center'
             })}
           </View>
           <Text style={text.note}>
@@ -151,7 +163,10 @@ class CreateStationView extends Component {
   }
 }
 
-export default connect()(CreateStationView);
+export default connect(
+  null,
+  { createStation }
+)(CreateStationView);
 
 const text = {
   title: {
