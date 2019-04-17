@@ -21,7 +21,7 @@ export default class App extends React.Component {
   };
 
   componentDidMount = () => {
-    GlobalFont.applyGlobal('Avenir')
+    GlobalFont.applyGlobal('Baskerville')
   };
 
   render() {

@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
-import { BLText } from "../components/BoltStyles";
 import { Image } from "react-native-elements";
 import F8StyleSheet from "../components/F8StyleSheet";
 import HTML from "react-native-render-html";
 
 const CellTextRow = props => (
-  <BLText style={[{ padding: 1 }, props.style]}>{props.children}</BLText>
+  <Text style={[{ padding: 1 }, props.style]}>{props.children}</Text>
 );
 
 export default class ListingCellView extends Component {
