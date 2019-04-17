@@ -163,11 +163,6 @@ class CreateStationView extends Component {
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
           />
-          <Button
-            title="Submit & Clear"
-            style={styles.button}
-            onPress={this.handleSubmit.bind(this, true)}
-          />
         </View>
       </KeyboardAwareScrollView>
     );
