@@ -81,7 +81,8 @@ class CreateStationView extends Component {
           {ControlledInput.call(this, {
             propName: "Amenities",
             placeholder: "Amenities",
-            multiline: false
+            multiline: false,
+            keyboardType: "number-pad"
           })}
           <Text style={text.note}>
             (this will have to be checkboxes or something)
@@ -116,11 +117,16 @@ class CreateStationView extends Component {
             propName: "contactPhone",
             keyboardType: "phone-pad"
           })}
-          {ControlledInput.call(this, {
-            propName: "hours",
-            placeholder: "Hours",
-            multiline: false
-          })}
+          <View style={styles.rowContainer}>
+            {ControlledInput.call(this, {
+              propName: "openingTime",
+              containerStyle: styles.rowElement
+            })}
+            {ControlledInput.call(this, {
+              propName: "closingTime",
+              containerStyle: styles.rowElement
+            })}
+          </View>
           <Text style={text.note}>
             if we want opening hours, it'll probably be its own screen since we
             need a line for every day
@@ -128,7 +134,7 @@ class CreateStationView extends Component {
         </View>
         <Divider style={styles.divider} />
 
-        <View style={[styles.textContainer, {paddingTop: 0}]}>
+        <View style={[styles.textContainer, { paddingTop: 0 }]}>
           <Button
             title="Submit"
             style={styles.button}
