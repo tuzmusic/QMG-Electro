@@ -39,5 +39,10 @@
     "jsdom": "^14.0.0",
     "react-test-renderer": "^16.8.6"
   },
-  "private": true
+  "private": true,
+  "rnpm": {
+    "assets": [
+      "./assets/fonts"
+    ]
+  }
 }

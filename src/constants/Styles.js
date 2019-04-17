@@ -1,3 +1,4 @@
 export default {
-  font: 'Avenir'
-}
+  font: "Avenir",
+  font: "din1451alt"
+};

@@ -53,7 +53,8 @@ export default class App extends React.Component {
         // require("./assets/images/robot-prod.png")
       ]),
       Font.loadAsync({
-        ...Icon.Ionicons.font
+        'din1451alt': require("./assets/fonts/din1451alt.ttf"),
+        ...Icon.Ionicons.font,
       })
     ]);
   };
