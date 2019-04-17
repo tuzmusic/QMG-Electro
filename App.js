@@ -8,6 +8,7 @@ import mainReducer from "./src/redux/reducers/mainReducer";
 import authReducer from "./src/redux/reducers/authReducer";
 import thunk from "redux-thunk";
 import GlobalFont from "react-native-global-font";
+import AppStyles from './src/constants/Styles'
 
 const combinedReducer = combineReducers({
   main: mainReducer,
@@ -21,7 +22,7 @@ export default class App extends React.Component {
   };
 
   componentDidMount = () => {
-    GlobalFont.applyGlobal('Baskerville')
+    GlobalFont.applyGlobal(AppStyles.font)
   };
 
   render() {
