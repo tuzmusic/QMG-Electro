@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BLText } from '../components/StyledComponents'
+import { BLText } from "../components/StyledComponents";
 import { Text, View, TouchableOpacity } from "react-native";
 import { Image } from "react-native-elements";
 import F8StyleSheet from "../components/F8StyleSheet";
@@ -20,7 +20,9 @@ export default class ListingCellView extends Component {
           <CellTextRow style={text.name}>
             {this.props.station.title}
           </CellTextRow>
-          <CellTextRow>{this.props.station.address}</CellTextRow>
+          <CellTextRow style={text.address}>
+            {this.props.station.address}
+          </CellTextRow>
         </TouchableOpacity>
       </View>
     );
@@ -30,7 +32,10 @@ export default class ListingCellView extends Component {
 const text = F8StyleSheet.create({
   name: {
     fontWeight: "bold",
-    fontSize: 18
+    fontSize: 20
+  },
+  address: {
+    fontSize: 16
   },
   caption: {
     textAlign: "center"

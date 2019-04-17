@@ -4,7 +4,7 @@ import { View, Text } from "react-native";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 
-import StationCellView from "../subviews/StationCellView";
+import ListingCellView from "../subviews/ListingCellView";
 
 class MapScreen extends Component {
   static navigationOptions = {
@@ -56,7 +56,7 @@ class MapScreen extends Component {
           }
         >
           <MapView.Callout>
-            <StationCellView
+            <ListingCellView
               station={station}
               // onPress={() =>
               //   this.props.navigation.navigate("StationDetail", { station })
