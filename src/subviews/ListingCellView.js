@@ -5,7 +5,7 @@ import F8StyleSheet from "../components/F8StyleSheet";
 import HTML from "react-native-render-html";
 
 const CellTextRow = props => (
-  <Text style={[{ padding: 1 }, props.style]}>{props.children}</Text>
+  <BLText style={[{ padding: 1 }, props.style]}>{props.children}</BLText>
 );
 
 export default class ListingCellView extends Component {

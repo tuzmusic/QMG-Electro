@@ -15,9 +15,9 @@ import { MaterialIndicator } from "react-native-indicators";
 import HTML from "react-native-render-html";
 
 const CellTextRow = props => (
-  <Text style={[{ padding: 2, textAlign: "left" }, props.style]}>
+  <BLText style={[{ padding: 2, textAlign: "left" }, props.style]}>
     {props.children}
-  </Text>
+  </BLText>
 );
 
 const Spinner = <MaterialIndicator color={"blue"} />;
@@ -61,7 +61,7 @@ const StationImage = ({ station }) => {
   } else {
     return (
       <View style={[styles.centered, styles.image]}>
-        <Text>No Image Provided</Text>
+        <BLText>No Image Provided</BLText>
       </View>
     );
   }
