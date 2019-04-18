@@ -1,33 +1,41 @@
 import uuid from "react-native-uuid";
 
+String.prototype.stripHtmlTags = () => {
+  const div = document.createElement("div");
+  div.innerHTML = this;
+  return div.texContent || div.innerText || "";
+};
+
 export default class Station {
   constructor(json) {
-    function p(propName) {
-      console.log(propName);
-      return json.listing_props[`_${propName}`][0]
+    function p(propName, prefix = "_") {
+      if ((valueArray = json.listing_props[`${prefix}${propName}`]))
+        return valueArray[0];
     }
-    // base fields
+
+
     this.originalJSON = json;
     this.id = json.id;
     this.listingURL = json.link;
     if (json.listing_props) {
-      this.title = p("job_title")
-      this.content = p("job_description")
-      this.contactEmail = p("company_email")
-      this.contactPhone = p("company_phone")
-      this.address = p("job_location")
-      // this.title = p._job_title[0];
-      // this.content = p._job_description[0];
-      // this.contactEmail = p._company_email[0];
-      // this.contactPhone = p._company_phone[0];
-      // this.address = p._job_location[0];
+      this.title =
+        p("job_title") ||
+        json.title.rendered ||
+        console.warn("no title for station", json.id);
+      this.content =
+        p("job_description") ||
+        json.content.rendered ||
+        console.warn("no description for station", json.id);
+      this.contactEmail = p("company_email");
+      this.contactPhone = p("company_phone");
+      this.address = p("job_location");
       this.location = {
-        latitude: p.geolocation_lat[0],
-        longitude: p.geolocation_long[0]
+        latitude: p("geolocation_lat", ""),
+        longitude: p("geolocation_long", "")
       };
-      this.priceFrom = p._company_price_from[0];
-      this.priceTo = p._company_price_to[0];
-      this.website = p._company_website[0];
+      this.priceFrom = p("company_price_from");
+      this.priceTo = p("company_price_to");
+      this.website = p("company_website");
       if (this.website && !this.website.startsWith("http"))
         this.website = "http://" + this.website;
     }
