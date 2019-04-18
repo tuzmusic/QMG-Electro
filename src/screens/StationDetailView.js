@@ -22,7 +22,15 @@ const CellTextRow = props => (
 const Spinner = <MaterialIndicator color={"blue"} />;
 
 function openURL(url) {
-  Linking.openURL(url).catch(err => console.error("An error occurred", err));
+  Linking.canOpenURL(url)
+    .then(supported => {
+      if (!supported) {
+        console.log("Can't handle url: " + url);
+      } else {
+        return Linking.openURL(url);
+      }
+    })
+    .catch(err => console.error("An error occurred", err));
 }
 
 function openMap(address) {
@@ -82,6 +90,8 @@ class StationDetailView extends Component {
   };
 
   async componentDidMount() {
+    console.log(this.props.station);
+
     if (!this.props.station.imageURL) {
       try {
         await this.props.getImageForStation(this.props.station);
@@ -117,13 +127,18 @@ class StationDetailView extends Component {
               {/* Email */}
               <ContactIcon
                 icon={{ name: "email-outline", type: "material-community" }}
-                onPress={() => console.log("pressed")}
+                onPress={() => openURL(`mailto:${station.contactEmail}`)}
               />
               {/* Phone */}
               <ContactIcon icon={{ name: "phone", type: "feather" }} />
             </View>
           </View>
-
+          <CellTextRow style={[text.address]}>
+            {station.contactEmail}
+          </CellTextRow>
+          <CellTextRow style={[text.address]}>
+            {station.contactPhone}
+          </CellTextRow>
           {/* Price */}
 
           {/* Description */}
