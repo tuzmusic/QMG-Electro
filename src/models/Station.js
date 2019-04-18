@@ -13,7 +13,6 @@ export default class Station {
         return valueArray[0];
     }
 
-
     this.originalJSON = json;
     this.id = json.id;
     this.listingURL = json.link;
@@ -49,28 +48,23 @@ export default class Station {
 
   static createFromForm(json) {
     return {
-      // API-friendly
       originalJSON: json,
       id: uuid.v1(), // ultimately this may need to be a string
-      title: { rendered: json.title },
-      content: {
-        rendered: `<p>${json.content}</p>`
-      },
-      fields: {
+      listing_props: {
+        _job_title: json.title,
+        _job_description: json.content,
         _job_location: json.address,
         _company_tagline: json.tagline,
+        _company_website: json.website,
+        _company_email: json.contactEmail,
+        _company_phone: json.contactPhone,
+        _job_location: json.address,
+        _company_price_from: json.priceFrom,
+        _company_price_to: json.priceTo,
         _company_website: json.website
       },
       // job_listing_amenity: (array of amenity numbers),
       // featured_media: (media id)
-
-      // API-absent
-      closingTime: json.closingTime,
-      contactEmail: json.contactEmail,
-      contactPhone: json.contactPhone,
-      openingTime: json.openingTime,
-      priceFrom: json.priceFrom,
-      priceTo: json.priceTo
     };
   }
 }

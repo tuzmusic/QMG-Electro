@@ -21,12 +21,14 @@ const CellTextRow = props => (
 
 const Spinner = <MaterialIndicator color={"blue"} />;
 
+function openURL(url) {
+  Linking.openURL(url).catch(err => console.error("An error occurred", err));
+}
+
 function openMap(address) {
   let baseURL = "https://www.google.com/maps/search/?api=1&query=";
   // if (Platform.OS === 'ios') baseURL = "http://maps.apple.com/?q="
-  Linking.openURL(baseURL + address).catch(err =>
-    console.error("An error occurred", err)
-  );
+  openURL(baseURL + address);
 }
 
 const StationWebsite = ({ station }) => {
@@ -58,6 +60,18 @@ const StationImage = ({ station }) => {
       </View>
     );
   }
+};
+
+const ContactIcon = props => {
+  return (
+    <Avatar
+      rounded
+      size="medium"
+      activeOpacity={0.5}
+      icon={props.icon}
+      onPress={props.onPress}
+    />
+  );
 };
 
 class StationDetailView extends Component {
@@ -101,12 +115,12 @@ class StationDetailView extends Component {
             </View>
             <View style={[styles.iconCell]}>
               {/* Email */}
-              <Avatar
-                rounded
+              <ContactIcon
                 icon={{ name: "email-outline", type: "material-community" }}
+                onPress={() => console.log("pressed")}
               />
               {/* Phone */}
-              <Avatar rounded icon={{ name: "phone", type: "feather" }} />
+              <ContactIcon icon={{ name: "phone", type: "feather" }} />
             </View>
           </View>
 
@@ -155,17 +169,18 @@ const text = F8StyleSheet.create({
 
 const styles = F8StyleSheet.create({
   infoCell: {
-    flex: 2,
+    flex: 2
   },
   iconCell: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
+    paddingRight: 10
   },
   rowContainer: {
     flex: 1,
     flexDirection: "row",
-    alignItems: 'center',
+    alignItems: "center"
   },
   imageContainer: {
     backgroundColor: "lightgrey"
