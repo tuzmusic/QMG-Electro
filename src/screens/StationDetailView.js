@@ -82,9 +82,24 @@ const ContactIcon = props => {
   );
 };
 
-const ContactInfo = ({station}) => {
-
-}
+const ContactInfo = ({ station }) => {
+ return <View style={[styles.iconCell]}>
+    {/* Email */}
+    {station.contactEmail ? (
+      <ContactIcon
+        icon={{ name: "email-outline", type: "material-community" }}
+        onPress={() => openURL(`mailto:${station.contactEmail}`)}
+      />
+    ) : null}
+    {/* Phone */}
+    {station.contactPhone ? (
+      <ContactIcon
+        icon={{ name: "phone", type: "feather" }}
+        onPress={() => openURL(`tel:${station.contactPhone}`)}
+      />
+    ) : null}
+  </View>;
+};
 
 class StationDetailView extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -127,22 +142,7 @@ class StationDetailView extends Component {
               {/* Website */}
               <StationWebsite station={station} />
             </View>
-            <View style={[styles.iconCell]}>
-              {/* Email */}
-              {station.contactEmail ? (
-                <ContactIcon
-                  icon={{ name: "email-outline", type: "material-community" }}
-                  onPress={() => openURL(`mailto:${station.contactEmail}`)}
-                />
-              ) : null}
-              {/* Phone */}
-              {station.contactPhone ? (
-                <ContactIcon
-                  icon={{ name: "phone", type: "feather" }}
-                  onPress={() => openURL(`tel:${station.contactPhone}`)}
-                />
-              ) : null}
-            </View>
+            <ContactInfo station={station} />
           </View>
           <CellTextRow style={[text.address]}>
             {station.contactEmail}
