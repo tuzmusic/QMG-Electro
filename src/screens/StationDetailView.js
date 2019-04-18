@@ -78,6 +78,7 @@ const ContactIcon = props => {
       activeOpacity={0.5}
       icon={props.icon}
       onPress={props.onPress}
+      containerStyle={styles.icon}
     />
   );
 };
@@ -200,8 +201,12 @@ const styles = F8StyleSheet.create({
   iconCell: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     paddingRight: 10
+  },
+  icon: {
+    marginLeft:10,
+    marginRight: 10
   },
   rowContainer: {
     flex: 1,
