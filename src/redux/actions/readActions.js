@@ -10,13 +10,18 @@ function updateStation(dispatch, station, key, value) {
   dispatch({ type: "UPDATE_STATION", payload: { ...station, [key]: value } });
 }
 
+function stationsFromHashes(json) {
+  let stations = {};
+  json.forEach(hash => (stations[hash.id] = new Station(hash)));
+  return stations;
+}
+
 function downloadStations(dispatch, attempt = 0) {
   console.log("Downloading stations");
   fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
     .then(res => res.json())
     .then(async json => {
-      let stations = {};
-      json.forEach(hash => (stations[hash.id] = new Station(hash)));
+      const stations = stationsFromHashes(json)
       await getImagesForAllStations(dispatch, stations);
       save(stations);
       dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
