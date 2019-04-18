@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
-import {BLText} from '../components/StyledComponents'
+import { BLText } from "../components/StyledComponents";
 import { Input, Button, Divider } from "react-native-elements";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import { connect } from "react-redux";
@@ -8,12 +8,13 @@ import { createStation } from "../redux/actions/writeActions";
 import { setCurrentStationID } from "../redux/actions/readActions";
 import Sugar from "sugar";
 Sugar.extend();
+import AppStyles from "../constants/Styles";
 
 function ControlledInput(props) {
   return (
     <View style={[styles.inputContainer, props.containerStyle]}>
       <Input
-        style={props.inputStyle}
+        style={[{fontFamily: AppStyles.font},props.inputStyle, styles.input]}
         placeholder={props.placeholder || props.propName.titleize()}
         value={this.state[props.propName]}
         onChangeText={
@@ -72,9 +73,9 @@ class CreateStationView extends Component {
           <BLText style={text.title}>API-Friendly:</BLText>
           <BLText style={text.body}>
             {"NOTE: These fields are "}
-            <BLText style={{ fontStyle: "italic" }}>returned</BLText> by the API but
-            it's unconfirmed whether we can post to these fields. (We can't post
-            anything yet anyway, period!)
+            <BLText style={{ fontStyle: "italic" }}>returned</BLText> by the API
+            but it's unconfirmed whether we can post to these fields. (We can't
+            post anything yet anyway, period!)
           </BLText>
           {ControlledInput.call(this, { propName: "title" })}
           {ControlledInput.call(this, { propName: "address" })}
@@ -186,6 +187,9 @@ const text = {
 };
 
 const styles = {
+  input: {
+    fontFamily: AppStyles.font
+  },
   rowElement: {
     width: 150
   },
