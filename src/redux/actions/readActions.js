@@ -2,8 +2,8 @@ import { AsyncStorage } from "react-native";
 import Station from "../../models/Station";
 
 function save(json) {
-  const storage = { stations: json, fetchedDate: new Date() };
-  AsyncStorage.setItem("bolt_fetched_stations", JSON.stringify(storage));
+  const data = { stations: json, fetchedDate: new Date() };
+  AsyncStorage.setItem("bolt_fetched_stations", JSON.stringify(data));
 }
 
 function updateStation(dispatch, station, key, value) {
@@ -11,7 +11,6 @@ function updateStation(dispatch, station, key, value) {
 }
 
 function stationsFromHashes(json) {
-  console.log(json);
   let stations = {};
   json.forEach(hash => (stations[hash.id] = new Station(hash)));
   return stations;

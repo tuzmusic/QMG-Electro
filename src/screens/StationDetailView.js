@@ -2,18 +2,16 @@ import React, { Component } from "react";
 import { BLText } from "../components/StyledComponents";
 import {
   ScrollView,
-  Text,
   View,
   Linking,
   TouchableOpacity,
   Platform
 } from "react-native";
-import { Image } from "react-native-elements";
+import { Image, Avatar } from "react-native-elements";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 import { getImageForStation } from "../redux/actions/readActions";
 import { MaterialIndicator } from "react-native-indicators";
-import HTML from "react-native-render-html";
 
 const CellTextRow = props => (
   <BLText style={[{ padding: 2, textAlign: "left" }, props.style]}>
@@ -34,13 +32,7 @@ function openMap(address) {
 const StationWebsite = ({ station }) => {
   if (station.website) {
     return (
-      <TouchableOpacity
-        onPress={() => {
-          Linking.openURL(station.website).catch(err =>
-            console.error("An error occurred", err)
-          );
-        }}
-      >
+      <TouchableOpacity onPress={() => Linking.openURL(station.website)}>
         <CellTextRow style={[text.address, text.link]}>
           {station.website}
         </CellTextRow>
@@ -88,25 +80,44 @@ class StationDetailView extends Component {
   render() {
     station = this.props.station;
     return (
-      <View style={[styles.container]}>
+      <ScrollView>
         <View style={styles.imageContainer}>
           <StationImage station={station} />
         </View>
 
-        <ScrollView contentContainerStyle={styles.textContainer}>
-          <CellTextRow style={text.title}>{station.title}</CellTextRow>
+        <View style={styles.textContainer}>
+          <View style={[styles.rowContainer]}>
+            <View style={[styles.infoCell]}>
+              {/* Title */}
+              <CellTextRow style={text.title}>{station.title}</CellTextRow>
+              {/* Address */}
+              <TouchableOpacity onPress={openMap.bind(null, station.address)}>
+                <CellTextRow style={[text.address, text.link]}>
+                  {station.address}
+                </CellTextRow>
+              </TouchableOpacity>
+              {/* Website */}
+              <StationWebsite station={station} />
+            </View>
+            <View style={[styles.iconCell]}>
+              {/* Email */}
+              <Avatar
+                rounded
+                icon={{ name: "email-outline", type: "material-community" }}
+              />
+              {/* Phone */}
+              <Avatar rounded icon={{ name: "phone", type: "feather" }} />
+            </View>
+          </View>
 
-          <TouchableOpacity onPress={openMap.bind(null, station.address)}>
-            <CellTextRow style={[text.address, text.link]}>
-              {station.address}
-            </CellTextRow>
-          </TouchableOpacity>
+          {/* Price */}
 
-          <StationWebsite station={station} />
-          <CellTextRow style={[text.content, {paddingTop:20}]}>{station.content.replace("<p>", "").replace("</p>", "")}</CellTextRow>
-          {/* <HTML style={text.content} html={station.content} /> */}
-        </ScrollView>
-      </View>
+          {/* Description */}
+          <CellTextRow style={[text.content, { paddingTop: 20 }]}>
+            {station.content.replace("<p>", "").replace("</p>", "")}
+          </CellTextRow>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -143,11 +154,18 @@ const text = F8StyleSheet.create({
 });
 
 const styles = F8StyleSheet.create({
-  container: {
-    // flex: 1,
-    // padding: 10,
-    // justifyContent: "flex-start",
-    // alignItems: "flex-start"
+  infoCell: {
+    flex: 2,
+  },
+  iconCell: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  rowContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: 'center',
   },
   imageContainer: {
     backgroundColor: "lightgrey"
