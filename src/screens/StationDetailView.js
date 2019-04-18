@@ -82,6 +82,10 @@ const ContactIcon = props => {
   );
 };
 
+const ContactInfo = ({station}) => {
+
+}
+
 class StationDetailView extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -125,12 +129,19 @@ class StationDetailView extends Component {
             </View>
             <View style={[styles.iconCell]}>
               {/* Email */}
-              <ContactIcon
-                icon={{ name: "email-outline", type: "material-community" }}
-                onPress={() => openURL(`mailto:${station.contactEmail}`)}
-              />
+              {station.contactEmail ? (
+                <ContactIcon
+                  icon={{ name: "email-outline", type: "material-community" }}
+                  onPress={() => openURL(`mailto:${station.contactEmail}`)}
+                />
+              ) : null}
               {/* Phone */}
-              <ContactIcon icon={{ name: "phone", type: "feather" }} />
+              {station.contactPhone ? (
+                <ContactIcon
+                  icon={{ name: "phone", type: "feather" }}
+                  onPress={() => openURL(`tel:${station.contactPhone}`)}
+                />
+              ) : null}
             </View>
           </View>
           <CellTextRow style={[text.address]}>
