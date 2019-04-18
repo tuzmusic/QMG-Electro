@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { BLText } from "../components/StyledComponents";
 import {
   ScrollView,
   Text,
@@ -15,9 +16,9 @@ import { MaterialIndicator } from "react-native-indicators";
 import HTML from "react-native-render-html";
 
 const CellTextRow = props => (
-  <Text style={[{ padding: 2, textAlign: "left" }, props.style]}>
+  <BLText style={[{ padding: 2, textAlign: "left" }, props.style]}>
     {props.children}
-  </Text>
+  </BLText>
 );
 
 const Spinner = <MaterialIndicator color={"blue"} />;
@@ -61,7 +62,7 @@ const StationImage = ({ station }) => {
   } else {
     return (
       <View style={[styles.centered, styles.image]}>
-        <Text>No Image Provided</Text>
+        <BLText>No Image Provided</BLText>
       </View>
     );
   }
@@ -102,8 +103,8 @@ class StationDetailView extends Component {
           </TouchableOpacity>
 
           <StationWebsite station={station} />
-          
-          <HTML style={text.content} html={station.content} />
+          <CellTextRow style={[text.content, {paddingTop:20}]}>{station.content.replace("<p>", "").replace("</p>", "")}</CellTextRow>
+          {/* <HTML style={text.content} html={station.content} /> */}
         </ScrollView>
       </View>
     );
@@ -120,7 +121,7 @@ export default connect(
   { getImageForStation }
 )(StationDetailView);
 
-const baseSize = 16;
+const baseSize = 17;
 const text = F8StyleSheet.create({
   title: {
     fontWeight: "bold",

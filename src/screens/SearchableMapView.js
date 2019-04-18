@@ -21,7 +21,7 @@ import GoogleAPIKey from "../secrets";
 import Geocoder from "react-native-geocoding";
 import { connect } from "react-redux";
 
-import StationCellView from "../subviews/StationCellView";
+import ListingCellView from "../subviews/ListingCellView";
 import StationsMock from "../tests/mocks/StationsMock";
 
 const concord = {
@@ -105,7 +105,7 @@ class MapScreen extends Component {
           }
         >
           <Callout>
-            <StationCellView
+            <ListingCellView
               station={station}
               // onPress={() =>
               //   this.props.navigation.navigate("StationDetail", { station })
