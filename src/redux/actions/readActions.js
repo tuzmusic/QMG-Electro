@@ -11,6 +11,7 @@ function updateStation(dispatch, station, key, value) {
 }
 
 function stationsFromHashes(json) {
+  console.log(json);
   let stations = {};
   json.forEach(hash => (stations[hash.id] = new Station(hash)));
   return stations;
