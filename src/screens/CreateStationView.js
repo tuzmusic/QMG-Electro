@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import { BLText } from "../components/StyledComponents";
 import { Input, Button, Divider } from "react-native-elements";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
@@ -79,11 +79,15 @@ class CreateStationView extends Component {
     try {
       const result = await fetch(url);
       const json = await result.json();
-      // console.log(json);
       this.setState({ addressPredictions: json.predictions });
     } catch (err) {
       console.error(err);
     }
+  }
+
+  setAddress(prediction) {
+    this.setState({address: prediction.description})
+    
   }
 
   handleSubmit = () => {
@@ -94,8 +98,13 @@ class CreateStationView extends Component {
   };
 
   render() {
-
-    const predictions = this.state.addressPredictions.map((prediction) => <BLText key={prediction.id}>{prediction.description}</BLText>)
+    const predictions = this.state.addressPredictions.map(prediction => (
+      <TouchableOpacity style={styles.prediction} key={prediction.id} onPress={this.setAddress.bind(this, prediction)}>
+        <Text style={text.unformatted}>
+          {prediction.description}
+        </Text>
+      </TouchableOpacity>
+    ));
 
     // TO-DO: Fix issue where multiline inputs don't avoid the keyboard. See https://github.com/APSL/react-native-keyboard-aware-scroll-view/issues/227 (and others on Google, probably)
     return (
@@ -106,7 +115,7 @@ class CreateStationView extends Component {
             propName: "address",
             onChangeText: this.handleAddressChange.bind(this)
           })}
-          {predictions}
+          <View style={styles.predictionsContainer}>{predictions}</View>
 
           <Divider style={[styles.divider, styles.invisible]} />
 
@@ -186,7 +195,10 @@ const text = {
     fontSize: 15,
     textAlign: "center"
   },
-  note: { textAlign: "center", fontStyle: "italic" }
+  note: { textAlign: "center", fontStyle: "italic" },
+  unformatted: {
+    fontFamily: null
+  }
 };
 
 const styles = {
@@ -219,5 +231,23 @@ const styles = {
   },
   invisible: {
     backgroundColor: "transparent"
+  },
+  prediction: {
+    padding: 2,
+    margin: 2,
+    marginLeft: 3,
+    marginRight: 3,
+    borderBottomColor: "lightgrey",
+    borderBottomWidth: 0.5
+    // paddingLeft: 20,
+    // paddingRight: 20
+  },
+  predictionsContainer: {
+    borderColor: "lightgrey",
+    borderWidth: 0.5,
+    borderTopWidth: 0,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: -5
   }
 };
