@@ -83,23 +83,23 @@ const ContactIcon = props => {
   );
 };
 
-const ContactInfo = ({ station }) => {
- return <View style={[styles.iconCell]}>
-    {/* Email */}
-    {station.contactEmail ? (
-      <ContactIcon
-        icon={{ name: "email-outline", type: "material-community" }}
-        onPress={() => openURL(`mailto:${station.contactEmail}`)}
-      />
-    ) : null}
-    {/* Phone */}
-    {station.contactPhone ? (
-      <ContactIcon
-        icon={{ name: "phone", type: "feather" }}
-        onPress={() => openURL(`tel:${station.contactPhone}`)}
-      />
-    ) : null}
-  </View>;
+const ContactButtons = ({ station }) => {
+  return (
+    <View style={[styles.iconCell]}>
+      {station.contactEmail ? (
+        <ContactIcon
+          icon={{ name: "email-outline", type: "material-community" }}
+          onPress={() => openURL(`mailto:${station.contactEmail}`)}
+        />
+      ) : null}
+      {station.contactPhone ? (
+        <ContactIcon
+          icon={{ name: "phone", type: "feather" }}
+          onPress={() => openURL(`tel:${station.contactPhone}`)}
+        />
+      ) : null}
+    </View>
+  );
 };
 
 class StationDetailView extends Component {
@@ -110,7 +110,7 @@ class StationDetailView extends Component {
   };
 
   async componentDidMount() {
-    console.log(this.props.station);
+    // console.log(this.props.station);
 
     if (!this.props.station.imageURL) {
       try {
@@ -130,27 +130,23 @@ class StationDetailView extends Component {
         </View>
 
         <View style={styles.textContainer}>
-          <View style={[styles.rowContainer]}>
-            <View style={[styles.infoCell]}>
-              {/* Title */}
-              <CellTextRow style={text.title}>{station.title}</CellTextRow>
-              {/* Address */}
-              <TouchableOpacity onPress={openMap.bind(null, station.address)}>
-                <CellTextRow style={[text.address, text.link]}>
-                  {station.address}
-                </CellTextRow>
-              </TouchableOpacity>
-              {/* Website */}
-              <StationWebsite station={station} />
-            </View>
-            <ContactInfo station={station} />
-          </View>
+          {/* Title */}
+          <CellTextRow style={text.title}>{station.title}</CellTextRow>
+          {/* Address */}
+          <TouchableOpacity onPress={openMap.bind(null, station.address)}>
+            <CellTextRow style={[text.address, text.link]}>
+              {station.address}
+            </CellTextRow>
+          </TouchableOpacity>
+          {/* Website */}
+          <StationWebsite station={station} />
           <CellTextRow style={[text.address]}>
             {station.contactEmail}
           </CellTextRow>
           <CellTextRow style={[text.address]}>
             {station.contactPhone}
           </CellTextRow>
+          <ContactButtons station={station} />
           {/* Price */}
 
           {/* Description */}
@@ -202,11 +198,12 @@ const styles = F8StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "center",
-    paddingRight: 10
+    padding: 10,
+    width: "100%"
   },
   icon: {
-    marginLeft:10,
-    marginRight: 10
+    marginLeft: 30,
+    marginRight: 30
   },
   rowContainer: {
     flex: 1,
