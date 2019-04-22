@@ -10,6 +10,7 @@ import { GoogleAPIKey } from "../../secrets";
 import Sugar from "sugar";
 Sugar.extend();
 import AppStyles from "../constants/Styles";
+import _ from "lodash";
 
 function ControlledInput(props) {
   return (
@@ -74,8 +75,8 @@ class CreateStationView extends Component {
   });
 
   async handleAddressChange(searchText) {
-    this.setState({ address: searchText });
-    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleAPIKey}&input=${searchText}`;
+    // this.setState({ address: searchText });
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleAPIKey}&input=${this.state.address}`;
     try {
       const result = await fetch(url);
       const json = await result.json();
@@ -86,8 +87,7 @@ class CreateStationView extends Component {
   }
 
   setAddress(prediction) {
-    this.setState({address: prediction.description})
-    
+    this.setState({ address: prediction.description });
   }
 
   handleSubmit = () => {
@@ -99,10 +99,12 @@ class CreateStationView extends Component {
 
   render() {
     const predictions = this.state.addressPredictions.map(prediction => (
-      <TouchableOpacity style={styles.prediction} key={prediction.id} onPress={this.setAddress.bind(this, prediction)}>
-        <Text style={text.unformatted}>
-          {prediction.description}
-        </Text>
+      <TouchableOpacity
+        style={styles.prediction}
+        key={prediction.id}
+        onPress={this.setAddress.bind(this, prediction)}
+      >
+        <Text style={text.unformatted}>{prediction.description}</Text>
       </TouchableOpacity>
     ));
 
@@ -113,7 +115,12 @@ class CreateStationView extends Component {
           {ControlledInput.call(this, { propName: "title" })}
           {ControlledInput.call(this, {
             propName: "address",
-            onChangeText: this.handleAddressChange.bind(this)
+            onChangeText: searchText => {
+              this.setState(
+                { address: searchText },
+                _.debounce(this.handleAddressChange.bind(this), 1000)
+              );
+            }
           })}
           <View style={styles.predictionsContainer}>{predictions}</View>
 
@@ -246,8 +253,8 @@ const styles = {
     borderColor: "lightgrey",
     borderWidth: 0.5,
     borderTopWidth: 0,
-    marginLeft: 20,
-    marginRight: 20,
+    marginLeft: 15,
+    marginRight: 15,
     marginTop: -5
   }
 };
