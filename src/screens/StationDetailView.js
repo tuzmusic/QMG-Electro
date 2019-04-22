@@ -148,7 +148,7 @@ class StationDetailView extends Component {
           </CellTextRow>
           <ContactButtons station={station} />
           {/* Price */}
-
+        <CellTextRow style={[text.price]}>{(station.priceFrom && station.priceTo) ? `Price range: $${station.priceFrom}-$${station.priceTo}` : "Free charging!"}</CellTextRow>
           {/* Description */}
           <CellTextRow style={[text.content, { paddingTop: 20 }]}>
             {station.content.replace("<p>", "").replace("</p>", "")}
@@ -187,6 +187,11 @@ const text = F8StyleSheet.create({
   link: {
     color: "blue",
     textDecorationLine: "underline"
+  },
+  price: {
+    fontSize: baseSize + 4,
+    textAlign: 'center',
+    width: '100%'
   }
 });
 
@@ -202,8 +207,10 @@ const styles = F8StyleSheet.create({
     width: "100%"
   },
   icon: {
-    marginLeft: 30,
-    marginRight: 30
+    marginLeft: 25,
+    marginRight: 25,
+    marginTop: 5,
+    marginBottom: 5,
   },
   rowContainer: {
     flex: 1,
