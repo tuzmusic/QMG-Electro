@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { BLText } from "../components/StyledComponents";
 import { Input, Button, Divider } from "react-native-elements";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import { connect } from "react-redux";
 import { createStation } from "../redux/actions/writeActions";
 import { setCurrentStationID } from "../redux/actions/readActions";
+import { GoogleAPIKey } from "../../secrets";
 import Sugar from "sugar";
 Sugar.extend();
 import AppStyles from "../constants/Styles";
@@ -34,6 +35,20 @@ function ControlledInput(props) {
 
 class CreateStationView extends Component {
   initialState = {
+    title: "",
+    address: "",
+    content: "",
+    website: "",
+    tagline: "",
+    priceFrom: "",
+    priceTo: "",
+    openingTime: "",
+    closingTime: "",
+    contactEmail: "",
+    contactPhone: "",
+    amenities: "",
+    addressPredictions: [],
+
     placeholder: {
       title: "*** App Submitted Station ***",
       address: "88 N Spring St 03301",
@@ -46,33 +61,29 @@ class CreateStationView extends Component {
       closingTime: "10pm",
       contactEmail: "me@place.com",
       contactPhone: "444-333-1111",
-      amenities: "60"
-    },
-    empty: {
-      title: "",
-      address: "",
-      content: "",
-      website: "",
-      tagline: "",
-      priceFrom: "",
-      priceTo: "",
-      openingTime: "",
-      closingTime: "",
-      contactEmail: "",
-      contactPhone: "",
-      amenities: ""
+      amenities: "60",
+      addressPredictions: []
     }
   };
 
-  state = this.initialState.empty;
   state = this.initialState.placeholder;
+  state = this.initialState;
 
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "New Station"
   });
 
-  componentDidMount() {
-    // this.handleSubmit.call(this);
+  async handleAddressChange(searchText) {
+    this.setState({ address: searchText });
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleAPIKey}&input=${searchText}`;
+    try {
+      const result = await fetch(url);
+      const json = await result.json();
+      // console.log(json);
+      this.setState({ addressPredictions: json.predictions });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   handleSubmit = () => {
@@ -83,15 +94,22 @@ class CreateStationView extends Component {
   };
 
   render() {
+
+    const predictions = this.state.addressPredictions.map((prediction) => <BLText key={prediction.id}>{prediction.description}</BLText>)
+
     // TO-DO: Fix issue where multiline inputs don't avoid the keyboard. See https://github.com/APSL/react-native-keyboard-aware-scroll-view/issues/227 (and others on Google, probably)
     return (
       <KeyboardAwareScrollView>
         <View style={styles.textContainer}>
           {ControlledInput.call(this, { propName: "title" })}
-          {ControlledInput.call(this, { propName: "address" })}
-          
+          {ControlledInput.call(this, {
+            propName: "address",
+            onChangeText: this.handleAddressChange.bind(this)
+          })}
+          {predictions}
+
           <Divider style={[styles.divider, styles.invisible]} />
-          
+
           {ControlledInput.call(this, {
             propName: "contactEmail",
             keyboardType: "email-address"
@@ -146,7 +164,6 @@ class CreateStationView extends Component {
             onPress={this.handleSubmit.bind(this)}
           />
         </View>
-
       </KeyboardAwareScrollView>
     );
   }
