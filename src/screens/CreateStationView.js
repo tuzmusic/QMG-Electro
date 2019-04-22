@@ -49,6 +49,7 @@ class CreateStationView extends Component {
     contactPhone: "",
     amenities: "",
     addressPredictions: [],
+    showPredictions: false,
 
     placeholder: {
       title: "*** App Submitted Station ***",
@@ -74,8 +75,7 @@ class CreateStationView extends Component {
     headerTitle: "New Station"
   });
 
-  async handleAddressChange(searchText) {
-    // this.setState({ address: searchText });
+  async handleAddressChange() {
     const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleAPIKey}&input=${this.state.address}`;
     try {
       const result = await fetch(url);
@@ -87,7 +87,7 @@ class CreateStationView extends Component {
   }
 
   setAddress(prediction) {
-    this.setState({ address: prediction.description });
+    this.setState({ address: prediction.description, showPredictions: false });
   }
 
   handleSubmit = () => {
@@ -117,12 +117,12 @@ class CreateStationView extends Component {
             propName: "address",
             onChangeText: searchText => {
               this.setState(
-                { address: searchText },
-                _.debounce(this.handleAddressChange.bind(this), 1000)
+                { address: searchText, showPredictions: true },
+                _.debounce(this.handleAddressChange.bind(this), 800)
               );
             }
           })}
-          <View style={styles.predictionsContainer}>{predictions}</View>
+          <View style={styles.predictionsContainer}>{this.state.showPredictions ? predictions : null}</View>
 
           <Divider style={[styles.divider, styles.invisible]} />
 
