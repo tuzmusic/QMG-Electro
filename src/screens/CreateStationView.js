@@ -65,6 +65,7 @@ class CreateStationView extends Component {
   };
 
   state = this.initialState.empty;
+  state = this.initialState.placeholder;
 
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "New Station"
@@ -74,7 +75,7 @@ class CreateStationView extends Component {
     // this.handleSubmit.call(this);
   }
 
-  handleSubmit = clear => {
+  handleSubmit = () => {
     const station = this.props.createStation(this.state);
     this.props.setCurrentStationID(station.id);
     this.props.navigation.navigate("ListScreen");
@@ -100,7 +101,7 @@ class CreateStationView extends Component {
             keyboardType: "phone-pad"
           })}
           {ControlledInput.call(this, { propName: "website" })}
-          
+
           <Divider style={[styles.divider, styles.invisible]} />
 
           <View style={styles.rowContainer}>

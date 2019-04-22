@@ -51,17 +51,17 @@ export default class Station {
       originalJSON: json,
       id: uuid.v1(), // ultimately this may need to be a string
       listing_props: {
-        _job_title: json.title,
-        _job_description: json.content,
-        _job_location: json.address,
-        _company_tagline: json.tagline,
-        _company_website: json.website,
-        _company_email: json.contactEmail,
-        _company_phone: json.contactPhone,
-        _job_location: json.address,
-        _company_price_from: json.priceFrom,
-        _company_price_to: json.priceTo,
-        _company_website: json.website
+        _job_title: [json.title],
+        _job_description: [json.content],
+        _job_location: [json.address],
+        _company_tagline: [json.tagline],
+        _company_website: [json.website],
+        _company_email: [json.contactEmail],
+        _company_phone: [json.contactPhone],
+        _job_location: [json.address],
+        _company_price_from: [json.priceFrom],
+        _company_price_to: [json.priceTo],
+        _company_website: [json.website]
       },
       // job_listing_amenity: (array of amenity numbers),
       // featured_media: (media id)
