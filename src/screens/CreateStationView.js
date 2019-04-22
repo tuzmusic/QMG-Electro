@@ -14,7 +14,7 @@ function ControlledInput(props) {
   return (
     <View style={[styles.inputContainer, props.containerStyle]}>
       <Input
-        style={[{fontFamily: AppStyles.font},props.inputStyle, styles.input]}
+        style={[{ fontFamily: AppStyles.font }, props.inputStyle, styles.input]}
         placeholder={props.placeholder || props.propName.titleize()}
         value={this.state[props.propName]}
         onChangeText={
@@ -34,21 +34,37 @@ function ControlledInput(props) {
 
 class CreateStationView extends Component {
   initialState = {
-    title: "*** App Submitted Station ***",
-    address: "88 N Spring St 03301",
-    content: "This station is awesome",
-    website: "www.station.com",
-    tagline: "The best!",
-    priceFrom: "100",
-    priceTo: "200",
-    openingTime: "9am",
-    closingTime: "10pm",
-    contactEmail: "me@place.com",
-    contactPhone: "444-333-1111",
-    amenities: "60"
+    placeholder: {
+      title: "*** App Submitted Station ***",
+      address: "88 N Spring St 03301",
+      content: "This station is awesome",
+      website: "www.station.com",
+      tagline: "The best!",
+      priceFrom: "100",
+      priceTo: "200",
+      openingTime: "9am",
+      closingTime: "10pm",
+      contactEmail: "me@place.com",
+      contactPhone: "444-333-1111",
+      amenities: "60"
+    },
+    empty: {
+      title: "",
+      address: "",
+      content: "",
+      website: "",
+      tagline: "",
+      priceFrom: "",
+      priceTo: "",
+      openingTime: "",
+      closingTime: "",
+      contactEmail: "",
+      contactPhone: "",
+      amenities: ""
+    }
   };
 
-  state = this.initialState;
+  state = this.initialState.empty;
 
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "New Station"
@@ -70,49 +86,23 @@ class CreateStationView extends Component {
     return (
       <KeyboardAwareScrollView>
         <View style={styles.textContainer}>
-          <BLText style={text.title}>API-Friendly:</BLText>
-          <BLText style={text.body}>
-            {"NOTE: These fields are "}
-            <BLText style={{ fontStyle: "italic" }}>returned</BLText> by the API
-            but it's unconfirmed whether we can post to these fields. (We can't
-            post anything yet anyway, period!)
-          </BLText>
           {ControlledInput.call(this, { propName: "title" })}
           {ControlledInput.call(this, { propName: "address" })}
+          
+          <Divider style={[styles.divider, styles.invisible]} />
+          
+          {ControlledInput.call(this, {
+            propName: "contactEmail",
+            keyboardType: "email-address"
+          })}
+          {ControlledInput.call(this, {
+            propName: "contactPhone",
+            keyboardType: "phone-pad"
+          })}
           {ControlledInput.call(this, { propName: "website" })}
-          {ControlledInput.call(this, { propName: "tagline" })}
-          {ControlledInput.call(this, {
-            propName: "content",
-            multiline: false
-            // containerStyle: {
-            //   height: 100,
-            //   justifyContent: "flex-end"
-            // }
-          })}
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.textContainer}>
-          <BLText style={text.title}>
-            API-Friendly, but Complicated, and not implemented yet:
-          </BLText>
-          {ControlledInput.call(this, {
-            propName: "amenities",
-            multiline: false,
-            keyboardType: "number-pad"
-          })}
-          <BLText style={text.note}>
-            (this will have to be checkboxes or something)
-          </BLText>
+          
+          <Divider style={[styles.divider, styles.invisible]} />
 
-          <Button
-            style={styles.button}
-            title="Upload Photo"
-            onPress={() => {}}
-          />
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.textContainer}>
-          <BLText style={text.title}>API-Absent:</BLText>
           <View style={styles.rowContainer}>
             {ControlledInput.call(this, {
               propName: "priceFrom",
@@ -128,39 +118,34 @@ class CreateStationView extends Component {
             })}
           </View>
           {ControlledInput.call(this, {
-            propName: "contactEmail",
-            keyboardType: "email-address"
+            propName: "amenities",
+            multiline: false,
+            keyboardType: "number-pad"
           })}
-          {ControlledInput.call(this, {
-            propName: "contactPhone",
-            keyboardType: "phone-pad"
-          })}
-          <View style={styles.rowContainer}>
-            {ControlledInput.call(this, {
-              propName: "openingTime",
-              containerStyle: styles.rowElement,
-              textAlign: "center"
-            })}
-            {ControlledInput.call(this, {
-              propName: "closingTime",
-              containerStyle: styles.rowElement,
-              textAlign: "center"
-            })}
-          </View>
           <BLText style={text.note}>
-            if we want opening hours, it'll probably be its own screen since we
-            need a line for every day
+            (this will have to be checkboxes or something)
           </BLText>
-        </View>
-        <Divider style={styles.divider} />
+          <Button
+            style={styles.button}
+            title="Upload Photo"
+            onPress={() => {}}
+          />
 
-        <View style={[styles.textContainer, { paddingTop: 0 }]}>
+          <Divider style={[styles.divider, styles.invisible]} />
+
+          {ControlledInput.call(this, {
+            propName: "content",
+            placeholder: "Description",
+            multiline: false
+            // containerStyle: { height: 100, justifyContent: "flex-end" }
+          })}
           <Button
             title="Submit"
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
           />
         </View>
+
       </KeyboardAwareScrollView>
     );
   }
@@ -213,5 +198,8 @@ const styles = {
     height: 4,
     borderRadius: 15,
     backgroundColor: "lightblue"
+  },
+  invisible: {
+    backgroundColor: "transparent"
   }
 };
