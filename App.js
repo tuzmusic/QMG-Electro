@@ -21,10 +21,6 @@ export default class App extends React.Component {
     isLoadingComplete: false
   };
 
-  componentDidMount = () => {
-    GlobalFont.applyGlobal(AppStyles.font)
-  };
-
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
@@ -53,9 +49,9 @@ export default class App extends React.Component {
         // require("./assets/images/robot-prod.png")
       ]),
       Font.loadAsync({
-        'din1451alt': require("./assets/fonts/din1451alt.ttf"),
-        ...Icon.Ionicons.font,
-      })
+        din1451alt: require("./assets/fonts/din1451alt.ttf"),
+        ...Icon.Ionicons.font
+      }).then(() => GlobalFont.applyGlobal(AppStyles.font))
     ]);
   };
 
