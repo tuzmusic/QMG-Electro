@@ -6,7 +6,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview"
 import { connect } from "react-redux";
 import { createStation } from "../redux/actions/writeActions";
 import { setCurrentStationID } from "../redux/actions/readActions";
-import { GoogleAPIKey } from "../../secrets";
+import { GoogleAPIKey } from "../../secrets"
 import Sugar from "sugar";
 Sugar.extend();
 import AppStyles from "../constants/Styles";
@@ -57,7 +57,6 @@ class CreateStationView extends Component {
   state = {
     title: "",
     address: "",
-    location: { lat: null, lng: null },
     content: "",
     website: "",
     tagline: "",
@@ -67,7 +66,8 @@ class CreateStationView extends Component {
     contactPhone: "",
     amenities: "",
     addressPredictions: [],
-    showPredictions: false
+    showPredictions: false,
+    location: null,
   };
 
   async handleAddressChange() {
@@ -86,12 +86,12 @@ class CreateStationView extends Component {
   async setAddress(prediction) {
     this.setState({ address: prediction.description, showPredictions: false });
     const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleAPIKey}&placeid=${
-      prediction.id
+      prediction.place_id
     }&fields=geometry`;
     try {
       const result = await fetch(url);
       const json = await result.json();
-      this.setState({ location: json });
+      this.setState({ location: json.result.geometry.location });
     } catch (err) {
       console.error(err);
     }
@@ -122,7 +122,7 @@ class CreateStationView extends Component {
           {ControlledInput.call(this, { propName: "title" })}
           {ControlledInput.call(this, {
             propName: "address",
-            onBlur: () => this.setState({ showPredictions: false }),
+            // onBlur: () => this.setState({ showPredictions: false }),
             onChangeText: searchText => {
               this.setState(
                 { address: searchText, showPredictions: true },
@@ -256,8 +256,6 @@ const styles = {
     marginRight: 3,
     borderBottomColor: "lightgrey",
     borderBottomWidth: 0.5
-    // paddingLeft: 20,
-    // paddingRight: 20
   },
   predictionsContainer: {
     borderColor: "lightgrey",
