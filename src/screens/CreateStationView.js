@@ -19,7 +19,7 @@ function ControlledInput(props) {
         style={[{ fontFamily: AppStyles.font }, props.inputStyle, styles.input]}
         placeholder={props.placeholder || props.propName.titleize()}
         value={this.state[props.propName]}
-        onBlur={props.onBlur}
+        // onBlur={props.onBlur}
         onChangeText={
           props.onChangeText ||
           (value => {
@@ -57,6 +57,7 @@ class CreateStationView extends Component {
   state = {
     title: "",
     address: "",
+    location: { lat: null, lng: null },
     content: "",
     website: "",
     tagline: "",
@@ -82,8 +83,18 @@ class CreateStationView extends Component {
     }
   }
 
-  setAddress(prediction) {
+  async setAddress(prediction) {
     this.setState({ address: prediction.description, showPredictions: false });
+    const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleAPIKey}&placeid=${
+      prediction.id
+    }&fields=geometry`;
+    try {
+      const result = await fetch(url);
+      const json = await result.json();
+      this.setState({ location: json });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   handleSubmit = () => {
