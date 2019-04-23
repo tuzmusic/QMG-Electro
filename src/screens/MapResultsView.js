@@ -11,7 +11,7 @@ import {
 class MapResultsContainer extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "Stations",
-    headerLeft: (
+    /* headerLeft: (
       <Button
         title="Download"
         onPress={navigation.getParam("download") || (() => {})}
@@ -22,7 +22,7 @@ class MapResultsContainer extends Component {
         title="Get Cached"
         onPress={navigation.getParam("getCached") || (() => {})}
       />
-    )
+    ) */
   });
 
   goToStation(id) {
