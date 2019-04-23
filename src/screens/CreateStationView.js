@@ -18,7 +18,9 @@ function ControlledInput(props) {
       <Input
         style={[{ fontFamily: AppStyles.font }, props.inputStyle, styles.input]}
         placeholder={props.placeholder || props.propName.titleize()}
+        label={this.state[props.propName]==="" ? null : props.placeholder || props.propName.titleize()}
         value={this.state[props.propName]}
+        errorMessage={"error!"}
         // onBlur={props.onBlur}
         onChangeText={
           props.onChangeText ||
