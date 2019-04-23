@@ -36,23 +36,8 @@ function ControlledInput(props) {
 }
 
 class CreateStationView extends Component {
-  initialState = {
-    title: "",
-    address: "",
-    content: "",
-    website: "",
-    tagline: "",
-    priceFrom: "",
-    priceTo: "",
-    openingTime: "",
-    closingTime: "",
-    contactEmail: "",
-    contactPhone: "",
-    amenities: "",
-    addressPredictions: [],
-    showPredictions: false,
-
-    placeholder: {
+  setPlaceholders() {
+    this.setState({
       title: "*** App Submitted Station ***",
       address: "88 N Spring St 03301",
       content: "This station is awesome",
@@ -60,24 +45,37 @@ class CreateStationView extends Component {
       tagline: "The best!",
       priceFrom: "100",
       priceTo: "200",
-      openingTime: "9am",
-      closingTime: "10pm",
       contactEmail: "me@place.com",
       contactPhone: "444-333-1111",
       amenities: "60",
-      addressPredictions: []
-    }
+    });
+  }
+
+  state = {
+    title: "",
+    address: "",
+    content: "",
+    website: "",
+    tagline: "",
+    priceFrom: "",
+    priceTo: "",
+    contactEmail: "",
+    contactPhone: "",
+    amenities: "",
+    addressPredictions: [],
+    showPredictions: false
   };
 
-  state = this.initialState.placeholder;
-  state = this.initialState;
+  // componentDidMount = () => this.setPlaceholders()
 
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "New Station"
   });
 
   async handleAddressChange() {
-    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleAPIKey}&input=${this.state.address}`;
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleAPIKey}&input=${
+      this.state.address
+    }`;
     try {
       const result = await fetch(url);
       const json = await result.json();
@@ -116,7 +114,7 @@ class CreateStationView extends Component {
           {ControlledInput.call(this, { propName: "title" })}
           {ControlledInput.call(this, {
             propName: "address",
-            onBlur: () => this.setState({showPredictions: false}),
+            onBlur: () => this.setState({ showPredictions: false }),
             onChangeText: searchText => {
               this.setState(
                 { address: searchText, showPredictions: true },
@@ -124,7 +122,9 @@ class CreateStationView extends Component {
               );
             }
           })}
-          <View style={styles.predictionsContainer}>{this.state.showPredictions ? predictions : null}</View>
+          <View style={styles.predictionsContainer}>
+            {this.state.showPredictions ? predictions : null}
+          </View>
 
           <Divider style={[styles.divider, styles.invisible]} />
 
