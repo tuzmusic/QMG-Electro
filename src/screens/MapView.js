@@ -40,21 +40,24 @@ class MapScreen extends Component {
     });
   };
 
+  onMarkerPress(info) {
+    console.log(info);
+  }
+
   renderMarkers() {
-    const markers = Object.keys(this.props.stations).map(key => {
+    return markers = Object.keys(this.props.stations).map(key => {
       const station = this.props.stations[key];
-      const marker = (
+      return marker = (
         <Marker
+          key={key}
+          onPress={this.onMarkerPress.bind(this)}
           coordinate={{
             latitude: Number(station.location.lat),
             longitude: Number(station.location.lng)
           }}
-          key={key}
         />
       );
-      return marker;
     });
-    return markers
   }
 
   render() {
@@ -67,7 +70,6 @@ class MapScreen extends Component {
           showsUserLocation={true}
         >
           {this.renderMarkers()}
-          {/* <Marker coordinate={this.state.region} /> */}
         </MapView>
       </View>
     );
