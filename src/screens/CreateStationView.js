@@ -19,6 +19,7 @@ function ControlledInput(props) {
         style={[{ fontFamily: AppStyles.font }, props.inputStyle, styles.input]}
         placeholder={props.placeholder || props.propName.titleize()}
         value={this.state[props.propName]}
+        onBlur={props.onBlur}
         onChangeText={
           props.onChangeText ||
           (value => {
@@ -115,6 +116,7 @@ class CreateStationView extends Component {
           {ControlledInput.call(this, { propName: "title" })}
           {ControlledInput.call(this, {
             propName: "address",
+            onBlur: () => this.setState({showPredictions: false}),
             onChangeText: searchText => {
               this.setState(
                 { address: searchText, showPredictions: true },
