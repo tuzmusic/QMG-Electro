@@ -36,6 +36,9 @@ function ControlledInput(props) {
 }
 
 class CreateStationView extends Component {
+  static navigationOptions = { headerTitle: "New Station" };
+  // componentDidMount = () => this.setPlaceholders()
+
   setPlaceholders() {
     this.setState({
       title: "*** App Submitted Station ***",
@@ -47,7 +50,7 @@ class CreateStationView extends Component {
       priceTo: "200",
       contactEmail: "me@place.com",
       contactPhone: "444-333-1111",
-      amenities: "60",
+      amenities: "60"
     });
   }
 
@@ -65,12 +68,6 @@ class CreateStationView extends Component {
     addressPredictions: [],
     showPredictions: false
   };
-
-  // componentDidMount = () => this.setPlaceholders()
-
-  static navigationOptions = ({ navigation }) => ({
-    headerTitle: "New Station"
-  });
 
   async handleAddressChange() {
     const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleAPIKey}&input=${
