@@ -6,7 +6,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview"
 import { connect } from "react-redux";
 import { createStation } from "../redux/actions/writeActions";
 import { setCurrentStationID } from "../redux/actions/readActions";
-import { GoogleAPIKey } from "../../secrets"
+import { GoogleAPIKey } from "../../secrets";
 import Sugar from "sugar";
 Sugar.extend();
 import AppStyles from "../constants/Styles";
@@ -18,15 +18,16 @@ function ControlledInput(props) {
       <Input
         style={[{ fontFamily: AppStyles.font }, props.inputStyle, styles.input]}
         placeholder={props.placeholder || props.propName.titleize()}
-        label={this.state[props.propName]==="" ? null : props.placeholder || props.propName.titleize()}
+        label={
+          this.state[props.propName] !== "" &&
+          (props.placeholder || props.propName.titleize())
+        }
         value={this.state[props.propName]}
         errorMessage={"error!"}
         // onBlur={props.onBlur}
         onChangeText={
           props.onChangeText ||
-          (value => {
-            this.setState({ [props.propName]: value });
-          })
+          (value => this.setState({ [props.propName]: value }))
         }
         keyboardType={props.keyboardType}
         textAlign={props.textAlign}
@@ -69,7 +70,7 @@ class CreateStationView extends Component {
     amenities: "",
     addressPredictions: [],
     showPredictions: false,
-    location: null,
+    location: null
   };
 
   async handleAddressChange() {
@@ -155,13 +156,11 @@ class CreateStationView extends Component {
               propName: "priceFrom",
               containerStyle: styles.rowElement,
               keyboardType: "numeric",
-              textAlign: "center"
             })}
             {ControlledInput.call(this, {
               propName: "priceTo",
               containerStyle: styles.rowElement,
               keyboardType: "numeric",
-              textAlign: "center"
             })}
           </View>
           {ControlledInput.call(this, {
