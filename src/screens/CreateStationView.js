@@ -23,8 +23,8 @@ function ControlledInput(props) {
           (props.placeholder || props.propName.titleize())
         }
         value={this.state[props.propName]}
-        errorMessage={"error!"}
-        // onBlur={props.onBlur}
+        errorMessage={props.errorMessage}
+        onBlur={props.onBlur}
         onChangeText={
           props.onChangeText ||
           (value => this.setState({ [props.propName]: value }))
