@@ -1,14 +1,16 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import { BLText } from "../components/StyledComponents";
 import { Input, Button, Divider } from "react-native-elements";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import { connect } from "react-redux";
 import { createStation } from "../redux/actions/writeActions";
 import { setCurrentStationID } from "../redux/actions/readActions";
+import { GoogleAPIKey } from "../../secrets";
 import Sugar from "sugar";
 Sugar.extend();
 import AppStyles from "../constants/Styles";
+import _ from "lodash";
 
 function ControlledInput(props) {
   return (
@@ -16,12 +18,16 @@ function ControlledInput(props) {
       <Input
         style={[{ fontFamily: AppStyles.font }, props.inputStyle, styles.input]}
         placeholder={props.placeholder || props.propName.titleize()}
+        label={
+          this.state[props.propName] !== "" &&
+          (props.placeholder || props.propName.titleize())
+        }
         value={this.state[props.propName]}
+        errorMessage={props.errorMessage}
+        onBlur={props.onBlur}
         onChangeText={
           props.onChangeText ||
-          (value => {
-            this.setState({ [props.propName]: value });
-          })
+          (value => this.setState({ [props.propName]: value }))
         }
         keyboardType={props.keyboardType}
         textAlign={props.textAlign}
@@ -33,8 +39,11 @@ function ControlledInput(props) {
 }
 
 class CreateStationView extends Component {
-  initialState = {
-    placeholder: {
+  static navigationOptions = { headerTitle: "New Station" };
+  // componentDidMount = () => this.setPlaceholders()
+
+  setPlaceholders() {
+    this.setState({
       title: "*** App Submitted Station ***",
       address: "88 N Spring St 03301",
       content: "This station is awesome",
@@ -42,37 +51,53 @@ class CreateStationView extends Component {
       tagline: "The best!",
       priceFrom: "100",
       priceTo: "200",
-      openingTime: "9am",
-      closingTime: "10pm",
       contactEmail: "me@place.com",
       contactPhone: "444-333-1111",
       amenities: "60"
-    },
-    empty: {
-      title: "",
-      address: "",
-      content: "",
-      website: "",
-      tagline: "",
-      priceFrom: "",
-      priceTo: "",
-      openingTime: "",
-      closingTime: "",
-      contactEmail: "",
-      contactPhone: "",
-      amenities: ""
-    }
+    });
+  }
+
+  state = {
+    title: "",
+    address: "",
+    content: "",
+    website: "",
+    tagline: "",
+    priceFrom: "",
+    priceTo: "",
+    contactEmail: "",
+    contactPhone: "",
+    amenities: "",
+    addressPredictions: [],
+    showPredictions: false,
+    location: null
   };
 
-  state = this.initialState.empty;
-  state = this.initialState.placeholder;
+  async handleAddressChange() {
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleAPIKey}&input=${
+      this.state.address
+    }`;
+    try {
+      const result = await fetch(url);
+      const json = await result.json();
+      this.setState({ addressPredictions: json.predictions });
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
-  static navigationOptions = ({ navigation }) => ({
-    headerTitle: "New Station"
-  });
-
-  componentDidMount() {
-    // this.handleSubmit.call(this);
+  async setAddress(prediction) {
+    this.setState({ address: prediction.description, showPredictions: false });
+    const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleAPIKey}&placeid=${
+      prediction.place_id
+    }&fields=geometry`;
+    try {
+      const result = await fetch(url);
+      const json = await result.json();
+      this.setState({ location: json.result.geometry.location });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   handleSubmit = () => {
@@ -83,15 +108,37 @@ class CreateStationView extends Component {
   };
 
   render() {
+    const predictions = this.state.addressPredictions.map(prediction => (
+      <TouchableOpacity
+        style={styles.prediction}
+        key={prediction.id}
+        onPress={this.setAddress.bind(this, prediction)}
+      >
+        <Text style={text.unformatted}>{prediction.description}</Text>
+      </TouchableOpacity>
+    ));
+
     // TO-DO: Fix issue where multiline inputs don't avoid the keyboard. See https://github.com/APSL/react-native-keyboard-aware-scroll-view/issues/227 (and others on Google, probably)
     return (
       <KeyboardAwareScrollView>
         <View style={styles.textContainer}>
           {ControlledInput.call(this, { propName: "title" })}
-          {ControlledInput.call(this, { propName: "address" })}
-          
+          {ControlledInput.call(this, {
+            propName: "address",
+            // onBlur: () => this.setState({ showPredictions: false }),
+            onChangeText: searchText => {
+              this.setState(
+                { address: searchText, showPredictions: true },
+                _.debounce(this.handleAddressChange.bind(this), 800)
+              );
+            }
+          })}
+          <View style={styles.predictionsContainer}>
+            {this.state.showPredictions ? predictions : null}
+          </View>
+
           <Divider style={[styles.divider, styles.invisible]} />
-          
+
           {ControlledInput.call(this, {
             propName: "contactEmail",
             keyboardType: "email-address"
@@ -109,13 +156,11 @@ class CreateStationView extends Component {
               propName: "priceFrom",
               containerStyle: styles.rowElement,
               keyboardType: "numeric",
-              textAlign: "center"
             })}
             {ControlledInput.call(this, {
               propName: "priceTo",
               containerStyle: styles.rowElement,
               keyboardType: "numeric",
-              textAlign: "center"
             })}
           </View>
           {ControlledInput.call(this, {
@@ -146,7 +191,6 @@ class CreateStationView extends Component {
             onPress={this.handleSubmit.bind(this)}
           />
         </View>
-
       </KeyboardAwareScrollView>
     );
   }
@@ -169,7 +213,10 @@ const text = {
     fontSize: 15,
     textAlign: "center"
   },
-  note: { textAlign: "center", fontStyle: "italic" }
+  note: { textAlign: "center", fontStyle: "italic" },
+  unformatted: {
+    fontFamily: null
+  }
 };
 
 const styles = {
@@ -202,5 +249,21 @@ const styles = {
   },
   invisible: {
     backgroundColor: "transparent"
+  },
+  prediction: {
+    padding: 2,
+    margin: 2,
+    marginLeft: 3,
+    marginRight: 3,
+    borderBottomColor: "lightgrey",
+    borderBottomWidth: 0.5
+  },
+  predictionsContainer: {
+    borderColor: "lightgrey",
+    borderWidth: 0.5,
+    borderTopWidth: 0,
+    marginLeft: 15,
+    marginRight: 15,
+    marginTop: -5
   }
 };
