@@ -40,7 +40,7 @@ function ControlledInput(props) {
 
 class CreateStationView extends Component {
   static navigationOptions = { headerTitle: "New Station" };
-  componentDidMount = () => this.setPlaceholders()
+  componentDidMount = () => this.setPlaceholders();
 
   setPlaceholders() {
     this.setState({
@@ -53,7 +53,8 @@ class CreateStationView extends Component {
       priceTo: "200",
       contactEmail: "me@place.com",
       contactPhone: "444-333-1111",
-      amenities: "60"
+      amenities: "60",
+      location: { lat: 43.2085151, lng: -71.5425589 }
     });
   }
 
@@ -155,12 +156,12 @@ class CreateStationView extends Component {
             {ControlledInput.call(this, {
               propName: "priceFrom",
               containerStyle: styles.rowElement,
-              keyboardType: "numeric",
+              keyboardType: "numeric"
             })}
             {ControlledInput.call(this, {
               propName: "priceTo",
               containerStyle: styles.rowElement,
-              keyboardType: "numeric",
+              keyboardType: "numeric"
             })}
           </View>
           {ControlledInput.call(this, {

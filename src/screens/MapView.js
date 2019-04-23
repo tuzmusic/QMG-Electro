@@ -3,6 +3,7 @@ import { MapView } from "expo";
 import { View, Text } from "react-native";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
+const { Marker } = MapView;
 
 import ListingCellView from "../subviews/ListingCellView";
 
@@ -40,32 +41,20 @@ class MapScreen extends Component {
   };
 
   renderMarkers() {
-    throw new Error(
-      "\nrenderMarkers still uses map, but stations is now an object instead of an array"
-    );
-    return this.props.stations.map(station => {
-      const logo = require("../../assets/logos/BOLTIcon.jpg");
-      return (
-        <MapView.Marker
+    const markers = Object.keys(this.props.stations).map(key => {
+      const station = this.props.stations[key];
+      const marker = (
+        <Marker
           coordinate={{
-            latitude: station.location.lat,
-            longitude: station.location.lng
+            latitude: Number(station.location.lat),
+            longitude: Number(station.location.lng)
           }}
-          key={
-            station.location.lat.toString() + station.location.lng.toString()
-          }
-        >
-          <MapView.Callout>
-            <ListingCellView
-              station={station}
-              // onPress={() =>
-              //   this.props.navigation.navigate("StationDetail", { station })
-              // }
-            />
-          </MapView.Callout>
-        </MapView.Marker>
+          key={key}
+        />
       );
+      return marker;
     });
+    return markers
   }
 
   render() {
@@ -77,13 +66,8 @@ class MapScreen extends Component {
           region={this.state.region}
           showsUserLocation={true}
         >
-          <View style={{justifyContent: 'center', alignItems: 'center',}}>
-            <Text>
-              renderMarkers still uses map function, but stations is now an object
-              instead of an array
-            </Text>
-          </View>
-          {/* {this.renderMarkers()} */}
+          {this.renderMarkers()}
+          {/* <Marker coordinate={this.state.region} /> */}
         </MapView>
       </View>
     );
@@ -100,6 +84,6 @@ const styles = F8StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "center"
   }
 });
