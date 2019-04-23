@@ -40,7 +40,7 @@ function ControlledInput(props) {
 
 class CreateStationView extends Component {
   static navigationOptions = { headerTitle: "New Station" };
-  // componentDidMount = () => this.setPlaceholders()
+  componentDidMount = () => this.setPlaceholders()
 
   setPlaceholders() {
     this.setState({

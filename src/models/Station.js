@@ -13,7 +13,7 @@ export default class Station {
         return valueArray[0];
     }
 
-    this.originalJSON = json;
+    this.originalJSON = json.originalJSON || json;
     this.id = json.id;
     this.listingURL = json.link;
     if (json.listing_props) {
@@ -29,8 +29,8 @@ export default class Station {
       this.contactPhone = p("company_phone");
       this.address = p("job_location");
       this.location = {
-        latitude: p("geolocation_lat", ""),
-        longitude: p("geolocation_long", "")
+        lat: p("geolocation_lat", ""),
+        lng: p("geolocation_long", "")
       };
       this.priceFrom = p("company_price_from");
       this.priceTo = p("company_price_to");
@@ -61,8 +61,10 @@ export default class Station {
         _job_location: [json.address],
         _company_price_from: [json.priceFrom],
         _company_price_to: [json.priceTo],
-        _company_website: [json.website]
-      },
+        _company_website: [json.website],
+        geolocation_lat: [json.location.lat], // may need to be converted to a string
+        geolocation_long: [json.location.lng], // may need to be converted to a string
+      }
       // job_listing_amenity: (array of amenity numbers),
       // featured_media: (media id)
     };
