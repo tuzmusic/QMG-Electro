@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { MapView } from "expo";
 import { View, Text } from "react-native";
+import { BLText } from "../components/StyledComponents";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
-const { Marker } = MapView;
+const { Marker, Callout } = MapView;
 
 import ListingCellView from "../subviews/ListingCellView";
 
@@ -22,7 +23,7 @@ class MapScreen extends Component {
     }
   };
 
-  calculateRegion(latitude, longitude, accuracy) {
+  calculateRegion({ latitude, longitude, accuracy }) {
     const oneDegreeOfLongitudeInMeters = 111.32;
     const circumference = 40075 / 360;
     const latitudeDelta = accuracy / oneDegreeOfLongitudeInMeters;
@@ -32,12 +33,9 @@ class MapScreen extends Component {
   }
 
   getCurrentLocation = () => {
-    navigator.geolocation.getCurrentPosition(position => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      const accuracy = position.coords.accuracy;
-      this.calculateRegion(latitude, longitude, accuracy);
-    });
+    navigator.geolocation.getCurrentPosition(position =>
+      this.calculateRegion(position)
+    );
   };
 
   onMarkerPress(info) {
@@ -45,19 +43,30 @@ class MapScreen extends Component {
   }
 
   renderMarkers() {
-    return markers = Object.keys(this.props.stations).map(key => {
+    return (markers = Object.keys(this.props.stations).map(key => {
       const station = this.props.stations[key];
-      return marker = (
+      return (marker = (
         <Marker
           key={key}
-          onPress={this.onMarkerPress.bind(this)}
+          onPress={this.onMarkerPress.bind(this, station)}
           coordinate={{
             latitude: Number(station.location.lat),
             longitude: Number(station.location.lng)
           }}
-        />
-      );
-    });
+        >
+          <Callout
+            onPress={() => {
+              this.props.navigation.navigate("ListScreen");
+              // this.props.navigation.navigate("StationDetail", {
+              //   title: station.title
+              // });
+            }}
+          >
+            <BLText>{station.title}</BLText>
+          </Callout>
+        </Marker>
+      ));
+    }));
   }
 
   render() {
