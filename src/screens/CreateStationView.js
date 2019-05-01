@@ -105,11 +105,11 @@ class CreateStationView extends Component {
     }
   }
 
-  handleSubmit = () => {
-    const station = this.props.createStation(this.state);
-    // this.props.setCurrentStationID(station.id);
-    // this.props.navigation.navigate("ListScreen");
-    // this.props.navigation.navigate("StationDetail", { title: station.title });
+  handleSubmit = async () => {
+    const station = await this.props.createStation(this.state);
+    this.props.setCurrentStationID(station.id);
+    this.props.navigation.navigate("ListScreen");
+    this.props.navigation.navigate("StationDetail", { title: station.title });
   };
 
   render() {
