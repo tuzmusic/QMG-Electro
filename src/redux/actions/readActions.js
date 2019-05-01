@@ -3,7 +3,7 @@ import Station from "../../models/Station";
 
 function saveStations(json) {
   const data = { stations: json, fetchedDate: new Date() };
-  AsyncStorage.setItem("bolt_fetched_stations", JSON.stringify(data));
+  AsyncStorage.setItem("electro_stations", JSON.stringify(data));
 }
 
 function updateStation(dispatch, station, key, value) {
@@ -38,15 +38,16 @@ function downloadStations(dispatch, attempt = 0) {
 async function getCachedStations(dispatch, attempt = 0) {
   console.log("Getting cached stations");
   try {
-    const data = await AsyncStorage.getItem("bolt_fetched_stations");
+    const data = await AsyncStorage.getItem("electro_stations");
     const stations = JSON.parse(data).stations;
     dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
     // downloadStations(dispatch, 2); // after getting cached stations, update station list
     // TO-DO: show user that we're updating.
   } catch (error) {
-    console.warn("Couldn't get cached stations:", error);
+    debugger
+    console.log("Couldn't get cached stations:", error);
     dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
-    if (attempt < 2) downloadStations(dispatch, attempt + 1);
+    // if (attempt < 2) downloadStations(dispatch, attempt + 1);
   }
 }
 
