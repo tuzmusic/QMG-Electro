@@ -8,6 +8,7 @@ String.prototype.stripHtmlTags = () => {
 
 export default class Station {
   constructor(json) {
+    this.originalJSON = json
     this.title = json.title;
     this.address = json.address;
     this.contactEmail = json.contactEmail;
