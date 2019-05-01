@@ -12,7 +12,9 @@ function updateStation(dispatch, station, key, value) {
 
 function stationsFromHashes(json) {
   let stations = {};
-  json.forEach(hash => (stations[hash.id] = Station.createFromApiResponse(hash)));
+  json.forEach(
+    hash => (stations[hash.id] = Station.createFromApiResponse(hash))
+  );
   return stations;
 }
 
@@ -21,7 +23,7 @@ function downloadStations(dispatch, attempt = 0) {
   fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
     .then(res => res.json())
     .then(async json => {
-      const stations = stationsFromHashes(json)
+      const stations = stationsFromHashes(json);
       await getImagesForAllStations(dispatch, stations);
       save(stations);
       dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
@@ -33,22 +35,21 @@ function downloadStations(dispatch, attempt = 0) {
     });
 }
 
-function getCachedStations(dispatch, attempt = 0) {
+async function getCachedStations(dispatch, attempt = 0) {
   console.log("Getting cached stations");
-  AsyncStorage.getItem("bolt_fetched_stations")
-    .then(data => {
-      dispatch({
-        type: "GET_STATIONS_SUCCESS",
-        payload: JSON.parse(data).stations
-      });
-      downloadStations(dispatch, 2); // after getting cached stations, update station list
-      // TO-DO: show user that we're updating.
-    })
-    .catch(error => {
-      console.warn("Couldn't get cached stations:", error);
-      dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
-      if (attempt < 2) downloadStations(dispatch, attempt + 1);
+  try {
+    const data = await AsyncStorage.getItem("bolt_fetched_stations");
+    dispatch({
+      type: "GET_STATIONS_SUCCESS",
+      payload: JSON.parse(data).stations
     });
+    downloadStations(dispatch, 2); // after getting cached stations, update station list
+    // TO-DO: show user that we're updating.
+  } catch (error) {
+    console.warn("Couldn't get cached stations:", error);
+    dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
+    if (attempt < 2) downloadStations(dispatch, attempt + 1);
+  }
 }
 
 function getImagesForAllStations(dispatch, stations) {
@@ -78,7 +79,7 @@ function _getImageForStation(dispatch, station) {
   }
 }
 
-export function fetchStations(useCache, attempt = 0) {
+export function fetchStations({ useCache, shouldDownload }, attempt = 0) {
   return dispatch => {
     dispatch({ type: "GET_STATIONS_START" });
 
