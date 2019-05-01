@@ -1,7 +1,7 @@
 import { AsyncStorage } from "react-native";
 import Station from "../../models/Station";
 
-function save(json) {
+function saveStations(json) {
   const data = { stations: json, fetchedDate: new Date() };
   AsyncStorage.setItem("bolt_fetched_stations", JSON.stringify(data));
 }
@@ -10,9 +10,9 @@ function updateStation(dispatch, station, key, value) {
   dispatch({ type: "UPDATE_STATION", payload: { ...station, [key]: value } });
 }
 
-function stationsFromHashes(json) {
+function stationsFromHashes(hashes) {
   let stations = {};
-  json.forEach(
+  hashes.forEach(
     hash => (stations[hash.id] = Station.createFromApiResponse(hash))
   );
   return stations;
@@ -25,7 +25,7 @@ function downloadStations(dispatch, attempt = 0) {
     .then(async json => {
       const stations = stationsFromHashes(json);
       await getImagesForAllStations(dispatch, stations);
-      save(stations);
+      saveStations(stations);
       dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
     })
     .catch(error => {
@@ -39,11 +39,9 @@ async function getCachedStations(dispatch, attempt = 0) {
   console.log("Getting cached stations");
   try {
     const data = await AsyncStorage.getItem("bolt_fetched_stations");
-    dispatch({
-      type: "GET_STATIONS_SUCCESS",
-      payload: JSON.parse(data).stations
-    });
-    downloadStations(dispatch, 2); // after getting cached stations, update station list
+    const stations = JSON.parse(data).stations;
+    dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
+    // downloadStations(dispatch, 2); // after getting cached stations, update station list
     // TO-DO: show user that we're updating.
   } catch (error) {
     console.warn("Couldn't get cached stations:", error);
@@ -80,12 +78,13 @@ function _getImageForStation(dispatch, station) {
 }
 
 export function fetchStations({ useCache, shouldDownload }, attempt = 0) {
-  return dispatch => {
+  return async dispatch => {
     dispatch({ type: "GET_STATIONS_START" });
 
     if (useCache) {
-      getCachedStations(dispatch, attempt);
-    } else {
+      await getCachedStations(dispatch, attempt);
+      if (shouldDownload) downloadStations(dispatch, 2)
+    } else if (shouldDownload) {
       downloadStations(dispatch, attempt);
     }
   };

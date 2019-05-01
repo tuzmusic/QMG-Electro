@@ -49,7 +49,7 @@ MapStack.navigationOptions = {
 };
 
 const CreateStationStack = createStackNavigator({
-  CreateScreen: CreateScreen,
+  CreateScreen: CreateScreen
 });
 
 CreateStationStack.navigationOptions = {
@@ -71,14 +71,15 @@ const TabNavigator = createBottomTabNavigator(
   {
     initialRouteName: "MapStack",
     initialRouteName: "CreateStationStack",
-    initialRouteName: "ListStack",
+    initialRouteName: "ListStack"
   }
 );
 
 class TabContainer extends Component {
   componentDidMount = async () => {
     // NOTE: This means we'll never update the stations after first fetch. Fine for now I guess.
-    if (this.props.stations.length === 0) await this.props.fetchStations({useCache: true});
+    if (this.props.stations.length === 0)
+      await this.props.fetchStations({ useCache: true, shouldDownload: false });
   };
 
   static router = TabNavigator.router;
