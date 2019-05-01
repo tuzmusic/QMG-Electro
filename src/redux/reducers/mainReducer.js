@@ -1,3 +1,5 @@
+import { AsyncStorage } from "react-native";
+
 const initialState = {
   stations: [], // should be {}, but that doesn't work currently, for some buried reason. This isn't doing any harm.
   currentStationID: null,
@@ -24,14 +26,25 @@ export default (mainReducer = (state = initialState, action) => {
         ...state.stations,
         [action.payload.id]: action.payload
       };
-      // console.log("previous Stations:", state.stations);
-      // console.log("newStations:", newStations);
       return { ...state, stations: newStations };
     case "UPDATE_STATION":
       return {
         ...state,
         stations: { ...state.stations, [action.payload.id]: action.payload }
       };
+    case "SAVE_STATIONS":
+      console.log("Saving stations to storage");
+      const data = { stations: state.stations, savedDate: new Date() };
+      const storageString = JSON.stringify(data);
+      // debugger;
+      AsyncStorage.setItem("electro_stations", storageString)
+        .then(() => {
+          // debugger;
+        })
+        .catch(() => {
+          // debugger;
+        });
+      return state;
     default:
       return state;
   }

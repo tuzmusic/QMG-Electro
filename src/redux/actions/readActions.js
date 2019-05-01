@@ -1,9 +1,14 @@
 import { AsyncStorage } from "react-native";
 import Station from "../../models/Station";
 
-function saveStations(json) {
-  const data = { stations: json, fetchedDate: new Date() };
+export function saveStations(stations) {
+  const data = { stations, savedDate: new Date() };
   AsyncStorage.setItem("electro_stations", JSON.stringify(data));
+}
+
+async function _warning_DeleteStationsInStorage() {
+  const currentStorage = await AsyncStorage.getItem("electro_stations");
+  AsyncStorage.setItem("electro_stations", {});
 }
 
 function updateStation(dispatch, station, key, value) {
@@ -39,14 +44,15 @@ async function getCachedStations(dispatch, attempt = 0) {
   console.log("Getting cached stations");
   try {
     const data = await AsyncStorage.getItem("electro_stations");
+    if (data === null) {
+      console.log("requested key returns null");
+      return;
+    }
     const stations = JSON.parse(data).stations;
     dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
-    // downloadStations(dispatch, 2); // after getting cached stations, update station list
-    // TO-DO: show user that we're updating.
   } catch (error) {
     console.log("Couldn't get cached stations:", error);
     dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
-    // if (attempt < 2) downloadStations(dispatch, attempt + 1);
   }
 }
 
@@ -83,7 +89,7 @@ export function fetchStations({ useCache, shouldDownload }, attempt = 0) {
 
     if (useCache) {
       await getCachedStations(dispatch, attempt);
-      if (shouldDownload) downloadStations(dispatch, 2)
+      if (shouldDownload) downloadStations(dispatch, 2);
     } else if (shouldDownload) {
       downloadStations(dispatch, attempt);
     }

@@ -5,7 +5,8 @@ export function createStation(formData) {
     const station = new Station(formData);
     try {
       // const returnedStation = await postStationToApi(station);
-      dispatch({ type: "CREATE_STATION", payload: station }); // will eventually be dispatching returnedStation
+      await dispatch({ type: "CREATE_STATION", payload: station }); // will eventually be dispatching returnedStation
+      dispatch({ type: "SAVE_STATIONS" });
       return station;
     } catch (error) {
       dispatch({ type: "CREATE_STATION_ERROR", payload: error });

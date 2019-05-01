@@ -42,12 +42,13 @@ class CreateStationView extends Component {
   static navigationOptions = { headerTitle: "New Station" };
   componentDidMount = async () => {
     await this.setPlaceholders();
-    this.handleSubmit();
+    // debugger
+    // this.handleSubmit();
   };
 
   setPlaceholders() {
     this.setState({
-      title: "Station created at " + (new Date().toLocaleTimeString()),
+      title: "Station created at " + new Date().toLocaleTimeString(),
       address: "88 N Spring St 03301",
       content: "This station is awesome",
       website: "www.station.com",
@@ -106,9 +107,9 @@ class CreateStationView extends Component {
 
   handleSubmit = () => {
     const station = this.props.createStation(this.state);
-    this.props.setCurrentStationID(station.id);
-    this.props.navigation.navigate("ListScreen");
-    this.props.navigation.navigate("StationDetail", { title: station.title });
+    // this.props.setCurrentStationID(station.id);
+    // this.props.navigation.navigate("ListScreen");
+    // this.props.navigation.navigate("StationDetail", { title: station.title });
   };
 
   render() {
