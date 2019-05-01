@@ -12,7 +12,7 @@ function updateStation(dispatch, station, key, value) {
 
 function stationsFromHashes(json) {
   let stations = {};
-  json.forEach(hash => (stations[hash.id] = new Station(hash)));
+  json.forEach(hash => (stations[hash.id] = Station.createFromApiResponse(hash)));
   return stations;
 }
 

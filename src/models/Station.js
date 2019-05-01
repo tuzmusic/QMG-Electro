@@ -7,43 +7,45 @@ String.prototype.stripHtmlTags = () => {
 };
 
 export default class Station {
-  constructor(json) {
+  static createFromApiResponse(json) {
     function p(propName, prefix = "_") {
       if ((valueArray = json.listing_props[`${prefix}${propName}`]))
         return valueArray[0];
     }
-
-    this.originalJSON = json.originalJSON || json;
-    this.id = json.id;
-    this.listingURL = json.link;
+    let station = new Station();
+    station.originalJSON = json.originalJSON || json;
+    station.id = json.id;
+    station.listingURL = json.link;
     if (json.listing_props) {
-      this.title =
+      station.title =
         p("job_title") ||
         json.title.rendered ||
         console.warn("no title for station", json.id);
-      this.content =
+      station.content =
         p("job_description") ||
         json.content.rendered ||
         console.warn("no description for station", json.id);
-      this.contactEmail = p("company_email");
-      this.contactPhone = p("company_phone");
-      this.address = p("job_location");
-      this.location = {
+      station.contactEmail = p("company_email");
+      station.contactPhone = p("company_phone");
+      station.address = p("job_location");
+      station.location = {
         lat: p("geolocation_lat", ""),
         lng: p("geolocation_long", "")
       };
-      this.priceFrom = p("company_price_from");
-      this.priceTo = p("company_price_to");
-      this.website = p("company_website");
-      if (this.website && !this.website.startsWith("http"))
-        this.website = "http://" + this.website;
+      station.priceFrom = p("company_price_from");
+      station.priceTo = p("company_price_to");
+      station.website = p("company_website");
+      if (station.website && !station.website.startsWith("http"))
+        station.website = "http://" + station.website;
     }
     // this.amenityIDs = [...json.job_listing_amenity];
 
-    this.mediaID = json.featured_media;
-    if (this.mediaID > 0)
-      this.mediaDataURL =
-        "http://joinelectro.com/wp-json/wp/v2/media/" + this.mediaID;
+    station.mediaID = json.featured_media;
+    if (station.mediaID > 0) {
+      station.mediaDataURL =
+        "http://joinelectro.com/wp-json/wp/v2/media/" + station.mediaID;
+    }
+    return station
   }
 
   static createFromForm(json) {
@@ -63,7 +65,7 @@ export default class Station {
         _company_price_to: [json.priceTo],
         _company_website: [json.website],
         geolocation_lat: [json.location.lat], // may need to be converted to a string
-        geolocation_long: [json.location.lng], // may need to be converted to a string
+        geolocation_long: [json.location.lng] // may need to be converted to a string
       }
       // job_listing_amenity: (array of amenity numbers),
       // featured_media: (media id)
