@@ -44,7 +44,6 @@ async function getCachedStations(dispatch, attempt = 0) {
     // downloadStations(dispatch, 2); // after getting cached stations, update station list
     // TO-DO: show user that we're updating.
   } catch (error) {
-    debugger
     console.log("Couldn't get cached stations:", error);
     dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
     // if (attempt < 2) downloadStations(dispatch, attempt + 1);

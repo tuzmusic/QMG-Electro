@@ -47,7 +47,7 @@ class CreateStationView extends Component {
 
   setPlaceholders() {
     this.setState({
-      title: "*** App Submitted Station ***",
+      title: "Station created at " + (new Date().toLocaleTimeString()),
       address: "88 N Spring St 03301",
       content: "This station is awesome",
       website: "www.station.com",
