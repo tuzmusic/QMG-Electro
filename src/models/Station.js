@@ -7,6 +7,20 @@ String.prototype.stripHtmlTags = () => {
 };
 
 export default class Station {
+  constructor(json) {
+    this.title = json.title;
+    this.address = json.address;
+    this.contactEmail = json.contactEmail;
+    this.contactPhone = json.contactPhone;
+    this.content = json.content;
+    this.location = json.location;
+    this.priceFrom = json.priceFrom;
+    this.priceTo = json.priceTo;
+    this.tagline = json.tagline;
+    this.website = json.website;
+    // this.amenities = json.amenities;
+  }
+
   static createFromApiResponse(json) {
     function p(propName, prefix = "_") {
       if ((valueArray = json.listing_props[`${prefix}${propName}`]))
@@ -45,10 +59,10 @@ export default class Station {
       station.mediaDataURL =
         "http://joinelectro.com/wp-json/wp/v2/media/" + station.mediaID;
     }
-    return station
+    return station;
   }
 
-  static createFromForm(json) {
+  static createForApiPost(json) {
     return {
       originalJSON: json,
       id: uuid.v1(), // ultimately this may need to be a string

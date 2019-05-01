@@ -1,16 +1,27 @@
 import Station from "../../models/Station";
 
 export function createStation(formData) {
-  return dispatch => {
-    const apiFriendlyStation = Station.createFromForm(formData);
-    // POST apiFriendlyStation to API
-    // this should return an API-friendly station
-    // then we'll convert that back to a station object
-    const station = new Station(apiFriendlyStation)
-    // (or update any fields on the existing object)
-    // and dispatch that station object inside the fetch's "then"
-
-    dispatch({ type: "CREATE_STATION", payload: station });
-    return station
+  return async dispatch => {
+    const station = new Station(formData);
+    try {
+      // const returnedStation = await postStationToApi(station);
+      dispatch({ type: "CREATE_STATION", payload: station }); // will eventually be dispatching returnedStation
+      return station;
+    } catch (error) {
+      dispatch({ type: "CREATE_STATION_ERROR", payload: error });
+    }
   };
+}
+
+function postStationToApi(station) {
+  const apiFriendlyStation = Station.createForApiPost(station);
+  // POST apiFriendlyStation to API
+  fetch("url")
+    .then(res => res.json())
+    .then(json => {
+      return json; // this may not be quite right...
+    })
+    .catch(error => {
+      return error;
+    });
 }
