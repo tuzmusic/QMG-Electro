@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import { login, assignUser } from "../redux/actions/authActions";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { Dropdown } from "react-native-material-dropdown";
+import User from "../models/User";
 
 class LoginView extends Component {
   state = {
@@ -21,8 +22,8 @@ class LoginView extends Component {
     isLoading: false
   };
 
-  performLogin() {
-    this.props.assignUser(this.props.users[this.state.selectedUserId]);
+  performLogin(user) {
+    this.props.assignUser(user);
     this.props.navigation.navigate("Main");
     return;
     fetch("http://127.0.0.1:3000/users") // this will need to be a POST session (not a GET user)
@@ -40,8 +41,13 @@ class LoginView extends Component {
   }
 
   handleLogin() {
-    if (!this.state.username && !this.state.selectedUserId) return
-    this.setState({ isLoading: true }, this.performLogin);
+    let user;
+    if ((id = this.state.selectedUserId)) {
+      user = this.props.users[id];
+    } else if ((username = this.state.username)) {
+      user = new User({ username });
+    }
+    if (user) this.setState({ isLoading: true }, this.performLogin(user));
   }
 
   selectDropdown(id) {
@@ -49,7 +55,6 @@ class LoginView extends Component {
   }
 
   render() {
-    
     return (
       <View style={styles.container}>
         <Overlay
