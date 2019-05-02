@@ -42,18 +42,6 @@ class LoginView extends Component {
   }
 
   render() {
-    let data = [
-      {
-        value: "Banana"
-      },
-      {
-        value: "Mango"
-      },
-      {
-        value: "Pear"
-      }
-    ];
-
     return (
       <View style={styles.container}>
         <Overlay
@@ -76,7 +64,7 @@ class LoginView extends Component {
             source={require("../../assets/logos/ElectroLogo.png")}
             style={styles.image}
           />
-          <Dropdown label="Select User" data={data} containerStyle={{width:"100%", padding:10}} />
+          <Dropdown label="Select User" data={this.props.users} containerStyle={{width:"100%", padding:10}} />
           <Input
             placeholder="Username"
             label={"Or Create New User"}
@@ -104,6 +92,7 @@ export default connect(
   state => ({
     isLoading: state.auth.isLoading,
     user: state.auth.user,
+    users: Object.keys(state.users.users).map(id => ({value: state.users.users[id].username})),
     error: state.auth.error
   }),
   { login, assignUser }

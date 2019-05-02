@@ -1,7 +1,12 @@
 import { AsyncStorage } from "react-native";
 
 const initialState = {
-  users: {}
+  users: {
+    1: {id: 1, username:"user1"},
+    2: {id: 1, username:"user2"},
+    3: {id: 1, username:"user3"},
+    4: {id: 1, username:"user4"}
+  }
 };
 
 export default (authReducer = (state = initialState, action) => {
