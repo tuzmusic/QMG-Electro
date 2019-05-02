@@ -61,7 +61,7 @@ class CreateStationView extends Component {
       location: { lat: 43.2085151, lng: -71.5425589 }
     });
   }
-
+  
   state = {
     title: "",
     address: "",
@@ -73,9 +73,10 @@ class CreateStationView extends Component {
     contactEmail: "",
     contactPhone: "",
     amenities: "",
+    location: null,
     addressPredictions: [],
     showPredictions: false,
-    location: null
+    submitting: false
   };
 
   async handleAddressChange() {
@@ -106,10 +107,17 @@ class CreateStationView extends Component {
   }
 
   handleSubmit = async () => {
-    const station = await this.props.createStation(this.state);
-    this.props.setCurrentStationID(station.id);
-    this.props.navigation.navigate("ListScreen");
-    this.props.navigation.navigate("StationDetail", { title: station.title });
+    console.log("click");
+    this.setState({ submitting: true });
+    try {
+      const station = await this.props.createStation(this.state);
+      this.props.setCurrentStationID(station.id);
+      this.setState({submitting: false})
+      this.props.navigation.navigate("ListScreen");
+      this.props.navigation.navigate("StationDetail", { title: station.title });
+    } catch (error) {
+      console.log("Error submitting station", error);
+    }
   };
 
   render() {
@@ -191,6 +199,7 @@ class CreateStationView extends Component {
             // containerStyle: { height: 100, justifyContent: "flex-end" }
           })}
           <Button
+            loading={this.state.submitting} 
             title="Submit"
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
