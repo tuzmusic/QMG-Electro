@@ -86,6 +86,8 @@ class LoginView extends Component {
             placeholder="Username"
             label={"Or Create New User"}
             value={this.state.username}
+            autoCorrect={false}
+            autoCapitalize={'none'}
             onChangeText={username => {
               this.setState({ username, selectedUserId: null, usernameError: "" });
             }}
