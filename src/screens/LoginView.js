@@ -17,10 +17,17 @@ import User from "../models/User";
 class LoginView extends Component {
   state = {
     username: "",
-    selectedUserId: 1,
+    selectedUserId: null,
     password: "",
     isLoading: false,
     usernameError: ""
+  };
+
+  componentDidMount = async () => {
+    await this.setState({ selectedUserId: 1 });
+    setTimeout(() => {
+      this.handleLogin();
+    }, 500);
   };
 
   async performLogin(user) {
@@ -87,9 +94,13 @@ class LoginView extends Component {
             label={"Or Create New User"}
             value={this.state.username}
             autoCorrect={false}
-            autoCapitalize={'none'}
+            autoCapitalize={"none"}
             onChangeText={username => {
-              this.setState({ username, selectedUserId: null, usernameError: "" });
+              this.setState({
+                username,
+                selectedUserId: null,
+                usernameError: ""
+              });
             }}
             errorMessage={this.state.usernameError}
           />

@@ -73,7 +73,7 @@ UserStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={"user-circle-o"}
+      name={focused ? "user-circle" : "user-circle-o"}
       library={"FontAwesome"}
     />
   )
@@ -89,7 +89,8 @@ const TabNavigator = createBottomTabNavigator(
   {
     initialRouteName: "MapStack",
     initialRouteName: "CreateStationStack",
-    initialRouteName: "ListStack"
+    initialRouteName: "ListStack",
+    initialRouteName: "UserStack",
   }
 );
 
