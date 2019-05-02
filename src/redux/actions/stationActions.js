@@ -57,8 +57,8 @@ async function getCachedStations(dispatch, attempt = 0) {
 }
 
 function getImagesForAllStations(dispatch, stations) {
-  Object.keys(stations).forEach(key =>
-    _getImageForStation(dispatch, stations[key])
+  Object.values(stations).forEach(station =>
+    _getImageForStation(dispatch, station)
   );
 }
 

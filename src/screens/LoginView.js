@@ -49,7 +49,7 @@ class LoginView extends Component {
   }
 
   selectDropdown(id) {
-    this.setState({ selectedUserId: id, username: "" });
+    this.setState({ selectedUserId: id, username: "", usernameError: "" });
   }
 
   render() {
@@ -99,9 +99,9 @@ class LoginView extends Component {
 }
 
 function dropdownFriendlyUsers(users) {
-  return Object.keys(users).map(id => {
+  return Object.entries(users).map(([id, user]) => {
     return {
-      label: users[id].username,
+      label: user.username,
       value: id
     };
   });
