@@ -4,8 +4,10 @@ import { BLText } from "../components/StyledComponents";
 import { Input, Button, Divider } from "react-native-elements";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import { connect } from "react-redux";
-import { createStation } from "../redux/actions/writeActions";
-import { setCurrentStationID } from "../redux/actions/readActions";
+import {
+  setCurrentStationID,
+  createStation
+} from "../redux/actions/taskActions";
 import { GoogleAPIKey } from "../../secrets";
 import Sugar from "sugar";
 Sugar.extend();

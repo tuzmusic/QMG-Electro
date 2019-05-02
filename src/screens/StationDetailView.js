@@ -10,9 +10,11 @@ import {
 import { Image, Avatar, Button } from "react-native-elements";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
-import { getImageForStation } from "../redux/actions/readActions";
+import {
+  getImageForStation,
+  deleteStation
+} from "../redux/actions/taskActions";
 import { MaterialIndicator } from "react-native-indicators";
-import { deleteStation } from  '../redux/actions/writeActions'
 
 const CellTextRow = props => (
   <BLText style={[{ padding: 2, textAlign: "left" }, props.style]}>
@@ -122,12 +124,12 @@ class StationDetailView extends Component {
 
   async onDelete() {
     this.props.navigation.navigate("ListScreen");
-    this.props.deleteStation(this.props.station)
+    this.props.deleteStation(this.props.station);
   }
 
   render() {
     station = this.props.station;
-    if (!station) return null
+    if (!station) return null;
     return (
       <ScrollView>
         <View style={styles.imageContainer}>

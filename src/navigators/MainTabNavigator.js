@@ -14,7 +14,7 @@ import UserDetailScreen from "../screens/UserDetailView";
 import CreateStationScreen from "../screens/CreateStationView";
 import LoginScreen from "../screens/LoginView";
 
-import { fetchStations } from "../redux/actions/readActions";
+import { fetchStations } from "../redux/actions/taskActions";
 
 const ListStack = createStackNavigator({
   ListScreen: MapResultsScreen,

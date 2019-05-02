@@ -74,9 +74,6 @@ function _getImageForStation(dispatch, station) {
       .then(res => res.json())
       .then(json => {
         const imageURL = json.media_details.sizes.medium.source_url;
-        // console.log(
-        //   `medium imageURL for station #${station.id}: ${imageURL}`
-        // );
         updateStation(dispatch, station, "imageURL", imageURL);
       })
       .catch(error => console.warn(error));
@@ -106,4 +103,39 @@ export function setUserInQuestion(user) {
   return dispatch => {
     dispatch({ type: "SET_USER_IN_QUESTION", payload: user });
   };
+}
+
+export function createStation(formData) {
+  return async dispatch => {
+    const station = new Station(formData);
+    try {
+      // const returnedStation = await postStationToApi(station);
+      await dispatch({ type: "CREATE_STATION", payload: station }); // will eventually be dispatching returnedStation
+
+      dispatch({ type: "SAVE_STATIONS" });
+      return station;
+    } catch (error) {
+      dispatch({ type: "CREATE_STATION_ERROR", payload: error });
+    }
+  };
+}
+
+export function deleteStation(station) {
+  return dispatch => {
+    dispatch({ type: "DELETE_STATION", payload: station });
+    dispatch({ type: "SAVE_STATIONS" });
+  };
+}
+
+function postStationToApi(station) {
+  const apiFriendlyStation = Station.createForApiPost(station);
+  // POST apiFriendlyStation to API
+  fetch("url")
+    .then(res => res.json())
+    .then(json => {
+      return json; // this may not be quite right...
+    })
+    .catch(error => {
+      return error;
+    });
 }
