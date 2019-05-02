@@ -17,7 +17,7 @@ import User from "../models/User";
 class LoginView extends Component {
   state = {
     username: "",
-    selectedUserId: null,
+    selectedUserId: 1,
     password: "",
     isLoading: false,
     usernameError: ""
