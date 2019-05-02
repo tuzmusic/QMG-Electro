@@ -41,12 +41,6 @@ export default (mainReducer = (state = initialState, action) => {
       const data = { stations: state.stations, savedDate: new Date() };
       const storageString = JSON.stringify(data);
       AsyncStorage.setItem("electro_stations", storageString)
-        .then(() => {
-          // debugger;
-        })
-        .catch(() => {
-          // debugger;
-        });
       return state;
     default:
       return state;

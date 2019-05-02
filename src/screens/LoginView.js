@@ -73,7 +73,7 @@ class LoginView extends Component {
 
         <ThemeProvider theme={theme}>
           <Image
-            source={require("../../assets/logos/BOLTLogoTransparent.png")}
+            source={require("../../assets/logos/ElectroLogo.png")}
             style={styles.image}
           />
           <Input
