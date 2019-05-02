@@ -3,9 +3,9 @@ import { AsyncStorage } from "react-native";
 const initialState = {
   users: {
     1: {id: 1, username:"user1"},
-    2: {id: 1, username:"user2"},
-    3: {id: 1, username:"user3"},
-    4: {id: 1, username:"user4"}
+    2: {id: 2, username:"user2"},
+    3: {id: 3, username:"user3"},
+    4: {id: 4, username:"user4"}
   }
 };
 

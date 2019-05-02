@@ -16,11 +16,13 @@ import { Dropdown } from "react-native-material-dropdown";
 class LoginView extends Component {
   state = {
     username: "",
+    selectedUserId: null,
     password: "",
     isLoading: false
   };
 
   performLogin() {
+    this.props.assignUser(this.props.users[this.state.selectedUserId]);
     this.props.navigation.navigate("Main");
     return;
     fetch("http://127.0.0.1:3000/users") // this will need to be a POST session (not a GET user)
@@ -38,10 +40,16 @@ class LoginView extends Component {
   }
 
   handleLogin() {
+    if (!this.state.username && !this.state.selectedUserId) return
     this.setState({ isLoading: true }, this.performLogin);
   }
 
+  selectDropdown(id) {
+    this.setState({ selectedUserId: id });
+  }
+
   render() {
+    
     return (
       <View style={styles.container}>
         <Overlay
@@ -64,7 +72,12 @@ class LoginView extends Component {
             source={require("../../assets/logos/ElectroLogo.png")}
             style={styles.image}
           />
-          <Dropdown label="Select User" data={this.props.users} containerStyle={{width:"100%", padding:10}} />
+          <Dropdown
+            onChangeText={this.selectDropdown.bind(this)}
+            label="Select User"
+            data={this.props.dropdownUsers}
+            containerStyle={{ width: "100%", padding: 10 }}
+          />
           <Input
             placeholder="Username"
             label={"Or Create New User"}
@@ -88,11 +101,21 @@ class LoginView extends Component {
   }
 }
 
+function dropdownFriendlyUsers(users) {
+  return Object.keys(users).map(id => {
+    return {
+      label: users[id].username,
+      value: id
+    };
+  });
+}
+
 export default connect(
   state => ({
     isLoading: state.auth.isLoading,
     user: state.auth.user,
-    users: Object.keys(state.users.users).map(id => ({value: state.users.users[id].username})),
+    users: state.users.users,
+    dropdownUsers: dropdownFriendlyUsers(state.users.users),
     error: state.auth.error
   }),
   { login, assignUser }

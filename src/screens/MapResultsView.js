@@ -10,7 +10,8 @@ import {
 
 class MapResultsContainer extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: "Stations",
+    headerTitle: navigation.getParam("title")
+    // headerTitle: "Stations",
     /* headerLeft: (
       <Button
         title="Download"
@@ -33,11 +34,14 @@ class MapResultsContainer extends Component {
 
   componentDidMount() {
     this.props.navigation.setParams({
+      title: `Stations (${this.props.user.username})`
+    });
+    /* this.props.navigation.setParams({
       download: async () => await this.props.fetchStations(false)
     });
     this.props.navigation.setParams({
       getCached: async () => await this.props.fetchStations(true, 2)
-    });
+    }); */
     // this.goToStation(850)
   }
 
@@ -66,7 +70,8 @@ class MapResultsContainer extends Component {
 
 const mapStateToProps = state => ({
   stations: state.main.stations,
-  isLoading: state.main.isLoading
+  isLoading: state.main.isLoading,
+  user: state.auth.user
 });
 
 export const MapResultsViewBasic = MapResultsContainer;
