@@ -6,11 +6,12 @@ import {
   ThemeProvider,
   Overlay
 } from "react-native-elements";
-import { View, Text } from "react-native";
+import { View, Text, Picker } from "react-native";
 import { DotIndicator } from "react-native-indicators";
 import { connect } from "react-redux";
 import { login, assignUser } from "../redux/actions/authActions";
 import F8StyleSheet from "../components/F8StyleSheet";
+import { Dropdown } from "react-native-material-dropdown";
 
 class LoginView extends Component {
   state = {
@@ -41,6 +42,18 @@ class LoginView extends Component {
   }
 
   render() {
+    let data = [
+      {
+        value: "Banana"
+      },
+      {
+        value: "Mango"
+      },
+      {
+        value: "Pear"
+      }
+    ];
+
     return (
       <View style={styles.container}>
         <Overlay
@@ -70,14 +83,15 @@ class LoginView extends Component {
               this.setState({ username });
             }}
           />
-          <Input
+          <Dropdown label="Favorite Fruit" data={data} containerStyle={{width:"100%", padding:10}} />
+          {/* <Input
             placeholder="Password"
             secureTextEntry={true}
             value={this.state.password}
             onChangeText={password => {
               this.setState({ password });
             }}
-          />
+          /> */}
           <Button title="Login" onPress={this.handleLogin.bind(this)} />
         </ThemeProvider>
       </View>
