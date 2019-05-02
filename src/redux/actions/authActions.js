@@ -1,6 +1,5 @@
 export function assignUser(user) {
   return async dispatch => {
-    console.log("user", user);
     await dispatch({ type: "LOGIN_SUCCESS", user });
     dispatch({type: "SAVE_USERS"})
   };

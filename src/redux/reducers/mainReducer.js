@@ -37,7 +37,6 @@ export default (mainReducer = (state = initialState, action) => {
       delete clonedStations[action.payload.id];
       return { ...state, stations: clonedStations };
     case "SAVE_STATIONS":
-      console.log("Saving stations to storage");
       const data = { stations: state.stations, savedDate: new Date() };
       const storageString = JSON.stringify(data);
       AsyncStorage.setItem("electro_stations", storageString)

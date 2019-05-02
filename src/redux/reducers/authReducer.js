@@ -22,13 +22,7 @@ export default (authReducer = (state = initialState, action) => {
     case "LOGIN_FAILURE":
       return { ...state, error: action.error, isLoading: false };
     case "GET_USERS":
-      console.log(
-        "Users fetched from storage:",
-        Object.values(action.users).map(u => u.username)
-      );
-
       return { ...state, users: action.users };
-
     case "SAVE_USERS":
       const data = { users: state.users, savedDate: new Date() };
       const storageString = JSON.stringify(data);

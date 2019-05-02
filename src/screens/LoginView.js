@@ -16,7 +16,7 @@ import User from "../models/User";
 
 class LoginView extends Component {
   state = {
-    username: "tuzmusic",
+    username: "",
     selectedUserId: null,
     password: "",
     isLoading: false
@@ -41,7 +41,7 @@ class LoginView extends Component {
   }
 
   selectDropdown(id) {
-    this.setState({ selectedUserId: id });
+    this.setState({ selectedUserId: id, username: "" });
   }
 
   render() {
@@ -68,6 +68,7 @@ class LoginView extends Component {
             style={styles.image}
           />
           <Dropdown
+            value={this.props.users[this.state.selectedUserId]?.username || ""}
             onChangeText={this.selectDropdown.bind(this)}
             label="Select User"
             data={this.props.dropdownUsers}
@@ -78,17 +79,9 @@ class LoginView extends Component {
             label={"Or Create New User"}
             value={this.state.username}
             onChangeText={username => {
-              this.setState({ username });
+              this.setState({ username, selectedUserId: null });
             }}
           />
-          {/* <Input
-            placeholder="Password"
-            secureTextEntry={true}
-            value={this.state.password}
-            onChangeText={password => {
-              this.setState({ password });
-            }}
-          /> */}
           <Button title="Login" onPress={this.handleLogin.bind(this)} />
         </ThemeProvider>
       </View>

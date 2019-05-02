@@ -125,7 +125,6 @@ class CreateStationView extends Component {
   };
 
   handleSubmit = async () => {
-    console.log("click");
     this.setState({ submitting: true });
     try {
       const station = await this.props.createStation(this.state);
