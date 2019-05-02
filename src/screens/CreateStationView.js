@@ -39,11 +39,22 @@ function ControlledInput(props) {
 }
 
 class CreateStationView extends Component {
-  static navigationOptions = { headerTitle: "New Station" };
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: "New Station",
+    headerRight: (
+      <Button
+        title="Clear"
+        onPress={navigation.getParam("clearForm") || (() => {})}
+      />
+    )
+  });
   componentDidMount = async () => {
     await this.setPlaceholders();
-    // debugger
     // this.handleSubmit();
+
+    this.props.navigation.setParams({
+      clearForm: async () => await this.setState(this.emptyState)
+    });
   };
 
   setPlaceholders() {
@@ -61,7 +72,7 @@ class CreateStationView extends Component {
       location: { lat: 43.2085151, lng: -71.5425589 }
     });
   }
-  
+
   emptyState = {
     title: "",
     address: "",
@@ -79,7 +90,7 @@ class CreateStationView extends Component {
     submitting: false
   };
 
-  state = this.emptyState
+  state = this.emptyState;
 
   async handleAddressChange() {
     const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleAPIKey}&input=${
@@ -107,13 +118,16 @@ class CreateStationView extends Component {
       console.error(err);
     }
   }
+  clearForm = () => {
+    this.setState(this.emptyState);
+  };
 
   handleSubmit = async () => {
     console.log("click");
     this.setState({ submitting: true });
     try {
       const station = await this.props.createStation(this.state);
-      this.setState(this.emptyState)
+      this.setState(this.emptyState); // this.clearForm() doesn't work for some reason
       this.props.setCurrentStationID(station.id);
       this.props.navigation.navigate("ListScreen");
       this.props.navigation.navigate("StationDetail", { title: station.title });
@@ -201,7 +215,7 @@ class CreateStationView extends Component {
             // containerStyle: { height: 100, justifyContent: "flex-end" }
           })}
           <Button
-            loading={this.state.submitting} 
+            loading={this.state.submitting}
             title="Submit"
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
