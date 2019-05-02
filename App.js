@@ -6,12 +6,14 @@ import { combineReducers, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import mainReducer from "./src/redux/reducers/mainReducer";
 import authReducer from "./src/redux/reducers/authReducer";
+import usersReducer from "./src/redux/reducers/usersReducer";
 import thunk from "redux-thunk";
 import GlobalFont from "react-native-global-font";
 import AppStyles from './src/constants/Styles'
 
 const combinedReducer = combineReducers({
   main: mainReducer,
+  users: usersReducer,
   auth: authReducer
 });
 const store = createStore(combinedReducer, {}, applyMiddleware(thunk));

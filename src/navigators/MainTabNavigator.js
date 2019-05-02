@@ -12,7 +12,6 @@ import MapResultsScreen from "../screens/MapResultsView";
 import StationDetailScreen from "../screens/StationDetailView";
 import UserDetailScreen from "../screens/UserDetailView";
 import CreateStationScreen from "../screens/CreateStationView";
-import LoginScreen from "../screens/LoginView";
 
 import { fetchStations } from "../redux/actions/stationActions";
 
@@ -72,15 +71,13 @@ const TabNavigator = createBottomTabNavigator(
   {
     initialRouteName: "MapStack",
     initialRouteName: "CreateStationStack",
-    initialRouteName: "ListStack",
+    initialRouteName: "ListStack"
   }
 );
 
 class TabContainer extends Component {
   componentDidMount = async () => {
-    // NOTE: This means we'll never update the stations after first fetch. Fine for now I guess.
-    // if (this.props.stations.length === 0)
-      await this.props.fetchStations({ useCache: true, shouldDownload: false });
+    await this.props.fetchStations({ useCache: true, shouldDownload: false });
   };
 
   static router = TabNavigator.router;
