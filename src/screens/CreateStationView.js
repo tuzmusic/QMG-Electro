@@ -62,7 +62,7 @@ class CreateStationView extends Component {
     });
   }
   
-  state = {
+  emptyState = {
     title: "",
     address: "",
     content: "",
@@ -78,6 +78,8 @@ class CreateStationView extends Component {
     showPredictions: false,
     submitting: false
   };
+
+  state = this.emptyState
 
   async handleAddressChange() {
     const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleAPIKey}&input=${
@@ -111,8 +113,8 @@ class CreateStationView extends Component {
     this.setState({ submitting: true });
     try {
       const station = await this.props.createStation(this.state);
+      this.setState(this.emptyState)
       this.props.setCurrentStationID(station.id);
-      this.setState({submitting: false})
       this.props.navigation.navigate("ListScreen");
       this.props.navigation.navigate("StationDetail", { title: station.title });
     } catch (error) {
