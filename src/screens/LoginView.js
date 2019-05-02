@@ -19,7 +19,8 @@ class LoginView extends Component {
     username: "",
     selectedUserId: null,
     password: "",
-    isLoading: false
+    isLoading: false,
+    usernameError: ""
   };
 
   async performLogin(user) {
@@ -32,6 +33,13 @@ class LoginView extends Component {
     if ((id = this.state.selectedUserId)) {
       user = this.props.users[id];
     } else if ((username = this.state.username)) {
+      const currentUsernames = Object.values(this.props.users).map(
+        u => u.username
+      );
+      if (currentUsernames.indexOf(username) > -1) {
+        await this.setState({ usernameError: "This user already exists" });
+        return;
+      }
       user = new User({ username });
     }
     if (user) {
@@ -79,8 +87,9 @@ class LoginView extends Component {
             label={"Or Create New User"}
             value={this.state.username}
             onChangeText={username => {
-              this.setState({ username, selectedUserId: null });
+              this.setState({ username, selectedUserId: null, usernameError: "" });
             }}
+            errorMessage={this.state.usernameError}
           />
           <Button title="Login" onPress={this.handleLogin.bind(this)} />
         </ThemeProvider>
