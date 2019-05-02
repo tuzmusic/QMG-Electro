@@ -32,6 +32,10 @@ export default (mainReducer = (state = initialState, action) => {
         ...state,
         stations: { ...state.stations, [action.payload.id]: action.payload }
       };
+    case "DELETE_STATION":
+      const clonedStations = { ...state.stations };
+      delete clonedStations[action.payload.id];
+      return { ...state, stations: clonedStations };
     case "SAVE_STATIONS":
       console.log("Saving stations to storage");
       const data = { stations: state.stations, savedDate: new Date() };

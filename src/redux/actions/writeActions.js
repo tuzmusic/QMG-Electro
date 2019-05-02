@@ -6,11 +6,19 @@ export function createStation(formData) {
     try {
       // const returnedStation = await postStationToApi(station);
       await dispatch({ type: "CREATE_STATION", payload: station }); // will eventually be dispatching returnedStation
+
       dispatch({ type: "SAVE_STATIONS" });
       return station;
     } catch (error) {
       dispatch({ type: "CREATE_STATION_ERROR", payload: error });
     }
+  };
+}
+
+export function deleteStation(station) {
+  return dispatch => {
+    dispatch({ type: "DELETE_STATION", payload: station });
+    dispatch({ type: "SAVE_STATIONS" });
   };
 }
 

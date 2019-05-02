@@ -7,11 +7,12 @@ import {
   TouchableOpacity,
   Platform
 } from "react-native";
-import { Image, Avatar } from "react-native-elements";
+import { Image, Avatar, Button } from "react-native-elements";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 import { getImageForStation } from "../redux/actions/readActions";
 import { MaterialIndicator } from "react-native-indicators";
+import { deleteStation } from  '../redux/actions/writeActions'
 
 const CellTextRow = props => (
   <BLText style={[{ padding: 2, textAlign: "left" }, props.style]}>
@@ -121,8 +122,14 @@ class StationDetailView extends Component {
     }
   }
 
+  async onDelete() {
+    this.props.navigation.navigate("ListScreen");
+    this.props.deleteStation(this.props.station)
+  }
+
   render() {
     station = this.props.station;
+    if (!station) return null
     return (
       <ScrollView>
         <View style={styles.imageContainer}>
@@ -148,11 +155,23 @@ class StationDetailView extends Component {
           </CellTextRow>
           <ContactButtons station={station} />
           {/* Price */}
-        <CellTextRow style={[text.price]}>{(station.priceFrom && station.priceTo) ? `Price range: $${station.priceFrom}-$${station.priceTo}` : "Free charging!"}</CellTextRow>
+          <CellTextRow style={[text.price]}>
+            {station.priceFrom && station.priceTo
+              ? `Price range: $${station.priceFrom}-$${station.priceTo}`
+              : "Free charging!"}
+          </CellTextRow>
           {/* Description */}
           <CellTextRow style={[text.content, { paddingTop: 20 }]}>
             {station.content.replace("<p>", "").replace("</p>", "")}
           </CellTextRow>
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Delete Listing"
+              containerStyle={{ width: "100%" }}
+              buttonStyle={{ backgroundColor: "red" }}
+              onPress={this.onDelete.bind(this)}
+            />
+          </View>
         </View>
       </ScrollView>
     );
@@ -166,7 +185,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getImageForStation }
+  { getImageForStation, deleteStation }
 )(StationDetailView);
 
 const baseSize = 17;
@@ -190,12 +209,17 @@ const text = F8StyleSheet.create({
   },
   price: {
     fontSize: baseSize + 4,
-    textAlign: 'center',
-    width: '100%'
+    textAlign: "center",
+    width: "100%"
   }
 });
 
 const styles = F8StyleSheet.create({
+  buttonContainer: {
+    padding: 10,
+    width: "100%",
+    alignItems: "center"
+  },
   infoCell: {
     flex: 2
   },
@@ -210,7 +234,7 @@ const styles = F8StyleSheet.create({
     marginLeft: 25,
     marginRight: 25,
     marginTop: 5,
-    marginBottom: 5,
+    marginBottom: 5
   },
   rowContainer: {
     flex: 1,
