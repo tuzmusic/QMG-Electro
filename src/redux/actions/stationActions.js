@@ -78,7 +78,7 @@ function _getImageForStation(dispatch, station) {
       })
       .catch(error => console.warn(error));
   }
-}
+} 
 
 export function fetchStations({ useCache, shouldDownload }, attempt = 0) {
   return async dispatch => {
