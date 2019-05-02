@@ -5,12 +5,7 @@ const initialState = {
   user: null,
   isLoading: false,
   error: null,
-  users: {
-    1: { id: 1, username: "user1" },
-    2: { id: 2, username: "user2" },
-    3: { id: 3, username: "user3" },
-    4: { id: 4, username: "user4" }
-  }
+  users: {}
 };
 
 export default (authReducer = (state = initialState, action) => {
@@ -41,7 +36,7 @@ export default (authReducer = (state = initialState, action) => {
         "Saving users to storage",
         Object.values(data.users).map(u => u.username)
       );
-      AsyncStorage.setItem("electro_users", storageString)
+      AsyncStorage.setItem("electro_users", storageString);
       return state;
 
     default:

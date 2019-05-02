@@ -11,7 +11,6 @@ import {
 class MapResultsContainer extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: navigation.getParam("title")
-    // headerTitle: "Stations",
     /* headerLeft: (
       <Button
         title="Download"
@@ -33,8 +32,13 @@ class MapResultsContainer extends Component {
   }
 
   componentDidMount() {
+    this.setNavigationProps()
+  }
+  
+
+  setNavigationProps() {
     this.props.navigation.setParams({
-      title: `Stations (${this.props.user.username})`
+      title: `Stations`
     });
     /* this.props.navigation.setParams({
       download: async () => await this.props.fetchStations(false)
@@ -42,7 +46,6 @@ class MapResultsContainer extends Component {
     this.props.navigation.setParams({
       getCached: async () => await this.props.fetchStations(true, 2)
     }); */
-    // this.goToStation(850)
   }
 
   onStationClick = station => {
