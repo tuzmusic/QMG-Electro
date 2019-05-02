@@ -45,7 +45,8 @@ MapStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === "ios" ? "ios-map" : "md-map"}
+      name={focused ? "map" : "map-o"}
+      library={"FontAwesome"}
     />
   )
 };
@@ -59,7 +60,13 @@ CreateStationStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === "ios" ? "ios-add-circle" : "md-add"}
+      name={
+        Platform.OS === "ios"
+          ? focused
+            ? "md-add-circle"
+            : "md-add-circle-outline"
+          : "md-add"
+      }
     />
   )
 };
@@ -90,7 +97,7 @@ const TabNavigator = createBottomTabNavigator(
     initialRouteName: "MapStack",
     initialRouteName: "CreateStationStack",
     initialRouteName: "ListStack",
-    initialRouteName: "UserStack",
+    initialRouteName: "UserStack"
   }
 );
 
