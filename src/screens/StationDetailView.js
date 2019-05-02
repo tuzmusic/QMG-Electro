@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import {
   getImageForStation,
   deleteStation
-} from "../redux/actions/taskActions";
+} from "../redux/actions/stationActions";
 import { MaterialIndicator } from "react-native-indicators";
 
 const CellTextRow = props => (

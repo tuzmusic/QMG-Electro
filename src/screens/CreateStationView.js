@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import {
   setCurrentStationID,
   createStation
-} from "../redux/actions/taskActions";
+} from "../redux/actions/stationActions";
 import { GoogleAPIKey } from "../../secrets";
 import Sugar from "sugar";
 Sugar.extend();
