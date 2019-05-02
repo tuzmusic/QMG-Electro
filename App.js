@@ -13,7 +13,6 @@ import AppStyles from './src/constants/Styles'
 
 const combinedReducer = combineReducers({
   main: mainReducer,
-  users: usersReducer,
   auth: authReducer
 });
 const store = createStore(combinedReducer, {}, applyMiddleware(thunk));

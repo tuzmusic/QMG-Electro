@@ -18,11 +18,11 @@ export class AuthNavigator extends Component {
   }
 }
 
-const mapDispatchToProps = state => {
-  return { users: state.users };
+const mapStateToProps = state => {
+  return { users: state.auth.users };
 };
 
 export default connect(
-  mapDispatchToProps,
+  mapStateToProps,
   { getUsers }
 )(AuthNavigator);

@@ -1,7 +1,8 @@
 export function assignUser(user) {
-  return dispatch => {
+  return async dispatch => {
     console.log("user", user);
-    dispatch({ type: "LOGIN_SUCCESS", payload: user });
+    await dispatch({ type: "LOGIN_SUCCESS", user });
+    dispatch({type: "SAVE_USERS"})
   };
 }
 
@@ -12,11 +13,11 @@ export function login() {
       .then(res => res.json())
       .then(users => {
         console.log("Login succeeded");
-        dispatch({ type: "LOGIN_SUCCESS", payload: users[0] });
+        dispatch({ type: "LOGIN_SUCCESS", user: users[0] });
       })
       .catch(error => {
         console.warn("login failed");
-        dispatch({ type: "LOGIN_FAILURE", payload: error });
+        dispatch({ type: "LOGIN_FAILURE", error });
       });
   };
 }

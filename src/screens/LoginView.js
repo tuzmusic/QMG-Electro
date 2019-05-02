@@ -16,38 +16,28 @@ import User from "../models/User";
 
 class LoginView extends Component {
   state = {
-    username: "",
+    username: "tuzmusic",
     selectedUserId: null,
     password: "",
     isLoading: false
   };
 
-  performLogin(user) {
-    this.props.assignUser(user);
+  async performLogin(user) {
+    await this.props.assignUser(user);
     this.props.navigation.navigate("Main");
-    return;
-    fetch("http://127.0.0.1:3000/users") // this will need to be a POST session (not a GET user)
-      .then(res => res.json())
-      .then(users => {
-        console.log("Login succeeded");
-        this.props.assignUser(users[0]);
-        console.log("Navigating to main screen");
-        this.props.navigation.navigate("Main");
-      })
-      .catch(error => {
-        console.warn("login failed", error);
-        this.setState({ isLoading: false });
-      });
   }
 
-  handleLogin() {
+  async handleLogin() {
     let user;
     if ((id = this.state.selectedUserId)) {
       user = this.props.users[id];
     } else if ((username = this.state.username)) {
       user = new User({ username });
     }
-    if (user) this.setState({ isLoading: true }, this.performLogin(user));
+    if (user) {
+      await this.setState({ isLoading: true });
+      this.performLogin(user);
+    }
   }
 
   selectDropdown(id) {
@@ -119,8 +109,8 @@ export default connect(
   state => ({
     isLoading: state.auth.isLoading,
     user: state.auth.user,
-    users: state.users.users,
-    dropdownUsers: dropdownFriendlyUsers(state.users.users),
+    users: state.auth.users,
+    dropdownUsers: dropdownFriendlyUsers(state.auth.users),
     error: state.auth.error
   }),
   { login, assignUser }
