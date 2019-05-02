@@ -11,7 +11,8 @@ import MapScreen from "../screens/MapView";
 import MapResultsScreen from "../screens/MapResultsView";
 import StationDetailScreen from "../screens/StationDetailView";
 import UserDetailScreen from "../screens/UserDetailView";
-import CreateScreen from "../screens/CreateStationView";
+import CreateStationScreen from "../screens/CreateStationView";
+import LoginScreen from "../screens/LoginView";
 
 import { fetchStations } from "../redux/actions/readActions";
 
@@ -49,7 +50,7 @@ MapStack.navigationOptions = {
 };
 
 const CreateStationStack = createStackNavigator({
-  CreateScreen: CreateScreen
+  CreateScreen: CreateStationScreen
 });
 
 CreateStationStack.navigationOptions = {
