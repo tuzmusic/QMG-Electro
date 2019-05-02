@@ -76,14 +76,15 @@ class LoginView extends Component {
             source={require("../../assets/logos/ElectroLogo.png")}
             style={styles.image}
           />
+          <Dropdown label="Select User" data={data} containerStyle={{width:"100%", padding:10}} />
           <Input
             placeholder="Username"
+            label={"Or Create New User"}
             value={this.state.username}
             onChangeText={username => {
               this.setState({ username });
             }}
           />
-          <Dropdown label="Favorite Fruit" data={data} containerStyle={{width:"100%", padding:10}} />
           {/* <Input
             placeholder="Password"
             secureTextEntry={true}
