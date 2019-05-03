@@ -10,6 +10,7 @@ export default class Station {
   constructor(json) {
     this.id =  uuid.v1()
     this.originalJSON = json
+    this.userID = json.userID
     this.title = json.title;
     this.address = json.address;
     this.contactEmail = json.contactEmail;

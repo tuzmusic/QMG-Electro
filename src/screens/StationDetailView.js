@@ -128,7 +128,8 @@ class StationDetailView extends Component {
   }
 
   render() {
-    station = this.props.station;
+    const {station, users} = this.props;
+    const user = users[station.userID]
     if (!station) return null;
     return (
       <ScrollView>
@@ -180,7 +181,8 @@ class StationDetailView extends Component {
 
 const mapStateToProps = state => ({
   station: state.main.stations[state.main.currentStationID],
-  stations: state.main.stations
+  stations: state.main.stations,
+  users: state.auth.users
 });
 
 export default connect(

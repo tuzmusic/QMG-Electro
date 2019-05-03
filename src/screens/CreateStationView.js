@@ -71,7 +71,7 @@ class CreateStationView extends Component {
       contactEmail: "me@place.com",
       contactPhone: "444-333-1111",
       amenities: "60",
-      location: { lat: 43.2085151, lng: -71.5425589 }
+      location: { lat: 43.2085151, lng: -71.5425589 },
     });
   }
 
@@ -89,7 +89,8 @@ class CreateStationView extends Component {
     location: null,
     addressPredictions: [],
     showPredictions: false,
-    submitting: false
+    submitting: false,
+    userID: this.props.user.id
   };
 
   state = this.emptyState;
@@ -193,7 +194,7 @@ class CreateStationView extends Component {
               keyboardType: "numeric"
             })}
           </View>
-          {ControlledInput.call(this, {
+          {/* {ControlledInput.call(this, {
             propName: "amenities",
             multiline: false,
             keyboardType: "number-pad"
@@ -205,7 +206,7 @@ class CreateStationView extends Component {
             style={styles.button}
             title="Upload Photo"
             onPress={() => {}}
-          />
+          /> */}
 
           <Divider style={[styles.divider, styles.invisible]} />
 
@@ -228,8 +229,9 @@ class CreateStationView extends Component {
 }
 
 export default connect(
-  state => ({
-    stations: state.main.stations
+  ({main, auth}) => ({
+    stations: main.stations,
+    user: auth.user
   }),
   { createStation, setCurrentStationID }
 )(CreateStationView);
