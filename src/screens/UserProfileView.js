@@ -11,8 +11,6 @@ class UserProfileView extends Component {
   });
 
   componentDidMount = () => {
-    console.log("current user:", this.props.user);
-
     this.props.navigation.setParams({
       title: this.props.user.username
     });

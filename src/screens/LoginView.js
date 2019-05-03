@@ -26,13 +26,15 @@ class LoginView extends Component {
     usernameError: ""
   };
 
-  componentDidMount = () => {
-    console.log("current user:", this.props.user);
-    
-    // setTimeout(() => {
-    //   this.handleLogin();
-    // }, 500);
-  };
+  autoLogin() {
+    setTimeout(() => {
+      this.handleLogin();
+    }, 500);
+  }
+
+  componentDidMount() {
+    this.autoLogin();
+  }
 
   async performLogin(user) {
     await this.props.assignUser(user);
@@ -50,7 +52,7 @@ class LoginView extends Component {
       if (currentUsernames.indexOf(username) > -1) {
         await this.setState({ usernameError: "This user already exists" });
       } else {
-        // create user (model)
+        // create user object
         newUser = new User({ username });
       }
     }
