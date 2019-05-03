@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, Button as NativeButton } from "react-native";
 import { BLText } from "../components/StyledComponents";
 import { Input, Button, Divider } from "react-native-elements";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
@@ -44,7 +44,7 @@ class CreateStationView extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "New Station",
     headerRight: (
-      <Button
+      <NativeButton
         title="Clear"
         onPress={navigation.getParam("clearForm") || (() => {})}
       />

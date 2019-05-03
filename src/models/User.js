@@ -9,4 +9,9 @@ export default class User {
     this.firstName = user.firstName;
     this.lastName = user.lastName;
   }
+
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`
+  }
+  
 }

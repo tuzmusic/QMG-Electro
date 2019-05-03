@@ -12,19 +12,19 @@ import { connect } from "react-redux";
 import { login, assignUser } from "../redux/actions/authActions";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { Dropdown } from "react-native-material-dropdown";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import User from "../models/User";
 
 class LoginView extends Component {
   state = {
     username: "",
-    selectedUserId: null,
+    selectedUserId: 1,
     password: "",
     isLoading: false,
     usernameError: ""
   };
 
-  componentDidMount = async () => {
-    await this.setState({ selectedUserId: 1 });
+  componentDidMount =  () => {
     setTimeout(() => {
       this.handleLogin();
     }, 500);
@@ -37,8 +37,8 @@ class LoginView extends Component {
 
   async handleLogin() {
     let user;
-    if ((id = this.state.selectedUserId)) {
-      user = this.props.users[id];
+    if ((selectedId = this.state.selectedUserId)) {
+      user = this.props.users[selectedId];
     } else if ((username = this.state.username)) {
       const currentUsernames = Object.values(this.props.users).map(
         u => u.username
@@ -61,52 +61,56 @@ class LoginView extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Overlay
-          containerStyle={styles.modal}
-          height={200}
-          width={200}
-          isVisible={this.state.isLoading}
-          style={styles.modal}
-          borderRadius={20}
-          overlayBackgroundColor={"lightblue"}
-        >
-          <View style={styles.modalContainer}>
-            <DotIndicator color={"darkgrey"} />
-            <Text>Logging in...</Text>
-          </View>
-        </Overlay>
+      <KeyboardAwareScrollView contentContainerStyle={styles.superContainer}>
+        <View style={styles.container}>
+          <Overlay
+            containerStyle={styles.modal}
+            height={200}
+            width={200}
+            isVisible={this.state.isLoading}
+            style={styles.modal}
+            borderRadius={20}
+            overlayBackgroundColor={"lightblue"}
+          >
+            <View style={styles.modalContainer}>
+              <DotIndicator color={"darkgrey"} />
+              <Text>Logging in...</Text>
+            </View>
+          </Overlay>
 
-        <ThemeProvider theme={theme}>
-          <Image
-            source={require("../../assets/logos/ElectroLogo.png")}
-            style={styles.image}
-          />
-          <Dropdown
-            value={this.props.users[this.state.selectedUserId]?.username || ""}
-            onChangeText={this.selectDropdown.bind(this)}
-            label="Select User"
-            data={this.props.dropdownUsers}
-            containerStyle={{ width: "100%", padding: 10 }}
-          />
-          <Input
-            placeholder="Username"
-            label={"Or Create New User"}
-            value={this.state.username}
-            autoCorrect={false}
-            autoCapitalize={"none"}
-            onChangeText={username => {
-              this.setState({
-                username,
-                selectedUserId: null,
-                usernameError: ""
-              });
-            }}
-            errorMessage={this.state.usernameError}
-          />
-          <Button title="Login" onPress={this.handleLogin.bind(this)} />
-        </ThemeProvider>
-      </View>
+          <ThemeProvider theme={theme}>
+            <Image
+              source={require("../../assets/logos/ElectroLogo.png")}
+              style={styles.image}
+            />
+            <Dropdown
+              value={
+                this.props.users[this.state.selectedUserId]?.username || ""
+              }
+              onChangeText={this.selectDropdown.bind(this)}
+              label="Select User"
+              data={this.props.dropdownUsers}
+              containerStyle={{ width: "100%", padding: 10 }}
+            />
+            <Input
+              placeholder="Username"
+              label={"Or Create New User"}
+              value={this.state.username}
+              autoCorrect={false}
+              autoCapitalize={"none"}
+              onChangeText={username => {
+                this.setState({
+                  username,
+                  selectedUserId: null,
+                  usernameError: ""
+                });
+              }}
+              errorMessage={this.state.usernameError}
+            />
+            <Button title="Login" onPress={this.handleLogin.bind(this)} />
+          </ThemeProvider>
+        </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
@@ -151,6 +155,10 @@ const styles = F8StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20
+  },
+  superContainer: {
+    flex: 1,
+    justifyContent: "center"
   },
   inputContainer: {
     flex: 1,
