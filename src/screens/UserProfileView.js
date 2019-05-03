@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
-import { Avatar, Button } from "react-native-elements";
+import { Avatar, Button, Divider } from "react-native-elements";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 import { logout } from "../redux/actions/authActions";
@@ -18,7 +18,7 @@ class UserProfileView extends Component {
 
   logOut() {
     this.props.navigation.navigate("Auth");
-    this.props.logout()
+    this.props.logout();
   }
 
   render() {
@@ -39,6 +39,9 @@ class UserProfileView extends Component {
         <Text style={text.body}>
           {"Phone: " + (user.phone || "(No phone number provided)")}
         </Text>
+        <View style={[styles.dividerContainer]}>
+          <Divider style={styles.divider} />
+        </View>
         <Button
           title="Log Out"
           containerStyle={{ width: "100%", padding: 20 }}
@@ -73,6 +76,14 @@ const text = {
 
 const styles = F8StyleSheet.create({
   avatar: { padding: 20 },
+  dividerContainer: {
+    width: '100%'
+  },
+  divider: {
+    margin: 15,
+    height: 0.75,
+    backgroundColor: "darkgrey"
+  },
   container: {
     flex: 1,
     justifyContent: "flex-start",
