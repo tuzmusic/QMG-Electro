@@ -16,17 +16,3 @@ export function getUsers() {
     }
   };
 }
-
-export function createUser(userInfo) {
-  return async dispatch => {
-    const user = new User(userInfo);
-    try {
-      // const returnedUser = await postUserToApi(user);
-      await dispatch({ type: "CREATE_USER", user }); // will eventually be dispatching returnedUser
-      dispatch({ type: "SAVE_USERS" });
-      return user;
-    } catch (error) {
-      dispatch({ type: "CREATE_USER_ERROR", payload: error });
-    }
-  };
-}
