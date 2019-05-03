@@ -23,11 +23,10 @@ export function createUser(userInfo) {
     try {
       // const returnedUser = await postUserToApi(user);
       await dispatch({ type: "CREATE_USER", user }); // will eventually be dispatching returnedUser
-
       dispatch({ type: "SAVE_USERS" });
       return user;
     } catch (error) {
-      dispatch({ type: "CREATE_UUSER_ERROR", payload: error });
+      dispatch({ type: "CREATE_USER_ERROR", payload: error });
     }
   };
 }

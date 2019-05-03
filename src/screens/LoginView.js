@@ -14,20 +14,22 @@ import F8StyleSheet from "../components/F8StyleSheet";
 import { Dropdown } from "react-native-material-dropdown";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import User from "../models/User";
+import uuid from "react-native-uuid";
 
 class LoginView extends Component {
   state = {
     username: "",
+    // username: uuid.v1(),
     selectedUserId: 1,
     password: "",
     isLoading: false,
     usernameError: ""
   };
 
-  componentDidMount =  () => {
-    setTimeout(() => {
-      this.handleLogin();
-    }, 500);
+  componentDidMount = () => {
+    // setTimeout(() => {
+    //   this.handleLogin();
+    // }, 500);
   };
 
   async performLogin(user) {
@@ -36,20 +38,21 @@ class LoginView extends Component {
   }
 
   async handleLogin() {
-    let user;
+    let existingUser, newUser;
     if ((selectedId = this.state.selectedUserId)) {
-      user = this.props.users[selectedId];
+      existingUser = this.props.users[selectedId];
     } else if ((username = this.state.username)) {
       const currentUsernames = Object.values(this.props.users).map(
         u => u.username
       );
       if (currentUsernames.indexOf(username) > -1) {
         await this.setState({ usernameError: "This user already exists" });
-        return;
+      } else {
+        // create user (model)
+        newUser = new User({ username });
       }
-      user = new User({ username });
     }
-    if (user) {
+    if ((user = existingUser || newUser)) {
       await this.setState({ isLoading: true });
       this.performLogin(user);
     }

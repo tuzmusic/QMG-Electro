@@ -24,6 +24,8 @@ export default (authReducer = (
       };
     case "LOGIN_FAILURE":
       return { ...state, error, isLoading: false };
+    case "LOGOUT":
+      return {...state, user: null}
     case "GET_USERS":
       return { ...state, users };
     case "SAVE_USERS":
@@ -31,7 +33,6 @@ export default (authReducer = (
       const storageString = JSON.stringify(data);
       AsyncStorage.setItem("electro_users", storageString);
       return state;
-
     default:
       return state;
   }

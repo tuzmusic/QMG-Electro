@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
-import { Avatar } from "react-native-elements";
+import { Avatar, Button } from "react-native-elements";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 
@@ -15,8 +15,12 @@ class UserProfileView extends Component {
     });
   };
 
+  logOut() {
+    this.props.navigation.navigate("Auth");
+  }
+
   render() {
-    const {user} = this.props
+    const { user } = this.props;
     return (
       <View style={styles.container}>
         <Avatar
@@ -27,8 +31,18 @@ class UserProfileView extends Component {
         />
         <Text style={text.username}> {user.username} </Text>
         <Text style={text.body}>{user.fullName || "(No name provided)"}</Text>
-        <Text style={text.body}>{"Email: "+ (user.email || "(No email address provided)")}</Text>
-        <Text style={text.body}>{"Phone: "+ (user.phone || "(No phone number provided)")}</Text>
+        <Text style={text.body}>
+          {"Email: " + (user.email || "(No email address provided)")}
+        </Text>
+        <Text style={text.body}>
+          {"Phone: " + (user.phone || "(No phone number provided)")}
+        </Text>
+        <Button
+          title="Log Out"
+          containerStyle={{ width: "100%", padding: 20 }}
+          buttonStyle={{ backgroundColor: "red" }}
+          onPress={this.logOut.bind(this)}
+        />
       </View>
     );
   }
@@ -48,7 +62,7 @@ const text = {
   },
   username: {
     fontSize: baseSize + 10,
-    fontWeight: 'bold',
+    fontWeight: "bold"
   }
 };
 
