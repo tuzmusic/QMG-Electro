@@ -27,6 +27,8 @@ class LoginView extends Component {
   };
 
   componentDidMount = () => {
+    console.log("current user:", this.props.user);
+    
     // setTimeout(() => {
     //   this.handleLogin();
     // }, 500);

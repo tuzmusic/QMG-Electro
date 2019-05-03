@@ -5,6 +5,10 @@ export function assignUser(user) {
   };
 }
 
+export function logout() {
+  return {type:"LOGOUT"}
+}
+
 export function login() {
   return dispatch => {
     dispatch({ type: "LOGIN_START" });

@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import { Avatar, Button } from "react-native-elements";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
+import { logout } from "../redux/actions/authActions";
 
 class UserProfileView extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -10,6 +11,8 @@ class UserProfileView extends Component {
   });
 
   componentDidMount = () => {
+    console.log("current user:", this.props.user);
+
     this.props.navigation.setParams({
       title: this.props.user.username
     });
@@ -17,6 +20,7 @@ class UserProfileView extends Component {
 
   logOut() {
     this.props.navigation.navigate("Auth");
+    this.props.logout()
   }
 
   render() {
@@ -52,7 +56,10 @@ const mapStateToProps = state => ({
   user: state.auth.user
 });
 
-export default connect(mapStateToProps)(UserProfileView);
+export default connect(
+  mapStateToProps,
+  { logout }
+)(UserProfileView);
 
 const baseSize = 16;
 const text = {

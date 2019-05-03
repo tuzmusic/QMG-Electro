@@ -19,7 +19,7 @@ export default (authReducer = (
       return {
         ...state,
         user,
-        users: { ...state.users, [user.id]: user },
+        users: { ...state.users, [user.id]: user }, // create user, or update existing. Fix later, but works for now.
         isLoading: false
       };
     case "LOGIN_FAILURE":

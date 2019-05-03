@@ -1,5 +1,4 @@
 import { AsyncStorage } from "react-native";
-import User from "../../models/User";
 
 export function getUsers() {
   return async dispatch => {
