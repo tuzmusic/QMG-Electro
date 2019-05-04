@@ -2,6 +2,7 @@ import React from "react";
 import { FlatList, View } from "react-native";
 import ListingCellView from "../subviews/ListingCellView";
 import LoadingIndicator from "../components/LoadingIndicator";
+import StationsList from "../StationsList"
 
 export default (StationsList = props => (
   <View>

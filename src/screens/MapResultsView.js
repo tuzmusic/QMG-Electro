@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button } from "react-native";
-import StationsList from "./StationsList";
+import StationsList from "../subviews/StationsList";
 import {
   setCurrentStationID,
   setUserInQuestion,
