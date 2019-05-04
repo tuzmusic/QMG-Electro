@@ -6,16 +6,11 @@ export function saveStations(stations) {
   AsyncStorage.setItem("electro_stations", JSON.stringify(data));
 }
 
-async function _warning_DeleteStationsInStorage() {
-  const currentStorage = await AsyncStorage.getItem("electro_stations");
-  AsyncStorage.setItem("electro_stations", {});
-}
-
-function updateStation(dispatch, station, key, value) {
+export function updateStation(dispatch, station, key, value) {
   dispatch({ type: "UPDATE_STATION", payload: { ...station, [key]: value } });
 }
 
-function stationsFromHashes(hashes) {
+function _stationsFromHashes(hashes) {
   let stations = {};
   hashes.forEach(
     hash => (stations[hash.id] = Station.createFromApiResponse(hash))
@@ -23,24 +18,24 @@ function stationsFromHashes(hashes) {
   return stations;
 }
 
-function downloadStations(dispatch, attempt = 0) {
+function _downloadStations(dispatch, attempt = 0) {
   console.log("Downloading stations");
   fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
     .then(res => res.json())
     .then(async json => {
-      const stations = stationsFromHashes(json);
-      await getImagesForAllStations(dispatch, stations);
+      const stations = _stationsFromHashes(json);
+      await _getImagesForAllStations(dispatch, stations);
       saveStations(stations);
       dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
     })
     .catch(error => {
       console.warn("Couldn't download stations:", error);
       dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
-      if (attempt < 2) getCachedStations(dispatch, attempt + 1);
+      if (attempt < 2) _getCachedStations(dispatch, attempt + 1);
     });
 }
 
-async function getCachedStations(dispatch, attempt = 0) {
+async function _getCachedStations(dispatch, attempt = 0) {
   console.log("Getting cached stations");
   try {
     const data = await AsyncStorage.getItem("electro_stations");
@@ -56,7 +51,7 @@ async function getCachedStations(dispatch, attempt = 0) {
   }
 }
 
-function getImagesForAllStations(dispatch, stations) {
+function _getImagesForAllStations(dispatch, stations) {
   Object.values(stations).forEach(station =>
     _getImageForStation(dispatch, station)
   );
@@ -85,10 +80,10 @@ export function fetchStations({ useCache, shouldDownload }, attempt = 0) {
     dispatch({ type: "GET_STATIONS_START" });
 
     if (useCache) {
-      await getCachedStations(dispatch, attempt);
-      if (shouldDownload) downloadStations(dispatch, 2);
+      await _getCachedStations(dispatch, attempt);
+      if (shouldDownload) _downloadStations(dispatch, 2);
     } else if (shouldDownload) {
-      downloadStations(dispatch, attempt);
+      _downloadStations(dispatch, attempt);
     }
   };
 }
@@ -127,7 +122,7 @@ export function deleteStation(station) {
   };
 }
 
-function postStationToApi(station) {
+function _postStationToApi(station) {
   const apiFriendlyStation = Station.createForApiPost(station);
   // POST apiFriendlyStation to API
   fetch("url")

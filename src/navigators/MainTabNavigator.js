@@ -103,7 +103,7 @@ const TabNavigator = createBottomTabNavigator(
 
 class TabContainer extends Component {
   componentDidMount = async () => {
-    // await this.props.fetchStations({ useCache: true, shouldDownload: false });
+    await this.props.fetchStations({ useCache: true, shouldDownload: false });
   };
 
   static router = TabNavigator.router;
