@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
-import { Avatar, Button, Divider } from "react-native-elements";
+import { Button, Divider } from "react-native-elements";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 import { logout } from "../redux/actions/authActions";
@@ -14,6 +14,12 @@ const LogoutButton = props => (
     buttonStyle={{ backgroundColor: "red" }}
     onPress={props.onPress}
   />
+);
+
+const DividerView = props => (
+  <View style={[styles.dividerContainer]}>
+    <Divider style={styles.divider} />
+  </View>
 );
 
 class UserProfileView extends Component {
@@ -33,14 +39,11 @@ class UserProfileView extends Component {
   }
 
   render() {
-    const { user } = this.props;
     return (
       <View style={styles.container}>
-        <UserProfile user={user} />
+        <UserProfile user={this.props.user} />
         <LogoutButton onPress={this.logOut.bind(this)} />
-        <View style={[styles.dividerContainer]}>
-          <Divider style={styles.divider} contain/>
-        </View>
+        <DividerView />
       </View>
     );
   }
@@ -54,18 +57,6 @@ export default connect(
   mapStateToProps,
   { logout }
 )(UserProfileView);
-
-const baseSize = 16;
-const text = {
-  body: {
-    padding: 10,
-    fontSize: baseSize
-  },
-  username: {
-    fontSize: baseSize + 10,
-    fontWeight: "bold"
-  }
-};
 
 const styles = F8StyleSheet.create({
   avatar: { padding: 20 },

@@ -7,6 +7,7 @@ export default class UserProfileView extends Component {
   render() {
     const { user } = this.props;
     return (
+      // <View>
       <View style={styles.container}>
         <Avatar
           rounded
@@ -50,7 +51,6 @@ const styles = F8StyleSheet.create({
     backgroundColor: "darkgrey"
   },
   container: {
-    flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
     padding: 10
