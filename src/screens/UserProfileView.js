@@ -5,6 +5,17 @@ import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 import { logout } from "../redux/actions/authActions";
 
+import UserProfile from "../subviews/UserProfile";
+
+const LogoutButton = props => (
+  <Button
+    title="Log Out"
+    containerStyle={{ width: "100%", padding: 20 }}
+    buttonStyle={{ backgroundColor: "red" }}
+    onPress={props.onPress}
+  />
+);
+
 class UserProfileView extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam("title")
@@ -25,29 +36,11 @@ class UserProfileView extends Component {
     const { user } = this.props;
     return (
       <View style={styles.container}>
-        <Avatar
-          rounded
-          containerStyle={styles.avatar}
-          size={"xlarge"}
-          title={user.username[0].toUpperCase()}
-        />
-        <Text style={text.username}> {user.username} </Text>
-        <Text style={text.body}>{user.fullName || "(No name provided)"}</Text>
-        <Text style={text.body}>
-          {"Email: " + (user.email || "(No email address provided)")}
-        </Text>
-        <Text style={text.body}>
-          {"Phone: " + (user.phone || "(No phone number provided)")}
-        </Text>
+        <UserProfile user={user} />
+        <LogoutButton onPress={this.logOut.bind(this)} />
         <View style={[styles.dividerContainer]}>
-          <Divider style={styles.divider} />
+          <Divider style={styles.divider} contain/>
         </View>
-        <Button
-          title="Log Out"
-          containerStyle={{ width: "100%", padding: 20 }}
-          buttonStyle={{ backgroundColor: "red" }}
-          onPress={this.logOut.bind(this)}
-        />
       </View>
     );
   }
@@ -77,7 +70,7 @@ const text = {
 const styles = F8StyleSheet.create({
   avatar: { padding: 20 },
   dividerContainer: {
-    width: '100%'
+    width: "100%"
   },
   divider: {
     margin: 15,
