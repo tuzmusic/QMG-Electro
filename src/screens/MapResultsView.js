@@ -14,7 +14,6 @@ class MapResultsContainer extends Component {
   };
 
   render() {
-    console.log("MapResultsView this.props.stations =", this.props.stations);
     return (
       <StationsListContainer
         showLoading

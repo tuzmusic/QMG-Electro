@@ -45,10 +45,9 @@ class UserProfileView extends Component {
   }
 
   render() {
-    console.log("UserProfileView this.props.stations =", this.props.staions);
     // debugger;
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView>
         <UserProfile user={this.props.user} />
         <LogoutButton onPress={this.logOut.bind(this)} />
         <DividerView />

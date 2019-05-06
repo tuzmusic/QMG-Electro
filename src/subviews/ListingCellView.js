@@ -9,6 +9,7 @@ const CellTextRow = props => (
 
 export default (ListingCellView = props => {
   const station = props.station
+  
   return (
     <View style={styles.cellContainer}>
       <TouchableOpacity
