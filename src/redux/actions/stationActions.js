@@ -31,6 +31,9 @@ async function _getCachedStations(dispatch, attempt = 0) {
       return;
     }
     const stations = JSON.parse(data).stations;
+    // convert stations to Stations?!?!
+    console.log("From cache method:", Object.values(stations)[0]);
+
     dispatch({ type: "GET_STATIONS_SUCCESS", stations });
   } catch (error) {
     console.log("Couldn't get cached stations:", error);
@@ -43,16 +46,14 @@ function _downloadStations(dispatch, attempt = 0) {
   fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
     .then(res => res.json())
     .then(async json => {
-      // const stations = _stationsFromHashes(json);
       const stations = Object.assign(
         {},
         ...json.map(s => ({ [s.id]: Station.createFromApiResponse(s) }))
       );
-
-      debugger;
+      console.log("From download method:", Object.values(stations)[0]);
       await _getImagesForAllStations(dispatch, stations);
-      saveStations(stations);
       dispatch({ type: "GET_STATIONS_SUCCESS", stations });
+      // saveStations(stations);
     })
     .catch(error => {
       console.warn("Couldn't download stations:", error);
