@@ -1,14 +1,9 @@
 import React from "react";
 import { FlatList, View } from "react-native";
 import ListingCellView from "../subviews/ListingCellView";
-import LoadingIndicator from "../components/LoadingIndicator";
 
 export default (StationsList = props => (
   <View>
-    <LoadingIndicator
-      message={"Loading Stations..."}
-      isVisible={props.isLoading}
-    />
     <FlatList
       style={{ marginLeft: 5, marginRight: 5 }}
       data={props.stations}

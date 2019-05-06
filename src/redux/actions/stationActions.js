@@ -78,7 +78,6 @@ function _getImageForStation(dispatch, station) {
 export function fetchStations({ useCache, shouldDownload }, attempt = 0) {
   return async dispatch => {
     dispatch({ type: "GET_STATIONS_START" });
-
     if (useCache) {
       await _getCachedStations(dispatch, attempt);
       if (shouldDownload) _downloadStations(dispatch, 2);

@@ -33,7 +33,7 @@ class MapResultsContainer extends Component {
   }
 
   componentDidMount() {
-    this.setNavigationProps()
+    this.setNavigationProps();
   }
 
   setNavigationProps() {
@@ -61,6 +61,7 @@ class MapResultsContainer extends Component {
   render() {
     return (
       <StationsListContainer
+        showLoading
         stations={Object.values(this.props.stations)}
         navigation={this.props.navigation}
         onTextPress={this.onStationClick.bind(this)}
