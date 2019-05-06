@@ -1,20 +1,16 @@
 import React from "react";
 import { FlatList, Text, View } from "react-native";
-import ListingCellView from "../subviews/ListingCellView";
-import LoadingIndicator from "../components/LoadingIndicator";
-import StationsList from "./StationsList";
+import StationsListContainer from "./StationsListContainer";
 
-export default (MyStationsList = props => {
-  console.log("MyStationsList mounted with stations:", props.stations);
-  if (props.stations.length > 0) {
-    debugger;
-  }
-  return props.stations.length === 0 ? null : (
+export default (MyStationsList = ({ stations }) => {
+  console.log("mounting MyStations with stations:", stations);
+  
+  return (
     <View>
-      {Object.values(props.stations).map(s => (
-        <Text key={s.id}>{s.title}</Text>
-      ))}
-      <StationsList stations={props.stations}/>
+      <Text>Hello</Text>
+      <View>
+        <StationsListContainer stations={stations} />
+      </View>
     </View>
   );
 });

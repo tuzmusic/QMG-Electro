@@ -12,8 +12,8 @@ export default (StationsList = props => (
         <ListingCellView
           station={item}
           navigation={props.navigation}
-          onTextPress={props.onTextPress.bind(this, item)}
-          onImagePress={props.onImagePress.bind(this, item.owner)}
+          onTextPress={props.onTextPress?.bind(this, item)}
+          onImagePress={props.onImagePress?.bind(this, item.owner)}
         />
       )}
     />

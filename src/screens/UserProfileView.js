@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
+import { Text, View, ScrollView } from "react-native";
 import { Button, Divider } from "react-native-elements";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
@@ -41,12 +41,15 @@ class UserProfileView extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <UserProfile user={this.props.user} />
         <LogoutButton onPress={this.logOut.bind(this)} />
         <DividerView />
-        <MyStationsList stations={this.props.stations} />
-      </View>
+        <MyStationsList
+          style={{ width: "100%" }}
+          stations={this.props.stations}
+        />
+      </ScrollView>
     );
   }
 }
