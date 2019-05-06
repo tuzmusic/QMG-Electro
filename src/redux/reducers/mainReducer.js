@@ -15,7 +15,7 @@ export default (mainReducer = (state = initialState, action) => {
       return { ...state, isLoading: true };
     case "GET_STATIONS_SUCCESS":
       console.log("GET_STATIONS_SUCCESS");
-      return { ...state, stations: {...state.stations, ...action.stations}, isLoading: false };
+      return { ...state, stations: {...state.stations, ...action.stations}, isLoading: (state.stations === 0) };
     case "GET_STATIONS_FAILURE":
       return { ...state, error: action.payload, isLoading: false };
     case "SET_CURRENT_STATION":
@@ -38,7 +38,6 @@ export default (mainReducer = (state = initialState, action) => {
       delete clonedStations[action.payload.id];
       return { ...state, stations: clonedStations };
     case "SAVE_STATIONS":
-      // debugger
       const data = { stations: state.stations, savedDate: new Date() };
       const storageString = JSON.stringify(data);
       AsyncStorage.setItem("electro_stations", storageString);

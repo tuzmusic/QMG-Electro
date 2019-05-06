@@ -34,8 +34,6 @@ async function _getCachedStations(dispatch, attempt = 0) {
     Object.values(stations).forEach(
       json => (stations[json.id] = new Station(json))
     );
-    console.log("From cache method:", Object.values(stations)[0]);
-
     dispatch({ type: "GET_STATIONS_SUCCESS", stations });
   } catch (error) {
     console.log("Couldn't get cached stations:", error);
@@ -52,7 +50,6 @@ function _downloadStations(dispatch, attempt = 0) {
         {},
         ...json.map(s => ({ [s.id]: Station.createFromApiResponse(s) }))
       );
-      console.log("From download method:", Object.values(stations)[0]);
       await _getImagesForAllStations(dispatch, stations);
       dispatch({ type: "GET_STATIONS_SUCCESS", stations });
       // saveStations(stations);
