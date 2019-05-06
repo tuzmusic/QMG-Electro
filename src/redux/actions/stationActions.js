@@ -14,16 +14,23 @@ export function fetchStations({ useCache, shouldDownload }, attempt = 0) {
   return async dispatch => {
     dispatch({ type: "GET_STATIONS_START" });
     if (useCache) {
-      await _getCachedStations(dispatch, attempt);
-      if (shouldDownload) _downloadStations(dispatch, 2);
-    } else if (shouldDownload) {
-      _downloadStations(dispatch, attempt);
+      console.log("Getting cached stations");
+      const { stations: cachedStations, error } = await _getCachedStations();
+      if (cachedStations) {
+        console.log(`${Object.keys(cachedStations).length} cached stations`);
+        dispatch({ type: "GET_STATIONS_SUCCESS", stations: cachedStations });
+      } else if (error) {
+        dispatch({ type: "GET_STATIONS_FAILURE", error });
+      }
+    }
+    if (shouldDownload) {
+      console.log("Couldn't get cached stations:", error);
+      _downloadStations(dispatch, useCache ? 2 : attempt);
     }
   };
 }
 
-async function _getCachedStations(dispatch, attempt = 0) {
-  console.log("Getting cached stations");
+async function _getCachedStations() {
   try {
     const data = await AsyncStorage.getItem("electro_stations");
     if (data === null) {
@@ -34,13 +41,9 @@ async function _getCachedStations(dispatch, attempt = 0) {
     Object.values(stations).forEach(
       json => (stations[json.id] = new Station(json))
     );
-    console.log(
-      `Retrieved ${Object.keys(stations).length} stations from cache`
-    );
-    dispatch({ type: "GET_STATIONS_SUCCESS", stations });
+    return { stations };
   } catch (error) {
-    console.log("Couldn't get cached stations:", error);
-    dispatch({ type: "GET_STATIONS_FAILURE", error });
+    return { error };
   }
 }
 
@@ -54,9 +57,7 @@ function _downloadStations(dispatch, attempt = 0) {
         ...json.map(s => ({ [s.id]: Station.createFromApiResponse(s) }))
       );
       await _getImagesForAllStations(dispatch, stations);
-      console.log(
-        `Downloaded ${Object.keys(stations).length} stations`
-      );
+      console.log(`Downloaded ${Object.keys(stations).length} stations`);
       dispatch({ type: "GET_STATIONS_SUCCESS", stations });
       saveStations(stations);
     })
@@ -65,6 +66,14 @@ function _downloadStations(dispatch, attempt = 0) {
       dispatch({ type: "GET_STATIONS_FAILURE", error });
       if (attempt < 2) _getCachedStations(dispatch, attempt + 1);
     });
+}
+
+function _newStations(oldStations, newStations) {
+  let newCount = 0;
+  Object.keys(newStations).forEach(id => {
+    if (!oldStation[id]) newCount++;
+  });
+  return newCount;
 }
 
 function _getImagesForAllStations(dispatch, stations) {
@@ -96,7 +105,6 @@ export function setCurrentStationID(id) {
     dispatch({ type: "SET_CURRENT_STATION", stationID: id });
   };
 }
-
 
 export function createStation(formData) {
   return async dispatch => {
