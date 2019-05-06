@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { logout } from "../redux/actions/authActions";
 
 import UserProfile from "../subviews/UserProfile";
+import MyStationsList from "../subviews/MyStationsList";
 
 const LogoutButton = props => (
   <Button
@@ -44,14 +45,18 @@ class UserProfileView extends Component {
         <UserProfile user={this.props.user} />
         <LogoutButton onPress={this.logOut.bind(this)} />
         <DividerView />
+        <MyStationsList stations={this.props.stations} />
       </View>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.auth.user
-});
+const mapStateToProps = state => {
+  return {
+    user: state.auth.user,
+    stations: state.main.stations
+  };
+};
 
 export default connect(
   mapStateToProps,

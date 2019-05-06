@@ -14,6 +14,8 @@ export default (mainReducer = (state = initialState, action) => {
     case "GET_STATIONS_START":
       return { ...state, isLoading: true };
     case "GET_STATIONS_SUCCESS":
+      console.log("GET_STATIONS_SUCCESS");
+
       return { ...state, stations: action.payload, isLoading: false };
     case "GET_STATIONS_FAILURE":
       return { ...state, error: action.payload, isLoading: false };
@@ -39,7 +41,7 @@ export default (mainReducer = (state = initialState, action) => {
     case "SAVE_STATIONS":
       const data = { stations: state.stations, savedDate: new Date() };
       const storageString = JSON.stringify(data);
-      AsyncStorage.setItem("electro_stations", storageString)
+      AsyncStorage.setItem("electro_stations", storageString);
       return state;
     default:
       return state;

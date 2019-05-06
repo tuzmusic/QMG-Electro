@@ -1,27 +1,17 @@
 import React from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import ListingCellView from "../subviews/ListingCellView";
 import LoadingIndicator from "../components/LoadingIndicator";
-import StationsList from "../StationsList"
+import StationsList from "./StationsList";
 
-export default (StationsList = props => (
-  <View>
-    <LoadingIndicator
-      message={"Loading Stations..."}
-      isVisible={props.isLoading}
-    />
-    <FlatList
-      style={{ marginLeft: 5, marginRight: 5 }}
-      data={props.stations}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={({ item }) => (
-        <ListingCellView
-          station={item}
-          navigation={props.navigation}
-          onTextPress={props.onTextPress.bind(this, item)}
-          onImagePress={props.onImagePress.bind(this, item.owner)}
-        />
-      )}
-    />
-  </View>
-));
+export default (MyStationsList = props => {
+  console.log("MyStationsList mounted with stations:", props.stations);
+
+  return props.stations.length === 0 ? null : (
+    <View>
+      {Object.values(props.stations).map(s => (
+        <Text key={s.id}>{s.title}</Text>
+      ))}
+    </View>
+  );
+});
