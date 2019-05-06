@@ -10,29 +10,16 @@ export function updateStation(dispatch, station, key, value) {
   dispatch({ type: "UPDATE_STATION", payload: { ...station, [key]: value } });
 }
 
-function _stationsFromHashes(hashes) {
-  let stations = {};
-  hashes.forEach(
-    hash => (stations[hash.id] = Station.createFromApiResponse(hash))
-  );
-  return stations;
-}
-
-function _downloadStations(dispatch, attempt = 0) {
-  console.log("Downloading stations");
-  fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
-    .then(res => res.json())
-    .then(async json => {
-      const stations = _stationsFromHashes(json);
-      await _getImagesForAllStations(dispatch, stations);
-      saveStations(stations);
-      dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
-    })
-    .catch(error => {
-      console.warn("Couldn't download stations:", error);
-      dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
-      if (attempt < 2) _getCachedStations(dispatch, attempt + 1);
-    });
+export function fetchStations({ useCache, shouldDownload }, attempt = 0) {
+  return async dispatch => {
+    dispatch({ type: "GET_STATIONS_START" });
+    if (useCache) {
+      await _getCachedStations(dispatch, attempt);
+      if (shouldDownload) _downloadStations(dispatch, 2);
+    } else if (shouldDownload) {
+      _downloadStations(dispatch, attempt);
+    }
+  };
 }
 
 async function _getCachedStations(dispatch, attempt = 0) {
@@ -44,11 +31,34 @@ async function _getCachedStations(dispatch, attempt = 0) {
       return;
     }
     const stations = JSON.parse(data).stations;
-    dispatch({ type: "GET_STATIONS_SUCCESS", payload: stations });
+    dispatch({ type: "GET_STATIONS_SUCCESS", stations });
   } catch (error) {
     console.log("Couldn't get cached stations:", error);
     dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
   }
+}
+
+function _downloadStations(dispatch, attempt = 0) {
+  console.log("Downloading stations");
+  fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
+    .then(res => res.json())
+    .then(async json => {
+      // const stations = _stationsFromHashes(json);
+      const stations = Object.assign(
+        {},
+        ...json.map(s => ({ [s.id]: Station.createFromApiResponse(s) }))
+      );
+
+      debugger;
+      await _getImagesForAllStations(dispatch, stations);
+      saveStations(stations);
+      dispatch({ type: "GET_STATIONS_SUCCESS", stations });
+    })
+    .catch(error => {
+      console.warn("Couldn't download stations:", error);
+      dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
+      if (attempt < 2) _getCachedStations(dispatch, attempt + 1);
+    });
 }
 
 function _getImagesForAllStations(dispatch, stations) {
@@ -73,18 +83,6 @@ function _getImageForStation(dispatch, station) {
       })
       .catch(error => console.warn(error));
   }
-} 
-
-export function fetchStations({ useCache, shouldDownload }, attempt = 0) {
-  return async dispatch => {
-    dispatch({ type: "GET_STATIONS_START" });
-    if (useCache) {
-      await _getCachedStations(dispatch, attempt);
-      if (shouldDownload) _downloadStations(dispatch, 2);
-    } else if (shouldDownload) {
-      _downloadStations(dispatch, attempt);
-    }
-  };
 }
 
 export function setCurrentStationID(id) {
@@ -105,7 +103,6 @@ export function createStation(formData) {
     try {
       // const returnedStation = await postStationToApi(station);
       await dispatch({ type: "CREATE_STATION", payload: station }); // will eventually be dispatching returnedStation
-
       dispatch({ type: "SAVE_STATIONS" });
       return station;
     } catch (error) {

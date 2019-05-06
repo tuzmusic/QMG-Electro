@@ -8,7 +8,6 @@ export default class StationsListContainer extends Component {
   render() {
     const { props } = this;
     const stations = Object.values(props.stations)
-    console.log("StationsListContainer received", props.stations);
     
     return (
       <View>
