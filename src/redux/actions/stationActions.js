@@ -7,7 +7,7 @@ export function saveStations(stations) {
 }
 
 export function updateStation(dispatch, station, key, value) {
-  dispatch({ type: "UPDATE_STATION", payload: { ...station, [key]: value } });
+  dispatch({ type: "UPDATE_STATION", station: { ...station, [key]: value } });
 }
 
 export function fetchStations({ useCache, shouldDownload }, attempt = 0) {
@@ -34,10 +34,13 @@ async function _getCachedStations(dispatch, attempt = 0) {
     Object.values(stations).forEach(
       json => (stations[json.id] = new Station(json))
     );
+    console.log(
+      `Retrieved ${Object.keys(stations).length} stations from cache`
+    );
     dispatch({ type: "GET_STATIONS_SUCCESS", stations });
   } catch (error) {
     console.log("Couldn't get cached stations:", error);
-    dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
+    dispatch({ type: "GET_STATIONS_FAILURE", error });
   }
 }
 
@@ -51,12 +54,15 @@ function _downloadStations(dispatch, attempt = 0) {
         ...json.map(s => ({ [s.id]: Station.createFromApiResponse(s) }))
       );
       await _getImagesForAllStations(dispatch, stations);
+      console.log(
+        `Downloaded ${Object.keys(stations).length} stations`
+      );
       dispatch({ type: "GET_STATIONS_SUCCESS", stations });
-      // saveStations(stations);
+      saveStations(stations);
     })
     .catch(error => {
       console.warn("Couldn't download stations:", error);
-      dispatch({ type: "GET_STATIONS_FAILURE", payload: error });
+      dispatch({ type: "GET_STATIONS_FAILURE", error });
       if (attempt < 2) _getCachedStations(dispatch, attempt + 1);
     });
 }
@@ -87,33 +93,28 @@ function _getImageForStation(dispatch, station) {
 
 export function setCurrentStationID(id) {
   return dispatch => {
-    dispatch({ type: "SET_CURRENT_STATION", payload: id });
+    dispatch({ type: "SET_CURRENT_STATION", stationID: id });
   };
 }
 
-export function setUserInQuestion(user) {
-  return dispatch => {
-    dispatch({ type: "SET_USER_IN_QUESTION", payload: user });
-  };
-}
 
 export function createStation(formData) {
   return async dispatch => {
     const station = new Station(formData);
     try {
       // const returnedStation = await postStationToApi(station);
-      await dispatch({ type: "CREATE_STATION", payload: station }); // will eventually be dispatching returnedStation
+      await dispatch({ type: "CREATE_STATION", station }); // will eventually be dispatching returnedStation
       dispatch({ type: "SAVE_STATIONS" });
       return station;
     } catch (error) {
-      dispatch({ type: "CREATE_STATION_ERROR", payload: error });
+      dispatch({ type: "CREATE_STATION_ERROR", error });
     }
   };
 }
 
 export function deleteStation(station) {
   return dispatch => {
-    dispatch({ type: "DELETE_STATION", payload: station });
+    dispatch({ type: "DELETE_STATION", station });
     dispatch({ type: "SAVE_STATIONS" });
   };
 }

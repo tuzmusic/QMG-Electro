@@ -17,25 +17,23 @@ export default (mainReducer = (state = initialState, action) => {
       console.log("GET_STATIONS_SUCCESS");
       return { ...state, stations: {...state.stations, ...action.stations}, isLoading: (state.stations === 0) };
     case "GET_STATIONS_FAILURE":
-      return { ...state, error: action.payload, isLoading: false };
+      return { ...state, error: action.error, isLoading: false };
     case "SET_CURRENT_STATION":
-      return { ...state, currentStationID: action.payload };
-    case "SET_USER_IN_QUESTION":
-      return { ...state, userInQuestion: action.payload };
+      return { ...state, currentStationID: action.stationID };
     case "CREATE_STATION":
       const newStations = {
         ...state.stations,
-        [action.payload.id]: action.payload
+        [action.station.id]: action.station
       };
       return { ...state, stations: newStations };
     case "UPDATE_STATION":
       return {
         ...state,
-        stations: { ...state.stations, [action.payload.id]: action.payload }
+        stations: { ...state.stations, [action.station.id]: action.station }
       };
     case "DELETE_STATION":
       const clonedStations = { ...state.stations };
-      delete clonedStations[action.payload.id];
+      delete clonedStations[action.station.id];
       return { ...state, stations: clonedStations };
     case "SAVE_STATIONS":
       const data = { stations: state.stations, savedDate: new Date() };
