@@ -128,9 +128,10 @@ class StationDetailView extends Component {
   }
 
   render() {
+    if (!this.props.station) return null;
     const {station, users} = this.props;
+
     const user = users[station.userID]
-    if (!station) return null;
     return (
       <ScrollView>
         <View style={styles.imageContainer}>
