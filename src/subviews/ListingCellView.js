@@ -1,33 +1,26 @@
 import React, { Component } from "react";
 import { BLText } from "../components/StyledComponents";
-import { Text, View, TouchableOpacity } from "react-native";
-import { Image } from "react-native-elements";
+import { View, TouchableOpacity } from "react-native";
 import F8StyleSheet from "../components/F8StyleSheet";
-import HTML from "react-native-render-html";
 
 const CellTextRow = props => (
   <BLText style={[{ padding: 1 }, props.style]}>{props.children}</BLText>
 );
 
-export default class ListingCellView extends Component {
-  render() {
-    return (
-      <View style={styles.cellContainer}>
-        <TouchableOpacity
-          style={styles.textContainer}
-          onPress={this.props.onTextPress}
-        >
-          <CellTextRow style={text.name}>
-            {this.props.station.title}
-          </CellTextRow>
-          <CellTextRow style={text.address}>
-            {this.props.station.address}
-          </CellTextRow>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-}
+export default (ListingCellView = props => {
+  const station = props.station
+  return (
+    <View style={styles.cellContainer}>
+      <TouchableOpacity
+        style={styles.textContainer}
+        onPress={props.onTextPress}
+      >
+        <CellTextRow style={text.name}>{station.title}</CellTextRow>
+        <CellTextRow style={text.address}>{station.address}</CellTextRow>
+      </TouchableOpacity>
+    </View>
+  );
+});
 
 const text = F8StyleSheet.create({
   name: {
@@ -58,10 +51,4 @@ const styles = F8StyleSheet.create({
     flex: 2,
     padding: 7
   },
-  image: {
-    flex: 1,
-    resizeMode: "contain",
-    width: null,
-    height: 20
-  }
 });
