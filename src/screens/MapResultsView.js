@@ -14,13 +14,13 @@ class MapResultsContainer extends Component {
   };
 
   render() {
+    console.log("MapResultsView this.props.stations =", this.props.stations);
     return (
       <StationsListContainer
         showLoading
-        stations={Object.values(this.props.stations)}
+        stations={this.props.stations}
         navigation={this.props.navigation}
         onTextPress={this.onStationClick.bind(this)}
-        onImagePress={this.onUserClick.bind(this)}
         isLoading={this.props.isLoading}
       />
     );

@@ -7,21 +7,26 @@ import { logout } from "../redux/actions/authActions";
 
 import UserProfile from "../subviews/UserProfile";
 import MyStationsList from "../subviews/MyStationsList";
+import StationsListContainer from "../subviews/StationsListContainer";
 
-const LogoutButton = props => (
-  <Button
-    title="Log Out"
-    containerStyle={{ width: "100%", padding: 20 }}
-    buttonStyle={{ backgroundColor: "red" }}
-    onPress={props.onPress}
-  />
-);
+const LogoutButton = props => {
+  return (
+    <Button
+      title="Log Out"
+      containerStyle={{ width: "100%", padding: 20 }}
+      buttonStyle={{ backgroundColor: "red" }}
+      onPress={props.onPress}
+    />
+  );
+};
 
-const DividerView = props => (
-  <View style={[styles.dividerContainer]}>
-    <Divider style={styles.divider} />
-  </View>
-);
+const DividerView = props => {
+  return (
+    <View style={[styles.dividerContainer]}>
+      <Divider style={styles.divider} />
+    </View>
+  );
+};
 
 class UserProfileView extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -40,14 +45,16 @@ class UserProfileView extends Component {
   }
 
   render() {
+    console.log("UserProfileView this.props.stations =", this.props.staions);
+    // debugger;
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <UserProfile user={this.props.user} />
         <LogoutButton onPress={this.logOut.bind(this)} />
         <DividerView />
-        <MyStationsList
-          style={{ width: "100%" }}
+        <StationsListContainer
           stations={this.props.stations}
+          navigation={this.props.navigation}
         />
       </ScrollView>
     );

@@ -6,18 +6,22 @@ import StationsList from "./StationsList";
 
 export default class StationsListContainer extends Component {
   render() {
-    const {props} = this
+    const { props } = this;
+    const stations = Object.values(props.stations)
+    console.log("StationsListContainer received", props.stations);
+    
     return (
       <View>
-        {props.showLoading && <LoadingIndicator
-          message={"Loading Stations..."}
-          isVisible={props.isLoading}
-        />}
+        {props.showLoading && (
+          <LoadingIndicator
+            message={"Loading Stations..."}
+            isVisible={props.isLoading}
+          />
+        )}
         <StationsList
-          stations={Object.values(props.stations)}
+          stations={stations}
           navigation={props.navigation}
           onTextPress={props.onTextPress}
-          onImagePress={props.onImagePress}
           isLoading={props.isLoading}
         />
       </View>

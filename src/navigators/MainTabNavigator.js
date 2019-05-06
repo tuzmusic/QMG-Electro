@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Platform } from "react-native";
-import { Icon } from "expo";
 import {
   createStackNavigator,
   createBottomTabNavigator
@@ -96,8 +95,8 @@ const TabNavigator = createBottomTabNavigator(
   {
     initialRouteName: "MapStack",
     initialRouteName: "CreateStationStack",
-    initialRouteName: "ListStack",
     initialRouteName: "UserStack",
+    initialRouteName: "ListStack",
   }
 );
 
