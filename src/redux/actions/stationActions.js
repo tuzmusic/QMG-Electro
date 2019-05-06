@@ -17,7 +17,6 @@ export function fetchStations({ useCache, shouldDownload }, attempt = 0) {
       console.log("Getting cached stations");
       const { stations: cachedStations, error } = await _getCachedStations();
       if (cachedStations) {
-        console.log(`${Object.keys(cachedStations).length} cached stations`);
         dispatch({ type: "GET_STATIONS_SUCCESS", stations: cachedStations });
       } else if (error) {
         dispatch({ type: "GET_STATIONS_FAILURE", error });
@@ -33,15 +32,10 @@ export function fetchStations({ useCache, shouldDownload }, attempt = 0) {
 async function _getCachedStations() {
   try {
     const data = await AsyncStorage.getItem("electro_stations");
-    if (data === null) {
-      console.log("requested key returns null");
-      return;
-    }
-    const stations = JSON.parse(data).stations;
-    Object.values(stations).forEach(
-      json => (stations[json.id] = new Station(json))
-    );
-    return { stations };
+    if (data === null) return console.log("requested key returns null");
+    const stns = JSON.parse(data).stations;
+    Object.values(stns).forEach(json => (stns[json.id] = new Station(json)));
+    return { stations: stns };
   } catch (error) {
     return { error };
   }
