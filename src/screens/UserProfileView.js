@@ -4,9 +4,9 @@ import { Button, Divider } from "react-native-elements";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 import { logout } from "../redux/actions/authActions";
+import { setCurrentStationID } from "../redux/actions/stationActions";
 
 import UserProfile from "../subviews/UserProfile";
-import MyStationsList from "../subviews/MyStationsList";
 import StationsListContainer from "../subviews/StationsListContainer";
 
 const LogoutButton = props => {
@@ -44,6 +44,11 @@ class UserProfileView extends Component {
     this.props.logout();
   }
 
+  onStationClick = station => {
+    this.props.setCurrentStationID(station.id);
+    this.props.navigation.navigate("StationDetail", { title: station.title });
+  };
+
   render() {
     // debugger;
     return (
@@ -51,9 +56,11 @@ class UserProfileView extends Component {
         <UserProfile user={this.props.user} />
         <LogoutButton onPress={this.logOut.bind(this)} />
         <DividerView />
+        <Text style={text.header}>My Listings</Text>
         <StationsListContainer
           stations={this.props.stations}
           navigation={this.props.navigation}
+          onTextPress={this.onStationClick.bind(this)}
         />
       </ScrollView>
     );
@@ -69,8 +76,16 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { logout }
+  { logout, setCurrentStationID }
 )(UserProfileView);
+
+const text = {
+  header: {
+    textAlign: "center",
+    fontSize: 20,
+    padding: 15
+  }
+};
 
 const styles = F8StyleSheet.create({
   avatar: { padding: 20 },
