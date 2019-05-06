@@ -16,6 +16,7 @@ export default (mainReducer = (state = initialState, action) => {
     case "GET_STATIONS_SUCCESS":
       return { ...state, stations: {...state.stations, ...action.stations}, isLoading: (state.stations === 0) };
     case "GET_STATIONS_FAILURE":
+      console.warn("Couldn't get cached stations:", action.error);
       return { ...state, error: action.error, isLoading: false };
     case "SET_CURRENT_STATION":
       return { ...state, currentStationID: action.stationID };

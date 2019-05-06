@@ -10,21 +10,29 @@ export function updateStation(dispatch, station, key, value) {
   dispatch({ type: "UPDATE_STATION", station: { ...station, [key]: value } });
 }
 
-export function fetchStations({ useCache, shouldDownload }, attempt = 0) {
+export function fetchStations({ useCache, shouldDownload }) {
   return async dispatch => {
     dispatch({ type: "GET_STATIONS_START" });
     if (useCache) {
       console.log("Getting cached stations");
-      const { stations: cachedStations, error } = await _getCachedStations();
-      if (cachedStations) {
-        dispatch({ type: "GET_STATIONS_SUCCESS", stations: cachedStations });
+      const { stations, error } = await _getCachedStations();
+      if (stations) {
+        console.log(`Loaded ${Object.keys(stations).length} stations`);
+        dispatch({ type: "GET_STATIONS_SUCCESS", stations });
       } else if (error) {
         dispatch({ type: "GET_STATIONS_FAILURE", error });
       }
     }
     if (shouldDownload) {
-      console.log("Couldn't get cached stations:", error);
-      _downloadStations(dispatch, useCache ? 2 : attempt);
+      console.log("Downloading stations");
+      const { stations, error } = await _downloadStations();
+      if (stations) {
+        console.log(`Downloaded ${Object.keys(stations).length} stations`);
+        dispatch({ type: "GET_STATIONS_SUCCESS", stations });
+      } else if (error) {
+        console.warn("Couldn't download stations:", error);
+        dispatch({ type: "GET_STATIONS_FAILURE", error });
+      }
     }
   };
 }
@@ -41,28 +49,25 @@ async function _getCachedStations() {
   }
 }
 
-function _downloadStations(dispatch, attempt = 0) {
-  console.log("Downloading stations");
-  fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/")
-    .then(res => res.json())
-    .then(async json => {
-      const stations = Object.assign(
-        {},
-        ...json.map(s => ({ [s.id]: Station.createFromApiResponse(s) }))
-      );
-      await _getImagesForAllStations(dispatch, stations);
-      console.log(`Downloaded ${Object.keys(stations).length} stations`);
-      dispatch({ type: "GET_STATIONS_SUCCESS", stations });
-      saveStations(stations);
-    })
-    .catch(error => {
-      console.warn("Couldn't download stations:", error);
-      dispatch({ type: "GET_STATIONS_FAILURE", error });
-      if (attempt < 2) _getCachedStations(dispatch, attempt + 1);
-    });
+async function _downloadStations(dispatch, attempt = 0) {
+  const res = await fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/");
+  const json = await res.json();
+  try {
+    const stations = Object.assign(
+      {},
+      ...json.map(s => ({ [s.id]: Station.createFromApiResponse(s) }))
+    );
+    // TO-DO: images function still uses dispatch. 
+    // await _getImagesForAllStations(dispatch, stations);
+    console.log(`Downloaded ${Object.keys(stations).length} stations`);
+    return { stations };
+    // saveStations(stations);
+  } catch (error) {
+    return { error };
+  }
 }
 
-function _newStations(oldStations, newStations) {
+function _newStationsCount(oldStations, newStations) {
   let newCount = 0;
   Object.keys(newStations).forEach(id => {
     if (!oldStation[id]) newCount++;
