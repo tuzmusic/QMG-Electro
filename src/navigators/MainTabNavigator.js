@@ -95,14 +95,14 @@ const TabNavigator = createBottomTabNavigator(
   {
     initialRouteName: "MapStack",
     initialRouteName: "CreateStationStack",
-    initialRouteName: "ListStack",
     initialRouteName: "UserStack",
+    initialRouteName: "ListStack",
   }
 );
 
 class TabContainer extends Component {
   componentDidMount = async () => {
-    await this.props.fetchStations({ useCache: true, shouldDownload: false });
+    await this.props.fetchStations({ useCache: true, shouldDownload: true });
   };
 
   static router = TabNavigator.router;
