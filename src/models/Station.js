@@ -9,7 +9,7 @@ String.prototype.stripHtmlTags = () => {
 export default class Station {
   constructor(json) {
     if (!json) return
-    this.id =  uuid.v1()
+    this.id =  json.id || uuid.v1()
     this.originalJSON = json
     this.userID = json.userID
     this.title = json.title;

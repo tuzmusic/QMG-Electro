@@ -31,7 +31,9 @@ async function _getCachedStations(dispatch, attempt = 0) {
       return;
     }
     const stations = JSON.parse(data).stations;
-    // convert stations to Stations?!?!
+    Object.values(stations).forEach(
+      json => (stations[json.id] = new Station(json))
+    );
     console.log("From cache method:", Object.values(stations)[0]);
 
     dispatch({ type: "GET_STATIONS_SUCCESS", stations });
