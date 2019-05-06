@@ -15,7 +15,6 @@ export default (mainReducer = (state = initialState, action) => {
       return { ...state, isLoading: true };
     case "GET_STATIONS_SUCCESS":
       console.log("GET_STATIONS_SUCCESS");
-
       return { ...state, stations: action.payload, isLoading: false };
     case "GET_STATIONS_FAILURE":
       return { ...state, error: action.payload, isLoading: false };

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button } from "react-native";
 import StationsList from "../subviews/StationsList";
+import StationsListContainer from "../subviews/StationsListContainer";
 import {
   setCurrentStationID,
   setUserInQuestion,
@@ -34,7 +35,6 @@ class MapResultsContainer extends Component {
   componentDidMount() {
     this.setNavigationProps()
   }
-  
 
   setNavigationProps() {
     this.props.navigation.setParams({
@@ -60,7 +60,7 @@ class MapResultsContainer extends Component {
 
   render() {
     return (
-      <StationsList
+      <StationsListContainer
         stations={Object.values(this.props.stations)}
         navigation={this.props.navigation}
         onTextPress={this.onStationClick.bind(this)}

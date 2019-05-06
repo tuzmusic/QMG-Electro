@@ -6,12 +6,15 @@ import StationsList from "./StationsList";
 
 export default (MyStationsList = props => {
   console.log("MyStationsList mounted with stations:", props.stations);
-
+  if (props.stations.length > 0) {
+    debugger;
+  }
   return props.stations.length === 0 ? null : (
     <View>
       {Object.values(props.stations).map(s => (
         <Text key={s.id}>{s.title}</Text>
       ))}
+      <StationsList stations={props.stations}/>
     </View>
   );
 });
