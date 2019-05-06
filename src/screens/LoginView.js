@@ -33,7 +33,7 @@ class LoginView extends Component {
   }
 
   componentDidMount() {
-    this.autoLogin();
+    // this.autoLogin();
   }
 
   async performLogin(user) {

@@ -56,7 +56,7 @@ class UserProfileView extends Component {
         <UserProfile user={this.props.user} />
         <LogoutButton onPress={this.logOut.bind(this)} />
         <DividerView />
-        <Text style={text.header}>My Listings</Text>
+        <Text style={text.header}>My Stations</Text>
         <StationsListContainer
           stations={this.props.stations}
           navigation={this.props.navigation}
