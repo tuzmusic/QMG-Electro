@@ -9,7 +9,10 @@
   },
   "jest": {
     "preset": "jest-expo",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "globals": {
+      "__DEV__": true
+    }
   },
   "dependencies": {
     "@expo/samples": "2.1.1",
@@ -36,6 +39,7 @@
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",
+    "babel-preset-react-native": "^4.0.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "fetch-mock": "^7.3.3",

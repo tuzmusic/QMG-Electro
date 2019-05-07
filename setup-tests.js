@@ -28,8 +28,7 @@ setUpDomEnvironment();
 
 configure({ adapter: new Adapter() });
 
-// setup-tests.js
-import MockAsyncStorage from "mock-async-storage";
+// import MockAsyncStorage from "mock-async-storage";
 
-const mockAsync = new MockAsyncStorage();
-jest.mock("react-native", () => ({ASyncStorage: mockAsync}));
+// const mockAsync = new MockAsyncStorage();
+// jest.mock("react-native", () => ({ASyncStorage: mockAsync}));

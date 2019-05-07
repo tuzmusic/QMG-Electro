@@ -59,7 +59,7 @@ async function _downloadStations() {
       ...json.map(s => ({ [s.id]: Station.createFromApiResponse(s) }))
     );
     // TO-DO: images function still uses dispatch.
-    // await _getImagesForAllStations(dispatch, stations);
+    // await _getImageURLsForAllStations(dispatch, stations);
     console.log(`Downloaded ${Object.keys(stations).length} stations`);
     return { stations };
     // saveStations(stations);
@@ -76,19 +76,19 @@ function _newStationsCount(oldStations, newStations) {
   return newCount;
 }
 
-function _getImagesForAllStations(dispatch, stations) {
+function _getImageURLsForAllStations(dispatch, stations) {
   Object.values(stations).forEach(station =>
-    _getImageForStation(dispatch, station)
+    _getImageURLForStation(dispatch, station)
   );
 }
 
-export function getImageForStation(station) {
+export function getImageURLForStation(station) {
   return dispatch => {
-    _getImageForStation(dispatch, station);
+    _getImageURLForStation(dispatch, station);
   };
 }
 
-function _getImageForStation(dispatch, station) {
+function _getImageURLForStation(dispatch, station) {
   if ((url = station.mediaDataURL)) {
     fetch(url)
       .then(res => res.json())
