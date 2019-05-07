@@ -1,40 +1,29 @@
-import "react-native";
-import "jest-enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import Enzyme from "enzyme";
+import { configure } from "enzyme";
+import jsdom from "jsdom";
 
- // Set up DOM in node.js environment for Enzyme to mount to
-const { JSDOM } = require("jsdom");
-
-const jsdom = new JSDOM("<!doctype html><html><body></body></html>");
-const { window } = jsdom;
-
-function copyProps(src, target) {
-  Object.defineProperties(target, {
-    ...Object.getOwnPropertyDescriptors(src),
-    ...Object.getOwnPropertyDescriptors(target)
+function setUpDomEnvironment() {
+  const { JSDOM } = jsdom;
+  const dom = new JSDOM("<!doctype html><html><body></body></html>", {
+    url: "http://localhost/"
   });
+  const { window } = dom;
+
+  global.window = window;
+  global.document = window.document;
+  global.navigator = {
+    userAgent: "node.js"
+  };
+  copyProps(window, global);
 }
 
-global.window = window;
-global.document = window.document;
-global.navigator = {
-  userAgent: "node.js"
-};
-copyProps(window, global);
+function copyProps(src, target) {
+  const props = Object.getOwnPropertyNames(src)
+    .filter(prop => typeof target[prop] === "undefined")
+    .map(prop => Object.getOwnPropertyDescriptor(src, prop));
+  Object.defineProperties(target, props);
+}
 
-// Set up Enzyme to mount to DOM, simulate events, and inspect the DOM in tests.
-Enzyme.configure({ adapter: new Adapter() });
+setUpDomEnvironment();
 
-/* Ignore some expected warnings
- * see: https://jestjs.io/docs/en/tutorial-react.html#snapshot-testing-with-mocks-enzyme-and-react-16
- * see https://github.com/Root-App/react-native-mock-render/issues/6
- */
-const originalConsoleError = console.error;
-console.error = message => {
-  if (message.startsWith("Warning:")) {
-    return;
-  }
-
-  originalConsoleError(message);
-};
+configure({ adapter: new Adapter() });
