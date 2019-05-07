@@ -50,7 +50,7 @@ async function _getCachedStations() {
 }
 
 // async function _downloadStations(dispatch, attempt = 0) {
-export async function _downloadStations() {
+async function _downloadStations() {
   const res = await fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/");
   const json = await res.json();
   try {
