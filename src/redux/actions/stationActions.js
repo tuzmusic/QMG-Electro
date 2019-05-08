@@ -25,7 +25,7 @@ export function fetchStations({ useCache, shouldDownload }) {
     }
     if (shouldDownload) {
       console.log("Downloading stations");
-      const { stations, error } = await _downloadStations();
+      const { stations, error } = await _downloadStations(dispatch);
       if (stations) {
         console.log(`Downloaded ${Object.keys(stations).length} stations`);
         dispatch({ type: "GET_STATIONS_SUCCESS", stations });
@@ -50,7 +50,7 @@ async function _getCachedStations() {
 }
 
 // async function _downloadStations(dispatch, attempt = 0) {
-async function _downloadStations() {
+async function _downloadStations(dispatch) {
   const res = await fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/");
   const json = await res.json();
   try {
@@ -59,7 +59,7 @@ async function _downloadStations() {
       ...json.map(s => ({ [s.id]: Station.createFromApiResponse(s) }))
     );
     // TO-DO: images function still uses dispatch.
-    // await _getImageURLsForAllStations(dispatch, stations);
+    await _getImageURLsForAllStations(dispatch, stations);
     console.log(`Downloaded ${Object.keys(stations).length} stations`);
     return { stations };
     // saveStations(stations);
@@ -83,8 +83,8 @@ function _getImageURLsForAllStations(dispatch, stations) {
 }
 
 export function getImageURLForStation(station) {
-  return dispatch => {
-    _getImageURLForStation(dispatch, station);
+  return async dispatch => {
+    await _getImageURLForStation(dispatch, station);
   };
 }
 
@@ -94,7 +94,12 @@ function _getImageURLForStation(dispatch, station) {
       .then(res => res.json())
       .then(json => {
         const imageURL = json.media_details.sizes.medium.source_url;
-        updateStation(dispatch, station, "imageURL", imageURL);
+        dispatch({
+          type: "UPDATE_STATION",
+          station: { ...station, imageURL }
+        });
+
+        // updateStation(dispatch, station, "imageURL", imageURL);
       })
       .catch(error => console.warn(error));
   }

@@ -22,6 +22,7 @@ export default class Station {
     this.priceTo = json.priceTo;
     this.tagline = json.tagline;
     this.website = json.website;
+    this.imageURL = json.imageURL;
     // this.amenities = json.amenities;
   }
 
