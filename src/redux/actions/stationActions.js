@@ -65,30 +65,30 @@ export async function _downloadStations() {
   }
 }
 
-export async function _getImageURLsForAllStations(stations) {
-  await Object.values(stations).forEach(
-    async station => await getImageURLForStation(station)
-  );
+export function _getImageURLsForAllStations(stations) {
+  Object.values(stations).forEach(station => getImageURLForStation(station));
 }
 
-/* public */ export async function getImageURLForStation(station) {
-  const updateAction = await _getImageURLForStation(station);
+/* public */ export function getImageURLForStation(station) {
+  return dispatch => {
+    _getImageURLForStation(dispatch, station);
+  };
+  /* const updateAction = await _getImageURLForStation(station);
   return dispatch => {
     dispatch(updateAction);
-  };
+  }; */
 }
 
-/* private */ export async function _getImageURLForStation(station) {
+/* private */ export async function _getImageURLForStation(dispatch, station) {
   if ((url = station.mediaDataURL)) {
     try {
       const res = await fetch(url);
       const json = await res.json();
       const imageURL = json.media_details.sizes.medium.source_url;
-      return {
+      dispatch({
         type: "UPDATE_STATION",
         station: { ...station, imageURL }
-      };
-      // updateStation(dispatch, station, "imageURL", imageURL);
+      });
     } catch (error) {
       console.warn(error);
     }

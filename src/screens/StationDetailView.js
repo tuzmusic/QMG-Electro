@@ -11,7 +11,7 @@ import { Image, Avatar, Button } from "react-native-elements";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 import {
-  getImageForStation,
+  getImageURLForStation,
   deleteStation
 } from "../redux/actions/stationActions";
 import { MaterialIndicator } from "react-native-indicators";
@@ -115,7 +115,7 @@ class StationDetailView extends Component {
   async componentDidMount() {
     if (!this.props.station.imageURL) {
       try {
-        await this.props.getImageForStation(this.props.station);
+        await this.props.getImageURLForStation(this.props.station);
       } catch (error) {
         console.warn(error);
       }
@@ -188,7 +188,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getImageForStation, deleteStation }
+  { getImageURLForStation, deleteStation }
 )(StationDetailView);
 
 const baseSize = 17;
