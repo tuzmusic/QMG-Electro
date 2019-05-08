@@ -56,11 +56,11 @@ const StationWebsite = ({ station }) => {
 };
 
 const StationImage = ({ station }) => {
-  if (station.mediaID > 0 && (url = station.imageURL)) {
+  if (station.mediaDataURL || station.imageURL) {
     return (
       <Image
         style={[styles.image, { resizeMode: "cover" }]}
-        source={{ uri: url }}
+        source={{ uri: station.imageURL }}
         PlaceholderContent={Spinner}
       />
     );
@@ -129,9 +129,9 @@ class StationDetailView extends Component {
 
   render() {
     if (!this.props.station) return null;
-    const {station, users} = this.props;
+    const { station, users } = this.props;
 
-    const user = users[station.userID]
+    const user = users[station.userID];
     return (
       <ScrollView>
         <View style={styles.imageContainer}>
