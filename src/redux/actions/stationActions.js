@@ -10,30 +10,19 @@ export function updateStation(dispatch, station, key, value) {
   dispatch({ type: "UPDATE_STATION", station: { ...station, [key]: value } });
 }
 
+function dispatchStationResults(dispatch, { stations, error }) {
+  if (stations) {
+    dispatch({ type: "GET_STATIONS_SUCCESS", stations });
+  } else if (error) {
+    dispatch({ type: "GET_STATIONS_FAILURE", error });
+  }
+}
+
 export function fetchStations({ useCache, shouldDownload }) {
-  return async dispatch => {
-    dispatch({ type: "GET_STATIONS_START" });
-    if (useCache) {
-      // console.log("Getting cached stations");
-      const { stations, error } = await _getCachedStations();
-      if (stations) {
-        // console.log(`Loaded ${Object.keys(stations).length} stations`);
-        dispatch({ type: "GET_STATIONS_SUCCESS", stations });
-      } else if (error) {
-        dispatch({ type: "GET_STATIONS_FAILURE", error });
-      }
-    }
-    if (shouldDownload) {
-      console.log("Downloading stations");
-      const { stations, error } = await _downloadStations();
-      if (stations) {
-        console.log(`Downloaded ${Object.keys(stations).length} stations`);
-        dispatch({ type: "GET_STATIONS_SUCCESS", stations });
-      } else if (error) {
-        console.warn("Couldn't download stations:", error);
-        dispatch({ type: "GET_STATIONS_FAILURE", error });
-      }
-    }
+  return async d => {
+    d({ type: "GET_STATIONS_START" });
+    if (useCache) dispatchStationResults(d, await _getCachedStations());
+    if (shouldDownload) dispatchStationResults(d, await _downloadStations());
   };
 }
 
@@ -63,7 +52,7 @@ async function _downloadStations() {
     return { stations };
     // saveStations(stations);
   } catch (error) {
-    console.warn(error)
+    console.warn(error);
     return { error };
   }
 }
