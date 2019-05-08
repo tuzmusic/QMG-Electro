@@ -59,7 +59,7 @@ async function _downloadStations(dispatch) {
       ...json.map(s => ({ [s.id]: Station.createFromApiResponse(s) }))
     );
     // TO-DO: images function still uses dispatch.
-    await _getImageURLsForAllStations(dispatch, stations);
+    await _getImageURLsForAllStations(stations);
     console.log(`Downloaded ${Object.keys(stations).length} stations`);
     return { stations };
     // saveStations(stations);
@@ -68,32 +68,17 @@ async function _downloadStations(dispatch) {
   }
 }
 
-function _newStationsCount(oldStations, newStations) {
-  let newCount = 0;
-  Object.keys(newStations).forEach(id => {
-    if (!oldStation[id]) newCount++;
-  });
-  return newCount;
+function _getImageURLsForAllStations(stations) {
+  Object.values(stations).forEach(station => _getImageURLForStation(station));
 }
 
-function _getImageURLsForAllStations(dispatch, stations) {
-  Object.values(stations).forEach(station =>
-    _getImageURLForStation(dispatch, station)
-  );
-}
-
-export function getImageURLForStation(station) {
-  /* public */
-  // the fetch method inside this file should call _getImageURLForStation
-  // which should RETURN an ACTION object
-  // THIS method is for calling from StationDetailView
-  // (this is actually a really simple change)
+/* public */ export function getImageURLForStation(station) { 
   return async dispatch => {
-    await _getImageURLForStation(dispatch, station);
+    dispatch(await _getImageURLForStation(station));
   };
 }
 
-export async function _getImageURLForStation(station) {
+/* private */ export async function _getImageURLForStation(station) {
   if ((url = station.mediaDataURL)) {
     try {
       const res = await fetch(url);
