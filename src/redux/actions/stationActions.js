@@ -1,12 +1,6 @@
 import { AsyncStorage } from "react-native";
 import Station from "../../models/Station";
 
-export function saveStations(stations) {
-  const data = { stations, savedDate: new Date() };
-  AsyncStorage.setItem("electro_stations", JSON.stringify(data));
-}
-
-
 function results({ stations, error }) {
   return {
     type: "GET_STATIONS_" + (stations ? "SUCCESS" : "FAILURE"),
@@ -19,7 +13,10 @@ export function fetchStations({ useCache, shouldDownload }) {
   return async dispatch => {
     dispatch({ type: "GET_STATIONS_START" });
     if (useCache) dispatch(results(await _getCachedStations()));
-    if (shouldDownload) dispatch(results(await _downloadStations()));
+    if (shouldDownload) {
+      dispatch(results(await _downloadStations()));
+      dispatch({ type: "SAVE_STATIONS" });
+    }
   };
 }
 
@@ -28,10 +25,7 @@ async function _getCachedStations() {
     const data = await AsyncStorage.getItem("electro_stations");
     if (data === null) return console.warn("requested key returns null");
     const stns = JSON.parse(data).stations;
-    const origStations = {...stns}
     Object.values(stns).forEach(json => (stns[json.id] = new Station(json)));
-    // debugger
-    // await _getImageURLsForAllStations(stns);
     return { stations: stns };
   } catch (error) {
     return { error };
@@ -48,7 +42,6 @@ export async function _downloadStations() {
       {},
       ...json.map(s => ({ [s.id]: Station.createFromApiResponse(s) }))
     );
-    saveStations(stations);
     return { stations };
   } catch (error) {
     console.warn(error);
@@ -76,6 +69,7 @@ export function _getImageURLsForAllStations(stations) {
         type: "UPDATE_STATION",
         station: { ...station, imageURL }
       });
+      dispatch({ type: "SAVE_STATIONS" });
     } catch (error) {
       console.warn(error);
     }
