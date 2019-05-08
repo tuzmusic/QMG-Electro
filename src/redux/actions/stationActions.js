@@ -82,7 +82,8 @@ function _getImageURLsForAllStations(dispatch, stations) {
   );
 }
 
-export function getImageURLForStation(station) { /* public */
+export function getImageURLForStation(station) {
+  /* public */
   // the fetch method inside this file should call _getImageURLForStation
   // which should RETURN an ACTION object
   // THIS method is for calling from StationDetailView
@@ -92,20 +93,20 @@ export function getImageURLForStation(station) { /* public */
   };
 }
 
-export function _getImageURLForStation(dispatch, station) {
+export async function _getImageURLForStation(station) {
   if ((url = station.mediaDataURL)) {
-    fetch(url)
-      .then(res => res.json())
-      .then(json => {
-        const imageURL = json.media_details.sizes.medium.source_url;
-        dispatch({
-          type: "UPDATE_STATION",
-          station: { ...station, imageURL }
-        });
-
-        // updateStation(dispatch, station, "imageURL", imageURL);
-      })
-      .catch(error => console.warn(error));
+    try {
+      const res = await fetch(url);
+      const json = await res.json();
+      const imageURL = json.media_details.sizes.medium.source_url;
+      return {
+        type: "UPDATE_STATION",
+        station: { ...station, imageURL }
+      };
+      // updateStation(dispatch, station, "imageURL", imageURL);
+    } catch (error) {
+      console.warn(error);
+    }
   }
 }
 
