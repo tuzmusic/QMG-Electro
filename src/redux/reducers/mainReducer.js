@@ -10,13 +10,19 @@ const initialState = {
 };
 
 export default (mainReducer = (state = initialState, action) => {
-  if (action.type.includes("STATION")) {console.log(action.type);}
-  
+  if (action.type.includes("STATION")) {
+    console.log(action.type);
+  }
+
   switch (action.type) {
     case "GET_STATIONS_START":
       return { ...state, isLoading: true };
     case "GET_STATIONS_SUCCESS":
-      return { ...state, stations: {...state.stations, ...action.stations}, isLoading: (state.stations === 0) };
+      return {
+        ...state,
+        stations: { ...state.stations, ...action.stations },
+        isLoading: state.stations === 0
+      };
     case "GET_STATIONS_FAILURE":
       console.warn("Couldn't get stations:", action.error);
       return { ...state, error: action.error, isLoading: false };

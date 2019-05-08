@@ -26,10 +26,6 @@ describe("async fetching actions", () => {
     fetchMock.restore();
   });
 
-  // consoleSpy = jest.spyOn(console, "log").mockImplementation();
-
-  // #endregion
-
   describe("fetchStations(shouldDownload)", () => {
     // #region SET UP
     const downloadedResponse = {
@@ -57,7 +53,7 @@ describe("async fetching actions", () => {
 
   describe("fetchStations(useCache)", () => {
     beforeEach(async () => {
-      await store.dispatch(actions.fetchStations({ useCache: true }));
+      // await store.dispatch(actions.fetchStations({ useCache: true }));
     });
 
     xit("should return an object with the stations in a 'stations' key", () => {
