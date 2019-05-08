@@ -159,7 +159,9 @@ class StationDetailView extends Component {
           {/* Price */}
           <CellTextRow style={[text.price]}>
             {station.priceFrom && station.priceTo
-              ? `Price range: $${station.priceFrom}-$${station.priceTo}`
+              ? `Price range: ${isNaN(station.priceFrom) ? "" : "$"}${
+                  station.priceFrom
+                }-${isNaN(station.priceTo) ? "" : "$"}${station.priceTo}`
               : "Free charging!"}
           </CellTextRow>
           {/* Description */}
