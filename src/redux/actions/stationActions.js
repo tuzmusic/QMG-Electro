@@ -6,9 +6,6 @@ export function saveStations(stations) {
   AsyncStorage.setItem("electro_stations", JSON.stringify(data));
 }
 
-export function updateStation(dispatch, station, key, value) {
-  dispatch({ type: "UPDATE_STATION", station: { ...station, [key]: value } });
-}
 
 function results({ stations, error }) {
   return {
@@ -16,14 +13,6 @@ function results({ stations, error }) {
     stations,
     error
   };
-}
-
-export function f1() {
-  return 1;
-}
-
-export function calls_f1() {
-  f1();
 }
 
 export function fetchStations({ useCache, shouldDownload }) {
@@ -39,8 +28,10 @@ async function _getCachedStations() {
     const data = await AsyncStorage.getItem("electro_stations");
     if (data === null) return console.warn("requested key returns null");
     const stns = JSON.parse(data).stations;
+    const origStations = {...stns}
     Object.values(stns).forEach(json => (stns[json.id] = new Station(json)));
-    await _getImageURLsForAllStations(stns);
+    // debugger
+    // await _getImageURLsForAllStations(stns);
     return { stations: stns };
   } catch (error) {
     return { error };
@@ -57,8 +48,8 @@ export async function _downloadStations() {
       {},
       ...json.map(s => ({ [s.id]: Station.createFromApiResponse(s) }))
     );
+    saveStations(stations);
     return { stations };
-    // saveStations(stations);
   } catch (error) {
     console.warn(error);
     return { error };

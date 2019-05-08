@@ -16,8 +16,8 @@ import CreateStationScreen from "../screens/CreateStationView";
 
 import { fetchStations } from "../redux/actions/stationActions";
 
-const GET_CACHED = false;
-const SHOULD_DOWNLOAD = true;
+const GET_CACHED = true;
+const SHOULD_DOWNLOAD = false;
 
 const ListStack = createStackNavigator({
   ListScreen: MapResultsScreen,

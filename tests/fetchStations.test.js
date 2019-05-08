@@ -8,12 +8,6 @@ import * as actions from "../src/redux/actions/stationActions";
 const mockStore = configureMockStore([thunk]);
 let store = mockStore({ main: { stations: [] } });
 
-// describe("MOCKS", () => {
-//   actions.f1 = jest.fn();
-//   expect(actions.f1).toBeCalled();
-//   actions.calls_f1();
-// });
-
 describe("async fetching actions", () => {
   // #region SET UP VARIABLES AND MOCKS
   const firstStationJSON = apiResponse[0];
@@ -36,7 +30,6 @@ describe("async fetching actions", () => {
 
   // #endregion
 
-
   describe("fetchStations(shouldDownload)", () => {
     // #region SET UP
     const downloadedResponse = {
@@ -46,16 +39,12 @@ describe("async fetching actions", () => {
       { type: "GET_STATIONS_START" },
       { type: "GET_STATIONS_SUCCESS", stations: downloadedResponse }
     ];
-    const expectedUpdateAction = {
-      type: "UPDATE_STATION",
-      station: { ...firstStationObject, imageURL }
-    };
 
     beforeEach(async () => {
       await store.dispatch(actions.fetchStations({ shouldDownload: true }));
     });
     afterEach(() => {
-      console.log(store.getActions().map(a => a.type));
+      // console.log(store.getActions().map(a => a.type));
     });
     // #endregion
 
@@ -64,25 +53,17 @@ describe("async fetching actions", () => {
         expect.arrayContaining(expectedGetActions)
       );
     });
-
   });
 
   describe("fetchStations(useCache)", () => {
-    /* it("gets stations from the local storage and dispatches them to the store", () => {
-      const cachedResponse = "I don't know yet!!!";
+    beforeEach(async () => {
+      await store.dispatch(actions.fetchStations({ useCache: true }));
+    });
 
-      const expectedActions = [
-        { type: "GET_STATIONS_START" },
-        { type: "GET_STATIONS_SUCCESS", stations: cachedResponse }
-      ];
-
-      const store = mockStore({ main: { stations: [] } });
-
-      return store
-        .dispatch(actions.fetchStations({ useCache: true }))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedActions);
-        });
-    }); */
+    xit("should return an object with the stations in a 'stations' key", () => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining(expectedGetActions)
+      );
+    });
   });
 });
