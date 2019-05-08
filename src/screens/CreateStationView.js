@@ -11,7 +11,7 @@ export default (CreateStationView = props => {
         onPress={() =>
           Linking.openURL("http://joinelectro.com/submit-listings/")
         }
-        title="Please visit the website to create a listing."
+        title="Please visit the website to create a station."
       />
     </View>
   );
