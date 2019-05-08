@@ -10,19 +10,18 @@ export function updateStation(dispatch, station, key, value) {
   dispatch({ type: "UPDATE_STATION", station: { ...station, [key]: value } });
 }
 
-function dispatchStationResults(dispatch, { stations, error }) {
-  if (stations) {
-    dispatch({ type: "GET_STATIONS_SUCCESS", stations });
-  } else if (error) {
-    dispatch({ type: "GET_STATIONS_FAILURE", error });
-  }
+function results({ stations, error }) {
+    return {
+      type: "GET_STATIONS_" + (stations ? "SUCCESS" : "FAILURE"),
+      stations, error
+    };
 }
 
 export function fetchStations({ useCache, shouldDownload }) {
-  return async d => {
-    d({ type: "GET_STATIONS_START" });
-    if (useCache) dispatchStationResults(d, await _getCachedStations());
-    if (shouldDownload) dispatchStationResults(d, await _downloadStations());
+  return async dispatch => {
+    dispatch({ type: "GET_STATIONS_START" });
+    if (useCache) dispatch(results(await _getCachedStations()));
+    if (shouldDownload) dispatch(results(await _downloadStations()));
   };
 }
 
