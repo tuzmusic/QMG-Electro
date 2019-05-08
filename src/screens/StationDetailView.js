@@ -158,6 +158,7 @@ class StationDetailView extends Component {
           <ContactButtons station={station} />
           {/* Price */}
           <CellTextRow style={[text.price]}>
+          {/* Adds dollar sign to a bare number but leaves prices with dollar signs alone */}
             {station.priceFrom && station.priceTo
               ? `Price range: ${isNaN(station.priceFrom) ? "" : "$"}${
                   station.priceFrom
