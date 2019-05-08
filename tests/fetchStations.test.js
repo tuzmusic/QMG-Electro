@@ -16,28 +16,18 @@ import MockAsyncStorage from "mock-async-storage";
 
 const mockStore = configureMockStore([thunk]);
 
-const mock = () => {
-  const mockImpl = new MockAsyncStorage();
-  jest.mock("AsyncStorage", () => mockImpl);
-};
-
-mock();
-
-import { AsyncStorage as storage } from "react-native";
-
 describe("async fetching actions", () => {
   const firstStation = apiResponse[0];
+  const mainApiUrl = "http://joinelectro.com/wp-json/wp/v2/job-listings/";
+  const mediaDataURL = "http://joinelectro.com/wp-json/wp/v2/media/817";
+  const imageURL =
+    "http://joinelectro.com/wp-content/uploads/2019/04/Charging-port-150x150.jpg";
+    
+  fetchMock.mock(mainApiUrl, apiResponse);
+  fetchMock.mock(mediaDataURL, mediaResponse);
 
   describe("getImageForStation", () => {
-    fetchMock.mock(
-      "http://http://joinelectro.com/wp-json/wp/v2/media/817",
-      mediaResponse
-    );
-    const imageUpdateStation = {
-      ...firstStation,
-      imageURL:
-        "http://joinelectro.com/wp-content/uploads/2019/04/Charging-port-150x150.jpg"
-    };
+    const imageUpdateStation = { ...firstStation, imageURL };
     const expectedUpdateActions = [
       { type: "UPDATE_STATION", station: imageUpdateStation }
     ];
@@ -54,15 +44,6 @@ describe("async fetching actions", () => {
   });
 
   describe("fetchStations(shouldDownload)", () => {
-    fetchMock.mock(
-      "http://joinelectro.com/wp-json/wp/v2/job-listings/",
-      apiResponse
-    );
-    fetchMock.mock(
-      "http://http://joinelectro.com/wp-json/wp/v2/media/817",
-      mediaResponse
-    );
-
     const downloadedResponse = {
       [firstStation.id]: Station.createFromApiResponse(firstStation)
     };
