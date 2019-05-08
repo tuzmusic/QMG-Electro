@@ -16,6 +16,9 @@ import CreateStationScreen from "../screens/CreateStationView";
 
 import { fetchStations } from "../redux/actions/stationActions";
 
+const GET_CACHED = true;
+const SHOULD_DOWNLOAD = false;
+
 const ListStack = createStackNavigator({
   ListScreen: MapResultsScreen,
   StationDetail: StationDetailScreen,
@@ -96,14 +99,16 @@ const TabNavigator = createBottomTabNavigator(
     initialRouteName: "MapStack",
     initialRouteName: "CreateStationStack",
     initialRouteName: "UserStack",
-    initialRouteName: "ListStack",
+    initialRouteName: "ListStack"
   }
 );
 
 class TabContainer extends Component {
   componentDidMount = async () => {
-    // await this.props.fetchStations({ useCache: true, shouldDownload: true });
-    await this.props.fetchStations({ useCache: false, shouldDownload: true });
+    await this.props.fetchStations({
+      useCache: GET_CACHED,
+      shouldDownload: SHOULD_DOWNLOAD
+    });
   };
 
   static router = TabNavigator.router;

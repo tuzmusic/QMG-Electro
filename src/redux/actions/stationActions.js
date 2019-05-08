@@ -11,10 +11,19 @@ export function updateStation(dispatch, station, key, value) {
 }
 
 function results({ stations, error }) {
-    return {
-      type: "GET_STATIONS_" + (stations ? "SUCCESS" : "FAILURE"),
-      stations, error
-    };
+  return {
+    type: "GET_STATIONS_" + (stations ? "SUCCESS" : "FAILURE"),
+    stations,
+    error
+  };
+}
+
+export function f1() {
+  return 1;
+}
+
+export function calls_f1() {
+  f1();
 }
 
 export function fetchStations({ useCache, shouldDownload }) {
@@ -31,6 +40,7 @@ async function _getCachedStations() {
     if (data === null) return console.log("requested key returns null");
     const stns = JSON.parse(data).stations;
     Object.values(stns).forEach(json => (stns[json.id] = new Station(json)));
+    await _getImageURLsForAllStations(stns);
     return { stations: stns };
   } catch (error) {
     return { error };
@@ -38,7 +48,7 @@ async function _getCachedStations() {
 }
 
 // async function _downloadStations(dispatch, attempt = 0) {
-async function _downloadStations() {
+export async function _downloadStations() {
   const url = "http://joinelectro.com/wp-json/wp/v2/job-listings/";
   try {
     const res = await fetch(url);
@@ -47,7 +57,9 @@ async function _downloadStations() {
       {},
       ...json.map(s => ({ [s.id]: Station.createFromApiResponse(s) }))
     );
-    _getImageURLsForAllStations(stations);
+    console.log(`Downloaded ${json.length} stations`);
+    await _getImageURLsForAllStations(stations);
+    console.log("returning, hopefully after getting images");
     return { stations };
     // saveStations(stations);
   } catch (error) {
@@ -56,24 +68,31 @@ async function _downloadStations() {
   }
 }
 
-function _getImageURLsForAllStations(stations) {
-  Object.values(stations).forEach(station => _getImageURLForStation(station));
+export async function _getImageURLsForAllStations(stations) {
+  console.log("getting images");
+  await Object.values(stations).forEach(
+    async station => await getImageURLForStation(station)
+  );
 }
 
-/* public */ export function getImageURLForStation(station) {
-  return async dispatch => {
-    const updateAction = await _getImageURLForStation(station);
-    console.log(updateAction.type);
+/* public */ export async function getImageURLForStation(station) {
+  console.log("getting image (public method)", station.mediaDataURL);
+  console.log("GETTING IMAGE UPDATE");
+  const updateAction = await _getImageURLForStation(station);
+  return dispatch => {
+    console.log("DISPATCHING IMAGE UPDATE");
     dispatch(updateAction);
   };
 }
 
 /* private */ export async function _getImageURLForStation(station) {
   if ((url = station.mediaDataURL)) {
+    console.log("getting image from", url);
     try {
       const res = await fetch(url);
       const json = await res.json();
       const imageURL = json.media_details.sizes.medium.source_url;
+      console.log("RETURNING WITH URL", imageURL);
       return {
         type: "UPDATE_STATION",
         station: { ...station, imageURL }
