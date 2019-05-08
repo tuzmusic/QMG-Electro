@@ -11,7 +11,7 @@ import Station from "../src/models/Station";
 import * as actions from "../src/redux/actions/stationActions";
 
 const mockStore = configureMockStore([thunk]);
-const store = mockStore({ main: { stations: [] } });
+let store = mockStore({ main: { stations: [] } });
 
 describe("async fetching actions", () => {
   // #region SET UP VARIABLES AND MOCKS
@@ -21,9 +21,18 @@ describe("async fetching actions", () => {
   const mediaDataURL = "http://joinelectro.com/wp-json/wp/v2/media/817";
   const imageURL =
     "http://joinelectro.com/wp-content/uploads/2019/04/Charging-port-300x225.jpg";
+  beforeEach(() => {
+    fetchMock.mock(mainApiUrl, apiResponse);
+    fetchMock.mock(mediaDataURL, mediaResponse);
+  });
 
-  fetchMock.mock(mainApiUrl, apiResponse);
-  fetchMock.mock(mediaDataURL, mediaResponse);
+  afterEach(() => {
+    store = mockStore({ main: { stations: [] } });
+    fetchMock.restore();
+  });
+
+  // consoleSpy = jest.spyOn(console, "log").mockImplementation();
+
   // #endregion
 
   describe("_getImageURLForStation (private method)", () => {
@@ -48,6 +57,7 @@ describe("async fetching actions", () => {
   });
 
   describe("fetchStations(shouldDownload)", () => {
+    // #region SET UP
     const downloadedResponse = {
       [firstStationJSON.id]: Station.createFromApiResponse(firstStationJSON)
     };
@@ -59,20 +69,34 @@ describe("async fetching actions", () => {
       type: "UPDATE_STATION",
       station: { ...firstStationObject, imageURL }
     };
+    let getAllImagesMock;
 
     beforeEach(async () => {
+      getAllImagesMock = jest.fn();
       await store.dispatch(actions.fetchStations({ shouldDownload: true }));
     });
-    
-    it("gets stations from the website and dispatches them to the store", async () => {
+    afterEach(() => {
+      getAllImagesMock.unmock()
+      console.log(store.getActions().map(a => a.type));
+    });
+    // #endregion
+
+    it("gets stations from the website and dispatches them to the store", () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining(expectedGetActions)
       );
     });
 
-    it("updates the stations' imageURL via dispatch", async () => {
+    it("updates the stations' imageURL via dispatch", () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([expectedUpdateAction])
+      );
+    });
+
+    it("dispatches the update actions AFTER the get actions", () => {
+      const storeActions = store.getActions();
+      expect(storeActions.indexOf(expectedGetActions[0])).toBeLessThan(
+        storeActions.indexOf(expectedUpdateAction)
       );
     });
   });

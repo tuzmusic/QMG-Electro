@@ -14,10 +14,10 @@ export function fetchStations({ useCache, shouldDownload }) {
   return async dispatch => {
     dispatch({ type: "GET_STATIONS_START" });
     if (useCache) {
-      console.log("Getting cached stations");
+      // console.log("Getting cached stations");
       const { stations, error } = await _getCachedStations();
       if (stations) {
-        console.log(`Loaded ${Object.keys(stations).length} stations`);
+        // console.log(`Loaded ${Object.keys(stations).length} stations`);
         dispatch({ type: "GET_STATIONS_SUCCESS", stations });
       } else if (error) {
         dispatch({ type: "GET_STATIONS_FAILURE", error });
@@ -25,7 +25,7 @@ export function fetchStations({ useCache, shouldDownload }) {
     }
     if (shouldDownload) {
       console.log("Downloading stations");
-      const { stations, error } = await _downloadStations(dispatch);
+      const { stations, error } = await _downloadStations();
       if (stations) {
         console.log(`Downloaded ${Object.keys(stations).length} stations`);
         dispatch({ type: "GET_STATIONS_SUCCESS", stations });
@@ -50,20 +50,20 @@ async function _getCachedStations() {
 }
 
 // async function _downloadStations(dispatch, attempt = 0) {
-async function _downloadStations(dispatch) {
-  const res = await fetch("http://joinelectro.com/wp-json/wp/v2/job-listings/");
-  const json = await res.json();
+async function _downloadStations() {
+  const url = "http://joinelectro.com/wp-json/wp/v2/job-listings/";
   try {
+    const res = await fetch(url);
+    const json = await res.json();
     const stations = Object.assign(
       {},
       ...json.map(s => ({ [s.id]: Station.createFromApiResponse(s) }))
     );
-    // TO-DO: images function still uses dispatch.
-    await _getImageURLsForAllStations(stations);
-    console.log(`Downloaded ${Object.keys(stations).length} stations`);
+    _getImageURLsForAllStations(stations);
     return { stations };
     // saveStations(stations);
   } catch (error) {
+    console.warn(error)
     return { error };
   }
 }
@@ -72,9 +72,11 @@ function _getImageURLsForAllStations(stations) {
   Object.values(stations).forEach(station => _getImageURLForStation(station));
 }
 
-/* public */ export function getImageURLForStation(station) { 
+/* public */ export function getImageURLForStation(station) {
   return async dispatch => {
-    dispatch(await _getImageURLForStation(station));
+    const updateAction = await _getImageURLForStation(station);
+    console.log(updateAction.type);
+    dispatch(updateAction);
   };
 }
 
