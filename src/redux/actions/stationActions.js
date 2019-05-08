@@ -73,10 +73,6 @@ export function _getImageURLsForAllStations(stations) {
   return dispatch => {
     _getImageURLForStation(dispatch, station);
   };
-  /* const updateAction = await _getImageURLForStation(station);
-  return dispatch => {
-    dispatch(updateAction);
-  }; */
 }
 
 /* private */ export async function _getImageURLForStation(dispatch, station) {
