@@ -17,35 +17,36 @@ import MockAsyncStorage from "mock-async-storage";
 const mockStore = configureMockStore([thunk]);
 
 describe("async fetching actions", () => {
-  const firstStation = apiResponse[0];
+  const firstStationJSON = apiResponse[0];
+  const firstStationObject = Station.createFromApiResponse(firstStationJSON);
   const mainApiUrl = "http://joinelectro.com/wp-json/wp/v2/job-listings/";
   const mediaDataURL = "http://joinelectro.com/wp-json/wp/v2/media/817";
   const imageURL =
     "http://joinelectro.com/wp-content/uploads/2019/04/Charging-port-150x150.jpg";
-    
+
   fetchMock.mock(mainApiUrl, apiResponse);
   fetchMock.mock(mediaDataURL, mediaResponse);
 
   describe("getImageForStation", () => {
-    const imageUpdateStation = { ...firstStation, imageURL };
+    const imageUpdateStation = { ...firstStationJSON, imageURL };
     const expectedUpdateActions = [
       { type: "UPDATE_STATION", station: imageUpdateStation }
     ];
 
-    it("should get the imageURL for a station and dispatch the updated station to the store", () => {
-      const store = mockStore({ main: { stations: [] } });
-
-      return store
-        .dispatch(actions.getImageURLForStation(firstStation))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedUpdateActions);
-        });
+    it("should return an action with the updated station", async () => {
+      expect(firstStationObject.mediaDataURL).toBeTruthy();
+      const returnedAction = await actions._getImageURLForStation(
+        firstStationObject
+      );
+      const expectedAction = expectedUpdateActions[0];
+      expect(expectedAction.type).toEqual("UPDATE_STATION");
+      expect(expectedAction.station.imageURL).toEqual(imageURL);
     });
   });
 
   describe("fetchStations(shouldDownload)", () => {
     const downloadedResponse = {
-      [firstStation.id]: Station.createFromApiResponse(firstStation)
+      [firstStationJSON.id]: Station.createFromApiResponse(firstStationJSON)
     };
     const expectedGetActions = [
       { type: "GET_STATIONS_START" },

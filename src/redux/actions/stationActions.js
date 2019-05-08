@@ -82,13 +82,17 @@ function _getImageURLsForAllStations(dispatch, stations) {
   );
 }
 
-export function getImageURLForStation(station) {
+export function getImageURLForStation(station) { /* public */
+  // the fetch method inside this file should call _getImageURLForStation
+  // which should RETURN an ACTION object
+  // THIS method is for calling from StationDetailView
+  // (this is actually a really simple change)
   return async dispatch => {
     await _getImageURLForStation(dispatch, station);
   };
 }
 
-function _getImageURLForStation(dispatch, station) {
+export function _getImageURLForStation(dispatch, station) {
   if ((url = station.mediaDataURL)) {
     fetch(url)
       .then(res => res.json())
