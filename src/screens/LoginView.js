@@ -32,7 +32,8 @@ class LoginView extends Component {
     }, 500);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    await this.setState({ selectedUserId: 1 });
     this.autoLogin();
   }
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { MapView } from "expo";
-import { View, Text } from "react-native";
+import { MapView, Constants, Location, Permissions } from "expo";
+import { View, Text, Platform } from "react-native";
 import { BLText } from "../components/StyledComponents";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
@@ -14,6 +14,8 @@ class MapScreen extends Component {
   };
 
   state = {
+    location: null,
+    error: null,
     region: {
       // Center on 88 N Spring St Concord NH
       latitude: 43.208552,
@@ -21,6 +23,27 @@ class MapScreen extends Component {
       latitudeDelta: 0.00922,
       longitudeDelta: 0.00421
     }
+  };
+
+  componentWillMount() {
+    if (Platform.OS === "android" && !Constants.isDevice) {
+      return this.setState({
+        errorMessage:
+          "Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
+      });
+    }
+    this._getLocationAsync();
+  }
+
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== "granted") {
+      const errorMessage = "Permission to access location was denied";
+      console.warn(errorMessage);
+      this.setState({ errorMessage });
+    }
+    let region = (await Location.getCurrentPositionAsync({})).coords;
+    this.setState({ region: { ...this.state.region, region } });
   };
 
   calculateRegion({ latitude, longitude, accuracy }) {
@@ -37,10 +60,6 @@ class MapScreen extends Component {
       this.calculateRegion(position)
     );
   };
-
-  onMarkerPress(info) {
-    console.log(info);
-  }
 
   renderMarkers() {
     return (markers = Object.keys(this.props.stations).map(key => {

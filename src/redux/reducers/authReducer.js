@@ -2,7 +2,7 @@ import { AsyncStorage } from "react-native";
 
 const initialState = {
   stations: [],
-  user: null,
+  user: {1:{username:"user1", id: 1}},
   isLoading: false,
   error: null,
   users: {}
