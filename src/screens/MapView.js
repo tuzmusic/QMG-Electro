@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { MapView, Constants, Location, Permissions } from "expo";
+import { MapView } from "expo";
 import { View, Text, Platform } from "react-native";
 import { BLText } from "../components/StyledComponents";
 import F8StyleSheet from "../components/F8StyleSheet";
@@ -11,25 +11,6 @@ import ListingCellView from "../subviews/ListingCellView";
 class MapScreen extends Component {
   static navigationOptions = {
     title: "Nearby Stations"
-  };
-
-  componentWillMount() {
-    if (Platform.OS === "android" && !Constants.isDevice) {
-      return this.setState({
-        errorMessage:
-          "Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
-      });
-    }
-    this._getLocationAsync();
-  }
-
-  _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== "granted") {
-      return console.warn("Permission to access location was denied");
-    }
-    let location = await Location.getCurrentPositionAsync({});
-    this.props.setCurrentRegion(location);
   };
 
   renderMarkers() {
