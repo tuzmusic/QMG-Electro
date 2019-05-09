@@ -16,6 +16,16 @@ export function getUsers() {
   };
 }
 
-export function setUserLocation(location) {
-  return { type: "SET_CURRENT_REGION", location };
+export function setCurrentRegion({coords}) {
+  const region = calculateRegion(coords)
+  return { type: "SET_CURRENT_REGION", region };
+}
+
+function calculateRegion({ latitude, longitude, accuracy }) {
+  const oneDegreeOfLongitudeInMeters = 111.32;
+  const circumference = 40075 / 360;
+  const latitudeDelta = accuracy / oneDegreeOfLongitudeInMeters;
+  const longitudeDelta = accuracy * (1 / Math.cos(latitude * circumference));
+  const region = { latitude, longitude, latitudeDelta, longitudeDelta };
+  return region;
 }

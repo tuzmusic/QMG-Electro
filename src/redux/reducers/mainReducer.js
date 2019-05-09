@@ -59,7 +59,7 @@ export default (mainReducer = (state = initialState, action) => {
     // #endregion
     // #region LOCATION ACTIONS
     case "SET_CURRENT_REGION":
-      return { ...state, currentRegion: action.location };
+      return { ...state, currentRegion: action.region };
     // #endregion
     default:
       return state;

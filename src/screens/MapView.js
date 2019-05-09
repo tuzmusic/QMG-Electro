@@ -5,7 +5,7 @@ import { BLText } from "../components/StyledComponents";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 const { Marker, Callout } = MapView;
-import { setUserLocation } from "../redux/actions/userActions";
+import { setCurrentRegion } from "../redux/actions/userActions";
 import ListingCellView from "../subviews/ListingCellView";
 
 class MapScreen extends Component {
@@ -29,18 +29,8 @@ class MapScreen extends Component {
       return console.warn("Permission to access location was denied");
     }
     let location = await Location.getCurrentPositionAsync({});
-    let region = this.calculateRegion(location.coords);
-    this.props.setUserLocation(region);
+    this.props.setCurrentRegion(location);
   };
-
-  calculateRegion({ latitude, longitude, accuracy }) {
-    const oneDegreeOfLongitudeInMeters = 111.32;
-    const circumference = 40075 / 360;
-    const latitudeDelta = accuracy / oneDegreeOfLongitudeInMeters;
-    const longitudeDelta = accuracy * (1 / Math.cos(latitude * circumference));
-    const region = { latitude, longitude, latitudeDelta, longitudeDelta };
-    return region;
-  }
 
   renderMarkers() {
     return (markers = Object.keys(this.props.stations).map(key => {
@@ -96,7 +86,7 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { setUserLocation }
+  { setCurrentRegion }
 )(MapScreen);
 
 const styles = F8StyleSheet.create({
