@@ -2,7 +2,7 @@ import reducer from "../src/redux/reducers/mainReducer";
 
 describe("set user location", () => {
   const action = {
-    type: "SET_USER_LOCATION",
+    type: "SET_CURRENT_REGION",
     location: {
       speed: 0,
       longitude: -122.0312186,
