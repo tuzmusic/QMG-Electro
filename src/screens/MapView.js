@@ -14,12 +14,9 @@ class MapScreen extends Component {
   };
 
   state = {
-    location: null,
-    error: null,
     region: {
-      // Center on 88 N Spring St Concord NH
-      latitude: 43.208552,
-      longitude: -71.542526,
+      latitude: 0,
+      longitude:0,
       latitudeDelta: 0.00922,
       longitudeDelta: 0.00421
     }
@@ -43,7 +40,8 @@ class MapScreen extends Component {
       this.setState({ errorMessage });
     }
     let region = (await Location.getCurrentPositionAsync({})).coords;
-    this.setState({ region: { ...this.state.region, region } });
+    region = { ...this.state.region, ...region };
+    this.setState({ region });\
   };
 
   calculateRegion({ latitude, longitude, accuracy }) {
