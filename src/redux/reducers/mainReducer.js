@@ -7,14 +7,17 @@ const initialState = {
   isLoading: false,
   error: null,
   currentRegion: null,
-  currentUserLocation: { latitude: 0, longitude: 0 },
+  currentUserLocation: {
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.00922,
+    longitudeDelta: 0.00421
+  },
   selectedLocation: null
 };
 
 export default (mainReducer = (state = initialState, action) => {
-  if (action.type.includes("STATION")) {
-    console.log(action.type);
-  }
+  // if (action.type.includes("STATION")) console.log(action.type);
 
   switch (action.type) {
     // #region GET STATIONS

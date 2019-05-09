@@ -13,14 +13,6 @@ class MapScreen extends Component {
     title: "Nearby Stations"
   };
 
-  state = { // set initial state
-    region: {
-      ...this.props.userLocation,
-      latitudeDelta: 0.00922,
-      longitudeDelta: 0.00421
-    }
-  };
-
   componentWillMount() {
     if (Platform.OS === "android" && !Constants.isDevice) {
       return this.setState({
@@ -34,13 +26,11 @@ class MapScreen extends Component {
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
-      const errorMessage = "Permission to access location was denied";
-      return console.warn(errorMessage);
+      return console.warn("Permission to access location was denied");
     }
-    let location = (await Location.getCurrentPositionAsync({})).coords;
-    this.props.setUserLocation(location);
-    // region = { ...this.state.region, ...region };
-    // this.setState({ region });
+    let location = await Location.getCurrentPositionAsync({});
+    let region = this.calculateRegion(location.coords);
+    this.props.setUserLocation(region);
   };
 
   calculateRegion({ latitude, longitude, accuracy }) {
@@ -49,14 +39,8 @@ class MapScreen extends Component {
     const latitudeDelta = accuracy / oneDegreeOfLongitudeInMeters;
     const longitudeDelta = accuracy * (1 / Math.cos(latitude * circumference));
     const region = { latitude, longitude, latitudeDelta, longitudeDelta };
-    this.setState({ region });
+    return region;
   }
-
-  getCurrentLocation = () => {
-    navigator.geolocation.getCurrentPosition(position =>
-      this.calculateRegion(position)
-    );
-  };
 
   renderMarkers() {
     return (markers = Object.keys(this.props.stations).map(key => {
