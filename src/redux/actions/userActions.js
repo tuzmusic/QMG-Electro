@@ -15,3 +15,7 @@ export function getUsers() {
     }
   };
 }
+
+export function setUserLocation(location) {
+  return { type: "SET_USER_LOCATION", location };
+}

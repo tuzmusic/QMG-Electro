@@ -6,7 +6,9 @@ const initialState = {
   userInQuestion: null,
   isLoading: false,
   error: null,
-  currentRegion: null
+  currentRegion: null,
+  currentUserLocation: { latitude: 0, longitude: 0 },
+  selectedLocation: null
 };
 
 export default (mainReducer = (state = initialState, action) => {
@@ -15,6 +17,7 @@ export default (mainReducer = (state = initialState, action) => {
   }
 
   switch (action.type) {
+    // #region GET STATIONS
     case "GET_STATIONS_START":
       return { ...state, isLoading: true };
     case "GET_STATIONS_SUCCESS":
@@ -26,8 +29,8 @@ export default (mainReducer = (state = initialState, action) => {
     case "GET_STATIONS_FAILURE":
       console.warn("Couldn't get stations:", action.error);
       return { ...state, error: action.error, isLoading: false };
-    case "SET_CURRENT_STATION":
-      return { ...state, currentStationID: action.stationID };
+    // #endregion
+    // #region CREATE/UPDATE/DELETE STATIONS
     case "CREATE_STATION":
       const newStations = {
         ...state.stations,
@@ -43,11 +46,20 @@ export default (mainReducer = (state = initialState, action) => {
       const clonedStations = { ...state.stations };
       delete clonedStations[action.station.id];
       return { ...state, stations: clonedStations };
+    // #endregion
+    // #region APP ACTIONS
+    case "SET_CURRENT_STATION":
+      return { ...state, currentStationID: action.stationID };
     case "SAVE_STATIONS":
       const data = { stations: state.stations, savedDate: new Date() };
       const storageString = JSON.stringify(data);
       AsyncStorage.setItem("electro_stations", storageString);
       return state;
+    // #endregion
+    // #region LOCATION ACTIONS
+    case "SET_USER_LOCATION":
+      return { ...state, currentUserLocation: action.location };
+    // #endregion
     default:
       return state;
   }

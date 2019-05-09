@@ -5,7 +5,7 @@ import { BLText } from "../components/StyledComponents";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 const { Marker, Callout } = MapView;
-
+import { setUserLocation } from "../redux/actions/userActions";
 import ListingCellView from "../subviews/ListingCellView";
 
 class MapScreen extends Component {
@@ -13,10 +13,9 @@ class MapScreen extends Component {
     title: "Nearby Stations"
   };
 
-  state = {
+  state = { // set initial state
     region: {
-      latitude: 0,
-      longitude:0,
+      ...this.props.userLocation,
       latitudeDelta: 0.00922,
       longitudeDelta: 0.00421
     }
@@ -36,12 +35,12 @@ class MapScreen extends Component {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
       const errorMessage = "Permission to access location was denied";
-      console.warn(errorMessage);
-      this.setState({ errorMessage });
+      return console.warn(errorMessage);
     }
-    let region = (await Location.getCurrentPositionAsync({})).coords;
-    region = { ...this.state.region, ...region };
-    this.setState({ region });\
+    let location = (await Location.getCurrentPositionAsync({})).coords;
+    this.props.setUserLocation(location);
+    // region = { ...this.state.region, ...region };
+    // this.setState({ region });
   };
 
   calculateRegion({ latitude, longitude, accuracy }) {
@@ -87,12 +86,14 @@ class MapScreen extends Component {
   }
 
   render() {
+    console.log("rendering at region:", this.props.userLocation);
+
     return (
       <View style={styles.container}>
         <MapView
           provider={MapView.PROVIDER_GOOGLE}
           style={{ flex: 1 }}
-          region={this.state.region}
+          region={this.props.userLocation}
           showsUserLocation={true}
         >
           {this.renderMarkers()}
@@ -102,11 +103,17 @@ class MapScreen extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  stations: state.main.stations
-});
+const mapStateToProps = state => {
+  return {
+    stations: state.main.stations,
+    userLocation: state.main.currentUserLocation
+  };
+};
 
-export default connect(mapStateToProps)(MapScreen);
+export default connect(
+  mapStateToProps,
+  { setUserLocation }
+)(MapScreen);
 
 const styles = F8StyleSheet.create({
   container: {
