@@ -3,11 +3,9 @@ import { AsyncStorage } from "react-native";
 const initialState = {
   stations: [], // should be {}, but that doesn't work currently, for some buried reason. This isn't doing any harm.
   currentStationID: null,
-  userInQuestion: null,
   isLoading: false,
   error: null,
-  currentRegion: null,
-  currentUserLocation: {
+  currentRegion: {
     latitude: 0,
     longitude: 0,
     latitudeDelta: 0.00922,
@@ -61,7 +59,7 @@ export default (mainReducer = (state = initialState, action) => {
     // #endregion
     // #region LOCATION ACTIONS
     case "SET_USER_LOCATION":
-      return { ...state, currentUserLocation: action.location };
+      return { ...state, currentRegion: action.location };
     // #endregion
     default:
       return state;

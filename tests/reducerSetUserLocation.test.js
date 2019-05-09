@@ -15,7 +15,7 @@ describe("set user location", () => {
   };
 
   const expectedState = {
-    currentUserLocation: {
+    currentRegion: {
       speed: 0,
       longitude: -122.0312186,
       latitude: 37.33233141,

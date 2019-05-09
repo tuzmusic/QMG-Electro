@@ -10,7 +10,6 @@ import TabBarIcon from "../components/TabBarIcon";
 import MapScreen from "../screens/MapView";
 import MapResultsScreen from "../screens/MapResultsView";
 import StationDetailScreen from "../screens/StationDetailView";
-import UserDetailScreen from "../screens/UserDetailView";
 import UserProfileScreen from "../screens/UserProfileView";
 import CreateStationScreen from "../screens/CreateStationView";
 
@@ -25,7 +24,6 @@ const SHOULD_DOWNLOAD = false;
 const ListStack = createStackNavigator({
   ListScreen: MapResultsScreen,
   StationDetail: StationDetailScreen,
-  UserDetail: UserDetailScreen
 });
 
 ListStack.navigationOptions = {
@@ -42,7 +40,6 @@ const MapStack = createStackNavigator({
   MapScreen: MapScreen,
   ResultsScreen: MapResultsScreen,
   StationDetail: StationDetailScreen,
-  UserDetail: UserDetailScreen
 });
 
 MapStack.navigationOptions = {

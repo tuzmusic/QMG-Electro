@@ -90,7 +90,7 @@ class MapScreen extends Component {
 const mapStateToProps = state => {
   return {
     stations: state.main.stations,
-    userLocation: state.main.currentUserLocation
+    userLocation: state.main.currentRegion
   };
 };
 
