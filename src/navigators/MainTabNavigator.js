@@ -5,7 +5,7 @@ import {
   createStackNavigator,
   createBottomTabNavigator
 } from "react-navigation";
-import { Constants, Location, Permissions } from "expo";
+import { Constants } from "expo";
 
 import TabBarIcon from "../components/TabBarIcon";
 import MapScreen from "../screens/MapView";
@@ -15,10 +15,7 @@ import UserProfileScreen from "../screens/UserProfileView";
 import CreateStationScreen from "../screens/CreateStationView";
 
 import { fetchStations } from "../redux/actions/stationActions";
-import {
-  setCurrentRegion,
-  getLocationAsync
-} from "../redux/actions/userActions";
+import { getLocationAsync } from "../redux/actions/userActions";
 
 // const SHOULD_DOWNLOAD = true;
 const GET_CACHED = false;
@@ -116,21 +113,11 @@ class TabContainer extends Component {
     if (Platform.OS === "android" && !Constants.isDevice) {
       return this.setState({
         errorMessage:
-          "Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
+          "Oops, this will (getting location?) not work on Sketch in an Android emulator. Try it on your device!"
       });
     }
     this.props.getLocationAsync();
   }
-
-  _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== "granted") {
-      return console.warn("Permission to access location was denied");
-    }
-    let location = await Location.getCurrentPositionAsync({});
-    location.coords.accuracy = 0.1; // default received accuracy is way too broad.
-    this.props.setCurrentRegion(location);
-  };
 
   componentDidMount = async () => {
     await this.props.fetchStations({
@@ -152,7 +139,6 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = {
   fetchStations,
-  setCurrentRegion,
   getLocationAsync
 };
 

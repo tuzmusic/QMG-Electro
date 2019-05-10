@@ -25,6 +25,10 @@ class MapScreen extends Component {
     title: "Nearby Stations"
   };
 
+  onMarkerPress(station) {
+    console.log("Hey where'd this method go?!?!?");
+  }
+
   renderMarkers() {
     return (markers = Object.keys(this.props.stations).map(key => {
       const station = this.props.stations[key];
