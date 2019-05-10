@@ -10,13 +10,16 @@ import ListingCellView from "../subviews/ListingCellView";
 
 FindMeButton = ({ onPress }) => {
   return (
-    <Callout style={styles.locationButtonCallout}>
+    <View style={styles.locationButtonCallout}>
       <Button
-        onPress={onPress}
+        onPress={() => {
+          console.log("Pressed");
+          onPress();
+        }}
         title={"Find Me"}
         style={styles.locationButton}
       />
-    </Callout>
+    </View>
   );
 };
 
@@ -87,7 +90,7 @@ const styles = F8StyleSheet.create({
   locationButtonCallout: {
     borderRadius: 10,
     opacity: 0.8,
-    backgroundColor: "lightgrey",
+    backgroundColor: "lightgrey"
   },
   locationButton: {
     backgroundColor: "grey",
