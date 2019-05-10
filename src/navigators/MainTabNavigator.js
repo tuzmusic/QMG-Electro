@@ -91,6 +91,8 @@ UserStack.navigationOptions = {
   )
 };
 
+// #endregion
+
 const TabNavigator = createBottomTabNavigator(
   {
     MapStack,
@@ -100,12 +102,11 @@ const TabNavigator = createBottomTabNavigator(
   },
   {
     initialRouteName: "UserStack",
-    initialRouteName: "ListStack",
     initialRouteName: "CreateStationStack",
+    initialRouteName: "ListStack",
     initialRouteName: "MapStack"
   }
 );
-// #endregion
 
 class TabContainer extends Component {
   componentWillMount() {
@@ -124,6 +125,7 @@ class TabContainer extends Component {
       return console.warn("Permission to access location was denied");
     }
     let location = await Location.getCurrentPositionAsync({});
+    location.coords.accuracy = 0.1; // received accuracy is way too broad.
     this.props.setCurrentRegion(location);
   };
 
