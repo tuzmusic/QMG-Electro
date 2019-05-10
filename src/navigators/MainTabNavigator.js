@@ -15,7 +15,10 @@ import UserProfileScreen from "../screens/UserProfileView";
 import CreateStationScreen from "../screens/CreateStationView";
 
 import { fetchStations } from "../redux/actions/stationActions";
-import { setCurrentRegion } from "../redux/actions/userActions";
+import {
+  setCurrentRegion,
+  getLocationAsync
+} from "../redux/actions/userActions";
 
 // const SHOULD_DOWNLOAD = true;
 const GET_CACHED = false;
@@ -116,7 +119,7 @@ class TabContainer extends Component {
           "Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
       });
     }
-    this._getLocationAsync();
+    this.props.getLocationAsync();
   }
 
   _getLocationAsync = async () => {
@@ -125,7 +128,7 @@ class TabContainer extends Component {
       return console.warn("Permission to access location was denied");
     }
     let location = await Location.getCurrentPositionAsync({});
-    location.coords.accuracy = 0.1; // received accuracy is way too broad.
+    location.coords.accuracy = 0.1; // default received accuracy is way too broad.
     this.props.setCurrentRegion(location);
   };
 
@@ -147,7 +150,11 @@ const mapStateToProps = state => {
     userLocation: state.main.currentRegion
   };
 };
-const mapDispatchToProps = { fetchStations, setCurrentRegion };
+const mapDispatchToProps = {
+  fetchStations,
+  setCurrentRegion,
+  getLocationAsync
+};
 
 export default connect(
   mapStateToProps,

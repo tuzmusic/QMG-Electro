@@ -1,4 +1,5 @@
 import { AsyncStorage } from "react-native";
+import { Constants, Location, Permissions } from "expo";
 
 export function getUsers() {
   return async dispatch => {
@@ -16,8 +17,22 @@ export function getUsers() {
   };
 }
 
-export function setCurrentRegion({coords}) {
-  const region = calculateRegion(coords)
+export function getLocationAsync() {
+  return async dispatch => {
+    console.log("getLocationAsync - from userActions");
+
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== "granted") {
+      return console.warn("Permission to access location was denied");
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    location.coords.accuracy = 0.1; // default received accuracy is way too broad.
+    dispatch(setCurrentRegion(location));
+  };
+}
+
+export function setCurrentRegion({ coords }) {
+  const region = calculateRegion(coords);
   return { type: "SET_CURRENT_REGION", region };
 }
 

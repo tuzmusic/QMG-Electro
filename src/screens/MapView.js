@@ -1,12 +1,24 @@
 import React, { Component } from "react";
 import { MapView } from "expo";
-import { View, Text, Platform } from "react-native";
+import { View, Button, Text, Platform } from "react-native";
 import { BLText } from "../components/StyledComponents";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 const { Marker, Callout } = MapView;
-import { setCurrentRegion } from "../redux/actions/userActions";
+import { getLocationAsync } from "../redux/actions/userActions";
 import ListingCellView from "../subviews/ListingCellView";
+
+FindMeButton = ({ onPress }) => {
+  return (
+    <Callout style={styles.locationButtonCallout}>
+      <Button
+        onPress={onPress}
+        title={"Find Me"}
+        style={styles.locationButton}
+      />
+    </Callout>
+  );
+};
 
 class MapScreen extends Component {
   static navigationOptions = {
@@ -52,6 +64,7 @@ class MapScreen extends Component {
           showsUserLocation={true}
         >
           {this.renderMarkers()}
+          <FindMeButton onPress={this.props.getLocationAsync} />
         </MapView>
       </View>
     );
@@ -67,10 +80,20 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { setCurrentRegion }
+  { getLocationAsync }
 )(MapScreen);
 
 const styles = F8StyleSheet.create({
+  locationButtonCallout: {
+    borderRadius: 10,
+    opacity: 0.8,
+    backgroundColor: "lightgrey",
+  },
+  locationButton: {
+    backgroundColor: "grey",
+    borderRadius: 10,
+    opacity: 0.8
+  },
   container: {
     flex: 1,
     flexDirection: "row",
