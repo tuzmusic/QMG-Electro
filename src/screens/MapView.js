@@ -25,17 +25,13 @@ class MapScreen extends Component {
     title: "Nearby Stations"
   };
 
-  onMarkerPress(station) {
-    console.log("Hey where'd this method go?!?!?");
-  }
-
   renderMarkers() {
     return (markers = Object.keys(this.props.stations).map(key => {
       const station = this.props.stations[key];
       return (marker = (
         <Marker
           key={key}
-          onPress={this.onMarkerPress.bind(this, station)}
+          // onPress={this.onMarkerPress.bind(this, station)}
           coordinate={{
             latitude: Number(station.location.lat),
             longitude: Number(station.location.lng)

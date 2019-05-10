@@ -11,6 +11,7 @@ function results({ stations, error }) {
 
 export function fetchStations({ useCache, shouldDownload }) {
   return async dispatch => {
+    if (!useCache && !shouldDownload) return
     dispatch({ type: "GET_STATIONS_START" });
     if (useCache) dispatch(results(await _getCachedStations()));
     if (shouldDownload) {
