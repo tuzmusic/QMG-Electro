@@ -154,18 +154,6 @@ class CreateStationView extends Component {
       </TouchableOpacity>
     ));
 
-    return (
-      <View>
-        <TouchableOpacity
-          onPress={() =>
-            Linking.openURL("http://joinelectro.com/submit-listings/")
-          }
-        >
-          <CellTextRow>Please visit the website to create a listing.</CellTextRow>
-        </TouchableOpacity>
-      </View>
-    );
-
     // TO-DO: Fix issue where multiline inputs don't avoid the keyboard. See https://github.com/APSL/react-native-keyboard-aware-scroll-view/issues/227 (and others on Google, probably)
     return (
       <KeyboardAwareScrollView>

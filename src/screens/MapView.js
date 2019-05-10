@@ -8,6 +8,8 @@ import { connect } from "react-redux";
 const { Marker, Callout } = MapView;
 import { getLocationAsync } from "../redux/actions/userActions";
 import ListingCellView from "../subviews/ListingCellView";
+import SearchBar from "../subviews/SearchBar";
+import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
 
 const FindMeButton = ({ onPress }) => {
   return (
@@ -19,27 +21,9 @@ const FindMeButton = ({ onPress }) => {
   );
 };
 
-const SearchBar = props => {
-  return (
-    <Callout style={styles.searchCallout}>
-      <TextInput
-        // onChangeText={searchText => this.setState({ searchText })}
-        // onSubmitEditing={this.handleSearch.bind(this)}
-        style={styles.calloutSearch}
-        placeholder={"Search"}
-        value={props.value}
-      />
-    </Callout>
-  );
-};
-
 class MapScreen extends Component {
   static navigationOptions = {
     title: "Nearby Stations"
-  };
-
-  state = {
-    searchText: ""
   };
 
   renderMarkers() {
@@ -70,7 +54,10 @@ class MapScreen extends Component {
   }
 
   render() {
-    console.log("rendering at region:", this.props.userLocation);
+    console.log(
+      "rendering at region:",
+      JSON.stringify(this.props.userLocation)
+    );
 
     return (
       <View style={styles.container}>
@@ -82,10 +69,12 @@ class MapScreen extends Component {
         >
           {this.renderMarkers()}
         </MapView>
-        <SearchBar
-          // onChangeText={searchText => this.setState({ searchText })}
-          value={this.state.searchText}
-        />
+        <Callout style={styles.searchCallout}>
+          <AutoFillMapSearch
+            style={styles.calloutSearch}
+            // onSubmitEditing={this.handleSearch.bind(this)}
+          />
+        </Callout>
         <FindMeButton onPress={this.props.getLocationAsync} />
       </View>
     );
@@ -106,13 +95,14 @@ export default connect(
 
 const styles = F8StyleSheet.create({
   searchCallout: {
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
-    borderRadius: 15,
-    width: "90%",
-    top: 30
+    backgroundColor: "white",
+    opacity: 0.9,
+    borderRadius: 10,
+    top: 20,
+    left: 15,
+    right: 15
   },
   calloutSearch: {
-    // width: "90%",
     marginLeft: 10,
     marginRight: 10,
     height: 40
@@ -133,6 +123,6 @@ const styles = F8StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "center"
   }
 });
