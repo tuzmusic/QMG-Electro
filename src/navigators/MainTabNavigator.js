@@ -17,11 +17,8 @@ import CreateStationScreen from "../screens/CreateStationView";
 import { fetchStations } from "../redux/actions/stationActions";
 import { getLocationAsync } from "../redux/actions/userActions";
 
-// const SHOULD_DOWNLOAD = true;
-const GET_CACHED = false;
-
-// const GET_CACHED = true;
 const SHOULD_DOWNLOAD = false;
+const GET_CACHED = false;
 
 // #region CONFIGURE STACKS
 const ListStack = createStackNavigator({
@@ -98,13 +95,12 @@ const TabNavigator = createBottomTabNavigator(
     MapStack,
     ListStack,
     CreateStationStack
-    // UserStack
   },
   {
     initialRouteName: "UserStack",
     initialRouteName: "CreateStationStack",
     initialRouteName: "ListStack",
-    initialRouteName: "MapStack"
+    initialRouteName: "MapStack",
   }
 );
 

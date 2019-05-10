@@ -10,7 +10,7 @@ import ListingCellView from "../subviews/ListingCellView";
 
 FindMeButton = ({ onPress }) => {
   return (
-    <View style={styles.locationButtonCallout}>
+    <Callout style={styles.locationButtonCallout}>
       <Button
         onPress={() => {
           console.log("Pressed");
@@ -19,7 +19,7 @@ FindMeButton = ({ onPress }) => {
         title={"Find Me"}
         style={styles.locationButton}
       />
-    </View>
+    </Callout>
   );
 };
 
@@ -67,8 +67,8 @@ class MapScreen extends Component {
           showsUserLocation={true}
         >
           {this.renderMarkers()}
-          <FindMeButton onPress={this.props.getLocationAsync} />
         </MapView>
+        <FindMeButton onPress={this.props.getLocationAsync} />
       </View>
     );
   }
@@ -89,8 +89,11 @@ export default connect(
 const styles = F8StyleSheet.create({
   locationButtonCallout: {
     borderRadius: 10,
-    opacity: 0.8,
-    backgroundColor: "lightgrey"
+    opacity: 0.7,
+    backgroundColor: "lightgrey",
+    bottom:0,
+    right: 0,
+    margin: 10
   },
   locationButton: {
     backgroundColor: "grey",
@@ -99,7 +102,7 @@ const styles = F8StyleSheet.create({
   },
   container: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "center"
   }
 });
