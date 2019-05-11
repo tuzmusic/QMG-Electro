@@ -4,8 +4,10 @@ import { Input } from "react-native-elements";
 import { GoogleAPIKey } from "../../secrets";
 import AppStyles from "../constants/Styles";
 import _ from "lodash";
+import { connect } from "react-redux";
+import { setCurrentRegion } from "../redux/actions/userActions";
 
-export default class AutoFillMapSearch extends Component {
+export class AutoFillMapSearch extends Component {
   state = {
     address: "",
     addressPredictions: [],
@@ -32,12 +34,33 @@ export default class AutoFillMapSearch extends Component {
     );
   };
 
+  async setAddress(prediction) {
+    this.setState({ showPredictions: false });
+    const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleAPIKey}&placeid=${
+      prediction.place_id
+    }&fields=geometry`;
+    try {
+      const result = await fetch(url);
+      const json = await result.json();
+      const location = json.result.geometry.location;
+      this.props.setCurrentRegion({
+        coords: {
+          latitude: location.lat,
+          longitude: location.lng,
+          accuracy: 0.1
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   render() {
     const predictions = this.state.addressPredictions.map(prediction => (
       <TouchableOpacity
         style={styles.prediction}
         key={prediction.id}
-        // onPress={this.setAddress.bind(this, prediction)}
+        onPress={this.setAddress.bind(this, prediction)}
       >
         <Text style={text.prediction}>{prediction.description}</Text>
       </TouchableOpacity>
@@ -59,12 +82,16 @@ export default class AutoFillMapSearch extends Component {
     );
   }
 }
+export default connect(
+  null,
+  { setCurrentRegion }
+)(AutoFillMapSearch);
 
 const text = {
   prediction: {
-    fontWeight: '100'
+    fontWeight: "100"
   }
-}
+};
 const styles = {
   input: {
     fontFamily: AppStyles.font,
@@ -75,7 +102,7 @@ const styles = {
     paddingTop: 10,
     margin: 3,
     borderTopColor: "lightgrey",
-    borderTopWidth: 0.5,
+    borderTopWidth: 0.5
   },
   predictionsContainer: {
     borderTopWidth: 0,
