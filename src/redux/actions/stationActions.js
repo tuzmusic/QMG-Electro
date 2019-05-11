@@ -11,7 +11,7 @@ function results({ stations, error }) {
 
 export function fetchStations({ useCache, shouldDownload }) {
   return async dispatch => {
-    if (!useCache && !shouldDownload) return
+    if (!useCache && !shouldDownload) return;
     dispatch({ type: "GET_STATIONS_START" });
     if (useCache) dispatch(results(await _getCachedStations()));
     if (shouldDownload) {
@@ -21,7 +21,7 @@ export function fetchStations({ useCache, shouldDownload }) {
   };
 }
 
-async function _getCachedStations() {
+export async function _getCachedStations() {
   try {
     const data = await AsyncStorage.getItem("electro_stations");
     if (data === null) return console.warn("requested key returns null");
