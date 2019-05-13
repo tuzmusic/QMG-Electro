@@ -2,6 +2,9 @@ import Adapter from "enzyme-adapter-react-16";
 import { configure } from "enzyme";
 import jsdom from "jsdom";
 
+import "react-native";
+import "jest-enzyme";
+
 function setUpDomEnvironment() {
   const { JSDOM } = jsdom;
   const dom = new JSDOM("<!doctype html><html><body></body></html>", {

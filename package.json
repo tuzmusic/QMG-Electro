@@ -38,12 +38,14 @@
     "sugar": "^2.0.6"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.0.0",
     "babel-preset-expo": "^5.0.0",
     "babel-preset-react-native": "^4.0.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "fetch-mock": "^7.3.3",
     "jest": "^24.8.0",
+    "jest-enzyme": "^7.0.2",
     "jest-expo": "^32.0.0",
     "jsdom": "^14.1.0",
     "mock-async-storage": "^2.1.0",
