@@ -54,10 +54,10 @@ class MapScreen extends Component {
   }
 
   render() {
-    console.log(
-      "rendering at region:",
-      JSON.stringify(this.props.userLocation)
-    );
+    // console.log(
+    //   "rendering at region:",
+    //   JSON.stringify(this.props.userLocation)
+    // );
 
     return (
       <View style={styles.container}>

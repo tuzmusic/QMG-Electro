@@ -27,6 +27,7 @@ export function getLocationAsync() {
     }
     let location = await Location.getCurrentPositionAsync({});
     location.coords.accuracy = 0.1; // default received accuracy is way too broad.
+    dispatch(setCurrentUserLocation(location));
     dispatch(setCurrentRegion(location));
   };
 }
@@ -34,6 +35,11 @@ export function getLocationAsync() {
 export function setCurrentRegion({ coords }) {
   const region = calculateRegion(coords);
   return { type: "SET_CURRENT_REGION", region };
+}
+
+export function setCurrentUserLocation({ coords }) {
+  const region = calculateRegion(coords);
+  return { type: "SET_USER_LOCATION", region };
 }
 
 function calculateRegion({ latitude, longitude, accuracy }) {

@@ -11,6 +11,7 @@ const initialState = {
     latitudeDelta: 0.00922,
     longitudeDelta: 0.00421
   },
+  currentUserLocation: null,
   selectedLocation: null
 };
 
@@ -60,6 +61,8 @@ export default (mainReducer = (state = initialState, action) => {
     // #region LOCATION ACTIONS
     case "SET_CURRENT_REGION":
       return { ...state, currentRegion: action.region };
+    case "SET_CURRENT_USER_LOCATION":
+      return { ...state, currentUserLocation: action.region };
     // #endregion
     default:
       return state;
