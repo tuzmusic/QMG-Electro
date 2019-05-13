@@ -33,7 +33,8 @@ function automate() {
       latitude: station.location.lat,
       longitude: station.location.lng,
       accuracy: 0.02
-    }
+    },
+    showMarker: true
   });
 }
 
@@ -73,23 +74,7 @@ class MapScreen extends Component {
     }));
   }
 
-  currentRegionEqualsCurrentLocation() {
-    if (!this.props.currentRegion || !this.props.currentUserLocation)
-      return true;
-    return (
-      this.props.currentRegion.longitude ===
-        this.props.currentUserLocation.longitude &&
-      this.props.currentRegion.latitude ===
-        this.props.currentUserLocation.latitude
-    );
-  }
-
   render() {
-    // console.log(
-    //   "rendering at region:",
-    //   JSON.stringify(this.props.currentRegion)
-    // );
-
     return (
       <View style={styles.container}>
         <MapView
@@ -99,7 +84,7 @@ class MapScreen extends Component {
           showsUserLocation={true}
         >
           {this.renderMarkers()}
-          {!this.currentRegionEqualsCurrentLocation() && (
+          {this.props.currentRegion && this.props.currentRegion.showMarker && (
             <Marker coordinate={this.props.currentRegion} pinColor={"green"} />
           )}
         </MapView>

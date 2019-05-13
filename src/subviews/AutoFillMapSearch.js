@@ -48,7 +48,8 @@ export class AutoFillMapSearch extends Component {
           latitude: location.lat,
           longitude: location.lng,
           accuracy: 0.1
-        }
+        },
+        showMarker: true
       });
     } catch (err) {
       console.error(err);

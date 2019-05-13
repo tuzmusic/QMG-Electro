@@ -30,9 +30,9 @@ export function getLocationAsync() {
   };
 }
 
-export function setCurrentRegion({ coords }) {
-  const region = calculateRegion(coords);
-  return { type: "SET_CURRENT_REGION", region };
+export function setCurrentRegion(region) {
+  const newRegion = { ...region, ...calculateRegion(region.coords) };
+  return { type: "SET_CURRENT_REGION", region: newRegion };
 }
 
 export function setCurrentUserLocation({ coords }) {

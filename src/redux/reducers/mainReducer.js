@@ -9,7 +9,8 @@ const initialState = {
     latitude: 0,
     longitude: 0,
     latitudeDelta: 0.00922,
-    longitudeDelta: 0.00421
+    longitudeDelta: 0.00421,
+    showMarker: false
   },
   currentUserLocation: null,
   selectedLocation: null
