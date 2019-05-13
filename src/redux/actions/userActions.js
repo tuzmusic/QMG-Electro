@@ -19,8 +19,6 @@ export function getUsers() {
 
 export function getLocationAsync() {
   return async dispatch => {
-    console.log("getLocationAsync - from userActions");
-
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
       return console.warn("Permission to access location was denied");
@@ -39,7 +37,7 @@ export function setCurrentRegion({ coords }) {
 
 export function setCurrentUserLocation({ coords }) {
   const region = calculateRegion(coords);
-  return { type: "SET_USER_LOCATION", region };
+  return { type: "SET_CURRENT_USER_LOCATION", region };
 }
 
 function calculateRegion({ latitude, longitude, accuracy }) {

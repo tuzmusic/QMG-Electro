@@ -62,6 +62,8 @@ export default (mainReducer = (state = initialState, action) => {
     case "SET_CURRENT_REGION":
       return { ...state, currentRegion: action.region };
     case "SET_CURRENT_USER_LOCATION":
+      console.log("currentUserLocation:", action.region);
+
       return { ...state, currentUserLocation: action.region };
     // #endregion
     default:

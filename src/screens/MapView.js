@@ -5,11 +5,14 @@ import { BLText } from "../components/StyledComponents";
 import TabBarIcon from "../components/TabBarIcon";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
-const { Marker, Callout } = MapView;
-import { getLocationAsync } from "../redux/actions/userActions";
+import {
+  getLocationAsync,
+  setCurrentRegion
+} from "../redux/actions/userActions";
 import ListingCellView from "../subviews/ListingCellView";
-import SearchBar from "../subviews/SearchBar";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
+
+const { Marker, Callout } = MapView;
 
 const FindMeButton = ({ onPress }) => {
   return (
@@ -21,9 +24,26 @@ const FindMeButton = ({ onPress }) => {
   );
 };
 
+function automate() {
+  const stations = require("../../tests/__mocks__/old/StationsMock").stations;
+  const station = stations[0];
+  // debugger;
+  this.props.setCurrentRegion({
+    coords: {
+      latitude: station.location.lat,
+      longitude: station.location.lng,
+      accuracy: 0.02
+    }
+  });
+}
+
 class MapScreen extends Component {
   static navigationOptions = {
     title: "Nearby Stations"
+  };
+
+  componentDidMount = () => {
+    setTimeout(automate.bind(this), 1000);
   };
 
   renderMarkers() {
@@ -53,10 +73,21 @@ class MapScreen extends Component {
     }));
   }
 
+  currentRegionEqualsCurrentLocation() {
+    if (!this.props.currentRegion || !this.props.currentUserLocation)
+      return true;
+    return (
+      this.props.currentRegion.longitude ===
+        this.props.currentUserLocation.longitude &&
+      this.props.currentRegion.latitude ===
+        this.props.currentUserLocation.latitude
+    );
+  }
+
   render() {
     // console.log(
     //   "rendering at region:",
-    //   JSON.stringify(this.props.userLocation)
+    //   JSON.stringify(this.props.currentRegion)
     // );
 
     return (
@@ -64,10 +95,13 @@ class MapScreen extends Component {
         <MapView
           provider={MapView.PROVIDER_GOOGLE}
           style={{ flex: 1 }}
-          region={this.props.userLocation}
+          region={this.props.currentRegion}
           showsUserLocation={true}
         >
           {this.renderMarkers()}
+          {!this.currentRegionEqualsCurrentLocation() && (
+            <Marker coordinate={this.props.currentRegion} pinColor={"green"} />
+          )}
         </MapView>
         <Callout style={styles.searchCallout}>
           <AutoFillMapSearch
@@ -84,13 +118,14 @@ class MapScreen extends Component {
 const mapStateToProps = state => {
   return {
     stations: state.main.stations,
-    userLocation: state.main.currentRegion
+    currentRegion: state.main.currentRegion,
+    currentUserLocation: state.main.currentUserLocation
   };
 };
 
 export default connect(
   mapStateToProps,
-  { getLocationAsync }
+  { getLocationAsync, setCurrentRegion }
 )(MapScreen);
 
 const styles = F8StyleSheet.create({
