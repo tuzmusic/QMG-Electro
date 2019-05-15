@@ -40,7 +40,7 @@ export function distanceBetween(
 }
 
 export default class Station {
-  // #region PROPERTY DEFINITIONS
+  // #region TYPE PROPERTY DEFINITIONS
   id: string;
   originalJSON: { [key: string]: any };
   userID: string | number;
