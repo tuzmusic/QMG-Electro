@@ -9,7 +9,7 @@ import {
   getLocationAsync,
   setCurrentRegion
 } from "../redux/actions/userActions";
-import ListingCellView from "../subviews/Listing\CellView";
+import ListingCellView from "../subviews/ListingCellView";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
 
 const { Marker, Callout } = MapView;
@@ -103,8 +103,7 @@ class MapScreen extends Component {
 const mapStateToProps = state => {
   return {
     stations: state.main.stations,
-    currentRegion: state.main.currentRegion,
-    currentUserLocation: state.main.currentUserLocation
+    currentRegion: state.main.currentRegion
   };
 };
 

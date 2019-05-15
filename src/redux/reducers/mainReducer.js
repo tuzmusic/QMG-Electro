@@ -1,7 +1,29 @@
+// @flow
+
 import { AsyncStorage } from "react-native";
 
+// #region TYPES
+type ElectroLocation = {
+  latitude: number,
+  longitude: number,
+  latitudeDelta: number,
+  longitudeDelta: number,
+  showMarker: boolean
+};
+
+type State = {
+  +stations: { [key: string]: {} }, // TO-DO: Define Station type
+  +currentStationID: ?number,
+  +isLoading: boolean,
+  +error: ?string,
+  +currentRegion: ?ElectroLocation,
+  +currentUserLocation: ?ElectroLocation,
+  +selectedLocation: ?ElectroLocation
+};
+// #endregion
+
 const initialState = {
-  stations: [], // should be {}, but that doesn't work currently, for some buried reason. This isn't doing any harm.
+  stations: {},
   currentStationID: null,
   isLoading: false,
   error: null,
@@ -16,7 +38,10 @@ const initialState = {
   selectedLocation: null
 };
 
-export default (mainReducer = (state = initialState, action) => {
+export default function mainReducer(
+  state: State = initialState,
+  action: { [key: string]: any }
+): State {
   // if (action.type.includes("STATION")) console.log(action.type);
 
   switch (action.type) {
@@ -63,11 +88,9 @@ export default (mainReducer = (state = initialState, action) => {
     case "SET_CURRENT_REGION":
       return { ...state, currentRegion: action.region };
     case "SET_CURRENT_USER_LOCATION":
-      console.log("currentUserLocation:", action.region);
-
       return { ...state, currentUserLocation: action.region };
     // #endregion
     default:
       return state;
   }
-});
+}
