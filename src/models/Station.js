@@ -1,19 +1,24 @@
+// @flow
+
 import uuid from "react-native-uuid";
+import type { ElectroLocation, OpenObject } from "../../flowTypes";
 
-String.prototype.stripHtmlTags = () => {
-  const div = document.createElement("div");
-  div.innerHTML = this;
-  return div.texContent || div.innerText || "";
-};
+type unitOfDistance = "mi" | "km" | "nm";
 
-export function distanceBetween(location1, location2, unit = "mi") {
-  debugger;
-  if (location1.lat == location2.lat && location1.lng == location2.lng) {
+export function distanceBetween(
+  location1: ElectroLocation,
+  location2: ElectroLocation,
+  unit: unitOfDistance = "mi"
+): number {
+  if (
+    location1.latitude == location2.latitude &&
+    location1.longitude == location2.longitude
+  ) {
     return 0;
   } else {
-    var radlat1 = (Math.PI * location1.lat) / 180;
-    var radlat2 = (Math.PI * location2.lat) / 180;
-    var theta = location1.lng - location2.lng;
+    var radlat1 = (Math.PI * location1.latitude) / 180;
+    var radlat2 = (Math.PI * location2.latitude) / 180;
+    var theta = location1.longitude - location2.longitude;
     var radtheta = (Math.PI * theta) / 180;
     var dist =
       Math.sin(radlat1) * Math.sin(radlat2) +
@@ -35,7 +40,27 @@ export function distanceBetween(location1, location2, unit = "mi") {
 }
 
 export default class Station {
-  constructor(json) {
+  // #region PROPERTY DEFINITIONS
+  id: string;
+  originalJSON: { [key: string]: any };
+  userID: string | number;
+  title: string;
+  address: string;
+  contactEmail: string;
+  contactPhone: string;
+  content: string;
+  location: ElectroLocation;
+  priceFrom: string;
+  priceTo: string;
+  tagline: string;
+  website: string;
+  mediaID: number;
+  mediaDataURL: string;
+  imageURL: string;
+  listingURL: string;
+  // #endregion
+
+  constructor(json?: Station) {
     if (!json) return;
     this.id = json.id || uuid.v1();
     this.originalJSON = json;
@@ -52,24 +77,30 @@ export default class Station {
     this.website = json.website;
     this.mediaDataURL = json.mediaDataURL;
     this.imageURL = json.imageURL;
+    this.listingURL = json.listingURL;
     // this.amenities = json.amenities;
   }
 
-  distanceFromLocation = (location, unit = "mi") => {
-    // debugger;
+  distanceFromLocation = (
+    location: ElectroLocation,
+    unit: unitOfDistance = "mi"
+  ): number => {
     return distanceBetween(this.location, location);
   };
 
-  distanceFrom = (otherStation, unit = "mi") => {
-    // unit: "mi" miles, "km", "nm" nautical miles
+  distanceFrom = (
+    otherStation: Station,
+    unit: unitOfDistance = "mi"
+  ): number => {
     return distanceBetween(this.location, otherStation.location);
   };
 
-  static createFromApiResponse(json) {
-    function p(propName, prefix = "_") {
-      if ((valueArray = json.listing_props[`${prefix}${propName}`]))
-        return valueArray[0];
+  static createFromApiResponse(json: OpenObject) {
+    function p(propName: string, prefix: string = "_"): string {
+      const valueArray: string[] = json.listing_props[`${prefix}${propName}`];
+      return valueArray[0] || "";
     }
+
     let station = new Station();
     station.originalJSON = json.originalJSON || json;
     station.id = json.id;
@@ -87,8 +118,8 @@ export default class Station {
       station.contactPhone = p("company_phone");
       station.address = p("job_location");
       station.location = {
-        lat: p("geolocation_lat", ""),
-        lng: p("geolocation_long", "")
+        latitude: p("geolocation_lat", ""),
+        longitude: p("geolocation_long", "")
       };
       station.priceFrom = p("company_price_from");
       station.priceTo = p("company_price_to");
@@ -106,7 +137,7 @@ export default class Station {
     return station;
   }
 
-  static createForApiPost(json) {
+  static createForApiPost(json: OpenObject) {
     return {
       originalJSON: json,
       id: uuid.v1(), // ultimately this may need to be a string

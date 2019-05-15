@@ -1,15 +1,9 @@
 // @flow
+import type { ElectroLocation } from "../../../flowTypes";
 
 import { AsyncStorage } from "react-native";
 
 // #region TYPES
-type ElectroLocation = {
-  latitude: number,
-  longitude: number,
-  latitudeDelta: number,
-  longitudeDelta: number,
-  showMarker: boolean
-};
 
 type State = {
   +stations: { [key: string]: {} }, // TO-DO: Define Station type
