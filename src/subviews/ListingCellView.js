@@ -1,3 +1,7 @@
+// @flow
+import type { ElectroLocation, Action } from "../../flowTypes";
+import type Station from "../models/Station";
+
 import React, { Component } from "react";
 import { BLText } from "../components/StyledComponents";
 import { View, TouchableOpacity } from "react-native";
@@ -8,7 +12,13 @@ const CellTextRow = props => (
   <BLText style={[{ padding: 1 }, props.style]}>{props.children}</BLText>
 );
 
-class ListingCellView extends Component {
+type Props = {
+  station: Station,
+  onTextPress: () => mixed,
+  location: ElectroLocation
+};
+
+class ListingCellView extends Component<Props> {
   render() {
     const station = this.props.station;
     return (

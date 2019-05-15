@@ -1,10 +1,9 @@
 // @flow
 
 import type Station from "./src/models/Station";
-
 export type ElectroLocation = {
-  latitude: number | string,
-  longitude: number | string,
+  latitude: number,
+  longitude: number,
   latitudeDelta?: number | string,
   longitudeDelta?: number | string,
   showMarker?: boolean

@@ -118,8 +118,8 @@ export default class Station {
       station.contactPhone = p("company_phone");
       station.address = p("job_location");
       station.location = {
-        latitude: p("geolocation_lat", ""),
-        longitude: p("geolocation_long", "")
+        latitude: Number(p("geolocation_lat", "")),
+        longitude: Number(p("geolocation_long", ""))
       };
       station.priceFrom = p("company_price_from");
       station.priceTo = p("company_price_to");
