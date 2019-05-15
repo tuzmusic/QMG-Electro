@@ -9,7 +9,6 @@ const CellTextRow = props => (
 
 export default (ListingCellView = props => {
   const station = props.station;
-  console.log("ListingCellView station", station);
 
   return (
     <View style={styles.cellContainer}>
@@ -17,7 +16,7 @@ export default (ListingCellView = props => {
         style={styles.textContainer}
         onPress={props.onTextPress}
       >
-        <CellTextRow style={text.name}>{station.name}</CellTextRow>
+        <CellTextRow style={text.title}>{station.title}</CellTextRow>
         <CellTextRow style={text.address}>{station.address}</CellTextRow>
       </TouchableOpacity>
     </View>
@@ -25,7 +24,7 @@ export default (ListingCellView = props => {
 });
 
 const text = F8StyleSheet.create({
-  name: {
+  title: {
     fontWeight: "bold",
     fontSize: 20
   },

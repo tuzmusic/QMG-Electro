@@ -3,8 +3,6 @@ import { FlatList, View } from "react-native";
 import ListingCellView from "../subviews/ListingCellView";
 
 export default (StationsList = props => {
-  console.log("StationsList stations:", props.stations);
-
   return (
     <View>
       <FlatList
