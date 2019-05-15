@@ -8,4 +8,3 @@ export default (stations = {
     location: { lat: 37.3598896, lng: -122.019102 }
   }
 });
-s;
