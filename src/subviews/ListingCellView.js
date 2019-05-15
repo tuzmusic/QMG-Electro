@@ -7,22 +7,24 @@ const CellTextRow = props => (
   <BLText style={[{ padding: 1 }, props.style]}>{props.children}</BLText>
 );
 
-export default (ListingCellView = props => {
-  const station = props.station;
+export default class ListingCellView extends Component {
+  render() {
+    const station = this.props.station;
 
-  return (
-    <View style={styles.cellContainer}>
-      <TouchableOpacity
-        style={styles.textContainer}
-        onPress={props.onTextPress}
-      >
-        <CellTextRow style={text.title}>{station.title}</CellTextRow>
-        <CellTextRow style={text.address}>{station.address}</CellTextRow>
-      </TouchableOpacity>
-    </View>
-  );
-});
-
+    return (
+      <View style={styles.cellContainer}>
+        <TouchableOpacity
+          style={styles.textContainer}
+          onPress={this.props.onTextPress}
+        >
+          <CellTextRow style={text.title}>{station.title}</CellTextRow>
+          <CellTextRow style={text.address}>{station.address}</CellTextRow>
+        </TouchableOpacity>
+        <BLText>station.distanceFromLocation()</BLText>
+      </View>
+    );
+  }
+}
 const text = F8StyleSheet.create({
   title: {
     fontWeight: "bold",
