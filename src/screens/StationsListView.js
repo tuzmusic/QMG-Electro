@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import StationsListContainer from "../subviews/StationsListContainer";
 import { setCurrentStationID } from "../redux/actions/stationActions";
 
-class MapResultsContainer extends Component {
+class StationsListView extends Component {
   static navigationOptions = () => ({
     headerTitle: "Stations"
   });
@@ -32,9 +32,9 @@ const mapStateToProps = state => ({
   user: state.auth.user
 });
 
-export const MapResultsViewBasic = MapResultsContainer;
+export const StationsListViewBasic = StationsListView;
 
 export default connect(
   mapStateToProps,
   { setCurrentStationID }
-)(MapResultsContainer);
+)(StationsListView);

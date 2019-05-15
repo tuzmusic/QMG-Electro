@@ -9,7 +9,7 @@ import { Constants } from "expo";
 
 import TabBarIcon from "../components/TabBarIcon";
 import MapScreen from "../screens/MapView";
-import MapResultsScreen from "../screens/MapResultsView";
+import StationsListScreen from "../screens/StationsListView";
 import StationDetailScreen from "../screens/StationDetailView";
 import UserProfileScreen from "../screens/UserProfileView";
 import CreateStationScreen from "../screens/CreateStationView";
@@ -22,7 +22,7 @@ const GET_CACHED = false;
 
 // #region CONFIGURE STACKS
 const ListStack = createStackNavigator({
-  ListScreen: MapResultsScreen,
+  ListScreen: StationsListScreen,
   StationDetail: StationDetailScreen
 });
 
@@ -38,7 +38,7 @@ ListStack.navigationOptions = {
 
 const MapStack = createStackNavigator({
   MapScreen: MapScreen,
-  ResultsScreen: MapResultsScreen,
+  ResultsScreen: StationsListScreen,
   StationDetail: StationDetailScreen
 });
 
@@ -99,8 +99,8 @@ const TabNavigator = createBottomTabNavigator(
   {
     initialRouteName: "UserStack",
     initialRouteName: "CreateStationStack",
-    initialRouteName: "ListStack",
     initialRouteName: "MapStack",
+    initialRouteName: "ListStack"
   }
 );
 

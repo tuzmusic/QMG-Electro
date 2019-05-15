@@ -8,15 +8,16 @@ const CellTextRow = props => (
 );
 
 export default (ListingCellView = props => {
-  const station = props.station
-  
+  const station = props.station;
+  console.log("ListingCellView station", station);
+
   return (
     <View style={styles.cellContainer}>
       <TouchableOpacity
         style={styles.textContainer}
         onPress={props.onTextPress}
       >
-        <CellTextRow style={text.name}>{station.title}</CellTextRow>
+        <CellTextRow style={text.name}>{station.name}</CellTextRow>
         <CellTextRow style={text.address}>{station.address}</CellTextRow>
       </TouchableOpacity>
     </View>
@@ -51,5 +52,5 @@ const styles = F8StyleSheet.create({
   imageContainer: {
     flex: 2,
     padding: 7
-  },
+  }
 });
