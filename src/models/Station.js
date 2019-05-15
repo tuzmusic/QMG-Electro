@@ -7,6 +7,7 @@ String.prototype.stripHtmlTags = () => {
 };
 
 export function distanceBetween(location1, location2, unit = "mi") {
+  debugger;
   if (location1.lat == location2.lat && location1.lng == location2.lng) {
     return 0;
   } else {
@@ -55,6 +56,7 @@ export default class Station {
   }
 
   distanceFromLocation = (location, unit = "mi") => {
+    // debugger;
     return distanceBetween(this.location, location);
   };
 

@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import { BLText } from "../components/StyledComponents";
 import { View, TouchableOpacity } from "react-native";
 import F8StyleSheet from "../components/F8StyleSheet";
+import { connect } from "react-redux";
 
 const CellTextRow = props => (
   <BLText style={[{ padding: 1 }, props.style]}>{props.children}</BLText>
 );
 
-export default class ListingCellView extends Component {
+class ListingCellView extends Component {
   render() {
     const station = this.props.station;
-
     return (
       <View style={styles.cellContainer}>
         <TouchableOpacity
@@ -20,11 +20,18 @@ export default class ListingCellView extends Component {
           <CellTextRow style={text.title}>{station.title}</CellTextRow>
           <CellTextRow style={text.address}>{station.address}</CellTextRow>
         </TouchableOpacity>
-        <BLText>station.distanceFromLocation()</BLText>
+        {this.props.location && (
+          <BLText>{station.distanceFromLocation(this.props.location)}</BLText>
+        )}
       </View>
     );
   }
 }
+
+export default connect(state => ({ location: state.main.currentUserLocation }))(
+  ListingCellView
+);
+
 const text = F8StyleSheet.create({
   title: {
     fontWeight: "bold",
