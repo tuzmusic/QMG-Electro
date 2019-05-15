@@ -28,7 +28,8 @@
       "type": "reactnative",
       "request": "attach",
       "sourceMaps": true,
-      "outDir": "${workspaceRoot}/.vscode/.react"
+      "outDir": "${workspaceRoot}/.vscode/.react",
+      "port": 19001
     },
     {
       "name": "Debug in Exponent",

@@ -74,6 +74,7 @@ export class AutoFillMapSearch extends Component {
           value={this.state.address}
           style={[styles.input, this.props.style]}
           placeholder={"Search"}
+          autoCorrect={false}
           onBlur={() => this.setState({ showPredictions: false })}
         />
         <View style={styles.predictionsContainer}>

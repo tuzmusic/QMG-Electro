@@ -24,7 +24,7 @@ export function getLocationAsync() {
       return console.warn("Permission to access location was denied");
     }
     let location = await Location.getCurrentPositionAsync({});
-    location.coords.accuracy = 0.1; // default received accuracy is way too broad.
+    location.coords.accuracy = 0.05; // default received accuracy is way too broad.
     dispatch(setCurrentUserLocation(location));
     dispatch(setCurrentRegion(location));
   };
@@ -32,6 +32,10 @@ export function getLocationAsync() {
 
 export function setCurrentRegion(region) {
   const newRegion = { ...region, ...calculateRegion(region.coords) };
+  newRegion.coords.accuracy = 0.05;
+  newRegion.accuracy = 0.05;
+  console.log(newRegion);
+
   return { type: "SET_CURRENT_REGION", region: newRegion };
 }
 

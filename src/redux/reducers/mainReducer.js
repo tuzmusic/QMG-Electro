@@ -21,9 +21,11 @@ type State = {
   +selectedLocation: ?ElectroLocation
 };
 // #endregion
+import CupertinoStations from "../../../tests/__mocks__/CupertinoStations";
 
 const initialState = {
-  stations: {},
+  stations: CupertinoStations,
+  // stations: {},
   currentStationID: null,
   isLoading: false,
   error: null,

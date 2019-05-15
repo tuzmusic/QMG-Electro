@@ -32,7 +32,7 @@ function automate() {
     coords: {
       latitude: station.location.lat,
       longitude: station.location.lng,
-      accuracy: 0.02
+      accuracy: 0.01
     },
     showMarker: true
   });
@@ -44,11 +44,12 @@ class MapScreen extends Component {
   };
 
   componentDidMount = () => {
-    setTimeout(automate.bind(this), 2000);
+    // setTimeout(automate.bind(this), 2000);
   };
 
   stationMarkers() {
-    return (markers = Object.keys(this.props.stations).map(key => {
+    const stations = this.props.stations;
+    return (markers = Object.keys(stations).map(key => {
       const station = this.props.stations[key];
       return (marker = (
         <Marker
@@ -82,6 +83,10 @@ class MapScreen extends Component {
           style={{ flex: 1 }}
           region={this.props.currentRegion}
           showsUserLocation={true}
+          onPress={e => {
+            console.log(e.nativeEvent);
+            debugger;
+          }}
         >
           {this.stationMarkers()}
           {this.props.currentRegion && this.props.currentRegion.showMarker && (
