@@ -1,5 +1,5 @@
 // @flow
-import type { ElectroLocation } from "../../../flowTypes";
+import type { ElectroLocation, Action } from "../../../flowTypes";
 
 import { AsyncStorage } from "react-native";
 
@@ -7,7 +7,7 @@ import { AsyncStorage } from "react-native";
 
 type State = {
   +stations: { [key: string]: {} }, // TO-DO: Define Station type
-  +currentStationID: ?number,
+  +currentStationID: ?number | ?string,
   +isLoading: boolean,
   +error: ?string,
   +currentRegion: ?ElectroLocation,
@@ -15,8 +15,8 @@ type State = {
   +selectedLocation: ?ElectroLocation
 };
 // #endregion
-import CupertinoStations from "../../../tests/__mocks__/CupertinoStations";
 
+import CupertinoStations from "../../../tests/__mocks__/CupertinoStations";
 const initialState = {
   stations: CupertinoStations,
   // stations: {},
@@ -36,7 +36,7 @@ const initialState = {
 
 export default function mainReducer(
   state: State = initialState,
-  action: { [key: string]: any }
+  action: Action
 ): State {
   // if (action.type.includes("STATION")) console.log(action.type);
 
