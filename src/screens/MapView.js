@@ -9,7 +9,7 @@ import {
   getLocationAsync,
   setCurrentRegion
 } from "../redux/actions/userActions";
-import ListingCellView from "../subviews/ListingCellView";
+import ListingCellView from "../subviews/Listing\CellView";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
 
 const { Marker, Callout } = MapView;
@@ -44,10 +44,10 @@ class MapScreen extends Component {
   };
 
   componentDidMount = () => {
-    setTimeout(automate.bind(this), 1000);
+    setTimeout(automate.bind(this), 2000);
   };
 
-  renderMarkers() {
+  stationMarkers() {
     return (markers = Object.keys(this.props.stations).map(key => {
       const station = this.props.stations[key];
       return (marker = (
@@ -83,7 +83,7 @@ class MapScreen extends Component {
           region={this.props.currentRegion}
           showsUserLocation={true}
         >
-          {this.renderMarkers()}
+          {this.stationMarkers()}
           {this.props.currentRegion && this.props.currentRegion.showMarker && (
             <Marker coordinate={this.props.currentRegion} pinColor={"green"} />
           )}
