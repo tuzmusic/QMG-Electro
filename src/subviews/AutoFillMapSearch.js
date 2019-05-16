@@ -35,7 +35,6 @@ export class AutoFillMapSearch extends Component {
   };
 
   async setAddress(prediction) {
-    debugger;
     this.setState({ address: prediction.description, showPredictions: false });
     const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleAPIKey}&placeid=${
       prediction.place_id
@@ -76,11 +75,14 @@ export class AutoFillMapSearch extends Component {
           style={[styles.input, this.props.style]}
           placeholder={"Search"}
           autoCorrect={false}
-          onBlur={() => this.setState({ showPredictions: false })}
+          onBlur={() => {
+            debugger;
+            this.setState({ showPredictions: false });
+          }}
         />
-        <View style={styles.predictionsContainer}>
-          {this.state.showPredictions ? predictions : null}
-        </View>
+        {this.state.showPredictions && (
+          <View style={styles.predictionsContainer}>{predictions}</View>
+        )}
       </View>
     );
   }

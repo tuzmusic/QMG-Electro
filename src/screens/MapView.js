@@ -83,10 +83,6 @@ class MapScreen extends Component {
           style={{ flex: 1 }}
           region={this.props.currentRegion}
           showsUserLocation={true}
-          onPress={e => {
-            console.log(e.nativeEvent);
-            debugger;
-          }}
         >
           {this.stationMarkers()}
           {this.props.currentRegion && this.props.currentRegion.showMarker && (
@@ -96,7 +92,6 @@ class MapScreen extends Component {
         <Callout style={styles.searchCallout}>
           <AutoFillMapSearch
             style={styles.calloutSearch}
-            // onSubmitEditing={this.handleSearch.bind(this)}
           />
         </Callout>
         <FindMeButton onPress={this.props.getLocationAsync} />
