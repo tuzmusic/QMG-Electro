@@ -32,26 +32,26 @@ export default stations;
  */
 export default (stations = {
   1: new Station({
-    title: "De Anza Community College Transit Center",
-    address: "6969 Cool Street",
-    location: { latitude: 37.32246610000001, longitude: -122.0444706 }
-  }),
-  2: new Station({
     title: "Gavello Glen",
     address: "6969 Cool Street",
     location: { latitude: 37.3598896, longitude: -122.019102 }
   }),
-  3: new Station({
-    title: "Steven's Creek",
+  2: new Station({
+    title: "De Anza Community College Transit Center",
     address: "6969 Cool Street",
-    location: { latitude: 37.3043165, longitude: -122.072954 }
+    location: { latitude: 37.32246610000001, longitude: -122.0444706 }
   }),
-  4: new Station({
+  3: new Station({
     title: "Google Headquarters",
     address: "6969 Cool Street",
     location: {
       latitude: 37.4219999,
       longitude: -122.0840575
     }
+  }),
+  4: new Station({
+    title: "Steven's Creek",
+    address: "6969 Cool Street",
+    location: { latitude: 37.3043165, longitude: -122.072954 }
   })
 });
