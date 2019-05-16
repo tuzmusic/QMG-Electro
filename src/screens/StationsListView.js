@@ -4,6 +4,7 @@ import type Station from "../models/Station";
 import type { ElectroLocation } from "../../flowTypes";
 import React, { Component } from "react";
 import { View, Text } from "react-native";
+import { Dropdown } from "react-native-material-dropdown";
 import { connect } from "react-redux";
 import StationsListContainer from "../subviews/StationsListContainer";
 import { setCurrentStationID } from "../redux/actions/stationActions";
@@ -18,9 +19,26 @@ type ListViewProps = {
 };
 
 const FilterInput = (props: {}) => {
+  const selectDropdown = () => {
+    console.log("hello");
+  };
+
   return (
     <View style={styles.filterContainer}>
       <Text style={{ fontSize: 17 }}>Show stations within: </Text>
+      <Dropdown
+        style={styles.dropDown}
+        // value={this.props.users[this.state.selectedUserId]?.username || ""}
+        onChangeText={selectDropdown}
+        label="Select User"
+        data={[
+          { value: "1" },
+          { value: "5" },
+          { value: "15" },
+          { value: "25" }
+        ]}
+        containerStyle={{ width: "100%", padding: 10 }}
+      />
     </View>
   );
 };
@@ -72,6 +90,9 @@ export default connect(
 )(StationsListView);
 
 const styles = {
+  dropDown: {
+    width: 20
+  },
   filterContainer: {
     flexDirection: "row",
     justifyContent: "center",
