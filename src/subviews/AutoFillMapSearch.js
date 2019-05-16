@@ -35,7 +35,8 @@ export class AutoFillMapSearch extends Component {
   };
 
   async setAddress(prediction) {
-    this.setState({ showPredictions: false });
+    debugger;
+    this.setState({ address: prediction.description, showPredictions: false });
     const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleAPIKey}&placeid=${
       prediction.place_id
     }&fields=geometry`;

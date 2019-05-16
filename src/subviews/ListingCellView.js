@@ -38,7 +38,7 @@ class ListingCellView extends Component<Props> {
   }
 }
 
-export default connect(state => ({ location: state.main.currentUserLocation }))(
+export default connect(state => ({ location: state.main.currentRegion }))(
   ListingCellView
 );
 
