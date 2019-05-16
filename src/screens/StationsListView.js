@@ -33,13 +33,14 @@ const FilterInput = (props: {}) => {
   return (
     <View style={styles.filterContainer}>
       <Text style={{ fontSize: 17 }}>Show stations within: </Text>
-      <Dropdown
-        style={styles.dropDown}
-        value={dropDownOptions[0].label}
-        onChangeText={selectDropdown}
-        data={dropDownOptions}
-        containerStyle={{ width: "100%", padding: 10 }}
-      />
+      <View style={styles.dropDownContainer}>
+        <Dropdown
+          dropdownOffset={{ top: 15, left: 0 }}
+          value={dropDownOptions[0].label}
+          onChangeText={selectDropdown}
+          data={dropDownOptions}
+        />
+      </View>
     </View>
   );
 };
@@ -91,8 +92,9 @@ export default connect(
 )(StationsListView);
 
 const styles = {
-  dropDown: {
-    width: 20
+  dropDownContainer: {
+    width: "30%",
+    padding: 10
   },
   filterContainer: {
     flexDirection: "row",
