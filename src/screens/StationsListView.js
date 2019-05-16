@@ -22,22 +22,26 @@ type ListViewProps = {
   setSearchRadius: number => void
 };
 
-const FilterInput = (props: { onSelectDropdown: any => void }) => {
-  const radiuses: number[] = [1, 5, 15, 25];
+const FilterInput = (props: {
+  onSelectDropdown: any => void,
+  startingValue: number
+}) => {
+  const radiuses: number[] = [1, 5, 15, 25, 50, 100];
   const dropDownOptions = radiuses.map(num => ({
     value: num,
     label: pluralize("mile", num, true)
   }));
 
   return (
-    <View style={styles.filterContainer}>
+    <View style={styles.filterContainerLine1}>
       <Text style={{ fontSize: 17 }}>Show stations within: </Text>
       <View style={styles.dropDownContainer}>
         <Dropdown
           dropdownOffset={{ top: 15, left: 0 }}
-          value={dropDownOptions[0].label}
+          value={pluralize("miles", props.startingValue, true)}
           onChangeText={props.onSelectDropdown}
           data={dropDownOptions}
+          dropdownPosition={-5.15}
           // renderBase can use default text, but then you lose the accessory.
           // Original accessory uses styles, check out the module's index.js, search for "renderAccessory() {"
         />
@@ -63,7 +67,10 @@ class StationsListView extends Component<ListViewProps> {
   render() {
     return (
       <View>
-        <FilterInput onSelectDropdown={this.onSelectSearchRadius.bind(this)} />
+        <FilterInput
+          onSelectDropdown={this.onSelectSearchRadius.bind(this)}
+          startingValue={this.props.searchRadius}
+        />
         <StationsListContainer
           showLoading
           stations={this.props.stations
@@ -86,7 +93,6 @@ function closestFirst(a: Station, b: Station): number {
 }
 
 function withinSearchRadius(station: Station): boolean {
-  debugger;
   return (
     station.distanceFromLocation(this.props.location) <= this.props.searchRadius
   );
@@ -109,15 +115,15 @@ export default connect(
 const styles = {
   dropDownContainer: {
     width: "30%",
-    padding: 10
+    paddingLeft: 5
   },
-  filterContainer: {
+  filterContainerLine1: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
-    height: 50,
-    padding: 5,
     borderBottomColor: "black",
-    borderBottomWidth: 0.5
+    borderBottomWidth: 0.5,
+    justifyContent: "center",
+    alignItems: "center"
   }
 };
