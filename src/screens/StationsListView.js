@@ -11,11 +11,16 @@ type Props = {
   stations: Station[],
   navigation: { navigate: (string, { title: string }) => void },
   onTextPress: (item: Station) => void,
+  isLoading: boolean,
   location: ElectroLocation,
-  setCurrentStationID: (number | string) => void,
-  isLoading: boolean
+  setCurrentStationID: (number | string) => void
 };
-
+function closestFirst(a: Station, b: Station): number {
+  return a.distanceFromLocation(this.props.location) >
+    b.distanceFromLocation(this.props.location)
+    ? 1
+    : -1;
+}
 class StationsListView extends Component<Props> {
   static navigationOptions = () => ({
     headerTitle: "Stations"
@@ -30,7 +35,7 @@ class StationsListView extends Component<Props> {
     return (
       <StationsListContainer
         showLoading
-        stations={this.props.stations}
+        stations={this.props.stations.sort(closestFirst.bind(this))}
         navigation={this.props.navigation}
         onTextPress={this.onStationClick.bind(this)}
         isLoading={this.props.isLoading}
@@ -40,9 +45,9 @@ class StationsListView extends Component<Props> {
 }
 
 const mapStateToProps = state => ({
-  stations: state.main.stations,
+  stations: Object.values(state.main.stations),
   isLoading: state.main.isLoading,
-  user: state.auth.user
+  location: state.main.currentRegion
 });
 
 export const StationsListViewBasic = StationsListView;

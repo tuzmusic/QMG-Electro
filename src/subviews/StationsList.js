@@ -15,17 +15,10 @@ type Props = {
 };
 
 const StationsList = (props: Props) => {
-  function closestFirst(a: Station, b: Station): number {
-    return a.distanceFromLocation(props.location) >
-      b.distanceFromLocation(props.location)
-      ? 1
-      : -1;
-  }
-
   return (
     <View>
       <FlatList
-        data={props.stations.sort(closestFirst)}
+        data={props.stations}
         renderItem={({ item }) => (
           <ListingCellView
             station={item}
