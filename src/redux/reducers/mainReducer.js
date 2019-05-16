@@ -12,7 +12,8 @@ type State = {
   +error: ?string,
   +currentRegion: ?ElectroLocation,
   +currentUserLocation: ?ElectroLocation,
-  +selectedLocation: ?ElectroLocation
+  +selectedLocation: ?ElectroLocation,
+  +searchRadiusInMiles: number
 };
 // #endregion
 
@@ -31,7 +32,8 @@ const initialState = {
     showMarker: false
   },
   currentUserLocation: null,
-  selectedLocation: null
+  selectedLocation: null,
+  searchRadiusInMiles: 5
 };
 
 export default function mainReducer(
@@ -85,6 +87,10 @@ export default function mainReducer(
       return { ...state, currentRegion: action.region };
     case "SET_CURRENT_USER_LOCATION":
       return { ...state, currentUserLocation: action.region };
+    case "SET_SEARCH_RADIUS":
+      console.log("Radius set:", action.radius);
+
+      return { ...state, searchRadiusInMiles: action.radius };
     // #endregion
     default:
       return state;

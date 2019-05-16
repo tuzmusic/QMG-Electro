@@ -44,6 +44,10 @@ export function setCurrentUserLocation({ coords }) {
   return { type: "SET_CURRENT_USER_LOCATION", region };
 }
 
+export function setSearchRadius(radius) {
+  return { type: "SET_SEARCH_RADIUS", radius };
+}
+
 function calculateRegion({ latitude, longitude, accuracy }) {
   const oneDegreeOfLongitudeInMeters = 111.32;
   const circumference = 40075 / 360;

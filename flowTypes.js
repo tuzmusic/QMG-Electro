@@ -25,4 +25,5 @@ export type Action =
   | {
       type: "SET_CURRENT_REGION" | "SET_CURRENT_USER_LOCATION",
       region: ElectroLocation
-    };
+    }
+  | { type: "SET_SEARCH_RADIUS", radius: number };

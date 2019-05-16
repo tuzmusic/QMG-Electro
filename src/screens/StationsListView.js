@@ -8,6 +8,7 @@ import { Dropdown } from "react-native-material-dropdown";
 import { connect } from "react-redux";
 import StationsListContainer from "../subviews/StationsListContainer";
 import { setCurrentStationID } from "../redux/actions/stationActions";
+import { setSearchRadius } from "../redux/actions/userActions";
 import pluralize from "pluralize";
 
 type ListViewProps = {
@@ -16,14 +17,12 @@ type ListViewProps = {
   onTextPress: (item: Station) => void,
   isLoading: boolean,
   location: ElectroLocation,
-  setCurrentStationID: (number | string) => void
+  searchRadius: number,
+  setCurrentStationID: (number | string) => void,
+  setSearchRadius: number => void
 };
 
-const FilterInput = (props: {}) => {
-  const selectDropdown = () => {
-    console.log("hello");
-  };
-
+const FilterInput = (props: { onSelectDropdown: any => void }) => {
   const radiuses: number[] = [1, 5, 15, 25];
   const dropDownOptions = radiuses.map(num => ({
     value: num,
@@ -37,8 +36,10 @@ const FilterInput = (props: {}) => {
         <Dropdown
           dropdownOffset={{ top: 15, left: 0 }}
           value={dropDownOptions[0].label}
-          onChangeText={selectDropdown}
+          onChangeText={props.onSelectDropdown}
           data={dropDownOptions}
+          // renderBase can use default text, but then you lose the accessory.
+          // Original accessory uses styles, check out the module's index.js, search for "renderAccessory() {"
         />
       </View>
     </View>
@@ -55,13 +56,19 @@ class StationsListView extends Component<ListViewProps> {
     this.props.navigation.navigate("StationDetail", { title: station.title });
   };
 
+  onSelectSearchRadius = (radius: number) => {
+    this.props.setSearchRadius(radius);
+  };
+
   render() {
     return (
       <View>
-        <FilterInput />
+        <FilterInput onSelectDropdown={this.onSelectSearchRadius.bind(this)} />
         <StationsListContainer
           showLoading
-          stations={this.props.stations.sort(closestFirst.bind(this))}
+          stations={this.props.stations
+            .filter(withinSearchRadius.bind(this))
+            .sort(closestFirst.bind(this))}
           navigation={this.props.navigation}
           onTextPress={this.onStationClick.bind(this)}
           isLoading={this.props.isLoading}
@@ -78,17 +85,25 @@ function closestFirst(a: Station, b: Station): number {
     : -1;
 }
 
+function withinSearchRadius(station: Station): boolean {
+  debugger;
+  return (
+    station.distanceFromLocation(this.props.location) <= this.props.searchRadius
+  );
+}
+
 const mapStateToProps = state => ({
   stations: Object.values(state.main.stations),
   isLoading: state.main.isLoading,
-  location: state.main.currentRegion
+  location: state.main.currentRegion,
+  searchRadius: state.main.searchRadiusInMiles
 });
 
 export const StationsListViewBasic = StationsListView;
 
 export default connect(
   mapStateToProps,
-  { setCurrentStationID }
+  { setCurrentStationID, setSearchRadius }
 )(StationsListView);
 
 const styles = {
