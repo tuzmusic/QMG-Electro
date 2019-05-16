@@ -32,6 +32,4 @@ const StationsList = (props: Props) => {
     </View>
   );
 };
-export default connect(state => ({ location: state.main.currentRegion }))(
-  StationsList
-);
+export default connect()(StationsList);

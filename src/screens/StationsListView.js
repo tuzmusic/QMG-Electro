@@ -3,11 +3,12 @@
 import type Station from "../models/Station";
 import type { ElectroLocation } from "../../flowTypes";
 import React, { Component } from "react";
+import { View, Text } from "react-native";
 import { connect } from "react-redux";
 import StationsListContainer from "../subviews/StationsListContainer";
 import { setCurrentStationID } from "../redux/actions/stationActions";
 
-type Props = {
+type ListViewProps = {
   stations: Station[],
   navigation: { navigate: (string, { title: string }) => void },
   onTextPress: (item: Station) => void,
@@ -15,13 +16,16 @@ type Props = {
   location: ElectroLocation,
   setCurrentStationID: (number | string) => void
 };
-function closestFirst(a: Station, b: Station): number {
-  return a.distanceFromLocation(this.props.location) >
-    b.distanceFromLocation(this.props.location)
-    ? 1
-    : -1;
-}
-class StationsListView extends Component<Props> {
+
+const FilterInput = (props: {}) => {
+  return (
+    <View style={styles.filterContainer}>
+      <Text style={{ fontSize: 17 }}>Show stations within: </Text>
+    </View>
+  );
+};
+
+class StationsListView extends Component<ListViewProps> {
   static navigationOptions = () => ({
     headerTitle: "Stations"
   });
@@ -33,15 +37,25 @@ class StationsListView extends Component<Props> {
 
   render() {
     return (
-      <StationsListContainer
-        showLoading
-        stations={this.props.stations.sort(closestFirst.bind(this))}
-        navigation={this.props.navigation}
-        onTextPress={this.onStationClick.bind(this)}
-        isLoading={this.props.isLoading}
-      />
+      <View>
+        <FilterInput />
+        <StationsListContainer
+          showLoading
+          stations={this.props.stations.sort(closestFirst.bind(this))}
+          navigation={this.props.navigation}
+          onTextPress={this.onStationClick.bind(this)}
+          isLoading={this.props.isLoading}
+        />
+      </View>
     );
   }
+}
+
+function closestFirst(a: Station, b: Station): number {
+  return a.distanceFromLocation(this.props.location) >
+    b.distanceFromLocation(this.props.location)
+    ? 1
+    : -1;
 }
 
 const mapStateToProps = state => ({
@@ -56,3 +70,15 @@ export default connect(
   mapStateToProps,
   { setCurrentStationID }
 )(StationsListView);
+
+const styles = {
+  filterContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 50,
+    padding: 5,
+    borderBottomColor: "black",
+    borderBottomWidth: 0.5
+  }
+};
