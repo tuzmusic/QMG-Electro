@@ -30,8 +30,8 @@ function automate() {
   // debugger;
   this.props.setCurrentRegion({
     coords: {
-      latitude: station.location.lat,
-      longitude: station.location.lng,
+      latitude: station.location.latitude,
+      longitude: station.location.longitude,
       accuracy: 0.01
     },
     showMarker: true
@@ -56,8 +56,8 @@ class MapScreen extends Component {
           key={key}
           // onPress={this.onMarkerPress.bind(this, station)}
           coordinate={{
-            latitude: Number(station.location.lat),
-            longitude: Number(station.location.lng)
+            latitude: Number(station.location.latitude),
+            longitude: Number(station.location.longitude)
           }}
         >
           <Callout
