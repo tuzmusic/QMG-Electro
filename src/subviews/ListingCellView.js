@@ -31,7 +31,9 @@ class ListingCellView extends Component<Props> {
           <CellTextRow style={text.address}>{station.address}</CellTextRow>
         </TouchableOpacity>
         {this.props.location && (
-          <BLText>{station.distanceFromLocation(this.props.location)}</BLText>
+          <BLText>
+            {station.distanceFromLocation(this.props.location)} mi.
+          </BLText>
         )}
       </View>
     );
@@ -45,10 +47,10 @@ export default connect(state => ({ location: state.main.currentRegion }))(
 const text = F8StyleSheet.create({
   title: {
     fontWeight: "bold",
-    fontSize: 20
+    fontSize: 19
   },
   address: {
-    fontSize: 16
+    fontSize: 15
   },
   caption: {
     textAlign: "center"
