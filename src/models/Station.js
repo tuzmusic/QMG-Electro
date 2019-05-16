@@ -38,6 +38,27 @@ export function distanceBetween(
     return Number(dist.toFixed(2));
   }
 }
+// #region StationJSON type
+type StationJSON = {
+  id?: string,
+  originalJSON?: { [key: string]: any },
+  userID?: string | number,
+  title?: string,
+  address?: string,
+  contactEmail?: string,
+  contactPhone?: string,
+  content?: string,
+  location?: ElectroLocation,
+  priceFrom?: string,
+  priceTo?: string,
+  tagline?: string,
+  website?: string,
+  mediaID?: number,
+  mediaDataURL?: string,
+  imageURL?: string,
+  listingURL?: string
+};
+// #endregion
 
 export default class Station {
   // #region TYPE PROPERTY DEFINITIONS
@@ -60,7 +81,7 @@ export default class Station {
   listingURL: string;
   // #endregion
 
-  constructor(json?: Station) {
+  constructor(json?: StationJSON) {
     if (!json) return;
     this.id = json.id || uuid.v1();
     this.originalJSON = json;

@@ -34,7 +34,7 @@ export function setCurrentRegion(region) {
   const newRegion = { ...region, ...calculateRegion(region.coords) };
   newRegion.coords.accuracy = 0.05;
   newRegion.accuracy = 0.05;
-  console.log(newRegion);
+  // console.log(newRegion);
 
   return { type: "SET_CURRENT_REGION", region: newRegion };
 }
