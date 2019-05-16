@@ -8,6 +8,7 @@ import { Dropdown } from "react-native-material-dropdown";
 import { connect } from "react-redux";
 import StationsListContainer from "../subviews/StationsListContainer";
 import { setCurrentStationID } from "../redux/actions/stationActions";
+import pluralize from "pluralize";
 
 type ListViewProps = {
   stations: Station[],
@@ -23,20 +24,20 @@ const FilterInput = (props: {}) => {
     console.log("hello");
   };
 
+  const radiuses: number[] = [1, 5, 15, 25];
+  const dropDownOptions = radiuses.map(num => ({
+    value: num,
+    label: pluralize("mile", num, true)
+  }));
+
   return (
     <View style={styles.filterContainer}>
       <Text style={{ fontSize: 17 }}>Show stations within: </Text>
       <Dropdown
         style={styles.dropDown}
-        // value={this.props.users[this.state.selectedUserId]?.username || ""}
+        value={dropDownOptions[0].label}
         onChangeText={selectDropdown}
-        label="Select User"
-        data={[
-          { value: "1" },
-          { value: "5" },
-          { value: "15" },
-          { value: "25" }
-        ]}
+        data={dropDownOptions}
         containerStyle={{ width: "100%", padding: 10 }}
       />
     </View>

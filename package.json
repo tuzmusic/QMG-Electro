@@ -20,6 +20,7 @@
     "expo": "^32.0.0",
     "flow-bin": "^0.98.1",
     "native-base": "^2.12.1",
+    "pluralize": "^7.0.0",
     "react": "16.5.0",
     "react-dom": "^16.8.6",
     "react-native": "0.57",
