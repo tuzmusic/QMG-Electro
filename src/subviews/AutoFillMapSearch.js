@@ -75,6 +75,7 @@ export class AutoFillMapSearch extends Component {
           style={[styles.input, this.props.style]}
           placeholder={"Search"}
           autoCorrect={false}
+          clearButtonMode={"while-editing"}
           onBlur={() => {
             debugger;
             this.setState({ showPredictions: false });
