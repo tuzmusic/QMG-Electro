@@ -23,7 +23,8 @@ type Props = {
 };
 
 const StationMarkers = (props: Props) => {
-  return Object.values(props.stations).map(station => {
+  return Object.keys(props.stations).map<Marker>((key: string) => {
+    const station = props.stations[key];
     return (
       <Marker key={station.id} coordinate={station.location}>
         <Callout onPress={props.onMarkerPress.bind(null, station)}>

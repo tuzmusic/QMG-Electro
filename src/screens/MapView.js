@@ -37,13 +37,19 @@ function automate() {
   });
 }
 
+const CurrentRegionMarker = ({ currentRegion }) => {
+  return currentRegion && currentRegion.showMarker ? (
+    <Marker coordinate={currentRegion} pinColor={"green"} />
+  ) : null;
+};
+
 class MapScreen extends Component {
   static navigationOptions = {
     title: "Nearby Stations"
   };
 
   componentDidMount = () => {
-    // setTimeout(automate.bind(this), 2000);
+    setTimeout(automate.bind(this), 2000);
   };
 
   onMarkerPress = station => {
@@ -66,10 +72,7 @@ class MapScreen extends Component {
             stations={this.props.stations}
             onMarkerPress={this.onMarkerPress.bind(this)}
           />
-
-          {this.props.currentRegion && this.props.currentRegion.showMarker && (
-            <Marker coordinate={this.props.currentRegion} pinColor={"green"} />
-          )}
+          <CurrentRegionMarker currentRegion={this.props.currentRegion} />
         </MapView>
         <Callout style={styles.searchCallout}>
           <AutoFillMapSearch style={styles.calloutSearch} />
