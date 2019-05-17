@@ -30,7 +30,7 @@ const CellTextRow = props => (
 const ElectroMarker = ({ station, onPress, location }) => {
   return (
     <Marker coordinate={station.location}>
-      <Callout onPress={onPress.bind(null, station)}>
+      <Callout onPress={onPress.bind(null, station)} style={styles.callout}>
         <CellTextRow style={text.title}>{station.title}</CellTextRow>
         <CellTextRow style={text.distance}>
           {pluralize("mile", station.distanceFromLocation(location), true)} away
@@ -81,6 +81,9 @@ const text = F8StyleSheet.create({
 });
 
 const styles = F8StyleSheet.create({
+  callout: {
+    maxWidth: 250
+  },
   rightSection: {
     justifyContent: "flex-start",
     alignItems: "flex-end"
