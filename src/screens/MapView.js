@@ -9,6 +9,7 @@ import {
   getLocationAsync,
   setCurrentRegion
 } from "../redux/actions/userActions";
+import { setCurrentStationID } from "../redux/actions/stationActions";
 import ListingCellView from "../subviews/ListingCellView";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
 
@@ -62,10 +63,11 @@ class MapScreen extends Component {
         >
           <Callout
             onPress={() => {
+              this.props.setCurrentStationID(station.id);
               this.props.navigation.navigate("ListScreen");
-              // this.props.navigation.navigate("StationDetail", {
-              //   title: station.title
-              // });
+              this.props.navigation.navigate("StationDetail", {
+                title: station.title
+              });
             }}
           >
             <BLText>{station.title}</BLText>
@@ -90,9 +92,7 @@ class MapScreen extends Component {
           )}
         </MapView>
         <Callout style={styles.searchCallout}>
-          <AutoFillMapSearch
-            style={styles.calloutSearch}
-          />
+          <AutoFillMapSearch style={styles.calloutSearch} />
         </Callout>
         <FindMeButton onPress={this.props.getLocationAsync} />
       </View>
@@ -109,7 +109,7 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getLocationAsync, setCurrentRegion }
+  { getLocationAsync, setCurrentRegion, setCurrentStationID }
 )(MapScreen);
 
 const styles = F8StyleSheet.create({
