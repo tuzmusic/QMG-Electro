@@ -4,7 +4,7 @@ import type Station from "../models/Station";
 
 import React, { Component } from "react";
 import { BLText } from "../components/StyledComponents";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 
@@ -23,18 +23,29 @@ class ListingCellView extends Component<Props> {
     const station = this.props.station;
     return (
       <View style={styles.cellContainer}>
-        <TouchableOpacity
-          style={styles.textContainer}
-          onPress={this.props.onTextPress}
-        >
-          <CellTextRow style={text.title}>{station.title}</CellTextRow>
-          <CellTextRow style={text.address}>{station.address}</CellTextRow>
-        </TouchableOpacity>
-        {this.props.location && (
-          <BLText>
-            {station.distanceFromLocation(this.props.location)} mi.
-          </BLText>
-        )}
+        <View style={styles.leftSection}>
+          <TouchableOpacity
+            style={styles.textContainer}
+            onPress={this.props.onTextPress}
+          >
+            <CellTextRow style={text.title}>{station.title}</CellTextRow>
+            <CellTextRow style={text.address}>{station.address}</CellTextRow>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.rightSection}>
+          {this.props.location && (
+            <CellTextRow style={text.distance}>
+              {station.distanceFromLocation(this.props.location)} mi.
+            </CellTextRow>
+          )}
+          <CellTextRow style={text.price}>
+            {station.priceFrom && station.priceTo
+              ? `${isNaN(station.priceFrom) ? "" : "$"}${station.priceFrom}-${
+                  isNaN(station.priceTo) ? "" : "$"
+                }${station.priceTo}`
+              : "Free!"}
+          </CellTextRow>
+        </View>
       </View>
     );
   }
@@ -52,12 +63,24 @@ const text = F8StyleSheet.create({
   address: {
     fontSize: 15
   },
+  distance: {
+    fontSize: 16
+  },
   caption: {
     textAlign: "center"
+  },
+  price: {
+    fontSize: 16,
+    color: "green"
   }
 });
 
 const styles = F8StyleSheet.create({
+  rightSection: {
+    justifyContent: "flex-start",
+    alignItems: "flex-end"
+  },
+  leftSection: {},
   cellContainer: {
     flexDirection: "row",
     justifyContent: "space-between",

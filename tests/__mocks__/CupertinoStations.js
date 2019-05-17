@@ -17,8 +17,8 @@ const stations: { [key: string]: Station } = {
     id: "1",
     title: "Gavello Glen",
     location: { latitude: 37.3598896, longitude: -122.019102 },
-    priceFrom: "10",
-    priceTo: "50",
+    // priceFrom: "10",
+    // priceTo: "50",
     ...mockInfo
   }),
   "2": new Station({
