@@ -116,6 +116,14 @@ export default class Station {
     return distanceBetween(this.location, otherStation.location);
   };
 
+  priceString = (freeString: string = "Free!"): string => {
+    return this.priceFrom && this.priceTo
+      ? `${isNaN(this.priceFrom) ? "" : "$"}${this.priceFrom}-${
+          isNaN(this.priceTo) ? "" : "$"
+        }${this.priceTo}`
+      : freeString;
+  };
+
   static createFromApiResponse(json: OpenObject) {
     function p(propName: string, prefix: string = "_"): string {
       const valueArray: string[] = json.listing_props[`${prefix}${propName}`];

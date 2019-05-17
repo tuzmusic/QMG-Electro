@@ -39,13 +39,7 @@ class ListingCellView extends Component<Props> {
               {station.distanceFromLocation(this.props.location)} mi.
             </CellTextRow>
           )}
-          <CellTextRow style={text.price}>
-            {station.priceFrom && station.priceTo
-              ? `${isNaN(station.priceFrom) ? "" : "$"}${station.priceFrom}-${
-                  isNaN(station.priceTo) ? "" : "$"
-                }${station.priceTo}`
-              : "Free!"}
-          </CellTextRow>
+          <CellTextRow style={text.price}>{station.priceString()}</CellTextRow>
         </View>
       </View>
     );
