@@ -15,22 +15,27 @@ import {
 } from "../redux/actions/locationActions";
 import { setCurrentStationID } from "../redux/actions/stationActions";
 import ListingCellView from "../subviews/ListingCellView";
+import pluralize from "pluralize";
 const { Marker, Callout } = MapView;
 
 type Props = {
   stations: { [key: string]: Station },
-  onMarkerPress: () => void
+  onMarkerPress: () => void,
+  location: ElectroLocation
 };
 const CellTextRow = props => (
   <BLText style={[{ padding: 0.5 }, props.style]}>{props.children}</BLText>
 );
 
-const ElectroMarker = ({ station, onPress }) => {
+const ElectroMarker = ({ station, onPress, location }) => {
   return (
     <Marker coordinate={station.location}>
       <Callout onPress={onPress.bind(null, station)}>
         <CellTextRow style={text.title}>{station.title}</CellTextRow>
-        <CellTextRow style={text.title}>{station.title}</CellTextRow>
+        <CellTextRow style={text.distance}>
+          {pluralize("mile", station.distanceFromLocation(location), true)} away
+        </CellTextRow>
+        <CellTextRow style={text.price}>{station.priceString()}</CellTextRow>
       </Callout>
     </Marker>
   );
@@ -44,18 +49,21 @@ const StationMarkers = (props: Props) => {
         key={station.id}
         station={station}
         onPress={props.onMarkerPress}
+        location={props.location}
       />
     );
   });
 };
 
-export default StationMarkers;
+export default connect(state => ({ location: state.main.currentRegion }))(
+  StationMarkers
+);
 
 const baseSize = 15;
 const text = F8StyleSheet.create({
   title: {
     fontWeight: "bold",
-    fontSize: baseSize
+    fontSize: baseSize + 1
   },
   address: {
     fontSize: baseSize
