@@ -12,7 +12,7 @@ import {
 import { setCurrentStationID } from "../redux/actions/stationActions";
 import ListingCellView from "../subviews/ListingCellView";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
-
+import StationMarkers from "../subviews/stationMarkers";
 const { Marker, Callout } = MapView;
 
 const FindMeButton = ({ onPress }) => {
@@ -46,37 +46,13 @@ class MapScreen extends Component {
     // setTimeout(automate.bind(this), 2000);
   };
 
-  stationMarkers() {
-    const stations = this.props.stations;
-    return (markers = Object.keys(stations).map(key => {
-      const station = this.props.stations[key];
-      return (marker = (
-        <Marker
-          key={key}
-          // onPress={this.onMarkerPress.bind(this, station)}
-          coordinate={{
-            latitude: Number(station.location.latitude),
-            longitude: Number(station.location.longitude)
-          }}
-        >
-          <Callout
-            onPress={() => {
-              this.props.setCurrentStationID(station.id);
-              this.props.navigation.navigate("ListScreen");
-              this.props.navigation.navigate("StationDetail", {
-                title: station.title
-              });
-            }}
-          >
-            <ListingCellView
-              station={station}
-              containerStyle={{ width: 350 }}
-            />
-          </Callout>
-        </Marker>
-      ));
-    }));
-  }
+  onMarkerPress = station => {
+    this.props.setCurrentStationID(station.id);
+    this.props.navigation.navigate("ListScreen");
+    this.props.navigation.navigate("StationDetail", {
+      title: station.title
+    });
+  };
 
   render() {
     return (
@@ -87,7 +63,11 @@ class MapScreen extends Component {
           region={this.props.currentRegion}
           showsUserLocation={true}
         >
-          {this.stationMarkers()}
+          <StationMarkers
+            stations={this.props.stations}
+            onMarkerPress={this.onMarkerPress.bind(this)}
+          />
+
           {this.props.currentRegion && this.props.currentRegion.showMarker && (
             <Marker coordinate={this.props.currentRegion} pinColor={"green"} />
           )}

@@ -25,7 +25,6 @@ export function getLocationAsync(): ThunkAction {
 }
 
 export function setCurrentRegion(region: ElectroLocation) {
-  debugger;
   const newRegion = { ...region, ...calculateRegion(region) };
   newRegion.accuracy = 0.05;
   // console.log(newRegion);
