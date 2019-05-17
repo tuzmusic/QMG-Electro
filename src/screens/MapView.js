@@ -48,7 +48,6 @@ class MapScreen extends Component {
 
   onMarkerPress = station => {
     this.props.setCurrentStationID(station.id);
-    this.props.navigation.navigate("ListScreen");
     this.props.navigation.navigate("StationDetail", {
       title: station.title
     });
