@@ -15,7 +15,7 @@ import UserProfileScreen from "../screens/UserProfileView";
 import CreateStationScreen from "../screens/CreateStationView";
 
 import { fetchStations } from "../redux/actions/stationActions";
-import { getLocationAsync } from "../redux/actions/userActions";
+import { getLocationAsync } from "../redux/actions/locationActions";
 
 const SHOULD_DOWNLOAD = false;
 const GET_CACHED = false;

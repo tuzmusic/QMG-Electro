@@ -5,7 +5,7 @@ import { GoogleAPIKey } from "../../secrets";
 import AppStyles from "../constants/Styles";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { setCurrentRegion } from "../redux/actions/userActions";
+import { setCurrentRegion } from "../redux/actions/locationActions";
 
 export class AutoFillMapSearch extends Component {
   state = {

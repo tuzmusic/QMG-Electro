@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import {
   getLocationAsync,
   setCurrentRegion
-} from "../redux/actions/userActions";
+} from "../redux/actions/locationActions";
 import { setCurrentStationID } from "../redux/actions/stationActions";
 import ListingCellView from "../subviews/ListingCellView";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";

@@ -1,5 +1,5 @@
 import reducer from "../src/redux/reducers/mainReducer";
-import { setCurrentRegion } from "../src/redux/actions/userActions";
+import { setCurrentRegion } from "../src/redux/actions/locationActions";
 
 describe("setCurrentRegion", () => {
   const inputCoords = {
@@ -24,7 +24,7 @@ describe("setCurrentRegion", () => {
     }
   };
   it('takes an object containing an "accuracy" with a key of "coords" and returns and action with an object containing lat/long delta', () => {
-    expect(setCurrentRegion(inputCoords)).toEqual(outputAction)
+    expect(setCurrentRegion(inputCoords)).toEqual(outputAction);
   });
 });
 

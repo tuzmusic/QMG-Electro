@@ -8,7 +8,7 @@ import { Dropdown } from "react-native-material-dropdown";
 import { connect } from "react-redux";
 import StationsListContainer from "../subviews/StationsListContainer";
 import { setCurrentStationID } from "../redux/actions/stationActions";
-import { setSearchRadius } from "../redux/actions/userActions";
+import { setSearchRadius } from "../redux/actions/locationActions";
 import pluralize from "pluralize";
 
 type ListViewProps = {
