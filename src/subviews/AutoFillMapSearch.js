@@ -44,11 +44,9 @@ export class AutoFillMapSearch extends Component {
       const json = await result.json();
       const location = json.result.geometry.location;
       this.props.setCurrentRegion({
-        coords: {
-          latitude: location.lat,
-          longitude: location.lng,
-          accuracy: 0.1
-        },
+        latitude: location.lat,
+        longitude: location.lng,
+        accuracy: 0.1,
         showMarker: true
       });
     } catch (err) {

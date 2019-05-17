@@ -174,7 +174,7 @@ export default class Station {
         _company_price_from: [json.priceFrom],
         _company_price_to: [json.priceTo],
         _company_website: [json.website],
-        geolocation_lat: [json.location.lat], // may need to be converted to a string
+        geolocation_latitude: [json.location.lat], // may need to be converted to a string
         geolocation_long: [json.location.lng] // may need to be converted to a string
       }
       // job_listing_amenity: (array of amenity numbers),

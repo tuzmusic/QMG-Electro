@@ -1,7 +1,15 @@
+// @flow
+import type { Action, ElectroLocation } from "../../../flowTypes";
+import type { State } from "../reducers/mainReducer";
 import { AsyncStorage } from "react-native";
 import { Constants, Location, Permissions } from "expo";
 
-export function getUsers() {
+type Dispatch = (action: Action | ThunkAction | PromiseAction) => any;
+type GetState = () => State;
+type ThunkAction = (dispatch: Dispatch, getState: GetState) => any;
+type PromiseAction = Promise<Action>;
+
+export function getUsers(): ThunkAction {
   return async dispatch => {
     try {
       const data = await AsyncStorage.getItem("electro_users");
@@ -17,7 +25,7 @@ export function getUsers() {
   };
 }
 
-export function getLocationAsync() {
+export function getLocationAsync(): ThunkAction {
   return async dispatch => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
@@ -25,30 +33,32 @@ export function getLocationAsync() {
     }
     let location = await Location.getCurrentPositionAsync({});
     location.coords.accuracy = 0.05; // default received accuracy is way too broad.
-    dispatch(setCurrentUserLocation(location));
-    dispatch(setCurrentRegion(location));
+    let { latitude, longitude, accuracy } = location.coords;
+    let region = { latitude, longitude, accuracy };
+    dispatch(setCurrentUserLocation(region));
+    dispatch(setCurrentRegion(region));
   };
 }
 
-export function setCurrentRegion(region) {
-  const newRegion = { ...region, ...calculateRegion(region.coords) };
-  newRegion.coords.accuracy = 0.05;
+export function setCurrentRegion(region: ElectroLocation) {
+  debugger;
+  const newRegion = { ...region, ...calculateRegion(region) };
   newRegion.accuracy = 0.05;
   // console.log(newRegion);
 
   return { type: "SET_CURRENT_REGION", region: newRegion };
 }
 
-export function setCurrentUserLocation({ coords }) {
-  const region = calculateRegion(coords);
+export function setCurrentUserLocation(location: ElectroLocation) {
+  const region = calculateRegion(location);
   return { type: "SET_CURRENT_USER_LOCATION", region };
 }
 
-export function setSearchRadius(radius) {
+export function setSearchRadius(radius: number) {
   return { type: "SET_SEARCH_RADIUS", radius };
 }
 
-function calculateRegion({ latitude, longitude, accuracy }) {
+function calculateRegion({ latitude, longitude, accuracy = 0.05 }) {
   const oneDegreeOfLongitudeInMeters = 111.32;
   const circumference = 40075 / 360;
   const latitudeDelta = accuracy / oneDegreeOfLongitudeInMeters;

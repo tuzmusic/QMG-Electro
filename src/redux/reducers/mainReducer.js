@@ -1,12 +1,13 @@
 // @flow
 import type { ElectroLocation, Action } from "../../../flowTypes";
+import type Station from "../../models/Station";
 
 import { AsyncStorage } from "react-native";
 
 // #region TYPES
 
-type State = {
-  +stations: { [key: string]: {} }, // TO-DO: Define Station type
+export type State = {
+  +stations: { [key: string]: Station }, // TO-DO: Define Station type
   +currentStationID: ?number | ?string,
   +isLoading: boolean,
   +error: ?string,

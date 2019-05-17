@@ -28,13 +28,11 @@ const FindMeButton = ({ onPress }) => {
 function automate() {
   const stations = require("../../tests/__mocks__/old/StationsMock").stations;
   const station = stations[0];
-  // debugger;
+  debugger;
   this.props.setCurrentRegion({
-    coords: {
-      latitude: station.location.latitude,
-      longitude: station.location.longitude,
-      accuracy: 0.01
-    },
+    latitude: station.location.latitude,
+    longitude: station.location.longitude,
+    accuracy: 0.01,
     showMarker: true
   });
 }

@@ -5,8 +5,8 @@ module.exports = {
       {
         address: "42 N Main St, Concord, NH 03301",
         location: {
-          lat: 43.20527,
-          lng: -71.53581
+          latitude: 43.20527,
+          longitude: -71.53581
         },
         name: "The Works",
         owner: {
@@ -20,8 +20,8 @@ module.exports = {
       {
         address: "45 S Main St, Concord, NH 03301",
         location: {
-          lat: 43.202195,
-          lng: -71.534382
+          latitude: 43.202195,
+          longitude: -71.534382
         },
         name: "Gibson's",
         owner: {
@@ -35,8 +35,8 @@ module.exports = {
       {
         address: "Odd Fellows Ave, Concord, NH 03301",
         location: {
-          lat: 43.2045125,
-          lng: -71.5368442
+          latitude: 43.2045125,
+          longitude: -71.5368442
         },
         name: "True Brew Barista",
         owner: {
@@ -51,8 +51,8 @@ module.exports = {
       {
         address: "88 North Spring Street, 03301",
         location: {
-          lat: 43.208552,
-          lng: -71.542526
+          latitude: 43.208552,
+          longitude: -71.542526
         },
         name: "Our House",
         owner: {

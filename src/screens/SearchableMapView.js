@@ -4,8 +4,6 @@
 
 */
 
-
-
 import React, { Component } from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
 import {
@@ -81,7 +79,7 @@ class MapScreen extends Component {
       longitude: json.results[0].geometry.location.lng
     };
     const marker = {
-      latlng: coordinates,
+      latlongitude: coordinates,
       title: address.title,
       pinColor: "green"
     };

@@ -10,6 +10,6 @@ export const stations = {
     contactEmail: "me@place.com",
     contactPhone: "444-333-1111",
     amenities: "60",
-    location: { lat: 43.2085151, lng: -71.5425589 }
+    location: { latitude: 43.2085151, longitude: -71.5425589 }
   }
 };

@@ -6,7 +6,8 @@ export type ElectroLocation = {
   longitude: number,
   latitudeDelta?: number | string,
   longitudeDelta?: number | string,
-  showMarker?: boolean
+  showMarker?: boolean,
+  accuracy?: number
 };
 
 export type OpenObject = { [key: string]: any };
