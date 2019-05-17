@@ -70,7 +70,10 @@ class MapScreen extends Component {
               });
             }}
           >
-            <BLText>{station.title}</BLText>
+            <ListingCellView
+              station={station}
+              containerStyle={{ width: 350 }}
+            />
           </Callout>
         </Marker>
       ));

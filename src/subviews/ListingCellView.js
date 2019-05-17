@@ -15,14 +15,15 @@ const CellTextRow = props => (
 type Props = {
   station: Station,
   onTextPress: () => mixed,
-  location: ElectroLocation
+  location: ElectroLocation,
+  containerStyle: { [key: string]: {} }
 };
 
 class ListingCellView extends Component<Props> {
   render() {
     const station = this.props.station;
     return (
-      <View style={styles.cellContainer}>
+      <View style={[styles.cellContainer, this.props.containerStyle]}>
         <View style={styles.leftSection}>
           <TouchableOpacity
             style={styles.textContainer}
