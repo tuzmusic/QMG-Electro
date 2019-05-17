@@ -49,7 +49,7 @@ class MapScreen extends Component {
   };
 
   componentDidMount = () => {
-    setTimeout(automate.bind(this), 2000);
+    // setTimeout(automate.bind(this), 2000);
   };
 
   onMarkerPress = station => {

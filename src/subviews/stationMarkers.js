@@ -22,15 +22,25 @@ type Props = {
   onMarkerPress: () => void
 };
 
+const ElectroMarker = ({ station, onPress }) => {
+  return (
+    <Marker coordinate={station.location}>
+      <Callout onPress={onPress.bind(null, station)}>
+        <Text>{station.title}</Text>
+      </Callout>
+    </Marker>
+  );
+};
+
 const StationMarkers = (props: Props) => {
   return Object.keys(props.stations).map<Marker>((key: string) => {
     const station = props.stations[key];
     return (
-      <Marker key={station.id} coordinate={station.location}>
-        <Callout onPress={props.onMarkerPress.bind(null, station)}>
-          <ListingCellView station={station} containerStyle={{ width: 350 }} />
-        </Callout>
-      </Marker>
+      <ElectroMarker
+        key={station.id}
+        station={station}
+        onPress={props.onMarkerPress}
+      />
     );
   });
 };
