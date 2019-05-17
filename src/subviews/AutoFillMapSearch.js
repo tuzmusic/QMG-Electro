@@ -1,3 +1,5 @@
+//  @flow
+import type { ElectroLocation } from "../../flowTypes";
 import React, { Component } from "react";
 import { Text, TextInput, View, TouchableOpacity } from "react-native";
 import { Input } from "react-native-elements";
@@ -7,8 +9,21 @@ import _ from "lodash";
 import { connect } from "react-redux";
 import { setCurrentRegion } from "../redux/actions/locationActions";
 
-export class AutoFillMapSearch extends Component {
-  state = {
+// #region TYPES
+type State = {
+  address: string,
+  addressPredictions: [],
+  showPredictions: boolean
+};
+
+type Props = {
+  setCurrentRegion: ElectroLocation => void,
+  style: { [key: string]: {} }
+};
+// #endregion
+
+export class AutoFillMapSearch extends Component<Props, State> {
+  state: State = {
     address: "",
     addressPredictions: [],
     showPredictions: false
@@ -27,14 +42,14 @@ export class AutoFillMapSearch extends Component {
     }
   }
 
-  onChangeText = address => {
+  onChangeText = (address: string) => {
     this.setState(
       { address, showPredictions: true },
       _.debounce(this.handleAddressChange.bind(this), 800)
     );
   };
 
-  async setAddress(prediction) {
+  async setAddress(prediction: { [key: string]: string }) {
     this.setState({ address: prediction.description, showPredictions: false });
     const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleAPIKey}&placeid=${
       prediction.place_id
