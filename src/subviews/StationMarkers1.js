@@ -27,30 +27,27 @@ const CellTextRow = props => (
   <BLText style={[{ padding: 0.5 }, props.style]}>{props.children}</BLText>
 );
 
-const ElectroMarker = ({ station, onPress, location }) => {
-  return (
-    <Marker coordinate={station.location}>
-      <Callout onPress={onPress.bind(null, station)} style={styles.callout}>
-        <CellTextRow style={text.title}>{station.title}</CellTextRow>
-        <CellTextRow style={text.distance}>
-          {pluralize("mile", station.distanceFromLocation(location), true)} away
-        </CellTextRow>
-        <CellTextRow style={text.price}>{station.priceString()}</CellTextRow>
-      </Callout>
-    </Marker>
-  );
-};
-
 const StationMarkers = (props: Props) => {
   return Object.keys(props.stations).map<Marker>((key: string) => {
     const station = props.stations[key];
     return (
-      <ElectroMarker
-        key={station.id}
-        station={station}
-        onPress={props.onCalloutPress}
-        location={props.location}
-      />
+      <Marker coordinate={station.location} key={key}>
+        <Callout
+          onPress={props.onCalloutPress.bind(null, station)}
+          style={styles.callout}
+        >
+          <CellTextRow style={text.title}>{station.title}</CellTextRow>
+          <CellTextRow style={text.distance}>
+            {pluralize(
+              "mile",
+              station.distanceFromLocation(props.location),
+              true
+            )}{" "}
+            away
+          </CellTextRow>
+          <CellTextRow style={text.price}>{station.priceString()}</CellTextRow>
+        </Callout>
+      </Marker>
     );
   });
 };
