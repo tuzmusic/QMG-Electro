@@ -52,6 +52,8 @@ class MapScreen extends Component {
     // setTimeout(automate.bind(this), 2000);
   };
 
+  onMarkerPress = station => {};
+
   onCalloutPress = station => {
     this.props.setCurrentStationID(station.id);
     this.props.navigation.navigate("StationDetail", {
@@ -71,6 +73,7 @@ class MapScreen extends Component {
           <StationMarkers
             stations={this.props.stations}
             onCalloutPress={this.onCalloutPress.bind(this)}
+            onMarkerPress={this.onMarkerPress.bind(this)}
           />
           <CurrentRegionMarker currentRegion={this.props.currentRegion} />
         </MapView>

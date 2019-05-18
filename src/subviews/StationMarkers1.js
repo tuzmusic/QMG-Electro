@@ -20,6 +20,7 @@ const { Marker, Callout } = MapView;
 
 type Props = {
   stations: { [key: string]: Station },
+  onMarkerPress: () => void,
   onCalloutPress: () => void,
   location: ElectroLocation
 };
@@ -30,21 +31,21 @@ const CellTextRow = props => (
 const StationMarkers = (props: Props) => {
   return Object.keys(props.stations).map<Marker>((key: string) => {
     const station = props.stations[key];
+    const distanceString =
+      pluralize("mile", station.distanceFromLocation(props.location), true) +
+      " away";
     return (
-      <Marker coordinate={station.location} key={key}>
+      <Marker
+        coordinate={station.location}
+        key={key}
+        onPress={props.onMarkerPress.bind(null, station)}
+      >
         <Callout
           onPress={props.onCalloutPress.bind(null, station)}
           style={styles.callout}
         >
           <CellTextRow style={text.title}>{station.title}</CellTextRow>
-          <CellTextRow style={text.distance}>
-            {pluralize(
-              "mile",
-              station.distanceFromLocation(props.location),
-              true
-            )}{" "}
-            away
-          </CellTextRow>
+          <CellTextRow style={text.distance}>{distanceString}</CellTextRow>
           <CellTextRow style={text.price}>{station.priceString()}</CellTextRow>
         </Callout>
       </Marker>
