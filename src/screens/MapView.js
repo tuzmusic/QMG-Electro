@@ -104,6 +104,13 @@ class MapScreen extends Component {
             beforeOnPress={this.beforePressPrediction.bind(this)}
           />
         </Callout>
+        <Callout style={[styles.locationButtonCallout, { right: 100 }]}>
+          <Button
+            onPress={() => this.props.setCurrentRegion(Locations.cupertino)}
+            title={"Cupertino"}
+            style={styles.locationButton}
+          />
+        </Callout>
         <LocationButton
           onPress={() => {
             this.setState({ region: null });
