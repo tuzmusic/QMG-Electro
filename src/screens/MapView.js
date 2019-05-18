@@ -12,7 +12,7 @@ import {
 import { setCurrentStationID } from "../redux/actions/stationActions";
 import ListingCellView from "../subviews/ListingCellView";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
-import StationMarkers from "../subviews/StationMarkers";
+import StationMarkers from "../subviews/StationMarkers1";
 const { Marker, Callout } = MapView;
 
 const FindMeButton = ({ onPress }) => {
