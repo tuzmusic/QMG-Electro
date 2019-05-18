@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 47721,
+  "packagerPort": 19003,
+  "packagerPid": 20054,
   "expoServerNgrokUrl": "https://eg-887.tuzmusic.electro.exp.direct",
   "packagerNgrokUrl": "https://packager.eg-887.tuzmusic.electro.exp.direct",
-  "ngrokPid": 47757,
+  "ngrokPid": 20083,
   "webpackServerPort": null
 }

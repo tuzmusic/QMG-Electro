@@ -15,7 +15,7 @@ import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
 import StationMarkers from "../subviews/StationMarkers1";
 const { Marker, Callout } = MapView;
 
-const FindMeButton = ({ onPress }) => {
+const LocationButton = ({ onPress }) => {
   return (
     <Callout style={styles.locationButtonCallout}>
       <Button onPress={onPress} title={"Find Me"} style={styles.locationButton}>
@@ -24,17 +24,28 @@ const FindMeButton = ({ onPress }) => {
     </Callout>
   );
 };
+const Locations = {
+  cupertino: {
+    latitude: 37.33233141,
+    longitude: -122.0312186,
+    accuracy: 0.05
+  },
+  get concord() {
+    const stations = require("../../tests/__mocks__/old/StationsMock").stations;
+    const station = stations[0];
+    return {
+      latitude: station.location.latitude,
+      longitude: station.location.longitude,
+      accuracy: 0.01,
+      showMarker: true
+    };
+  }
+};
 
 function automate() {
   const stations = require("../../tests/__mocks__/old/StationsMock").stations;
   const station = stations[0];
-  debugger;
-  this.props.setCurrentRegion({
-    latitude: station.location.latitude,
-    longitude: station.location.longitude,
-    accuracy: 0.01,
-    showMarker: true
-  });
+  this.props.setCurrentRegion(Locations.cupertino);
 }
 
 const CurrentRegionMarker = ({ currentRegion }) => {
@@ -49,7 +60,7 @@ class MapScreen extends Component {
   };
 
   componentDidMount = () => {
-    // setTimeout(automate.bind(this), 2000);
+    setTimeout(automate.bind(this), 2000);
   };
 
   state = { region: null };
@@ -82,7 +93,8 @@ class MapScreen extends Component {
           <StationMarkers
             stations={this.props.stations}
             onCalloutPress={this.onCalloutPress.bind(this)}
-            onMarkerPress={this.onMarkerPress.bind(this)}
+            onMarkerPress={() => {}}
+            // onMarkerPress={this.onMarkerPress.bind(this)}
           />
           <CurrentRegionMarker currentRegion={this.props.currentRegion} />
         </MapView>
@@ -92,7 +104,7 @@ class MapScreen extends Component {
             beforeOnPress={this.beforePressPrediction.bind(this)}
           />
         </Callout>
-        <FindMeButton
+        <LocationButton
           onPress={() => {
             this.setState({ region: null });
             this.props.getLocationAsync;
