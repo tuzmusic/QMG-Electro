@@ -20,7 +20,7 @@ const { Marker, Callout } = MapView;
 
 type Props = {
   stations: { [key: string]: Station },
-  onMarkerPress: () => void,
+  onCalloutPress: () => void,
   location: ElectroLocation
 };
 const CellTextRow = props => (
@@ -48,7 +48,7 @@ const StationMarkers = (props: Props) => {
       <ElectroMarker
         key={station.id}
         station={station}
-        onPress={props.onMarkerPress}
+        onPress={props.onCalloutPress}
         location={props.location}
       />
     );
