@@ -18,7 +18,8 @@ type State = {
 
 type Props = {
   setCurrentRegion: ElectroLocation => void,
-  style: { [key: string]: {} }
+  style: { [key: string]: {} },
+  beforeOnPress?: () => void
 };
 // #endregion
 
@@ -74,7 +75,10 @@ export class AutoFillMapSearch extends Component<Props, State> {
       <TouchableOpacity
         style={styles.prediction}
         key={prediction.id}
-        onPress={this.setAddress.bind(this, prediction)}
+        onPress={() => {
+          this.props.beforeOnPress();
+          this.setAddress(prediction);
+        }}
       >
         <Text style={text.prediction}>{prediction.description}</Text>
       </TouchableOpacity>

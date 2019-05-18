@@ -52,7 +52,13 @@ class MapScreen extends Component {
     // setTimeout(automate.bind(this), 2000);
   };
 
-  onMarkerPress = station => {};
+  state = { region: null };
+
+  onMarkerPress = station => {
+    this.setState({
+      region: { ...this.props.currentRegion, ...station.location }
+    });
+  };
 
   onCalloutPress = station => {
     this.props.setCurrentStationID(station.id);
@@ -60,14 +66,17 @@ class MapScreen extends Component {
       title: station.title
     });
   };
-
+  beforePressPrediction = async () => {
+    console.log("beforePressPrediction");
+    await this.setState({ region: null });
+  };
   render() {
     return (
       <View style={styles.container}>
         <MapView
           provider={MapView.PROVIDER_GOOGLE}
           style={{ flex: 1 }}
-          region={this.props.currentRegion}
+          region={this.state.region || this.props.currentRegion}
           showsUserLocation={true}
         >
           <StationMarkers
@@ -78,9 +87,17 @@ class MapScreen extends Component {
           <CurrentRegionMarker currentRegion={this.props.currentRegion} />
         </MapView>
         <Callout style={styles.searchCallout}>
-          <AutoFillMapSearch style={styles.calloutSearch} />
+          <AutoFillMapSearch
+            style={styles.calloutSearch}
+            beforeOnPress={this.beforePressPrediction.bind(this)}
+          />
         </Callout>
-        <FindMeButton onPress={this.props.getLocationAsync} />
+        <FindMeButton
+          onPress={() => {
+            this.setState({ region: null });
+            this.props.getLocationAsync;
+          }}
+        />
       </View>
     );
   }
