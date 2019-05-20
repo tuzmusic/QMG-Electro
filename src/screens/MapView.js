@@ -108,7 +108,7 @@ class MapScreen extends Component {
         <MapView
           provider={MapView.PROVIDER_GOOGLE}
           style={{ flex: 1 }}
-          region={this.state.region || this.props.currentRegion}
+          region={this.props.currentRegion}
           showsUserLocation={true}
         >
           <StationMarkers
@@ -134,8 +134,8 @@ class MapScreen extends Component {
         </Callout>
         <LocationButton
           onPress={() => {
-            this.setState({ region: null });
-            this.props.getLocationAsync;
+            // this.setState({ region: null });
+            this.props.getLocationAsync();
           }}
         />
       </View>
