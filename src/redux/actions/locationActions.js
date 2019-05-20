@@ -16,18 +16,17 @@ export function getLocationAsync(): ThunkAction {
       return console.warn("Permission to access location was denied");
     }
     let location = await Location.getCurrentPositionAsync({});
-    location.coords.accuracy = 0.05; // default received accuracy is way too broad.
-    let { latitude, longitude, accuracy } = location.coords;
-    let region = { latitude, longitude, accuracy };
-    dispatch(setCurrentUserLocation(region));
+    let { latitude, longitude } = location.coords;
+    let region = { latitude, longitude, accuracy: 0.05 };
+    // dispatch(setCurrentUserLocation(region));
     dispatch(setCurrentRegion(region));
   };
 }
 
 export function setCurrentRegion(region: ElectroLocation) {
+  region.accuracy = 0.05;
   const newRegion = { ...region, ...calculateRegion(region) };
-  newRegion.accuracy = 0.05;
-  console.log(newRegion);
+  // console.log(newRegion);
 
   return { type: "SET_CURRENT_REGION", region: newRegion };
 }

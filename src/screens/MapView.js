@@ -30,6 +30,28 @@ const Locations = {
     longitude: -122.0312186,
     accuracy: 0.05
   },
+  simulatorLocation: {
+    latitude: 37.33233141,
+    longitude: -122.0312186
+  },
+  calculatedSimulatorLocation: {
+    latitude: 37.33233141,
+    latitudeDelta: 0.0004491555874955085,
+    longitude: -122.0312186,
+    longitudeDelta: -0.05737702242408729
+  },
+  precalculatedSearchedCupertino: {
+    accuracy: 0.05,
+    latitude: 37.3229978,
+    longitude: -122.0321823
+  },
+  calculatedSearchedCupertino: {
+    accuracy: 0.05,
+    latitude: 37.3229978,
+    latitudeDelta: 0.0004491555874955085,
+    longitude: -122.0321823,
+    longitudeDelta: -2.618546275831898
+  },
   get concord() {
     const stations = require("../../tests/__mocks__/old/StationsMock").stations;
     const station = stations[0];
@@ -60,7 +82,7 @@ class MapScreen extends Component {
   };
 
   componentDidMount = () => {
-    setTimeout(automate.bind(this), 2000);
+    // setTimeout(automate.bind(this), 2000);
   };
 
   state = { region: null };
