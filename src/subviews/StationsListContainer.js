@@ -10,7 +10,7 @@ export default class StationsListContainer extends Component {
     const stations = Object.values(props.stations);
 
     return (
-      <View>
+      <View style={{ width: "100%" }}>
         {props.showLoading && (
           <LoadingIndicator
             message={"Loading Stations..."}

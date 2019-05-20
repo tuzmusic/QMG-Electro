@@ -16,7 +16,7 @@ type Props = {
 
 const StationsList = (props: Props) => {
   return (
-    <View>
+    <View style={{ width: "100%" }}>
       <FlatList
         data={props.stations}
         renderItem={({ item }) => (

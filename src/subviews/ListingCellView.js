@@ -23,15 +23,13 @@ class ListingCellView extends Component<Props> {
   render() {
     const station = this.props.station;
     return (
-      <View style={[styles.cellContainer, this.props.containerStyle]}>
+      <TouchableOpacity
+        style={styles.cellContainer}
+        onPress={this.props.onTextPress}
+      >
         <View style={styles.leftSection}>
-          <TouchableOpacity
-            style={styles.textContainer}
-            onPress={this.props.onTextPress}
-          >
-            <CellTextRow style={text.title}>{station.title}</CellTextRow>
-            <CellTextRow style={text.address}>{station.address}</CellTextRow>
-          </TouchableOpacity>
+          <CellTextRow style={text.title}>{station.title}</CellTextRow>
+          <CellTextRow style={text.address}>{station.address}</CellTextRow>
         </View>
         <View style={styles.rightSection}>
           {this.props.location && (
@@ -41,7 +39,7 @@ class ListingCellView extends Component<Props> {
           )}
           <CellTextRow style={text.price}>{station.priceString()}</CellTextRow>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -50,16 +48,17 @@ export default connect(state => ({ location: state.main.currentRegion }))(
   ListingCellView
 );
 
+const baseSize = 16;
 const text = F8StyleSheet.create({
   title: {
     fontWeight: "bold",
-    fontSize: 19
+    fontSize: baseSize + 3
   },
   address: {
-    fontSize: 15
+    fontSize: baseSize - 1
   },
   distance: {
-    fontSize: 16
+    fontSize: baseSize
   },
   caption: {
     textAlign: "center"
@@ -72,19 +71,18 @@ const text = F8StyleSheet.create({
 
 const styles = F8StyleSheet.create({
   rightSection: {
+    flex: 1,
     justifyContent: "flex-start",
     alignItems: "flex-end"
   },
-  leftSection: {},
+  leftSection: { flex: 4 },
   cellContainer: {
+    flex: 1,
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 7,
+    padding: 5,
     borderBottomWidth: 0.5,
     borderBottomColor: "lightgrey"
-  },
-  textContainer: {
-    flex: 5,
-    marginRight: 10
   }
 });

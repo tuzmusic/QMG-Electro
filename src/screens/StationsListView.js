@@ -39,7 +39,7 @@ class StationsListView extends Component<ListViewProps> {
 
   render() {
     return (
-      <View>
+      <View style={{ width: "100%" }}>
         <FilterInput
           onSelectDropdown={this.onSelectSearchRadius.bind(this)}
           startingValue={this.props.searchRadius}
