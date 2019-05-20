@@ -10,6 +10,7 @@ import StationsListContainer from "../subviews/StationsListContainer";
 import { setCurrentStationID } from "../redux/actions/stationActions";
 import { setSearchRadius } from "../redux/actions/locationActions";
 import pluralize from "pluralize";
+import FilterInput from "../subviews/FilterInput";
 
 type ListViewProps = {
   stations: Station[],
@@ -20,34 +21,6 @@ type ListViewProps = {
   searchRadius: number,
   setCurrentStationID: (number | string) => void,
   setSearchRadius: number => void
-};
-
-const FilterInput = (props: {
-  onSelectDropdown: any => void,
-  startingValue: number
-}) => {
-  const radiuses: number[] = [1, 5, 15, 25, 50, 100];
-  const dropDownOptions = radiuses.map(num => ({
-    value: num,
-    label: pluralize("mile", num, true)
-  }));
-
-  return (
-    <View style={styles.filterContainerLine1}>
-      <Text style={{ fontSize: 17 }}>Show stations within: </Text>
-      <View style={styles.dropDownContainer}>
-        <Dropdown
-          dropdownOffset={{ top: 15, left: 0 }}
-          value={pluralize("miles", props.startingValue, true)}
-          onChangeText={props.onSelectDropdown}
-          data={dropDownOptions}
-          dropdownPosition={-5.15}
-          // renderBase can use default text, but then you lose the accessory.
-          // Original accessory uses styles, check out the module's index.js, search for "renderAccessory() {"
-        />
-      </View>
-    </View>
-  );
 };
 
 class StationsListView extends Component<ListViewProps> {
@@ -112,18 +85,4 @@ export default connect(
   { setCurrentStationID, setSearchRadius }
 )(StationsListView);
 
-const styles = {
-  dropDownContainer: {
-    width: "30%",
-    paddingLeft: 5
-  },
-  filterContainerLine1: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    borderBottomColor: "black",
-    borderBottomWidth: 0.5,
-    justifyContent: "center",
-    alignItems: "center"
-  }
-};
+const styles = {};
