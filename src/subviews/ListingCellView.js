@@ -86,9 +86,5 @@ const styles = F8StyleSheet.create({
   textContainer: {
     flex: 5,
     marginRight: 10
-  },
-  imageContainer: {
-    flex: 2,
-    padding: 7
   }
 });

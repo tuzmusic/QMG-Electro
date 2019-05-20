@@ -10,7 +10,6 @@ import {
   setCurrentRegion
 } from "../redux/actions/locationActions";
 import { setCurrentStationID } from "../redux/actions/stationActions";
-import ListingCellView from "../subviews/ListingCellView";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
 import StationMarkers from "../subviews/StationMarkers1";
 const { Marker, Callout } = MapView;

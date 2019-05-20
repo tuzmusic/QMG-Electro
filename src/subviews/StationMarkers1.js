@@ -14,7 +14,6 @@ import {
   setCurrentRegion
 } from "../redux/actions/locationActions";
 import { setCurrentStationID } from "../redux/actions/stationActions";
-import ListingCellView from "../subviews/ListingCellView";
 import pluralize from "pluralize";
 const { Marker, Callout } = MapView;
 
