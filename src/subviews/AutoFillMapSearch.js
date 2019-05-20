@@ -1,6 +1,6 @@
 //  @flow
 import type { ElectroLocation } from "../../flowTypes";
-import React, { Component } from "react";
+import * as React from "react";
 import { Text, TextInput, View, TouchableOpacity } from "react-native";
 import { Input } from "react-native-elements";
 import { GoogleAPIKey } from "../../secrets";
@@ -19,17 +19,17 @@ type State = {
 type Props = {
   setCurrentRegion: ElectroLocation => void,
   style: { [key: string]: {} },
-  beforeOnPress?: () => void
+  beforeOnPress: () => void
 };
 // #endregion
 
-export class AutoFillMapSearch extends Component<Props, State> {
+export class AutoFillMapSearch extends React.Component<Props, State> {
+  textInput: ?TextInput;
   state: State = {
     address: "",
     addressPredictions: [],
     showPredictions: false
   };
-
   async handleAddressChange() {
     const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleAPIKey}&input=${
       this.state.address
@@ -42,7 +42,6 @@ export class AutoFillMapSearch extends Component<Props, State> {
       console.error(err);
     }
   }
-
   onChangeText = (address: string) => {
     this.setState(
       { address, showPredictions: true },
@@ -50,7 +49,8 @@ export class AutoFillMapSearch extends Component<Props, State> {
     );
   };
 
-  async setAddress(prediction: { [key: string]: string }) {
+  async onPredictionSelect(prediction: { [key: string]: string }) {
+    this.textInput.blur();
     this.setState({ address: prediction.description, showPredictions: false });
     const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleAPIKey}&placeid=${
       prediction.place_id
@@ -69,7 +69,6 @@ export class AutoFillMapSearch extends Component<Props, State> {
       console.error(err);
     }
   }
-
   render() {
     const predictions = this.state.addressPredictions.map(prediction => (
       <TouchableOpacity
@@ -77,7 +76,7 @@ export class AutoFillMapSearch extends Component<Props, State> {
         key={prediction.id}
         onPress={() => {
           this.props.beforeOnPress();
-          this.setAddress(prediction);
+          this.onPredictionSelect(prediction);
         }}
       >
         <Text style={text.prediction}>{prediction.description}</Text>
@@ -87,6 +86,7 @@ export class AutoFillMapSearch extends Component<Props, State> {
     return (
       <View>
         <TextInput
+          ref={ref => (this.textInput = ref)}
           onChangeText={this.onChangeText}
           value={this.state.address}
           style={[styles.input, this.props.style]}
@@ -94,7 +94,6 @@ export class AutoFillMapSearch extends Component<Props, State> {
           autoCorrect={false}
           clearButtonMode={"while-editing"}
           onBlur={() => {
-            debugger;
             this.setState({ showPredictions: false });
           }}
         />
