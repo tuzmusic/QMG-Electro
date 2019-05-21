@@ -126,8 +126,9 @@ export default class Station {
 
   static createFromApiResponse(json: OpenObject) {
     function p(propName: string, prefix: string = "_"): string {
-      const valueArray: string[] = json.listing_props[`${prefix}${propName}`];
-      return valueArray[0] || "";
+      const key = `${prefix}${propName}`;
+      const valueArray: string[] = json.listing_props[key];
+      return (valueArray && valueArray[0]) || "";
     }
 
     let station = new Station();

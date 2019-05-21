@@ -17,7 +17,7 @@ import CreateStationScreen from "../screens/CreateStationView";
 import { fetchStations } from "../redux/actions/stationActions";
 import { getLocationAsync } from "../redux/actions/locationActions";
 
-const SHOULD_DOWNLOAD = false;
+const SHOULD_DOWNLOAD = true;
 const GET_CACHED = false;
 
 // #region CONFIGURE STACKS
