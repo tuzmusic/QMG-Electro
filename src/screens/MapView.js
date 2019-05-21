@@ -127,7 +127,12 @@ class MapScreen extends Component {
         </Callout>
         <Callout style={[styles.locationButtonCallout, { right: 100 }]}>
           <Button
-            onPress={() => this.props.setCurrentRegion(Locations.cupertino)}
+            onPress={() =>
+              this.props.setCurrentRegion({
+                ...Locations.cupertino,
+                showMarker: true
+              })
+            }
             title={"Cupertino"}
             style={styles.locationButton}
           />
