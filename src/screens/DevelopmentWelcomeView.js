@@ -4,7 +4,9 @@ import { ThemeProvider } from "react-native-elements";
 
 const styles = {
   text: {
-    padding: 5
+    fontSize: 16,
+    padding: 5,
+    paddingTop: 15
   }
 };
 

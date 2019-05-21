@@ -165,14 +165,14 @@ class StationDetailView extends Component {
           <CellTextRow style={[text.content, { paddingTop: 20 }]}>
             {station.content.replace("<p>", "").replace("</p>", "")}
           </CellTextRow>
-          <View style={styles.buttonContainer}>
+          {/* <View style={styles.buttonContainer}>
             <Button
               title="Delete Listing"
               containerStyle={{ width: "100%" }}
               buttonStyle={{ backgroundColor: "red" }}
               onPress={this.onDelete.bind(this)}
             />
-          </View>
+          </View> */}
         </View>
       </ScrollView>
     );

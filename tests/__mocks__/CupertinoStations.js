@@ -4,7 +4,8 @@ import type { ElectroLocation, Action } from "../../flowTypes";
 import type StationType from "../../src/models/Station";
 
 const mockInfo = {
-  content: "This is a charging station",
+  content:
+    "This is a charging station. This section shows info about the charging station.",
   address: "123 Fakeadress Lane, Some City, NW 12345",
   contactEmail: "email@electro.com",
   contactPhone: "321-555-1212",
