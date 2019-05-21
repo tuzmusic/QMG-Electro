@@ -4,10 +4,11 @@ import { ThemeProvider } from "react-native-elements";
 
 const styles = {
   text: {
-    fontSize: 16,
+    fontSize: 18,
     padding: 5,
     paddingTop: 15
-  }
+  },
+  bug: { paddingLeft: 25 }
 };
 
 const WelcomeView = props => (
@@ -26,7 +27,18 @@ const WelcomeView = props => (
     <Text style={styles.text}>
       We do not yet download stations from the website in this version.
     </Text>
+    <Text style={styles.text}>Some bugs to expect:</Text>
+    <Text style={[styles.text, styles.bug]}>
+      Search region only changes when searching a location from the map, or
+      hitting the "Find Me" button. (not when moving or zooming the map
+      manually)
+    </Text>
+    <Text style={[styles.text, styles.bug]}>
+      Pressing a station on the map will not move the station's marker into
+      view.
+    </Text>
     <Button
+      style={styles.text}
       title="Let's Go!"
       onPress={() => props.navigation.navigate("Main")}
     />
