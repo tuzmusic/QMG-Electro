@@ -25,15 +25,17 @@ export async function _getCachedStations() {
   try {
     const data = await AsyncStorage.getItem("electro_stations");
     if (data === null) return console.warn("requested key returns null");
-    const stns = JSON.parse(data).stations;
-    Object.values(stns).forEach(json => (stns[json.id] = new Station(json)));
-    return { stations: stns };
+    const stations = JSON.parse(data).stations;
+    Object.values(stations).forEach(
+      json => (stations[json.id] = new Station(json))
+    );
+    return { stations };
   } catch (error) {
     return { error };
   }
 }
 
-// async function _downloadStations(dispatch, attempt = 0) {
+import CupertinoStations from "../../../tests/__mocks__/CupertinoStations";
 export async function _downloadStations() {
   const url = "http://joinelectro.com/wp-json/wp/v2/job-listings/";
   try {
@@ -43,7 +45,7 @@ export async function _downloadStations() {
       {},
       ...json.map(s => ({ [s.id]: Station.createFromApiResponse(s) }))
     );
-    return { stations };
+    return { stations: { ...stations, ...CupertinoStations } };
   } catch (error) {
     console.warn(error);
     return { error };

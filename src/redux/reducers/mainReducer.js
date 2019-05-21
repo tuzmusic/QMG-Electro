@@ -20,8 +20,8 @@ export type State = {
 
 import CupertinoStations from "../../../tests/__mocks__/CupertinoStations";
 const initialState = {
-  stations: CupertinoStations,
-  // stations: {},
+  // stations: CupertinoStations,
+  stations: {},
   currentStationID: null,
   isLoading: false,
   error: null,
