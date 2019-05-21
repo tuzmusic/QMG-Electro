@@ -29,7 +29,7 @@ const EmptyStationList = () => {
 
 const StationsList = (props: Props) => {
   return (
-    <View style={{ width: "100%" }}>
+    <View>
       {props.stations.length === 0 ? (
         <EmptyStationList />
       ) : (
@@ -53,10 +53,13 @@ export default connect()(StationsList);
 
 const styles = {
   emptyListContainer: {
-    justifyContent: "center"
+    justifyContent: "center",
+    height: "90%",
+    padding: 10
   },
   emptyListText: {
     textAlign: "center",
-    fontSize: 18
+    fontSize: 18,
+    padding: 10
   }
 };
