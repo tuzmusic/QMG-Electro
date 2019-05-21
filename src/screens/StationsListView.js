@@ -45,7 +45,6 @@ class StationsListView extends Component<ListViewProps> {
           startingValue={this.props.searchRadius}
         />
         <StationsListContainer
-          showLoading
           stations={this.props.stations
             .filter(withinSearchRadius.bind(this))
             .sort(closestFirst.bind(this))}

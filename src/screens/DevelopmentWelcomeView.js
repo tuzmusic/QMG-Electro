@@ -17,15 +17,17 @@ const WelcomeView = props => (
       Welcome to the latest version of ELECTRO
     </Text>
     <Text style={styles.text}>
-      This development edition ships with stations located around Apple HQ in
-      Cupertino, CA.
+      The Login screen is just a dummy implementation. Enter a new username, or
+      select a previous username if you've made one. This doesn't connect to any
+      database (or, of course, authenticate with a password.)
     </Text>
     <Text style={styles.text}>
-      To see these stations, hit the Cupertino button in the lower right-hand
-      corner.
+      This development edition downloads stations from joinelectro.com, plus
+      some mock stations located around Apple HQ in Cupertino, CA.
     </Text>
     <Text style={styles.text}>
-      We do not yet download stations from the website in this version.
+      You can hit the Cupertino button in the lower-right corner of the map to
+      go directly to Cupertino and see the mock stations.
     </Text>
     <Text style={styles.text}>Some bugs to expect:</Text>
     <Text style={[styles.text, styles.bug]}>
@@ -37,10 +39,14 @@ const WelcomeView = props => (
       Pressing a station on the map will not move the station's marker into
       view.
     </Text>
+    <Text style={[styles.text, styles.bug]}>
+      Some website-created stations may not register on the map. (This is
+      actually a bug with the website.)
+    </Text>
     <Button
       style={styles.text}
       title="Let's Go!"
-      onPress={() => props.navigation.navigate("Main")}
+      onPress={() => props.navigation.navigate("Auth")}
     />
   </View>
 );

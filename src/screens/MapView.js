@@ -12,6 +12,8 @@ import {
 import { setCurrentStationID } from "../redux/actions/stationActions";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
 import StationMarkers from "../subviews/StationMarkers1";
+import LoadingIndicator from "../components/LoadingIndicator";
+
 const { Marker, Callout } = MapView;
 
 const LocationButton = ({ onPress }) => {
@@ -105,6 +107,10 @@ class MapScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <LoadingIndicator
+          message={"Loading Stations..."}
+          isVisible={this.props.isLoading}
+        />
         <MapView
           provider={MapView.PROVIDER_GOOGLE}
           style={{ flex: 1 }}
@@ -151,7 +157,8 @@ class MapScreen extends Component {
 const mapStateToProps = state => {
   return {
     stations: state.main.stations,
-    currentRegion: state.main.currentRegion
+    currentRegion: state.main.currentRegion,
+    isLoading: state.main.isLoading
   };
 };
 

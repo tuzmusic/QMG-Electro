@@ -11,12 +11,10 @@ export default class StationsListContainer extends Component {
 
     return (
       <View style={{ width: "100%" }}>
-        {props.showLoading && (
-          <LoadingIndicator
-            message={"Loading Stations..."}
-            isVisible={props.isLoading}
-          />
-        )}
+        <LoadingIndicator
+          message={"Loading Stations..."}
+          isVisible={props.isLoading}
+        />
         <StationsList
           stations={stations}
           navigation={props.navigation}
