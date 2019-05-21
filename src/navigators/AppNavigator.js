@@ -3,7 +3,7 @@ import MainTabNavigator from "./MainTabNavigator";
 import AuthStack from "./AuthNavigator";
 import WelcomeScreen from "../screens/DevelopmentWelcomeView";
 const AppNavigator = createSwitchNavigator({
-  Welcome: WelcomeScreen,
+  // Welcome: WelcomeScreen,
   Main: MainTabNavigator,
   Auth: AuthStack
 });
