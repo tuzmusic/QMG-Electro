@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const ApiUrls = {
   Login: "http://joinelectro.com/wp-json/auth/login"
 };
@@ -29,10 +31,21 @@ export function login() {
   };
 }
 
-import { put, takeEvery } from "redux-saga/effects";
+import { put, call, takeEvery } from "redux-saga/effects";
 
-export function* loginSaga() {
-  yield put({ type: "LOGIN_END" });
+function loginApi(creds) {
+  console.log(creds);
+  return axios.get(ApiUrls.login, { params: creds });
+}
+
+export function* loginSaga({ username, password }) {
+  try {
+    let { data } = yield call(loginApi, { username, password });
+    console.log(data);
+    yield put({ type: "LOGIN_SUCCESS", user: res });
+  } catch (error) {
+    yield put({ type: "LOGIN_FAILURE", error });
+  }
 }
 
 export function* watchLogin() {

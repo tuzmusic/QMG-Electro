@@ -1,12 +1,36 @@
-import { put, takeEvery } from "redux-saga/effects";
-import { loginSaga } from "../src/redux/actions/authActions";
+import { put, take } from "redux-saga/effects";
+// import { cloneableGenerator } from "@redux-saga/testing-utils";
+
+import { loginSaga, ApiUrls } from "../src/redux/actions/authActions";
+import mockResponse from "./__mocks__/loginResponse";
+import fetchMock from "fetch-mock";
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
+
+// const gen = loginSaga();
+success = {
+  url: ApiUrls.Login + "?username=testuser1&password=123123",
+  creds: { username: "testuser1", password: "123123" }
+};
+badUser = {
+  url: success.url.replace("testuser", "xxx"),
+  creds: { username: "xxx", password: "123123" }
+};
+badPw = {
+  url: success.url + "0",
+  creds: { username: "testuser1", password: "1231230" }
+};
 
 describe("user login", () => {
-  const saga = loginSaga();
-  it("should kick off a login with a LOGIN_START action", () => {
-    expect(saga.next().value).toEqual(put({ type: "LOGIN_END" }));
-  });
+  const gen = loginSaga(success.creds);
+  // console.log(gen);
+  // console.log(gen.next());
 
-  // it('should return a user object on a successful login', () => {
-  // });
+  const mock = new MockAdapter(axios);
+  it("should return a user object on a successful login", () => {
+    mock.onGet(success.url).reply(200, mockResponse.success);
+    expect(gen.next().value).toEqual(
+      put({ type: "LOGIN_SUCCESS", user: mockResponse.success })
+    );
+  });
 });
