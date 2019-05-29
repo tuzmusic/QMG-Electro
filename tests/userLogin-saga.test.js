@@ -2,22 +2,20 @@ import { put } from "redux-saga/effects";
 import { loginSaga, ApiUrls } from "../src/redux/actions/authActions";
 import mockResponse from "./__mocks__/loginResponse";
 
-// const gen = loginSaga();
-success = {
-  url: ApiUrls.Login + "?username=testuser1&password=123123",
-  creds: { username: "testuser1", password: "123123" }
-};
-badUser = {
-  url: success.url.replace("testuser", "xxx"),
-  creds: { username: "xxx", password: "123123" }
-};
-badPw = {
-  url: success.url + "0",
-  creds: { username: "testuser1", password: "1231230" }
-};
-
 describe("user login", () => {
   let gen;
+  const success = {
+    url: ApiUrls.Login + "?username=testuser1&password=123123",
+    creds: { username: "testuser1", password: "123123" }
+  };
+  const badUser = {
+    url: success.url.replace("testuser", "xxx"),
+    creds: { username: "xxx", password: "123123" }
+  };
+  const badPw = {
+    url: success.url + "0",
+    creds: { username: "testuser1", password: "1231230" }
+  };
   afterEach(() => {
     expect(gen.next().done).toBe(true);
   });
