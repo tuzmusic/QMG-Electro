@@ -1,12 +1,16 @@
+export const ApiUrls = {
+  Login: "http://joinelectro.com/wp-json/auth/login"
+};
+
 export function assignUser(user) {
   return async dispatch => {
     await dispatch({ type: "LOGIN_SUCCESS", user });
-    dispatch({type: "SAVE_USERS"})
+    dispatch({ type: "SAVE_USERS" });
   };
 }
 
 export function logout() {
-  return {type:"LOGOUT"}
+  return { type: "LOGOUT" };
 }
 
 export function login() {
