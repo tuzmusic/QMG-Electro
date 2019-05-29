@@ -33,16 +33,15 @@ export function login() {
 
 import { put, call, takeEvery } from "redux-saga/effects";
 
-function loginApi(creds) {
-  return axios.get(ApiUrls.login, { params: creds });
-}
-
 export function* loginSaga({ username, password }) {
-  try {
-    let data = yield call(loginApi, { username, password });
-    yield put({ type: "LOGIN_SUCCESS", user: data });
-  } catch (error) {
-    yield put({ type: "LOGIN_FAILURE", error });
+  const creds = { username, password };
+  let res = yield call(() => axios.get(ApiUrls.login, { params: creds }));
+  console.log(res);
+
+  if (res.data) {
+    yield put({ type: "LOGIN_SUCCESS", user: res.data });
+  } else if (res.code) {
+    yield put({ type: "LOGIN_FAILURE", error: res.code });
   }
 }
 

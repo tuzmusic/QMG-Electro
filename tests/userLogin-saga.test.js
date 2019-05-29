@@ -22,17 +22,21 @@ badPw = {
 };
 
 describe("user login", () => {
-  const gen = loginSaga(success.creds);
-  // console.log(gen.next());
-  // console.log(gen.next());
-  // console.log(gen.next());
-
-  const mock = new MockAdapter(axios);
   it("should return a user object on a successful login", () => {
-    mock.onGet(success.url).reply(200, mockResponse.success);
+    let gen = loginSaga(success.creds);
     expect(gen.next().value.type).toEqual("CALL");
     expect(gen.next(mockResponse.success).value).toEqual(
-      put({ type: "LOGIN_SUCCESS", user: mockResponse.success })
+      put({ type: "LOGIN_SUCCESS", user: mockResponse.success.data })
     );
+    expect(gen.next().done).toBe(true);
+  });
+
+  it("should return an error when passed an invalid username", () => {
+    let gen = loginSaga(badUser.creds);
+    expect(gen.next().value.type).toEqual("CALL");
+    expect(gen.next(mockResponse.invalidUsername).value).toEqual(
+      put({ type: "LOGIN_FAILURE", error: "invalid_username" })
+    );
+    expect(gen.next().done).toBe(true);
   });
 });
