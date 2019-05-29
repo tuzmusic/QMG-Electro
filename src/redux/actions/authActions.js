@@ -32,16 +32,16 @@ export function login() {
 }
 
 import { put, call, takeEvery } from "redux-saga/effects";
+import Sugar from "sugar";
+Sugar.extend();
 
 export function* loginSaga({ username, password }) {
   const creds = { username, password };
   let res = yield call(() => axios.get(ApiUrls.login, { params: creds }));
-  console.log(res);
-
   if (res.data) {
     yield put({ type: "LOGIN_SUCCESS", user: res.data });
   } else if (res.code) {
-    yield put({ type: "LOGIN_FAILURE", error: res.code });
+    yield put({ type: "LOGIN_FAILURE", error: res.code.titleize() });
   }
 }
 
