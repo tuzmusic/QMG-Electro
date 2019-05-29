@@ -28,3 +28,13 @@ export function login() {
       });
   };
 }
+
+import { put, takeEvery } from "redux-saga/effects";
+
+export function* loginSaga() {
+  yield put({ type: "LOGIN_END" });
+}
+
+export function* watchLogin() {
+  yield takeEvery("LOGIN_START", loginSaga);
+}
