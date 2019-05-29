@@ -1,21 +1,59 @@
 import { put } from "redux-saga/effects";
-import { loginSaga, ApiUrls } from "../src/redux/actions/authActions";
+import {
+  loginSaga,
+  loginWithApi,
+  ApiUrls
+} from "../src/redux/actions/authActions";
 import mockResponse from "./__mocks__/loginResponse";
+
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
+
+const success = {
+  url: ApiUrls.login + "?username=testuser1&password=123123",
+  creds: { username: "testuser1", password: "123123" }
+};
+const badUser = {
+  url: success.url.replace("testuser", "xxx"),
+  creds: { username: "xxx", password: "123123" }
+};
+const badPw = {
+  url: success.url + "0",
+  creds: { username: "testuser1", password: "1231230" }
+};
+
+describe("login api call", () => {
+  let mock;
+  beforeAll(() => {
+    mock = new MockAdapter(axios);
+    mock
+      .onGet(ApiUrls.login, { params: success.creds })
+      .reply(200, mockResponse.success);
+    mock
+      .onGet(ApiUrls.login, { params: badUser.creds })
+      .reply(200, mockResponse.invalidUsername);
+    mock
+      .onGet(ApiUrls.login, { params: badPw.creds })
+      .reply(200, mockResponse.invalidPassword);
+  });
+
+  it("should return success for valid login credentials", async () => {
+    let res = await loginWithApi(success.creds);
+    expect(res).toEqual(mockResponse.success);
+  });
+
+  it("should return an error for an invalid user", async () => {
+    let res = await loginWithApi(badUser.creds);
+    expect(res).toEqual(mockResponse.invalidUsername);
+  });
+  it("should return an error for an invalid password", async () => {
+    let res = await loginWithApi(badPw.creds);
+    expect(res).toEqual(mockResponse.invalidPassword);
+  });
+});
 
 describe("user login", () => {
   let gen;
-  const success = {
-    url: ApiUrls.Login + "?username=testuser1&password=123123",
-    creds: { username: "testuser1", password: "123123" }
-  };
-  const badUser = {
-    url: success.url.replace("testuser", "xxx"),
-    creds: { username: "xxx", password: "123123" }
-  };
-  const badPw = {
-    url: success.url + "0",
-    creds: { username: "testuser1", password: "1231230" }
-  };
   afterEach(() => {
     expect(gen.next().done).toBe(true);
   });

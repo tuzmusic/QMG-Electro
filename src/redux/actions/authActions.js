@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const ApiUrls = {
-  Login: "http://joinelectro.com/wp-json/auth/login"
+  login: "http://joinelectro.com/wp-json/auth/login"
 };
 
 export function assignUser(user) {
@@ -35,9 +35,18 @@ import { put, call, takeEvery } from "redux-saga/effects";
 import Sugar from "sugar";
 Sugar.extend();
 
+export async function loginWithApi(creds) {
+  const res = await axios.get(ApiUrls.login, { params: creds });
+  try {
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+}
+
 export function* loginSaga({ username, password }) {
   const creds = { username, password };
-  let res = yield call(() => axios.get(ApiUrls.login, { params: creds }));
+  let res = yield call(loginWithApi, creds);
   if (res.data) {
     yield put({ type: "LOGIN_SUCCESS", user: res.data });
   } else if (res.code) {
