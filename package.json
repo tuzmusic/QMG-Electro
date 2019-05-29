@@ -36,6 +36,7 @@
     "react-navigation": "^3.9.1",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
+    "redux-saga": "^1.0.2",
     "redux-test-utils": "^0.3.0",
     "redux-thunk": "^2.3.0",
     "sugar": "^2.0.6"
