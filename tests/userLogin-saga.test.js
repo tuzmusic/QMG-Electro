@@ -1,11 +1,6 @@
-import { put, take } from "redux-saga/effects";
-// import { cloneableGenerator } from "@redux-saga/testing-utils";
-
+import { put } from "redux-saga/effects";
 import { loginSaga, ApiUrls } from "../src/redux/actions/authActions";
 import mockResponse from "./__mocks__/loginResponse";
-import fetchMock from "fetch-mock";
-import axios from "axios";
-import MockAdapter from "axios-mock-adapter";
 
 // const gen = loginSaga();
 success = {
