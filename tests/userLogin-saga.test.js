@@ -23,13 +23,15 @@ badPw = {
 
 describe("user login", () => {
   const gen = loginSaga(success.creds);
-  // console.log(gen);
+  // console.log(gen.next());
+  // console.log(gen.next());
   // console.log(gen.next());
 
   const mock = new MockAdapter(axios);
   it("should return a user object on a successful login", () => {
     mock.onGet(success.url).reply(200, mockResponse.success);
-    expect(gen.next().value).toEqual(
+    expect(gen.next().value.type).toEqual("CALL");
+    expect(gen.next(mockResponse.success).value).toEqual(
       put({ type: "LOGIN_SUCCESS", user: mockResponse.success })
     );
   });
