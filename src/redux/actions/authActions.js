@@ -85,7 +85,7 @@ export function* loginSaga({ username, password }) {
   try {
     const res = yield call(loginWithApi, creds);
     console.log(res);
-    yield put({ type: "LOGIN_SUCCESS", user: res.data });
+    yield put({ type: "LOGIN_SUCCESS", user: res.data }); // not sure we NEED any user data
   } catch (error) {
     yield put({ type: "LOGIN_FAILURE", error });
   }
@@ -111,4 +111,14 @@ export function* registerSaga({ email, username, password }) {
 
 export function* watchLogin() {
   yield takeEvery("LOGIN_START", loginSaga);
+}
+export function* watchLogout() {
+  yield takeEvery("LOGOUT_START", logoutSaga);
+}
+export function* watchRegister() {
+  yield takeEvery("REGISTRATION_START", registerSaga);
+}
+
+export default function* authSaga() {
+  yield all([watchLogin(), watchLogout(), watchRegister()]);
 }
