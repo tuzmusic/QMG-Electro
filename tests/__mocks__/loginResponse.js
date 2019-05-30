@@ -52,3 +52,52 @@ export const registerResponse = {
     error: "Username already exists."
   }
 };
+
+export const creds = {
+  success: {
+    creds: { username: "testuser1", password: "123123" }
+  },
+  badUser: {
+    creds: { username: "xxx", password: "123123" }
+  },
+  badPw: {
+    creds: { username: "testuser1", password: "1231230" }
+  }
+};
+
+const mainParams = {
+  nonce: "29a63be176",
+  username: "testuser1",
+  email: "api1@bolt.com",
+  display_name: "testuser1",
+  user_pass: "123123"
+};
+const mainCreds = {
+  username: "testuser1",
+  email: "api1@bolt.com",
+  password: "123123"
+};
+
+export const params = {
+  registerApi: {
+    username: mainCreds.username,
+    email: mainCreds.email,
+    nonce: "29a63be176",
+    display_name: mainCreds.username,
+    user_pass: mainCreds.password
+  },
+  loginArgs: { username: mainParams.username, password: mainParams.password },
+  loginSagaArgs: {
+    type: "LOGIN_START",
+    creds: { username: mainParams.username, password: mainParams.password }
+  },
+  registerArgs: {
+    username: mainParams.username,
+    email: mainParams.email,
+    password: mainParams.user_pass
+  },
+  registerSagaArgs: {
+    registere: "LOGIN_START",
+    creds: { username: mainParams.username, password: mainParams.password }
+  }
+};

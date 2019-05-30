@@ -45,9 +45,9 @@ export async function registerWithApi({ email, username, password }) {
     if (!nonce) throw Error("Could not get nonce");
     const res = await axios.get(ApiUrls.register, {
       params: {
-        nonce,
         username,
         email,
+        nonce,
         display_name: username,
         user_pass: password
       }
@@ -82,11 +82,9 @@ export async function logoutWithApi() {
   }
 }
 
-export function* loginSaga(payload) {
-  console.log(payload);
-  const creds = { username, password };
+export function* loginSaga({ creds }) {
   try {
-    const res = yield call(loginWithApi, { username, password });
+    const res = yield call(loginWithApi, creds);
     yield put({ type: "LOGIN_SUCCESS", user: res.data }); // not sure we NEED any user data
   } catch (error) {
     // console.log("ERROR FROM loginSaga CODE", error.message);
