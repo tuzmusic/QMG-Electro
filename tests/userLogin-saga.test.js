@@ -1,4 +1,4 @@
-import { put } from "redux-saga/effects";
+import { put, call } from "redux-saga/effects";
 import {
   loginSaga,
   loginWithApi,
@@ -28,6 +28,10 @@ const registerApiParams = {
   email: "api1@bolt.com",
   display_name: "testuser1",
   user_pass: "123123"
+};
+const loginArguments = {
+  username: registerApiParams.username,
+  password: registerApiParams.user_pass
 };
 const registerArguments = {
   username: registerApiParams.username,
@@ -131,7 +135,8 @@ describe("Saga Actions", () => {
 
     it("should return a user object on a successful login", () => {
       gen = loginSaga(success.creds);
-      gen.next(); // call api
+      expect(gen.next().value).toEqual(call(loginWithApi, loginArguments)); // call api
+      // expect(gen.next().value).toEqual(
       expect(gen.next(loginResponse.success).value).toEqual(
         put({ type: "LOGIN_SUCCESS", user: loginResponse.success.data })
       );
@@ -186,5 +191,34 @@ describe("Saga Actions", () => {
     });
 
     xit("should handle errors", () => {});
+  });
+});
+
+import configureMockStore from "redux-mock-store";
+import createSagaMiddleware from "redux-saga";
+import { applyMiddleware } from "redux";
+import authSaga from "../src/redux/actions/authActions";
+
+fdescribe("reducer integration", () => {
+  const sagaMiddleware = createSagaMiddleware();
+  const mockStore = configureMockStore([sagaMiddleware]);
+  const store = mockStore({});
+  sagaMiddleware.run(authSaga);
+
+  it("kicks off the login process", () => {
+    const expectedActions = [
+      { type: "LOGIN_START" },
+      { type: "LOGIN_SUCCESS", user: loginResponse.success.data }
+    ];
+
+    store.subscribe(() => {
+      const actions = store.getActions();
+      if (actions.length >= expectedActions.length) {
+        expect(actions).toEqual(expectedActions);
+        done();
+      }
+    });
+
+    store.dispatch({ type: "LOGIN_START" });
   });
 });

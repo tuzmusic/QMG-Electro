@@ -35,7 +35,7 @@ export function login() {
   };
 }
 
-import { put, call, takeEvery } from "redux-saga/effects";
+import { put, call, takeEvery, all } from "redux-saga/effects";
 import Sugar from "sugar";
 Sugar.extend();
 
@@ -81,10 +81,9 @@ export async function logoutWithApi() {
 }
 
 export function* loginSaga({ username, password }) {
-  const creds = { username, password };
   try {
-    const res = yield call(loginWithApi, creds);
-    console.log(res);
+    const res = yield call(loginWithApi, { username, password });
+    // console.log(res);
     yield put({ type: "LOGIN_SUCCESS", user: res.data }); // not sure we NEED any user data
   } catch (error) {
     yield put({ type: "LOGIN_FAILURE", error });
