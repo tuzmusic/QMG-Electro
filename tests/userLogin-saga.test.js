@@ -4,6 +4,7 @@ import {
   loginWithApi,
   logoutWithApi,
   logoutSaga,
+  registerSaga,
   registerWithApi,
   ApiUrls
 } from "../src/redux/actions/authActions";
@@ -21,19 +22,23 @@ const badUser = {
 const badPw = {
   creds: { username: "testuser1", password: "1231230" }
 };
-
+const registerApiParams = {
+  nonce: "29a63be176",
+  username: "testuser1",
+  email: "api1@bolt.com",
+  display_name: "testuser1",
+  user_pass: "123123"
+};
+const registerArguments = {
+  username: registerApiParams.username,
+  email: registerApiParams.email,
+  password: registerApiParams.user_pass
+};
 describe("API Calls", () => {
   describe("register api call", () => {
-    let mock, registerParams;
+    let mock;
     beforeAll(() => {
       mock = new MockAdapter(axios);
-      registerParams = {
-        nonce: "29a63be176",
-        username: "testuser1",
-        email: "api1@bolt.com",
-        display_name: "testuser1",
-        user_pass: "123123"
-      };
     });
     afterAll(() => {
       mock.restore();
@@ -42,13 +47,9 @@ describe("API Calls", () => {
       mock
         .onGet(ApiUrls.nonce)
         .reply(200, registerResponse.nonce)
-        .onGet(ApiUrls.register, { params: registerParams })
+        .onGet(ApiUrls.register, { params: registerApiParams })
         .replyOnce(200, registerResponse.success);
-      let res = await registerWithApi({
-        username: registerParams.username,
-        email: registerParams.email,
-        password: registerParams.user_pass
-      });
+      let res = await registerWithApi(registerArguments);
       expect(res).toEqual(registerResponse.success);
     });
 
@@ -56,12 +57,12 @@ describe("API Calls", () => {
       mock
         .onGet(ApiUrls.nonce)
         .reply(200, registerResponse.nonce)
-        .onGet(ApiUrls.register, { params: registerParams })
+        .onGet(ApiUrls.register, { params: registerApiParams })
         .replyOnce(200, registerResponse.usernameTaken);
       let res = await registerWithApi({
-        username: registerParams.username,
-        email: registerParams.email,
-        password: registerParams.user_pass
+        username: registerApiParams.username,
+        email: registerApiParams.email,
+        password: registerApiParams.user_pass
       });
       expect(res).toEqual(registerResponse.usernameTaken);
     });
@@ -162,9 +163,27 @@ describe("Saga Actions", () => {
     });
     it("should return a success message on logout", () => {
       gen = logoutSaga();
-      gen.next(); // call api
+      gen.next();
       expect(gen.next(mockResponse.logut).value).toEqual(
         put({ type: "LOGOUT_SUCCESS" })
+      );
+    });
+    xit("should handle errors", () => {});
+  });
+
+  describe("register action", () => {
+    let gen;
+    afterEach(() => {
+      expect(gen.next().done).toBe(true);
+    });
+    it("should return a userId on a successful registration", () => {
+      gen = registerSaga(registerArguments);
+      expect(gen.next().value.type).toEqual("CALL"); // call api
+      expect(gen.next(registerResponse.success).value).toEqual(
+        put({
+          type: "REGISTRATION_SUCCESS",
+          userId: registerResponse.success.user_id
+        })
       );
     });
   });
