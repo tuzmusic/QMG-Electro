@@ -39,12 +39,9 @@ import Sugar from "sugar";
 Sugar.extend();
 
 export async function registerWithApi({ email, username, password }) {
-  console.log(email, username, password);
-
   try {
     const nonce = (await axios.get(ApiUrls.nonce)).data.nonce;
     if (!nonce) throw Error("Could not get nonce");
-
     const res = await axios.get(ApiUrls.register, {
       params: {
         nonce,

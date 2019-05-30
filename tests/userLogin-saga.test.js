@@ -35,7 +35,7 @@ describe("register api call", () => {
       .onGet(ApiUrls.nonce)
       .reply(200, registerResponse.nonce)
       .onGet(ApiUrls.register, { params: registerParams })
-      .reply(200, registerResponse.success);
+      .replyOnce(200, registerResponse.success);
     let res = await registerWithApi({
       username: registerParams.username,
       email: registerParams.email,
@@ -46,9 +46,15 @@ describe("register api call", () => {
 
   it("should return an error when passed a username that already exists", async () => {
     mock
+      .onGet(ApiUrls.nonce)
+      .reply(200, registerResponse.nonce)
       .onGet(ApiUrls.register, { params: registerParams })
-      .reply(200, registerResponse.usernameTaken);
-    let res = await registerWithApi(registerParams);
+      .replyOnce(200, registerResponse.usernameTaken);
+    let res = await registerWithApi({
+      username: registerParams.username,
+      email: registerParams.email,
+      password: registerParams.user_pass
+    });
     expect(res).toEqual(registerResponse.usernameTaken);
   });
 
