@@ -2,6 +2,7 @@ import { put } from "redux-saga/effects";
 import {
   loginSaga,
   loginWithApi,
+  logoutWithApi,
   registerWithApi,
   ApiUrls
 } from "../src/redux/actions/authActions";
@@ -21,15 +22,20 @@ const badPw = {
 };
 
 describe("register api call", () => {
-  let mock = new MockAdapter(axios);
-  let registerParams = {
-    nonce: "29a63be176",
-    username: "testuser1",
-    email: "api1@bolt.com",
-    display_name: "testuser1",
-    user_pass: "123123"
-  };
-
+  let mock, registerParams;
+  beforeAll(() => {
+    mock = new MockAdapter(axios);
+    registerParams = {
+      nonce: "29a63be176",
+      username: "testuser1",
+      email: "api1@bolt.com",
+      display_name: "testuser1",
+      user_pass: "123123"
+    };
+  });
+  afterAll(() => {
+    mock.restore();
+  });
   it("should return a user upon successful registration", async () => {
     mock
       .onGet(ApiUrls.nonce)
@@ -74,6 +80,9 @@ describe("login api call", () => {
       .onGet(ApiUrls.login, { params: badPw.creds })
       .reply(200, mockResponse.invalidPassword);
   });
+  afterAll(() => {
+    mock.restore();
+  });
 
   it("should return success for valid login credentials", async () => {
     let res = await loginWithApi(success.creds);
@@ -91,6 +100,24 @@ describe("login api call", () => {
   });
 
   xit("should return some other error for other reasons", () => {});
+});
+
+describe("logout api call", () => {
+  let mock;
+  beforeAll(() => {
+    let mock = new MockAdapter(axios);
+    mock.onGet(ApiUrls.logout).reply(200, mockResponse.logout);
+  });
+  afterAll(() => {
+    mock.restore();
+  });
+
+  it("should return a logout message when successful", async () => {
+    let res = await logoutWithApi();
+    expect(res).toEqual(mockResponse.logout);
+  });
+
+  xit("should handle errors", () => {});
 });
 
 describe("user login actions", () => {

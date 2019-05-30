@@ -1,4 +1,5 @@
 export default {
+  logout: "User was logged out.",
   success: {
     data: {
       ID: "6",

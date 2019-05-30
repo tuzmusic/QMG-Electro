@@ -4,7 +4,8 @@ export const ApiUrls = {
   login: "http://joinelectro.com/wp-json/auth/login",
   nonce:
     "https://joinelectro.com/x1H9JH7tZAb1DoJ/get_nonce/?controller=user&method=register",
-  register: "https://joinelectro.com/x1H9JH7tZAb1DoJ/user/register"
+  register: "https://joinelectro.com/x1H9JH7tZAb1DoJ/user/register",
+  logout: "http://joinelectro.com/wp-json/auth/logout"
 };
 
 export function assignUser(user) {
@@ -60,6 +61,15 @@ export async function registerWithApi({ email, username, password }) {
 export async function loginWithApi(creds) {
   try {
     const res = await axios.get(ApiUrls.login, { params: creds });
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+}
+
+export async function logoutWithApi() {
+  try {
+    const res = await axios.get(ApiUrls.logout);
     return res.data;
   } catch (err) {
     return err;
