@@ -186,5 +186,7 @@ describe("Saga Actions", () => {
         })
       );
     });
+
+    xit("should handle errors", () => {});
   });
 });
