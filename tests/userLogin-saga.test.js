@@ -8,7 +8,7 @@ import {
   registerWithApi,
   ApiUrls
 } from "../src/redux/actions/authActions";
-import mockResponse, { registerResponse } from "./__mocks__/loginResponse";
+import { loginResponse, registerResponse } from "./__mocks__/loginResponse";
 
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
@@ -75,13 +75,11 @@ describe("API Calls", () => {
       let mock = new MockAdapter(axios);
       mock
         .onGet(ApiUrls.login, { params: success.creds })
-        .reply(200, mockResponse.success);
-      mock
+        .reply(200, loginResponse.success)
         .onGet(ApiUrls.login, { params: badUser.creds })
-        .reply(200, mockResponse.invalidUsername);
-      mock
+        .reply(200, loginResponse.invalidUsername)
         .onGet(ApiUrls.login, { params: badPw.creds })
-        .reply(200, mockResponse.invalidPassword);
+        .reply(200, loginResponse.incorrectPassword);
     });
     afterAll(() => {
       mock.restore();
@@ -89,17 +87,17 @@ describe("API Calls", () => {
 
     it("should return success for valid login credentials", async () => {
       let res = await loginWithApi(success.creds);
-      expect(res).toEqual(mockResponse.success);
+      expect(res).toEqual(loginResponse.success);
     });
 
     it("should return an error for an invalid user", async () => {
       let res = await loginWithApi(badUser.creds);
-      expect(res).toEqual(mockResponse.invalidUsername);
+      expect(res).toEqual(loginResponse.usernameError);
     });
 
     it("should return an error for an invalid password", async () => {
       let res = await loginWithApi(badPw.creds);
-      expect(res).toEqual(mockResponse.invalidPassword);
+      expect(res).toEqual(loginResponse.passwordError);
     });
 
     xit("should return some other error for other reasons", () => {});
@@ -109,7 +107,7 @@ describe("API Calls", () => {
     let mock;
     beforeAll(() => {
       let mock = new MockAdapter(axios);
-      mock.onGet(ApiUrls.logout).reply(200, mockResponse.logout);
+      mock.onGet(ApiUrls.logout).reply(200, loginResponse.logout);
     });
     afterAll(() => {
       mock.restore();
@@ -117,7 +115,7 @@ describe("API Calls", () => {
 
     it("should return a logout message when successful", async () => {
       let res = await logoutWithApi();
-      expect(res).toEqual(mockResponse.logout);
+      expect(res).toEqual(loginResponse.logout);
     });
 
     xit("should handle errors", () => {});
@@ -134,15 +132,15 @@ describe("Saga Actions", () => {
     it("should return a user object on a successful login", () => {
       gen = loginSaga(success.creds);
       gen.next(); // call api
-      expect(gen.next(mockResponse.success).value).toEqual(
-        put({ type: "LOGIN_SUCCESS", user: mockResponse.success.data })
+      expect(gen.next(loginResponse.success).value).toEqual(
+        put({ type: "LOGIN_SUCCESS", user: loginResponse.success.data })
       );
     });
 
     it("should return an error when passed an invalid username", () => {
       gen = loginSaga(badUser.creds);
       gen.next(); // call api
-      expect(gen.next(mockResponse.invalidUsername).value).toEqual(
+      expect(gen.next(loginResponse.usernameError).value).toEqual(
         put({ type: "LOGIN_FAILURE", error: "Invalid Username" })
       );
     });
@@ -150,7 +148,7 @@ describe("Saga Actions", () => {
     it("should return an error when passed an invalid password", () => {
       gen = loginSaga(badPw.creds);
       gen.next(); // call api
-      expect(gen.next(mockResponse.invalidPassword).value).toEqual(
+      expect(gen.next(loginResponse.passwordError).value).toEqual(
         put({ type: "LOGIN_FAILURE", error: "Incorrect Password" })
       );
     });
@@ -164,7 +162,7 @@ describe("Saga Actions", () => {
     it("should return a success message on logout", () => {
       gen = logoutSaga();
       gen.next();
-      expect(gen.next(mockResponse.logut).value).toEqual(
+      expect(gen.next(loginResponse.logut).value).toEqual(
         put({ type: "LOGOUT_SUCCESS" })
       );
     });

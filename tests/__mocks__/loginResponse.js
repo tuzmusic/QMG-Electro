@@ -1,4 +1,4 @@
-export default {
+export const loginResponse = {
   logout: "User was logged out.",
   success: {
     data: {
@@ -18,18 +18,20 @@ export default {
       subscriber: true
     }
   },
-  invalidPassword: {
+  incorrectPassword: {
     code: "incorrect_password",
     message:
       '<strong>ERROR</strong>: The password you entered for the username <strong>testuser1</strong> is incorrect. <a href="http://joinelectro.com/wp-login.php?action=lostpassword">Lost your password?</a>',
     data: null
   },
+  passwordError: Error("Incorrect Password"),
   invalidUsername: {
     code: "invalid_username",
     message:
       '<strong>ERROR</strong>: Invalid username. <a href="http://joinelectro.com/wp-login.php?action=lostpassword">Lost your password?</a>',
     data: null
-  }
+  },
+  usernameError: Error("Invalid Username")
 };
 
 export const registerResponse = {

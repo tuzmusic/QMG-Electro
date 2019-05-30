@@ -32,7 +32,7 @@ describe("user login", () => {
     await store.dispatch(login({ username: "testuser1x", password: "123123" }));
   });
   it("returns an error message when given incorrect password", async () => {
-    fetchMock.mock(badPwUrl, mockResponse.invalidPassword);
+    fetchMock.mock(badPwUrl, mockResponse.incorrectPassword);
     await store.dispatch(login({ username: "testuser1x", password: "123123" }));
   });
 });
@@ -56,7 +56,7 @@ const mockResponse = {
       subscriber: true
     }
   },
-  invalidPassword: {
+  incorrectPassword: {
     code: "incorrect_password",
     message:
       '<strong>ERROR</strong>: The password you entered for the username <strong>testuser1</strong> is incorrect. <a href="http://joinelectro.com/wp-login.php?action=lostpassword">Lost your password?</a>',
