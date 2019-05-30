@@ -86,6 +86,15 @@ export function* loginSaga({ username, password }) {
   }
 }
 
+export function* logoutSaga() {
+  try {
+    let res = yield call(logoutWithApi);
+    yield put({ type: "LOGOUT_SUCCESS" });
+  } catch (error) {
+    yield put({ type: "LOGOUT_FAILURE", error });
+  }
+}
+
 export function* watchLogin() {
   yield takeEvery("LOGIN_START", loginSaga);
 }
