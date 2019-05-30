@@ -30,3 +30,22 @@ export default {
     data: null
   }
 };
+
+export const registerResponse = {
+  nonce: {
+    status: "ok",
+    controller: "user",
+    method: "register",
+    nonce: "29a63be176"
+  },
+  success: {
+    status: "ok",
+    cookie:
+      "apitestuser1|1560382602|w8L8JuhcMIAk8h5bwRmhOjVmPnNjbgNZJmBd7bcFUsL|542260b66fa2080175d9315f2a5bf3486dd174c7483913c46a2658a8d75637c1",
+    user_id: 9
+  },
+  usernameTaken: {
+    status: "error",
+    error: "Username already exists."
+  }
+};

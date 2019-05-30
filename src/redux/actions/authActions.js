@@ -1,7 +1,10 @@
 import axios from "axios";
 
 export const ApiUrls = {
-  login: "http://joinelectro.com/wp-json/auth/login"
+  login: "http://joinelectro.com/wp-json/auth/login",
+  nonce:
+    "https://joinelectro.com/x1H9JH7tZAb1DoJ/get_nonce/?controller=user&method=register",
+  register: "https://joinelectro.com/x1H9JH7tZAb1DoJ/user/register"
 };
 
 export function assignUser(user) {
@@ -35,9 +38,40 @@ import { put, call, takeEvery } from "redux-saga/effects";
 import Sugar from "sugar";
 Sugar.extend();
 
-export async function loginWithApi(creds) {
-  const res = await axios.get(ApiUrls.login, { params: creds });
+let registerParams = {
+  username: "testuser1",
+  email: "api1@bolt.com",
+  display_name: "apitestuser1",
+  user_pass: "123123",
+  nonce: "29a63be176"
+};
+
+export async function registerWithApi({ email, username, password }) {
+  // EITHER of these requests, ON THEIR OWN, works correctly. But NOT BOTH.
+  // Something about setting two mock responses, or something.
+
   try {
+    const nonce = await axios.get(ApiUrls.nonce);
+    // const res = await axios.get(ApiUrls.nonce);
+    // const res = await axios.get(ApiUrls.register, { params: registerParams });
+    const res = await axios.get(ApiUrls.register, {
+      params: {
+        nonce,
+        username,
+        email,
+        display_name: username,
+        user_pass: password
+      }
+    });
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function loginWithApi(creds) {
+  try {
+    const res = await axios.get(ApiUrls.login, { params: creds });
     return res.data;
   } catch (err) {
     return err;

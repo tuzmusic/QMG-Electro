@@ -2,30 +2,57 @@ import { put } from "redux-saga/effects";
 import {
   loginSaga,
   loginWithApi,
+  registerWithApi,
   ApiUrls
 } from "../src/redux/actions/authActions";
-import mockResponse from "./__mocks__/loginResponse";
+import mockResponse, { registerResponse } from "./__mocks__/loginResponse";
 
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 
 const success = {
-  url: ApiUrls.login + "?username=testuser1&password=123123",
   creds: { username: "testuser1", password: "123123" }
 };
 const badUser = {
-  url: success.url.replace("testuser", "xxx"),
   creds: { username: "xxx", password: "123123" }
 };
 const badPw = {
-  url: success.url + "0",
   creds: { username: "testuser1", password: "1231230" }
 };
 
+describe("register api call", () => {
+  let mock = new MockAdapter(axios);
+  let registerParams = {
+    username: "testuser1",
+    email: "api1@bolt.com",
+    display_name: "apitestuser1",
+    user_pass: "123123",
+    nonce: "29a63be176"
+  };
+
+  it("should return a user upon successful registration", async () => {
+    mock.onGet(ApiUrls.nonce).reply(200, registerResponse.nonce);
+    mock
+      .onGet(ApiUrls.register, { params: registerParams })
+      .reply(200, registerResponse.success);
+    let res = await registerWithApi(registerParams);
+    expect(res).toEqual(registerResponse.success);
+  });
+
+  it("should return an error when passed a username that already exists", async () => {
+    mock
+      .onGet(ApiUrls.register, { params: registerParams })
+      .reply(200, registerResponse.usernameTaken);
+    let res = await registerWithApi(registerParams);
+    expect(res).toEqual(registerResponse.usernameTaken);
+  });
+
+  xit("should give a special alert when it receives an HTML response, indicating that the JSON APIs have been disabled", () => {});
+});
+
 describe("login api call", () => {
-  let mock;
   beforeAll(() => {
-    mock = new MockAdapter(axios);
+    let mock = new MockAdapter(axios);
     mock
       .onGet(ApiUrls.login, { params: success.creds })
       .reply(200, mockResponse.success);
@@ -46,13 +73,16 @@ describe("login api call", () => {
     let res = await loginWithApi(badUser.creds);
     expect(res).toEqual(mockResponse.invalidUsername);
   });
+
   it("should return an error for an invalid password", async () => {
     let res = await loginWithApi(badPw.creds);
     expect(res).toEqual(mockResponse.invalidPassword);
   });
+
+  xit("should return some other error for other reasons", () => {});
 });
 
-describe("user login", () => {
+describe("user login actions", () => {
   let gen;
   afterEach(() => {
     expect(gen.next().done).toBe(true);
