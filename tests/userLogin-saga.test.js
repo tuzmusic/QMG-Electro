@@ -136,7 +136,6 @@ describe("Saga Actions", () => {
     it("should return a user object on a successful login", () => {
       gen = loginSaga(success.creds);
       expect(gen.next().value).toEqual(call(loginWithApi, loginArguments)); // call api
-      // expect(gen.next().value).toEqual(
       expect(gen.next(loginResponse.success).value).toEqual(
         put({ type: "LOGIN_SUCCESS", user: loginResponse.success.data })
       );
@@ -145,7 +144,7 @@ describe("Saga Actions", () => {
     it("should return an error when passed an invalid username", () => {
       gen = loginSaga(badUser.creds);
       gen.next(); // call api
-      expect(gen.next(loginResponse.usernameError).value).toEqual(
+      expect(gen.throw(loginResponse.usernameError).value).toEqual(
         put({ type: "LOGIN_FAILURE", error: "Invalid Username" })
       );
     });
@@ -153,7 +152,7 @@ describe("Saga Actions", () => {
     it("should return an error when passed an invalid password", () => {
       gen = loginSaga(badPw.creds);
       gen.next(); // call api
-      expect(gen.next(loginResponse.passwordError).value).toEqual(
+      expect(gen.throw(loginResponse.passwordError).value).toEqual(
         put({ type: "LOGIN_FAILURE", error: "Incorrect Password" })
       );
     });
@@ -196,7 +195,6 @@ describe("Saga Actions", () => {
 
 import configureMockStore from "redux-mock-store";
 import createSagaMiddleware from "redux-saga";
-import { applyMiddleware } from "redux";
 import authSaga from "../src/redux/actions/authActions";
 
 fdescribe("reducer integration", () => {
@@ -205,20 +203,30 @@ fdescribe("reducer integration", () => {
   const store = mockStore({});
   sagaMiddleware.run(authSaga);
 
+  beforeAll(() => {
+    let mock = new MockAdapter(axios);
+    mock
+      .onGet(ApiUrls.login, { params: success.creds })
+      .reply(200, loginResponse.success);
+  });
+  afterAll(() => {
+    mock.restore();
+  });
+
   it("kicks off the login process", () => {
     const expectedActions = [
       { type: "LOGIN_START" },
       { type: "LOGIN_SUCCESS", user: loginResponse.success.data }
     ];
+    const expectedTypes = expectedActions.map(a => a.type);
 
     store.subscribe(() => {
       const actions = store.getActions();
       if (actions.length >= expectedActions.length) {
         expect(actions).toEqual(expectedActions);
-        done();
       }
     });
 
-    store.dispatch({ type: "LOGIN_START" });
+    store.dispatch({ type: "LOGIN_START", payload: success.creds });
   });
 });
