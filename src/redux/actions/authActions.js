@@ -38,22 +38,13 @@ import { put, call, takeEvery } from "redux-saga/effects";
 import Sugar from "sugar";
 Sugar.extend();
 
-let registerParams = {
-  username: "testuser1",
-  email: "api1@bolt.com",
-  display_name: "apitestuser1",
-  user_pass: "123123",
-  nonce: "29a63be176"
-};
-
 export async function registerWithApi({ email, username, password }) {
-  // EITHER of these requests, ON THEIR OWN, works correctly. But NOT BOTH.
-  // Something about setting two mock responses, or something.
+  console.log(email, username, password);
 
   try {
-    const nonce = await axios.get(ApiUrls.nonce);
-    // const res = await axios.get(ApiUrls.nonce);
-    // const res = await axios.get(ApiUrls.register, { params: registerParams });
+    const nonce = (await axios.get(ApiUrls.nonce)).data.nonce;
+    if (!nonce) throw Error("Could not get nonce");
+
     const res = await axios.get(ApiUrls.register, {
       params: {
         nonce,

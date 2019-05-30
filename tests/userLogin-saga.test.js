@@ -23,19 +23,24 @@ const badPw = {
 describe("register api call", () => {
   let mock = new MockAdapter(axios);
   let registerParams = {
+    nonce: "29a63be176",
     username: "testuser1",
     email: "api1@bolt.com",
-    display_name: "apitestuser1",
-    user_pass: "123123",
-    nonce: "29a63be176"
+    display_name: "testuser1",
+    user_pass: "123123"
   };
 
   it("should return a user upon successful registration", async () => {
-    mock.onGet(ApiUrls.nonce).reply(200, registerResponse.nonce);
     mock
+      .onGet(ApiUrls.nonce)
+      .reply(200, registerResponse.nonce)
       .onGet(ApiUrls.register, { params: registerParams })
       .reply(200, registerResponse.success);
-    let res = await registerWithApi(registerParams);
+    let res = await registerWithApi({
+      username: registerParams.username,
+      email: registerParams.email,
+      password: registerParams.user_pass
+    });
     expect(res).toEqual(registerResponse.success);
   });
 
