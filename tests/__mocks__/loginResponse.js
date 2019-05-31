@@ -50,7 +50,8 @@ export const registerResponse = {
   usernameTaken: {
     status: "error",
     error: "Username already exists."
-  }
+  },
+  usernameError: Error("Username already exists.")
 };
 
 export const creds = {
@@ -93,7 +94,7 @@ export const registration = {
     username: mainCreds.username + "dupe",
     email: mainCreds.email,
     nonce: "29a63be176",
-    display_name: mainCreds.username,
+    display_name: mainCreds.username + "dupe",
     user_pass: mainCreds.password
   },
   userInfo: {
@@ -141,7 +142,7 @@ export const actions = {
       start: { type: "REGISTRATION_START", info: registration.badUserInfo },
       resolve: {
         type: "REGISTRATION_FAILURE",
-        userId: registerResponse.usernameTaken.error
+        error: registerResponse.usernameError.message
       }
     }
   },

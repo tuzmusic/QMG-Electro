@@ -32,7 +32,7 @@ function setupMockAdapter() {
     .reply(200, registerResponse.nonce)
     .onGet(ApiUrls.register, { params: registration.apiParams })
     .reply(200, registerResponse.success)
-    .onGet(ApiUrls.register, { params: registration.badUserInfo })
+    .onGet(ApiUrls.register, { params: registration.badUserApiParams })
     .reply(200, registerResponse.usernameTaken)
     // login
     .onGet(ApiUrls.login, { params: creds.success })
@@ -59,7 +59,7 @@ describe("API Calls", () => {
       try {
         await registerWithApi(registration.badUserInfo);
       } catch (error) {
-        expect(error).toEqual(registerResponse.usernameTaken);
+        expect(error).toEqual(registerResponse.usernameError);
       }
     });
 
@@ -212,6 +212,15 @@ describe("integration", () => {
       expect(sagaStore.getCalledActions()).toEqual([
         actions.registration.success.start,
         actions.registration.success.resolve
+      ]);
+    });
+
+    it("returns an failure for an existing username", async () => {
+      sagaStore.dispatch(register(registration.badUserInfo));
+      await sagaStore.waitFor("REGISTRATION_FAILURE");
+      expect(sagaStore.getCalledActions()).toEqual([
+        actions.registration.badUser.start,
+        actions.registration.badUser.resolve
       ]);
     });
   });

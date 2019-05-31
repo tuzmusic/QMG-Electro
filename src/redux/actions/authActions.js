@@ -31,9 +31,12 @@ export async function registerWithApi({ email, username, password }) {
         user_pass: password
       }
     });
+    if (res.data.error) {
+      throw Error(res.data.error);
+    }
     return res.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -82,17 +85,17 @@ export function* registerSaga({ info }) {
     let res = yield call(registerWithApi, info);
     yield put({ type: "REGISTRATION_SUCCESS", userId: res.user_id });
   } catch (error) {
-    yield put({ type: "REGISTRATION_FAILURE", error });
+    yield put({ type: "REGISTRATION_FAILURE", error: error.message });
   }
 }
 
-export function* watchLogin() {
+function* watchLogin() {
   yield takeEvery("LOGIN_START", loginSaga);
 }
-export function* watchLogout() {
+function* watchLogout() {
   yield takeEvery("LOGOUT_START", logoutSaga);
 }
-export function* watchRegister() {
+function* watchRegister() {
   yield takeEvery("REGISTRATION_START", registerSaga);
 }
 
@@ -109,6 +112,5 @@ export function logout() {
 }
 
 export function register({ username, email, password }) {
-  console.log("in action creator:", email, username, password);
   return { type: "REGISTRATION_START", info: { username, email, password } };
 }
