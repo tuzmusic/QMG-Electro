@@ -55,13 +55,16 @@ export const registerResponse = {
 
 export const creds = {
   success: {
-    creds: { username: "testuser1", password: "123123" }
+    username: "testuser1",
+    password: "123123"
   },
   badUser: {
-    creds: { username: "xxx", password: "123123" }
+    username: "xxx",
+    password: "123123"
   },
   badPw: {
-    creds: { username: "testuser1", password: "1231230" }
+    username: "testuser1",
+    password: "1231230"
   }
 };
 

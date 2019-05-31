@@ -1,5 +1,6 @@
 import { put, call } from "redux-saga/effects";
 import {
+  login,
   loginSaga,
   loginWithApi,
   logoutWithApi,
@@ -176,8 +177,8 @@ describe("reducer integration", () => {
         expect(actions).toEqual(expectedActions);
       }
     });
+    console.log(creds.success);
 
-    // store.dispatch({ type: "LOGIN_START", creds: creds.success });
-    store.dispatch({ type: "LOGIN_START", creds: creds.success });
+    store.dispatch(login(creds.success));
   });
 });
