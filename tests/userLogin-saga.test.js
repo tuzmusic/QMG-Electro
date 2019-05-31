@@ -3,6 +3,7 @@ import {
   login,
   loginSaga,
   loginWithApi,
+  logout,
   logoutWithApi,
   logoutSaga,
   registerSaga,
@@ -189,14 +190,21 @@ describe("integration", () => {
 
     it("returns an failure for an invalid password", async () => {
       sagaStore.dispatch(login(creds.badPw));
-      try {
-        await sagaStore.waitFor("LOGIN_FAILURE");
-      } catch (error) {
-        console.log(error);
-      }
+      await sagaStore.waitFor("LOGIN_FAILURE");
       expect(sagaStore.getCalledActions()).toEqual([
         actions.login.badPw.start,
         actions.login.badPw.resolve
+      ]);
+    });
+  });
+
+  describe("logout", () => {
+    it("can log out", async () => {
+      sagaStore.dispatch(logout());
+      await sagaStore.waitFor("LOGOUT_SUCCESS");
+      expect(sagaStore.getCalledActions()).toEqual([
+        actions.logout.start,
+        actions.logout.success
       ]);
     });
   });

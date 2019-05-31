@@ -116,5 +116,9 @@ export const actions = {
         error: loginResponse.passwordError.message
       }
     }
+  },
+  logout: {
+    start: { type: "LOGOUT_START" },
+    success: { type: "LOGOUT_SUCCESS" }
   }
 };

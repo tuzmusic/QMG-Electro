@@ -13,10 +13,6 @@ export function assignUser(user) {
   };
 }
 
-export function logout() {
-  return { type: "LOGOUT" };
-}
-
 import axios from "axios";
 import { put, call, takeEvery, all } from "redux-saga/effects";
 import Sugar from "sugar";
@@ -106,4 +102,7 @@ export default function* authSaga() {
 
 export function login({ username, password }) {
   return { type: "LOGIN_START", creds: { username, password } };
+}
+export function logout() {
+  return { type: "LOGOUT_START" };
 }
