@@ -96,7 +96,13 @@ describe("API Calls", () => {
       }
     });
 
-    xit("should return some other error for other reasons", () => {});
+    it("should return some other error for other reasons", async () => {
+      try {
+        await loginWithApi(registration.unhandledInfo);
+      } catch (error) {
+        expect(error.message).toEqual("Request failed with status code 404");
+      }
+    });
   });
 
   describe("logout api call", () => {
