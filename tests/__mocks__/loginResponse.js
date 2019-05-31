@@ -104,3 +104,18 @@ export const params = {
     creds: { username: mainParams.username, password: mainParams.password }
   }
 };
+
+export const actions = {
+  startSuccess: { type: "LOGIN_START", creds: creds.success },
+  startBadUser: { type: "LOGIN_START", creds: creds.badUser },
+  startBadPw: { type: "LOGIN_START", creds: creds.badPw },
+  loginSuccess: { type: "LOGIN_SUCCESS", user: loginResponse.success.data },
+  loginBadUser: {
+    type: "LOGIN_FAILURE",
+    error: loginResponse.usernameError.message
+  },
+  loginBadPw: {
+    type: "LOGIN_FAILURE",
+    error: loginResponse.passwordError.message
+  }
+};

@@ -13,11 +13,13 @@ import {
   loginResponse,
   registerResponse,
   creds,
-  params
+  params,
+  actions
 } from "./__mocks__/loginResponse";
 
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
+import SagaTester from "redux-saga-tester";
 
 function setupMockAdapter() {
   mock = new MockAdapter(axios);
@@ -159,41 +161,86 @@ import configureMockStore from "redux-mock-store";
 import createSagaMiddleware from "redux-saga";
 import authSaga from "../src/redux/actions/authActions";
 
-describe("reducer integration", () => {
+xdescribe("reducer integration", () => {
   const sagaMiddleware = createSagaMiddleware();
   const mockStore = configureMockStore([sagaMiddleware]);
-  let store = mockStore({});
-  sagaMiddleware.run(authSaga);
+  // let store = mockStore({});
+  // sagaMiddleware.run(authSaga);
   afterEach(() => {
-    store.clearActions();
+    // store.clearActions();
   });
   it("can log in successfully", () => {
-    const expectedActions = [
-      { type: "LOGIN_START", creds: creds.success },
-      { type: "LOGIN_SUCCESS", user: loginResponse.success.data }
-    ];
-
-    store.subscribe(() => {
-      const actions = store.getActions();
-      if (actions.length >= expectedActions.length) {
-        expect(actions).toEqual(expectedActions);
+    let store = mockStore({});
+    sagaMiddleware.run(authSaga);
+    const expectedActions = [actions.startSuccess, actions.loginSuccess];
+    let unsubscribe = store.subscribe(() => {
+      const received = store.getActions();
+      console.log(received.map(a => a.type));
+      if (received.length >= expectedActions.length) {
+        expect(received).toEqual(expectedActions);
       }
+      // if (received.includes(expectedActions.splice(-1))) unsubscribe();
     });
     store.dispatch(login(creds.success));
   });
 
-  xit("gives an error on an invalid login", () => {
-    const expectedActions = [
-      { type: "LOGIN_START", creds: creds.badUser },
-      { type: "LOGIN_FAILURE", error: loginResponse.usernameError.message }
-    ];
+  it("gives an error on an invalid login", () => {
+    let store = mockStore({});
+    sagaMiddleware.run(authSaga);
+    const expectedActions = [actions.startBadUser, actions.loginBadUser];
 
-    store.subscribe(() => {
-      const actions = store.getActions();
-      if (actions.length >= expectedActions.length) {
-        expect(actions).toEqual(expectedActions);
+    let unsubscribe = store.subscribe(() => {
+      const received = store.getActions();
+
+      console.log(received.map(a => a.type));
+      if (received.length >= expectedActions.length) {
+        expect(received).toEqual(expectedActions);
       }
+      // if (received.includes(expectedActions.splice(-1))) unsubscribe();
     });
     store.dispatch(login(creds.badUser));
   });
 });
+
+describe("integration", () => {
+  let sagaStore;
+  beforeEach(() => {
+    sagaStore = new SagaTester({});
+    sagaStore.start(authSaga);
+  });
+  it("can log in successfully", async () => {
+    sagaStore.dispatch(login(creds.success));
+    await sagaStore.waitFor("LOGIN_SUCCESS");
+    expect(sagaStore.getCalledActions()).toEqual([
+      actions.startSuccess,
+      actions.loginSuccess
+    ]);
+  });
+
+  it("returns an error for an invalid username", async () => {
+    sagaStore.dispatch(login(creds.badUser));
+    // await sagaStore.waitFor("LOGIN_FAILURE");
+    await setTimeout(() => {}, 3000);
+    expect(sagaStore.getCalledActions()).toEqual([
+      actions.startBadUser,
+      actions.loginBadUser
+    ]);
+  });
+});
+
+SagaTester.prototype.wait = function(timeout, actionType, futureOnly) {
+  function doTimeout(timeout) {
+    return new Promise(function(resolve, reject) {
+      setTimeout(
+        reject,
+        timeout - 100,
+        `Timed out waiting for action ${actionType} to be dispatched from saga`
+      );
+    });
+  }
+
+  return Promise.race([
+    doTimeout(timeout),
+    this.waitFor(actionType, futureOnly)
+  ]);
+};
