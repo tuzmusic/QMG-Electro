@@ -77,9 +77,9 @@ export function* logoutSaga() {
   }
 }
 
-export function* registerSaga({ email, username, password }) {
+export function* registerSaga({ info }) {
   try {
-    let res = yield call(registerWithApi, { email, username, password });
+    let res = yield call(registerWithApi, info);
     yield put({ type: "REGISTRATION_SUCCESS", userId: res.user_id });
   } catch (error) {
     yield put({ type: "REGISTRATION_FAILURE", error });
@@ -103,6 +103,12 @@ export default function* authSaga() {
 export function login({ username, password }) {
   return { type: "LOGIN_START", creds: { username, password } };
 }
+
 export function logout() {
   return { type: "LOGOUT_START" };
+}
+
+export function register({ username, email, password }) {
+  console.log("in action creator:", email, username, password);
+  return { type: "REGISTRATION_START", info: { username, email, password } };
 }

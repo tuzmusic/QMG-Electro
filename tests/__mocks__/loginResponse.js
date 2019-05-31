@@ -89,8 +89,20 @@ export const registration = {
     display_name: mainCreds.username,
     user_pass: mainCreds.password
   },
+  badUserApiParams: {
+    username: mainCreds.username + "dupe",
+    email: mainCreds.email,
+    nonce: "29a63be176",
+    display_name: mainCreds.username,
+    user_pass: mainCreds.password
+  },
   userInfo: {
     username: mainParams.username,
+    email: mainParams.email,
+    password: mainParams.user_pass
+  },
+  badUserInfo: {
+    username: mainCreds.username + "dupe",
     email: mainParams.email,
     password: mainParams.user_pass
   }
@@ -114,6 +126,22 @@ export const actions = {
       resolve: {
         type: "LOGIN_FAILURE",
         error: loginResponse.passwordError.message
+      }
+    }
+  },
+  registration: {
+    success: {
+      start: { type: "REGISTRATION_START", info: registration.userInfo },
+      resolve: {
+        type: "REGISTRATION_SUCCESS",
+        userId: registerResponse.success.user_id
+      }
+    },
+    badUser: {
+      start: { type: "REGISTRATION_START", info: registration.badUserInfo },
+      resolve: {
+        type: "REGISTRATION_FAILURE",
+        userId: registerResponse.usernameTaken.error
       }
     }
   },

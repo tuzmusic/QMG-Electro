@@ -6,6 +6,7 @@ import {
   logout,
   logoutWithApi,
   logoutSaga,
+  register,
   registerSaga,
   registerWithApi,
   ApiUrls
@@ -26,18 +27,21 @@ import authSaga from "../src/redux/actions/authActions";
 function setupMockAdapter() {
   mock = new MockAdapter(axios);
   mock
+    // register
     .onGet(ApiUrls.nonce)
     .reply(200, registerResponse.nonce)
     .onGet(ApiUrls.register, { params: registration.apiParams })
-    .replyOnce(200, registerResponse.success)
-    .onGet(ApiUrls.register, { params: registration.apiParams })
-    .replyOnce(200, registerResponse.usernameTaken)
+    .reply(200, registerResponse.success)
+    .onGet(ApiUrls.register, { params: registration.badUserInfo })
+    .reply(200, registerResponse.usernameTaken)
+    // login
     .onGet(ApiUrls.login, { params: creds.success })
     .reply(200, loginResponse.success)
     .onGet(ApiUrls.login, { params: creds.badUser })
     .reply(200, loginResponse.invalidUsername)
     .onGet(ApiUrls.login, { params: creds.badPw })
     .reply(200, loginResponse.incorrectPassword)
+    // logout
     .onGet(ApiUrls.logout)
     .reply(200, loginResponse.logout);
 }
@@ -52,8 +56,11 @@ describe("API Calls", () => {
     });
 
     it("should return an error when passed a username that already exists", async () => {
-      let res = await registerWithApi(registration.userInfo);
-      expect(res).toEqual(registerResponse.usernameTaken);
+      try {
+        await registerWithApi(registration.badUserInfo);
+      } catch (error) {
+        expect(error).toEqual(registerResponse.usernameTaken);
+      }
     });
 
     xit("should give a special alert when it receives an HTML response, indicating that the JSON APIs have been disabled", () => {});
@@ -194,6 +201,17 @@ describe("integration", () => {
       expect(sagaStore.getCalledActions()).toEqual([
         actions.login.badPw.start,
         actions.login.badPw.resolve
+      ]);
+    });
+  });
+
+  describe("registration", () => {
+    it("can register successfully", async () => {
+      sagaStore.dispatch(register(registration.userInfo));
+      await sagaStore.waitFor("REGISTRATION_SUCCESS");
+      expect(sagaStore.getCalledActions()).toEqual([
+        actions.registration.success.start,
+        actions.registration.success.resolve
       ]);
     });
   });
