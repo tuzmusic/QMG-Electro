@@ -68,13 +68,19 @@ describe("API Calls", () => {
     });
 
     it("should return an error for an invalid user", async () => {
-      let res = await loginWithApi(creds.badUser);
-      expect(res).toEqual(loginResponse.usernameError);
+      try {
+        await loginWithApi(creds.badUser);
+      } catch (error) {
+        expect(error).toEqual(loginResponse.usernameError);
+      }
     });
 
     it("should return an error for an invalid password", async () => {
-      let res = await loginWithApi(creds.badPw);
-      expect(res).toEqual(loginResponse.passwordError);
+      try {
+        await loginWithApi(creds.badPw);
+      } catch (error) {
+        expect(error).toEqual(loginResponse.passwordError);
+      }
     });
 
     xit("should return some other error for other reasons", () => {});
@@ -207,10 +213,16 @@ describe("integration", () => {
   beforeEach(() => {
     sagaStore = new SagaTester({});
     sagaStore.start(authSaga);
+    jest.setTimeout(1000);
   });
   it("can log in successfully", async () => {
     sagaStore.dispatch(login(creds.success));
-    await sagaStore.waitFor("LOGIN_SUCCESS");
+    try {
+      await sagaStore.waitFor("LOGIN_SUCCESS");
+      // await setTimeout(() => {}, 5000);
+    } catch (error) {
+      console.log(error);
+    }
     expect(sagaStore.getCalledActions()).toEqual([
       actions.startSuccess,
       actions.loginSuccess
@@ -219,8 +231,11 @@ describe("integration", () => {
 
   it("returns an error for an invalid username", async () => {
     sagaStore.dispatch(login(creds.badUser));
-    // await sagaStore.waitFor("LOGIN_FAILURE");
-    await setTimeout(() => {}, 3000);
+    try {
+      await sagaStore.waitFor("LOGIN_FAILURE");
+    } catch (error) {
+      console.log(error);
+    }
     expect(sagaStore.getCalledActions()).toEqual([
       actions.startBadUser,
       actions.loginBadUser

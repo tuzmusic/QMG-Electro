@@ -44,15 +44,13 @@ export async function registerWithApi({ email, username, password }) {
 export async function loginWithApi(creds) {
   try {
     const res = await axios.get(ApiUrls.login, { params: creds });
-    // console.log("API RESULT:", res);
     if (res.data.data) {
       return res.data;
     } else if (res.data.code) {
-      return Error(res.data.code.titleize());
+      throw Error(res.data.code.titleize());
     } // else, it should be an actual error
   } catch (err) {
-    // console.log("API ERROR:", err);
-    return err;
+    throw err;
   }
 }
 
@@ -70,9 +68,6 @@ export function* loginSaga({ creds }) {
     const res = yield call(loginWithApi, creds);
     yield put({ type: "LOGIN_SUCCESS", user: res.data }); // not sure we NEED any user data
   } catch (error) {
-    // console.log("ERROR FROM loginSaga CODE", error.message);
-    // console.log("---end of error---");
-
     yield put({ type: "LOGIN_FAILURE", error: error.message });
   }
 }
