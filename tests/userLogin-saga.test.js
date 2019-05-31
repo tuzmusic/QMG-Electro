@@ -162,9 +162,11 @@ import authSaga from "../src/redux/actions/authActions";
 describe("reducer integration", () => {
   const sagaMiddleware = createSagaMiddleware();
   const mockStore = configureMockStore([sagaMiddleware]);
-  const store = mockStore({});
+  let store = mockStore({});
   sagaMiddleware.run(authSaga);
-
+  afterEach(() => {
+    store.clearActions();
+  });
   it("can log in successfully", () => {
     const expectedActions = [
       { type: "LOGIN_START", creds: creds.success },
@@ -177,8 +179,21 @@ describe("reducer integration", () => {
         expect(actions).toEqual(expectedActions);
       }
     });
-    console.log(creds.success);
-
     store.dispatch(login(creds.success));
+  });
+
+  xit("gives an error on an invalid login", () => {
+    const expectedActions = [
+      { type: "LOGIN_START", creds: creds.badUser },
+      { type: "LOGIN_FAILURE", error: loginResponse.usernameError.message }
+    ];
+
+    store.subscribe(() => {
+      const actions = store.getActions();
+      if (actions.length >= expectedActions.length) {
+        expect(actions).toEqual(expectedActions);
+      }
+    });
+    store.dispatch(login(creds.badUser));
   });
 });
