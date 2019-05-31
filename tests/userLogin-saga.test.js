@@ -18,31 +18,35 @@ import {
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 
+function setupMockAdapter() {
+  mock = new MockAdapter(axios);
+  mock
+    .onGet(ApiUrls.nonce)
+    .reply(200, registerResponse.nonce)
+    .onGet(ApiUrls.register, { params: params.registerApi })
+    .replyOnce(200, registerResponse.success)
+    .onGet(ApiUrls.register, { params: params.registerApi })
+    .replyOnce(200, registerResponse.usernameTaken)
+    .onGet(ApiUrls.login, { params: creds.success })
+    .reply(200, loginResponse.success)
+    .onGet(ApiUrls.login, { params: creds.badUser })
+    .reply(200, loginResponse.invalidUsername)
+    .onGet(ApiUrls.login, { params: creds.badPw })
+    .reply(200, loginResponse.incorrectPassword)
+    .onGet(ApiUrls.logout)
+    .reply(200, loginResponse.logout);
+}
+let mock;
+setupMockAdapter();
+
 describe("API Calls", () => {
   describe("register api call", () => {
-    let mock;
-    beforeAll(() => {
-      mock = new MockAdapter(axios);
-    });
-    afterAll(() => {
-      mock.restore();
-    });
     it("should return a user upon successful registration", async () => {
-      mock
-        .onGet(ApiUrls.nonce)
-        .reply(200, registerResponse.nonce)
-        .onGet(ApiUrls.register, { params: params.registerApi })
-        .replyOnce(200, registerResponse.success);
       let res = await registerWithApi(params.registerArgs);
       expect(res).toEqual(registerResponse.success);
     });
 
     it("should return an error when passed a username that already exists", async () => {
-      mock
-        .onGet(ApiUrls.nonce)
-        .reply(200, registerResponse.nonce)
-        .onGet(ApiUrls.register, { params: params.registerApi })
-        .replyOnce(200, registerResponse.usernameTaken);
       let res = await registerWithApi({
         username: params.registerApi.username,
         email: params.registerApi.email,
@@ -55,20 +59,6 @@ describe("API Calls", () => {
   });
 
   describe("login api call", () => {
-    beforeAll(() => {
-      let mock = new MockAdapter(axios);
-      mock
-        .onGet(ApiUrls.login, { params: creds.success })
-        .reply(200, loginResponse.success)
-        .onGet(ApiUrls.login, { params: creds.badUser })
-        .reply(200, loginResponse.invalidUsername)
-        .onGet(ApiUrls.login, { params: creds.badPw })
-        .reply(200, loginResponse.incorrectPassword);
-    });
-    afterAll(() => {
-      mock.restore();
-    });
-
     it("should return success for valid login credentials", async () => {
       let res = await loginWithApi(creds.success);
       expect(res).toEqual(loginResponse.success);
@@ -88,15 +78,6 @@ describe("API Calls", () => {
   });
 
   describe("logout api call", () => {
-    let mock;
-    beforeAll(() => {
-      let mock = new MockAdapter(axios);
-      mock.onGet(ApiUrls.logout).reply(200, loginResponse.logout);
-    });
-    afterAll(() => {
-      mock.restore();
-    });
-
     it("should return a logout message when successful", async () => {
       let res = await logoutWithApi();
       expect(res).toEqual(loginResponse.logout);
@@ -182,16 +163,6 @@ describe("reducer integration", () => {
   const mockStore = configureMockStore([sagaMiddleware]);
   const store = mockStore({});
   sagaMiddleware.run(authSaga);
-
-  beforeAll(() => {
-    let mock = new MockAdapter(axios);
-    mock
-      .onGet(ApiUrls.login, { params: creds.success })
-      .reply(200, loginResponse.success);
-  });
-  afterAll(() => {
-    mock.restore();
-  });
 
   it("can log in successfully", () => {
     const expectedActions = [
