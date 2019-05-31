@@ -81,41 +81,40 @@ const mainCreds = {
   password: "123123"
 };
 
-export const params = {
-  registerApi: {
+export const registration = {
+  apiParams: {
     username: mainCreds.username,
     email: mainCreds.email,
     nonce: "29a63be176",
     display_name: mainCreds.username,
     user_pass: mainCreds.password
   },
-  loginArgs: { username: mainParams.username, password: mainParams.password },
-  loginSagaArgs: {
-    type: "LOGIN_START",
-    creds: { username: mainParams.username, password: mainParams.password }
-  },
-  registerArgs: {
+  userInfo: {
     username: mainParams.username,
     email: mainParams.email,
     password: mainParams.user_pass
-  },
-  registerSagaArgs: {
-    registere: "LOGIN_START",
-    creds: { username: mainParams.username, password: mainParams.password }
   }
 };
 
 export const actions = {
-  startSuccess: { type: "LOGIN_START", creds: creds.success },
-  startBadUser: { type: "LOGIN_START", creds: creds.badUser },
-  startBadPw: { type: "LOGIN_START", creds: creds.badPw },
-  loginSuccess: { type: "LOGIN_SUCCESS", user: loginResponse.success.data },
-  loginBadUser: {
-    type: "LOGIN_FAILURE",
-    error: loginResponse.usernameError.message
-  },
-  loginBadPw: {
-    type: "LOGIN_FAILURE",
-    error: loginResponse.passwordError.message
+  login: {
+    success: {
+      start: { type: "LOGIN_START", creds: creds.success },
+      resolve: { type: "LOGIN_SUCCESS", user: loginResponse.success.data }
+    },
+    badUser: {
+      start: { type: "LOGIN_START", creds: creds.badUser },
+      resolve: {
+        type: "LOGIN_FAILURE",
+        error: loginResponse.usernameError.message
+      }
+    },
+    badPw: {
+      start: { type: "LOGIN_START", creds: creds.badPw },
+      resolve: {
+        type: "LOGIN_FAILURE",
+        error: loginResponse.passwordError.message
+      }
+    }
   }
 };

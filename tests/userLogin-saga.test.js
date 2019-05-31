@@ -1,4 +1,4 @@
-import { put, call } from "redux-saga/effects";
+import { put } from "redux-saga/effects";
 import {
   login,
   loginSaga,
@@ -13,22 +13,23 @@ import {
   loginResponse,
   registerResponse,
   creds,
-  params,
+  registration,
   actions
 } from "./__mocks__/loginResponse";
 
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import SagaTester from "redux-saga-tester";
+import authSaga from "../src/redux/actions/authActions";
 
 function setupMockAdapter() {
   mock = new MockAdapter(axios);
   mock
     .onGet(ApiUrls.nonce)
     .reply(200, registerResponse.nonce)
-    .onGet(ApiUrls.register, { params: params.registerApi })
+    .onGet(ApiUrls.register, { params: registration.apiParams })
     .replyOnce(200, registerResponse.success)
-    .onGet(ApiUrls.register, { params: params.registerApi })
+    .onGet(ApiUrls.register, { params: registration.apiParams })
     .replyOnce(200, registerResponse.usernameTaken)
     .onGet(ApiUrls.login, { params: creds.success })
     .reply(200, loginResponse.success)
@@ -45,16 +46,12 @@ setupMockAdapter();
 describe("API Calls", () => {
   describe("register api call", () => {
     it("should return a user upon successful registration", async () => {
-      let res = await registerWithApi(params.registerArgs);
+      let res = await registerWithApi(registration.userInfo);
       expect(res).toEqual(registerResponse.success);
     });
 
     it("should return an error when passed a username that already exists", async () => {
-      let res = await registerWithApi({
-        username: params.registerApi.username,
-        email: params.registerApi.email,
-        password: params.registerApi.user_pass
-      });
+      let res = await registerWithApi(registration.userInfo);
       expect(res).toEqual(registerResponse.usernameTaken);
     });
 
@@ -149,7 +146,7 @@ describe("Saga Actions", () => {
       expect(gen.next().done).toBe(true);
     });
     it("should return a userId on a successful registration", () => {
-      gen = registerSaga(params.registerArgs);
+      gen = registerSaga(registration.userInfo);
       expect(gen.next().value.type).toEqual("CALL"); // call api
       expect(gen.next(registerResponse.success).value).toEqual(
         put({
@@ -163,51 +160,6 @@ describe("Saga Actions", () => {
   });
 });
 
-import configureMockStore from "redux-mock-store";
-import createSagaMiddleware from "redux-saga";
-import authSaga from "../src/redux/actions/authActions";
-
-xdescribe("reducer integration", () => {
-  const sagaMiddleware = createSagaMiddleware();
-  const mockStore = configureMockStore([sagaMiddleware]);
-  // let store = mockStore({});
-  // sagaMiddleware.run(authSaga);
-  afterEach(() => {
-    // store.clearActions();
-  });
-  it("can log in successfully", () => {
-    let store = mockStore({});
-    sagaMiddleware.run(authSaga);
-    const expectedActions = [actions.startSuccess, actions.loginSuccess];
-    let unsubscribe = store.subscribe(() => {
-      const received = store.getActions();
-      console.log(received.map(a => a.type));
-      if (received.length >= expectedActions.length) {
-        expect(received).toEqual(expectedActions);
-      }
-      // if (received.includes(expectedActions.splice(-1))) unsubscribe();
-    });
-    store.dispatch(login(creds.success));
-  });
-
-  it("gives an error on an invalid login", () => {
-    let store = mockStore({});
-    sagaMiddleware.run(authSaga);
-    const expectedActions = [actions.startBadUser, actions.loginBadUser];
-
-    let unsubscribe = store.subscribe(() => {
-      const received = store.getActions();
-
-      console.log(received.map(a => a.type));
-      if (received.length >= expectedActions.length) {
-        expect(received).toEqual(expectedActions);
-      }
-      // if (received.includes(expectedActions.splice(-1))) unsubscribe();
-    });
-    store.dispatch(login(creds.badUser));
-  });
-});
-
 describe("integration", () => {
   let sagaStore;
   beforeEach(() => {
@@ -215,31 +167,38 @@ describe("integration", () => {
     sagaStore.start(authSaga);
     jest.setTimeout(1000);
   });
-  it("can log in successfully", async () => {
-    sagaStore.dispatch(login(creds.success));
-    try {
-      await sagaStore.waitFor("LOGIN_SUCCESS");
-      // await setTimeout(() => {}, 5000);
-    } catch (error) {
-      console.log(error);
-    }
-    expect(sagaStore.getCalledActions()).toEqual([
-      actions.startSuccess,
-      actions.loginSuccess
-    ]);
-  });
 
-  it("returns an error for an invalid username", async () => {
-    sagaStore.dispatch(login(creds.badUser));
-    try {
+  describe("login", () => {
+    it("can log in successfully", async () => {
+      sagaStore.dispatch(login(creds.success));
+      await sagaStore.waitFor("LOGIN_SUCCESS");
+      expect(sagaStore.getCalledActions()).toEqual([
+        actions.login.success.start,
+        actions.login.success.resolve
+      ]);
+    });
+
+    it("returns an failure for an invalid username", async () => {
+      sagaStore.dispatch(login(creds.badUser));
       await sagaStore.waitFor("LOGIN_FAILURE");
-    } catch (error) {
-      console.log(error);
-    }
-    expect(sagaStore.getCalledActions()).toEqual([
-      actions.startBadUser,
-      actions.loginBadUser
-    ]);
+      expect(sagaStore.getCalledActions()).toEqual([
+        actions.login.badUser.start,
+        actions.login.badUser.resolve
+      ]);
+    });
+
+    it("returns an failure for an invalid password", async () => {
+      sagaStore.dispatch(login(creds.badPw));
+      try {
+        await sagaStore.waitFor("LOGIN_FAILURE");
+      } catch (error) {
+        console.log(error);
+      }
+      expect(sagaStore.getCalledActions()).toEqual([
+        actions.login.badPw.start,
+        actions.login.badPw.resolve
+      ]);
+    });
   });
 });
 
