@@ -76,7 +76,7 @@ export function* logoutSaga() {
     yield call(logoutWithApi);
     yield put({ type: "LOGOUT_SUCCESS" });
   } catch (error) {
-    yield put({ type: "LOGOUT_FAILURE", error });
+    yield put({ type: "LOGOUT_FAILURE", error: error.message });
   }
 }
 

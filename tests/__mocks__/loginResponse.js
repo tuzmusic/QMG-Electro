@@ -160,6 +160,10 @@ export const actions = {
   },
   logout: {
     start: { type: "LOGOUT_START" },
-    success: { type: "LOGOUT_SUCCESS" }
+    success: { type: "LOGOUT_SUCCESS" },
+    failure: {
+      type: "LOGOUT_FAILURE",
+      error: "Network Error"
+    }
   }
 };

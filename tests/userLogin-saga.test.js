@@ -106,9 +106,9 @@ describe("API Calls", () => {
   });
 
   describe("logout api call", () => {
-    afterAll(() => {
-      setupMockAdapter();
-    });
+    // afterAll(() => {
+    //   setupMockAdapter();
+    // });
     it("should return a logout message when successful", async () => {
       let res = await logoutWithApi();
       expect(res).toEqual(loginResponse.logout);
@@ -120,8 +120,10 @@ describe("API Calls", () => {
       try {
         const res = await logoutWithApi();
         expect(res).toBe(undefined);
+        setupMockAdapter();
       } catch (error) {
         expect(error).toEqual(Error("Network Error"));
+        setupMockAdapter();
       }
     });
   });
@@ -171,7 +173,17 @@ describe("Saga Actions", () => {
         put({ type: "LOGOUT_SUCCESS" })
       );
     });
-    xit("should handle errors", () => {});
+    it("should handle errors", () => {
+      // being lazy, using an irrelevant error, but it's fine.
+      gen = logoutSaga();
+      gen.next();
+      expect(gen.throw(loginResponse.passwordError).value).toEqual(
+        put({
+          type: "LOGOUT_FAILURE",
+          error: loginResponse.passwordError.message
+        })
+      );
+    });
   });
 
   describe("register action", () => {
@@ -276,7 +288,17 @@ describe("integration", () => {
       ]);
     });
 
-    xit("handles logout errors", () => {});
+    it("handles logout errors", async () => {
+      mock.resetHandlers();
+      mock.onGet(ApiUrls.logout).networkErrorOnce();
+      sagaStore.dispatch(logout());
+      await sagaStore.waitFor("LOGOUT_FAILURE");
+      expect(sagaStore.getCalledActions()).toEqual([
+        actions.logout.start,
+        actions.logout.failure
+      ]);
+      setupMockAdapter();
+    });
   });
 });
 
