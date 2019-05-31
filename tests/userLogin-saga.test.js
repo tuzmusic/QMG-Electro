@@ -63,6 +63,14 @@ describe("API Calls", () => {
       }
     });
 
+    it("should return a generic error if there's some other error", async () => {
+      try {
+        await registerWithApi(registration.unhandledInfo);
+      } catch (error) {
+        expect(error.message).toEqual("Request failed with status code 404");
+      }
+    });
+
     xit("should give a special alert when it receives an HTML response, indicating that the JSON APIs have been disabled", () => {});
   });
 
@@ -164,7 +172,14 @@ describe("Saga Actions", () => {
       );
     });
 
-    xit("should handle errors", () => {});
+    it("should handle errors", async () => {
+      const message = "Request failed with status code 404";
+      gen = registerSaga(registration.unhandledInfo);
+      gen.next(); // call api
+      expect(gen.throw(Error(message)).value).toEqual(
+        put({ type: "REGISTRATION_FAILURE", error: message })
+      );
+    });
   });
 });
 
@@ -221,6 +236,14 @@ describe("integration", () => {
       expect(sagaStore.getCalledActions()).toEqual([
         actions.registration.badUser.start,
         actions.registration.badUser.resolve
+      ]);
+    });
+    it("returns an failure for other errors", async () => {
+      sagaStore.dispatch(register(registration.unhandledInfo));
+      await sagaStore.waitFor("REGISTRATION_FAILURE");
+      expect(sagaStore.getCalledActions()).toEqual([
+        actions.registration.unhandledError.start,
+        actions.registration.unhandledError.resolve
       ]);
     });
   });

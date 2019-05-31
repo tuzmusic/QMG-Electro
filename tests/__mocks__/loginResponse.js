@@ -106,6 +106,11 @@ export const registration = {
     username: mainCreds.username + "dupe",
     email: mainParams.email,
     password: mainParams.user_pass
+  },
+  unhandledInfo: {
+    username: mainCreds.username + "dupee",
+    email: mainParams.email,
+    password: mainParams.user_pass
   }
 };
 
@@ -143,6 +148,13 @@ export const actions = {
       resolve: {
         type: "REGISTRATION_FAILURE",
         error: registerResponse.usernameError.message
+      }
+    },
+    unhandledError: {
+      start: { type: "REGISTRATION_START", info: registration.unhandledInfo },
+      resolve: {
+        type: "REGISTRATION_FAILURE",
+        error: "Request failed with status code 404"
       }
     }
   },
