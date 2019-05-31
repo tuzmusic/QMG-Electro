@@ -58,7 +58,7 @@ export async function logoutWithApi() {
     const res = await axios.get(ApiUrls.logout);
     return res.data;
   } catch (err) {
-    return err;
+    throw err;
   }
 }
 

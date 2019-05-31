@@ -100,12 +100,24 @@ describe("API Calls", () => {
   });
 
   describe("logout api call", () => {
+    afterAll(() => {
+      setupMockAdapter();
+    });
     it("should return a logout message when successful", async () => {
       let res = await logoutWithApi();
       expect(res).toEqual(loginResponse.logout);
     });
 
-    xit("should handle errors", () => {});
+    it("should handle errors", async () => {
+      mock.resetHandlers();
+      mock.onGet(ApiUrls.logout).networkErrorOnce();
+      try {
+        const res = await logoutWithApi();
+        expect(res).toBe(undefined);
+      } catch (error) {
+        expect(error).toEqual(Error("Network Error"));
+      }
+    });
   });
 });
 
@@ -257,6 +269,8 @@ describe("integration", () => {
         actions.logout.success
       ]);
     });
+
+    xit("handles logout errors", () => {});
   });
 });
 
