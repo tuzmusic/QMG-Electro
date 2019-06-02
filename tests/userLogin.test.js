@@ -310,16 +310,31 @@ describe("authReducer", () => {
     expect(authReducer(undefined, {})).toEqual(initialState);
   });
   describe("login", () => {
+    const loginStartedState = authReducer(
+      undefined,
+      actions.login.success.start
+    );
     it("should set the loading flag when starting", () => {
-      expect(authReducer(undefined, actions.login.success.start)).toEqual({
+      expect(loginStartedState).toEqual({
         ...initialState,
         isLoading: true
       });
     });
     it("should set the user on success", () => {
-      expect(authReducer(undefined, actions.login.success.resolve)).toEqual({
-        ...initialState,
+      expect(
+        authReducer(loginStartedState, actions.login.success.resolve)
+      ).toEqual({
+        ...loginStartedState,
         user: loginResponse.success.data,
+        isLoading: false
+      });
+    });
+    it("should set the error on an error", () => {
+      expect(
+        authReducer(loginStartedState, actions.login.badUser.resolve)
+      ).toEqual({
+        ...loginStartedState,
+        error: loginResponse.usernameError.message,
         isLoading: false
       });
     });
