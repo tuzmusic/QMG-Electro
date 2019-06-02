@@ -2,6 +2,7 @@ export const loginResponse = {
   logout: "User was logged out.",
   success: {
     data: {
+      // this is the user object passed to the reducer
       ID: "6",
       user_login: "testuser1",
       user_pass: "$P$BC5js71iidxI4lycappjRcMLowKhld/",

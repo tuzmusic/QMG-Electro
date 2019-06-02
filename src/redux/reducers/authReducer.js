@@ -1,8 +1,8 @@
 import { AsyncStorage } from "react-native";
 
-const initialState = {
+export const initialState = {
   stations: [],
-  user: {1:{username:"user1", id: 1}},
+  user: {},
   isLoading: false,
   error: null,
   users: {}
@@ -19,13 +19,13 @@ export default (authReducer = (
       return {
         ...state,
         user,
-        users: { ...state.users, [user.id]: user }, // create user, or update existing. Fix later, but works for now.
+        // users: { ...state.users, [user.id]: user }, // create user, or update existing. Fix later, but works for now.
         isLoading: false
       };
     case "LOGIN_FAILURE":
       return { ...state, error, isLoading: false };
     case "LOGOUT":
-      return {...state, user: null}
+      return { ...state, user: null };
     case "GET_USERS":
       return { ...state, users };
     case "SAVE_USERS":
