@@ -339,6 +339,42 @@ describe("authReducer", () => {
       });
     });
   });
+  describe("register", () => {
+    const registrationStartedState = authReducer(
+      undefined,
+      actions.registration.success.start
+    );
+    it("should set the loading flag when starting", () => {
+      expect(registrationStartedState).toEqual({
+        ...initialState,
+        isLoading: true
+      });
+    });
+    xit("should set the user on success", () => {
+      expect(
+        authReducer(
+          registrationStartedState,
+          actions.registration.success.resolve
+        )
+      ).toEqual({
+        ...registrationStartedState,
+        user: registrationResponse.success.data,
+        isLoading: false
+      });
+    });
+    it("should set the error on an error", () => {
+      expect(
+        authReducer(
+          registrationStartedState,
+          actions.registration.badUser.resolve
+        )
+      ).toEqual({
+        ...registrationStartedState,
+        error: registerResponse.usernameError.message,
+        isLoading: false
+      });
+    });
+  });
 
   describe("logout", () => {
     const preLogoutState = authReducer(
