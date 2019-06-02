@@ -81,7 +81,7 @@ export default class Station {
   listingURL: string;
   // #endregion
 
-  constructor(json?: StationJSON) {
+  constructor(json: StationJSON) {
     if (!json) return;
     this.id = json.id || uuid.v1();
     this.originalJSON = json;
@@ -131,40 +131,40 @@ export default class Station {
       return (valueArray && valueArray[0]) || "";
     }
 
-    let station = new Station();
-    station.originalJSON = json.originalJSON || json;
-    station.id = json.id;
-    station.listingURL = json.link;
+    let stationJSON = new Station();
+    stationJSON.originalJSON = json.originalJSON || json;
+    stationJSON.id = json.id;
+    stationJSON.listingURL = json.link;
     if (json.listing_props) {
-      station.title =
+      stationJSON.title =
         p("job_title") ||
         json.title.rendered ||
         console.warn("no title for station", json.id);
-      station.content =
+      stationJSON.content =
         p("job_description") ||
         json.content.rendered ||
         console.warn("no description for station", json.id);
-      station.contactEmail = p("company_email");
-      station.contactPhone = p("company_phone");
-      station.address = p("job_location");
-      station.location = {
+      stationJSON.contactEmail = p("company_email");
+      stationJSON.contactPhone = p("company_phone");
+      stationJSON.address = p("job_location");
+      stationJSON.location = {
         latitude: Number(p("geolocation_lat", "")),
         longitude: Number(p("geolocation_long", ""))
       };
-      station.priceFrom = p("company_price_from");
-      station.priceTo = p("company_price_to");
-      station.website = p("company_website");
-      if (station.website && !station.website.startsWith("http"))
-        station.website = "http://" + station.website;
+      stationJSON.priceFrom = p("company_price_from");
+      stationJSON.priceTo = p("company_price_to");
+      stationJSON.website = p("company_website");
+      if (stationJSON.website && !stationJSON.website.startsWith("http"))
+        stationJSON.website = "http://" + stationJSON.website;
     }
     // this.amenityIDs = [...json.job_listing_amenity];
 
-    station.mediaID = json.featured_media;
-    if (station.mediaID > 0) {
-      station.mediaDataURL =
-        "http://joinelectro.com/wp-json/wp/v2/media/" + station.mediaID;
+    stationJSON.mediaID = json.featured_media;
+    if (stationJSON.mediaID > 0) {
+      stationJSON.mediaDataURL =
+        "http://joinelectro.com/wp-json/wp/v2/media/" + stationJSON.mediaID;
     }
-    return station;
+    return new Station(stationJSON);
   }
 
   static createForApiPost(json: OpenObject) {

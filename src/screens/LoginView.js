@@ -34,7 +34,7 @@ class LoginView extends Component {
 
   async componentDidMount() {
     await this.setState({ selectedUserId: 1 });
-    this.autoLogin();
+    // this.autoLogin();
   }
 
   async performLogin(user) {
@@ -92,9 +92,7 @@ class LoginView extends Component {
               style={styles.image}
             />
             <Dropdown
-              value={
-                this.props.users[this.state.selectedUserId]?.username || ""
-              }
+              value={""}
               onChangeText={this.selectDropdown.bind(this)}
               label="Select User"
               data={this.props.dropdownUsers}

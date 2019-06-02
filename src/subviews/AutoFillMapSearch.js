@@ -50,7 +50,7 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
   };
 
   async onPredictionSelect(prediction: { [key: string]: string }) {
-    this.textInput.blur();
+    this.textInput && this.textInput.blur();
     this.setState({ address: prediction.description, showPredictions: false });
     const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleAPIKey}&placeid=${
       prediction.place_id
