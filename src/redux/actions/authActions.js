@@ -6,13 +6,6 @@ export const ApiUrls = {
   logout: "http://joinelectro.com/wp-json/auth/logout"
 };
 
-export function assignUser(user) {
-  return async dispatch => {
-    await dispatch({ type: "LOGIN_SUCCESS", user });
-    dispatch({ type: "SAVE_USERS" });
-  };
-}
-
 import axios from "axios";
 import { put, call, takeEvery, all } from "redux-saga/effects";
 import Sugar from "sugar";

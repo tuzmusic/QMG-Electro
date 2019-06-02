@@ -13,7 +13,6 @@ export type ElectroLocation = {
 export type OpenObject = { [key: string]: any };
 
 export type Action =
-  | { type: "GET_USERS" }
   | { type: "GET_STATIONS_START" }
   | { type: "GET_STATIONS_SUCCESS", stations: Station[] }
   | { type: "GET_STATIONS_FAILURE", error: string }

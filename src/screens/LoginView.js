@@ -40,6 +40,7 @@ class LoginView extends Component {
     if (!username) this.setState({ usernameError: "Username required" });
     if (!password) this.setState({ passwordError: "Password required" });
     await this.props.login({ username, password });
+    // of course it doesn't wait. login() returns as soon as it dispatches.
     this.props.navigation.navigate("Main");
   }
 

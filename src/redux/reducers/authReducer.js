@@ -33,13 +33,6 @@ export default (authReducer = (
     case "LOGOUT_FAILURE":
     case "REGISTRATION_FAILURE":
       return { ...state, error, isLoading: false };
-    case "GET_USERS":
-      return { ...state, users };
-    case "SAVE_USERS":
-      const data = { users: state.users, savedDate: new Date() };
-      const storageString = JSON.stringify(data);
-      AsyncStorage.setItem("electro_users", storageString);
-      return state;
     default:
       return state;
   }
