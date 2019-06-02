@@ -20,10 +20,10 @@ class LoginView extends Component {
   state = {
     username: "",
     // username: uuid.v1(),
-    selectedUserId: 1,
     password: "",
     isLoading: false,
-    usernameError: ""
+    usernameError: "",
+    passwordError: ""
   };
 
   autoLogin() {
@@ -43,24 +43,9 @@ class LoginView extends Component {
   }
 
   async handleLogin() {
-    let existingUser, newUser;
-    if ((selectedId = this.state.selectedUserId)) {
-      existingUser = this.props.users[selectedId];
-    } else if ((username = this.state.username)) {
-      const currentUsernames = Object.values(this.props.users).map(
-        u => u.username
-      );
-      if (currentUsernames.indexOf(username) > -1) {
-        await this.setState({ usernameError: "This user already exists" });
-      } else {
-        // create user object
-        newUser = new User({ username });
-      }
-    }
-    if ((user = existingUser || newUser)) {
-      await this.setState({ isLoading: true });
-      this.performLogin(user);
-    }
+    const { username, password } = this.state;
+    if (!username) this.setState({ usernameError: "Username required" });
+    if (!password) this.setState({ passwordError: "Password required" });
   }
 
   selectDropdown(id) {
@@ -91,16 +76,9 @@ class LoginView extends Component {
               source={require("../../assets/logos/ElectroLogo.png")}
               style={styles.image}
             />
-            <Dropdown
-              value={""}
-              onChangeText={this.selectDropdown.bind(this)}
-              label="Select User"
-              data={this.props.dropdownUsers}
-              containerStyle={{ width: "100%", padding: 10 }}
-            />
             <Input
               placeholder="Username"
-              label={"Or Create New User"}
+              label={this.state.username && "Username"}
               value={this.state.username}
               autoCorrect={false}
               autoCapitalize={"none"}
@@ -112,6 +90,22 @@ class LoginView extends Component {
                 });
               }}
               errorMessage={this.state.usernameError}
+            />
+            <Input
+              placeholder="Password"
+              label={this.state.password && "Password"}
+              secureTextEntry
+              value={this.state.password}
+              autoCorrect={false}
+              autoCapitalize={"none"}
+              onChangeText={password => {
+                this.setState({
+                  password,
+                  selectedUserId: null,
+                  passwordError: ""
+                });
+              }}
+              errorMessage={this.state.passwordError}
             />
             <Button title="Login" onPress={this.handleLogin.bind(this)} />
           </ThemeProvider>
