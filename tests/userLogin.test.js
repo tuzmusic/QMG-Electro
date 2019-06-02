@@ -339,6 +339,38 @@ describe("authReducer", () => {
       });
     });
   });
+
+  describe("logout", () => {
+    const preLogoutState = authReducer(
+      undefined,
+      actions.login.success.resolve
+    );
+    expect(preLogoutState.user).toBeTruthy;
+    const logoutStartedState = authReducer(
+      preLogoutState,
+      actions.logout.start
+    );
+    it("should set the loading flag when starting", () => {
+      expect(logoutStartedState).toEqual({
+        ...preLogoutState,
+        isLoading: true
+      });
+    });
+    it("should set the user to null on success", () => {
+      expect(authReducer(logoutStartedState, actions.logout.success)).toEqual({
+        ...logoutStartedState,
+        user: null,
+        isLoading: false
+      });
+    });
+    it("should set the error on an error", () => {
+      expect(authReducer(logoutStartedState, actions.logout.failure)).toEqual({
+        ...logoutStartedState,
+        error: "Network Error",
+        isLoading: false
+      });
+    });
+  });
 });
 
 SagaTester.prototype.wait = function(timeout, actionType, futureOnly) {

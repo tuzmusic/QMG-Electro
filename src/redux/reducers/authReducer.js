@@ -14,6 +14,7 @@ export default (authReducer = (
 ) => {
   switch (action.type) {
     case "LOGIN_START":
+    case "LOGOUT_START":
       return { ...state, isLoading: true };
     case "LOGIN_SUCCESS":
       return {
@@ -23,9 +24,10 @@ export default (authReducer = (
         isLoading: false
       };
     case "LOGIN_FAILURE":
+    case "LOGOUT_FAILURE":
       return { ...state, error, isLoading: false };
-    case "LOGOUT":
-      return { ...state, user: null };
+    case "LOGOUT_SUCCESS":
+      return { ...state, user: null, isLoading: false };
     case "GET_USERS":
       return { ...state, users };
     case "SAVE_USERS":
