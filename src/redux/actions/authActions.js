@@ -64,7 +64,9 @@ export async function logoutWithApi() {
 
 export function* loginSaga({ creds }) {
   try {
+    console.log("Logging in as", creds.username);
     const res = yield call(loginWithApi, creds);
+    console.log("Successfully logged in as", creds.username);
     yield put({ type: "LOGIN_SUCCESS", user: res.data }); // not sure we NEED any user data
   } catch (error) {
     yield put({ type: "LOGIN_FAILURE", error: error.message });

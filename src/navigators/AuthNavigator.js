@@ -10,7 +10,7 @@ export class AuthNavigator extends Component {
   static router = AuthStack.router;
 
   async componentDidMount() {
-    await this.props.getUsers()
+    await this.props.getUsers();
   }
 
   render() {

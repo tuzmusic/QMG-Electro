@@ -7,15 +7,22 @@ import { Provider } from "react-redux";
 import mainReducer from "./src/redux/reducers/mainReducer";
 import authReducer from "./src/redux/reducers/authReducer";
 import thunk from "redux-thunk";
+import createSagaMiddleware from "redux-saga";
+import authSaga from "./src/redux/actions/authActions";
 import GlobalFont from "react-native-global-font";
-import AppStyles from './src/constants/Styles'
+import AppStyles from "./src/constants/Styles";
 
 const combinedReducer = combineReducers({
   main: mainReducer,
   auth: authReducer
 });
-const store = createStore(combinedReducer, {}, applyMiddleware(thunk));
-
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(
+  combinedReducer,
+  {},
+  applyMiddleware(thunk, sagaMiddleware)
+);
+sagaMiddleware.run(authSaga);
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false

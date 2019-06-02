@@ -18,10 +18,8 @@ import uuid from "react-native-uuid";
 
 class LoginView extends Component {
   state = {
-    username: "",
-    // username: uuid.v1(),
-    password: "",
-    isLoading: false,
+    username: "testuser1",
+    password: "123123",
     usernameError: "",
     passwordError: ""
   };
@@ -37,15 +35,12 @@ class LoginView extends Component {
     // this.autoLogin();
   }
 
-  async performLogin(user) {
-    await this.props.assignUser(user);
-    this.props.navigation.navigate("Main");
-  }
-
   async handleLogin() {
     const { username, password } = this.state;
     if (!username) this.setState({ usernameError: "Username required" });
     if (!password) this.setState({ passwordError: "Password required" });
+    await this.props.login({ username, password });
+    this.props.navigation.navigate("Main");
   }
 
   selectDropdown(id) {
@@ -60,7 +55,7 @@ class LoginView extends Component {
             containerStyle={styles.modal}
             height={200}
             width={200}
-            isVisible={this.state.isLoading}
+            isVisible={this.props.isLoading}
             style={styles.modal}
             borderRadius={20}
             overlayBackgroundColor={"lightblue"}
