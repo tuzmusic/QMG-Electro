@@ -193,12 +193,12 @@ describe("Saga Actions", () => {
       expect(gen.next().done).toBe(true);
     });
     it("should return a userId on a successful registration", () => {
-      gen = registerSaga(registration.userInfo);
+      gen = registerSaga({ info: registration.userInfo });
       expect(gen.next().value.type).toEqual("CALL"); // call api
       expect(gen.next(registerResponse.success).value).toEqual(
         put({
           type: "REGISTRATION_SUCCESS",
-          userId: registerResponse.success.user_id
+          user: registration.completeUser
         })
       );
     });
@@ -350,7 +350,7 @@ describe("authReducer", () => {
         isLoading: true
       });
     });
-    xit("should set the user on success", () => {
+    it("should set the user on success", () => {
       expect(
         authReducer(
           registrationStartedState,
@@ -358,7 +358,7 @@ describe("authReducer", () => {
         )
       ).toEqual({
         ...registrationStartedState,
-        user: registrationResponse.success.data,
+        user: registration.completeUser,
         isLoading: false
       });
     });
@@ -408,20 +408,3 @@ describe("authReducer", () => {
     });
   });
 });
-
-SagaTester.prototype.wait = function(timeout, actionType, futureOnly) {
-  function doTimeout(timeout) {
-    return new Promise(function(resolve, reject) {
-      setTimeout(
-        reject,
-        timeout - 100,
-        `Timed out waiting for action ${actionType} to be dispatched from saga`
-      );
-    });
-  }
-
-  return Promise.race([
-    doTimeout(timeout),
-    this.waitFor(actionType, futureOnly)
-  ]);
-};

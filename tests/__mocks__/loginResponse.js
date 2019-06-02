@@ -112,6 +112,11 @@ export const registration = {
     username: mainCreds.username + "dupee",
     email: mainParams.email,
     password: mainParams.user_pass
+  },
+  completeUser: {
+    username: mainParams.username,
+    email: mainParams.email,
+    userId: registerResponse.success.user_id
   }
 };
 
@@ -141,7 +146,7 @@ export const actions = {
       start: { type: "REGISTRATION_START", info: registration.userInfo },
       resolve: {
         type: "REGISTRATION_SUCCESS",
-        userId: registerResponse.success.user_id
+        user: registration.completeUser
       }
     },
     badUser: {

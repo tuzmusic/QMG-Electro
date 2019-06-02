@@ -83,7 +83,11 @@ export function* logoutSaga() {
 export function* registerSaga({ info }) {
   try {
     let res = yield call(registerWithApi, info);
-    yield put({ type: "REGISTRATION_SUCCESS", userId: res.user_id });
+    yield put({
+      type: "REGISTRATION_SUCCESS",
+      user: { username: info.username, email: info.email, userId: res.user_id }
+      // userId: res.user_id
+    });
   } catch (error) {
     yield put({ type: "REGISTRATION_FAILURE", error: error.message });
   }
