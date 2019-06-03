@@ -1,5 +1,5 @@
 export const ApiUrls = {
-  login: "http://joinelectro.com/wp-json/auth/login",
+  login: "https://joinelectro.com/x1H9JH7tZAb1DoJ/user/generate_auth_cookie/",
   nonce:
     "https://joinelectro.com/x1H9JH7tZAb1DoJ/get_nonce/?controller=user&method=register",
   register: "https://joinelectro.com/x1H9JH7tZAb1DoJ/user/register",
@@ -43,12 +43,17 @@ export async function registerWithApi({ email, username, password }) {
 export async function loginWithApi(creds) {
   try {
     const res = await axios.get(ApiUrls.login, { params: creds });
-    if (res.data.data) {
+    console.log(res);
+
+    if (res.data.user) {
       return res.data;
-    } else if (res.data.code) {
-      throw Error(res.data.code.titleize());
+    } else if (res.data.error) {
+      console.log("res.error");
+
+      throw Error(res.data.error);
     } // else, it should be an actual error
   } catch (err) {
+    console.log("other error caught");
     throw err;
   }
 }
@@ -65,7 +70,9 @@ export async function logoutWithApi() {
 export function* loginSaga({ creds }) {
   try {
     const res = yield call(loginWithApi, creds);
-    yield put({ type: "LOGIN_SUCCESS", user: res.data }); // not sure we NEED any user data
+    console.log(res);
+
+    yield put({ type: "LOGIN_SUCCESS", user: res }); // not sure we NEED any user data
   } catch (error) {
     yield put({ type: "LOGIN_FAILURE", error: error.message });
   }

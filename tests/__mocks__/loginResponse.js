@@ -118,20 +118,13 @@ export const actions = {
   login: {
     success: {
       start: { type: "LOGIN_START", creds: creds.success },
-      resolve: { type: "LOGIN_SUCCESS", user: loginResponse.success.data }
+      resolve: { type: "LOGIN_SUCCESS", user: loginResponse.success }
     },
-    badUser: {
+    failure: {
       start: { type: "LOGIN_START", creds: creds.badUser },
       resolve: {
         type: "LOGIN_FAILURE",
-        error: loginResponse.usernameError.message
-      }
-    },
-    badPw: {
-      start: { type: "LOGIN_START", creds: creds.badPw },
-      resolve: {
-        type: "LOGIN_FAILURE",
-        error: loginResponse.passwordError.message
+        error: loginResponse.failure.error
       }
     }
   },

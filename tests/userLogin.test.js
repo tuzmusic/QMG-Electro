@@ -39,9 +39,7 @@ function setupMockAdapter() {
     .onGet(ApiUrls.login, { params: creds.success })
     .reply(200, loginResponse.success)
     .onGet(ApiUrls.login, { params: creds.badUser })
-    .reply(200, loginResponse.invalidUsername)
-    .onGet(ApiUrls.login, { params: creds.badPw })
-    .reply(200, loginResponse.incorrectPassword)
+    .reply(200, loginResponse.failure)
     // logout
     .onGet(ApiUrls.logout)
     .reply(200, loginResponse.logout);
@@ -81,19 +79,11 @@ describe("API Calls", () => {
       expect(res).toEqual(loginResponse.success);
     });
 
-    it("should return an error for an invalid user", async () => {
+    it("should return an error for an invalid credentials", async () => {
       try {
         await loginWithApi(creds.badUser);
       } catch (error) {
-        expect(error).toEqual(loginResponse.usernameError);
-      }
-    });
-
-    it("should return an error for an invalid password", async () => {
-      try {
-        await loginWithApi(creds.badPw);
-      } catch (error) {
-        expect(error).toEqual(loginResponse.passwordError);
+        expect(error).toEqual(loginResponse.failure.error);
       }
     });
 
@@ -137,27 +127,19 @@ describe("Saga Actions", () => {
       expect(gen.next().done).toBe(true);
     });
 
-    it("should return a user object on a successful login", () => {
+    it("should return an object containing a cookie and user info on a successful login", () => {
       gen = loginSaga(creds.success);
       gen.next(); // call api
       expect(gen.next(loginResponse.success).value).toEqual(
-        put({ type: "LOGIN_SUCCESS", user: loginResponse.success.data })
+        put({ type: "LOGIN_SUCCESS", user: loginResponse.success })
       );
     });
 
-    it("should return an error when passed an invalid username", () => {
+    it("should return an error when passed invalid credentials", () => {
       gen = loginSaga(creds.badUser);
       gen.next(); // call api
-      expect(gen.throw(loginResponse.usernameError).value).toEqual(
-        put({ type: "LOGIN_FAILURE", error: "Invalid Username" })
-      );
-    });
-
-    it("should return an error when passed an invalid password", () => {
-      gen = loginSaga(creds.badPw);
-      gen.next(); // call api
-      expect(gen.throw(loginResponse.passwordError).value).toEqual(
-        put({ type: "LOGIN_FAILURE", error: "Incorrect Password" })
+      expect(gen.throw(loginResponse.failure.error).value).toEqual(
+        put({ type: "LOGIN_FAILURE", error: loginResponse.failure.error })
       );
     });
   });
@@ -232,21 +214,12 @@ describe("integration", () => {
       ]);
     });
 
-    it("returns an failure for an invalid username", async () => {
+    it("returns an failure for invalid credentials", async () => {
       sagaStore.dispatch(login(creds.badUser));
       await sagaStore.waitFor("LOGIN_FAILURE");
       expect(sagaStore.getCalledActions()).toEqual([
-        actions.login.badUser.start,
-        actions.login.badUser.resolve
-      ]);
-    });
-
-    it("returns an failure for an invalid password", async () => {
-      sagaStore.dispatch(login(creds.badPw));
-      await sagaStore.waitFor("LOGIN_FAILURE");
-      expect(sagaStore.getCalledActions()).toEqual([
-        actions.login.badPw.start,
-        actions.login.badPw.resolve
+        actions.login.failure.start,
+        actions.login.failure.resolve
       ]);
     });
   });
@@ -325,16 +298,16 @@ describe("authReducer", () => {
         authReducer(loginStartedState, actions.login.success.resolve)
       ).toEqual({
         ...loginStartedState,
-        user: loginResponse.success.data,
+        user: loginResponse.success,
         isLoading: false
       });
     });
     it("should set the error on an error", () => {
       expect(
-        authReducer(loginStartedState, actions.login.badUser.resolve)
+        authReducer(loginStartedState, actions.login.failure.resolve)
       ).toEqual({
         ...loginStartedState,
-        error: loginResponse.usernameError.message,
+        error: loginResponse.failure.message,
         isLoading: false
       });
     });
