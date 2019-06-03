@@ -58,15 +58,16 @@ const CreateStationStack = createStackNavigator({
 });
 
 CreateStationStack.navigationOptions = {
-  tabBarLabel: "Add Station",
+  tabBarLabel: "Me",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
+      library={"FontAwesome"}
       name={
         Platform.OS === "ios"
           ? focused
-            ? "md-add-circle"
-            : "md-add-circle-outline"
+            ? "user-circle"
+            : "user-circle-o"
           : "md-add"
       }
     />
@@ -98,9 +99,9 @@ const TabNavigator = createBottomTabNavigator(
   },
   {
     initialRouteName: "UserStack",
-    initialRouteName: "CreateStationStack",
     initialRouteName: "MapStack",
-    initialRouteName: "ListStack"
+    initialRouteName: "ListStack",
+    initialRouteName: "CreateStationStack"
   }
 );
 
@@ -116,6 +117,7 @@ class TabContainer extends Component {
   }
 
   componentDidMount = async () => {
+    return;
     await this.props.fetchStations({
       useCache: GET_CACHED,
       shouldDownload: SHOULD_DOWNLOAD

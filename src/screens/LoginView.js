@@ -29,6 +29,10 @@ class LoginView extends Component {
     }, 500);
   }
 
+  componentDidMount() {
+    // this.autoLogin();
+  }
+
   async handleLogin() {
     const { username, password } = this.state;
     if (!username) this.setState({ usernameError: "Username required" });
@@ -66,7 +70,9 @@ class LoginView extends Component {
             style={styles.image}
           />
           <ThemeProvider theme={theme}>
-            {this.props.error && <Text style={styles.errorText}>{this.props.error}</Text>}
+            {this.props.error && (
+              <Text style={styles.errorText}>{this.props.error}</Text>
+            )}
             <Input
               placeholder="Username"
               label={this.state.username && "Username"}
@@ -98,7 +104,11 @@ class LoginView extends Component {
               }}
               errorMessage={this.state.passwordError}
             />
-            <Button title="Login" disabled={this.props.isLoading} onPress={this.handleLogin.bind(this)} />
+            <Button
+              title="Login"
+              disabled={this.props.isLoading}
+              onPress={this.handleLogin.bind(this)}
+            />
           </ThemeProvider>
         </View>
       </KeyboardAwareScrollView>
@@ -135,15 +145,15 @@ const theme = {
       padding: 30,
       width: "100%"
     }
-  },
+  }
 };
 
 const styles = F8StyleSheet.create({
-   errorText: {
-    color: 'red',
+  errorText: {
+    color: "red",
     fontSize: 16
   },
- container: {
+  container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
