@@ -49,28 +49,23 @@ setupMockAdapter();
 
 describe("API Calls", () => {
   describe("register api call", () => {
-    it("should return a user upon successful registration", async () => {
+    it("calls the API and simply returns the response", async () => {
       let res = await registerWithApi(registration.userInfo);
       expect(res).toEqual(registerResponse.success);
     });
 
-    it("should return an error when passed a username that already exists", async () => {
-      try {
-        await registerWithApi(registration.badUserInfo);
-      } catch (error) {
-        expect(error).toEqual(registerResponse.usernameError);
-      }
+    it("returns the response, without throwing an error, even for invalid credentials", async () => {
+      const error = await registerWithApi(registration.badUserInfo);
+      expect(error).toEqual(registerResponse.usernameTaken);
     });
 
-    it("should return a generic error if there's some other error", async () => {
+    it("throws an error if the API fetch fails", async () => {
       try {
         await registerWithApi(registration.unhandledInfo);
       } catch (error) {
         expect(error.message).toEqual("Request failed with status code 404");
       }
     });
-
-    xit("should give a special alert when it receives an HTML response, indicating that the JSON APIs have been disabled", () => {});
   });
 
   describe("login api call", () => {
@@ -80,7 +75,7 @@ describe("API Calls", () => {
     });
 
     it("returns the response, without throwing an error, even for invalid credentials", async () => {
-      let res = await loginWithApi(creds.badUser);
+      const res = await loginWithApi(creds.badUser);
       expect(res).toEqual(loginResponse.failure);
     });
 
@@ -167,14 +162,22 @@ describe("Saga Actions", () => {
     afterEach(() => {
       expect(gen.next().done).toBe(true);
     });
-    it("should return a userId on a successful registration", () => {
+    it("should return a user on a successful registration, with name, email, PW, ID, and a cookie", () => {
       gen = registerSaga({ info: registration.userInfo });
-      expect(gen.next().value.type).toEqual("CALL"); // call api
+      gen.next(); // call api
       expect(gen.next(registerResponse.success).value).toEqual(
         put({
           type: "REGISTRATION_SUCCESS",
           user: registration.completeUser
         })
+      );
+    });
+
+    it("should return a failure action and error message when passed invalid credentials", () => {
+      gen = registerSaga(registration.badUserInfo);
+      gen.next(); // call api
+      expect(gen.next(registerResponse.usernameTaken).value).toEqual(
+        put({ type: "REGISTRATION_FAILURE", error: "Username already exists." })
       );
     });
 
@@ -186,6 +189,7 @@ describe("Saga Actions", () => {
         put({ type: "REGISTRATION_FAILURE", error: message })
       );
     });
+    xit("should give a special alert when it receives an HTML response, indicating that the JSON APIs have been disabled", () => {});
   });
 });
 

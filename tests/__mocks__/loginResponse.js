@@ -110,7 +110,8 @@ export const registration = {
   completeUser: {
     username: mainParams.username,
     email: mainParams.email,
-    userId: registerResponse.success.user_id
+    userId: registerResponse.success.user_id,
+    cookie: registerResponse.success.cookie
   }
 };
 

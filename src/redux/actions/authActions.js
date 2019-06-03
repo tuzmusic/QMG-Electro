@@ -19,25 +19,18 @@ import Sugar from "sugar";
 Sugar.extend();
 
 export async function registerWithApi({ email, username, password }) {
-  try {
-    const nonce = (await axios.get(ApiUrls.nonce)).data.nonce;
-    if (!nonce) throw Error("Could not get nonce");
-    const res = await axios.get(ApiUrls.register, {
-      params: {
-        username,
-        email,
-        nonce,
-        display_name: username,
-        user_pass: password
-      }
-    });
-    if (res.data.error) {
-      throw Error(res.data.error);
+  const nonce = (await axios.get(ApiUrls.nonce)).data.nonce;
+  if (!nonce) throw Error("Could not get nonce");
+  const res = await axios.get(ApiUrls.register, {
+    params: {
+      username,
+      email,
+      nonce,
+      display_name: username,
+      user_pass: password
     }
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
+  });
+  return res.data;
 }
 
 export async function loginWithApi(creds) {
@@ -46,12 +39,8 @@ export async function loginWithApi(creds) {
 }
 
 export async function logoutWithApi() {
-  try {
-    const res = await axios.get(ApiUrls.logout);
-    return res.data;
-  } catch (err) {
-    throw err;
-  }
+  const res = await axios.get(ApiUrls.logout);
+  return res.data;
 }
 
 export function* loginSaga({ creds }) {
@@ -76,12 +65,20 @@ export function* logoutSaga() {
 
 export function* registerSaga({ info }) {
   try {
-    let res = yield call(registerWithApi, info);
-    yield put({
-      type: "REGISTRATION_SUCCESS",
-      user: { username: info.username, email: info.email, userId: res.user_id }
-      // userId: res.user_id
-    });
+    let { error, cookie, user_id } = yield call(registerWithApi, info);
+    yield put(
+      error
+        ? { type: "REGISTRATION_FAILURE", error }
+        : {
+            type: "REGISTRATION_SUCCESS",
+            user: {
+              username: info.username,
+              email: info.email,
+              userId: user_id,
+              cookie
+            }
+          }
+    );
   } catch (error) {
     yield put({ type: "REGISTRATION_FAILURE", error: error.message });
   }
