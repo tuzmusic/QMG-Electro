@@ -284,7 +284,7 @@ describe("authReducer", () => {
       undefined,
       actions.login.success.start
     );
-    it("should set the loading flag when starting", () => {
+    it("should set the loading flag and clear the error when starting", () => {
       expect(loginStartedState).toEqual({
         ...initialState,
         isLoading: true
