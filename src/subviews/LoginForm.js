@@ -14,56 +14,52 @@ import F8StyleSheet from "../components/F8StyleSheet";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import User from "../models/User";
 import uuid from "react-native-uuid";
-import LoginForm from "../subviews/LoginForm";
 
-class LoginView extends Component {
-  autoLogin() {
-    setTimeout(() => {
-      this.handleLogin();
-    }, 500);
-  }
+class LoginForm extends Component {
+  state = {
+    username: "",
+    password: ""
+  };
 
-  componentDidMount() {
-    // this.autoLogin();
-  }
-
-  async handleLogin({ username, password }) {
-    if (!username) this.setState({ usernameError: "Username required" });
-    if (!password) this.setState({ passwordError: "Password required" });
-    await this.props.login({ username, password });
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.user) {
-      this.props.navigation.navigate("Main");
-    }
-  }
   render() {
     return (
-      <KeyboardAwareScrollView contentContainerStyle={styles.superContainer}>
-        <View style={styles.container}>
-          <Overlay
-            containerStyle={styles.modal}
-            height={200}
-            width={200}
-            isVisible={this.props.isLoading}
-            style={styles.modal}
-            borderRadius={20}
-            overlayBackgroundColor={"lightblue"}
-          >
-            <View style={styles.modalContainer}>
-              <DotIndicator color={"darkgrey"} />
-              <Text>Logging in...</Text>
-            </View>
-          </Overlay>
-
-          <Image
-            source={require("../../assets/logos/ElectroLogo.png")}
-            style={styles.image}
-          />
-          <LoginForm onLogin={this.handleLogin.bind(this)} />
-        </View>
-      </KeyboardAwareScrollView>
+      <ThemeProvider theme={theme}>
+        {this.props.error && (
+          <Text style={styles.errorText}>{this.props.error}</Text>
+        )}
+        <Input
+          placeholder="Username"
+          label={this.state.username && "Username"}
+          value={this.state.username}
+          autoCorrect={false}
+          autoCapitalize={"none"}
+          onChangeText={username => {
+            this.setState({ username });
+          }}
+        />
+        <Input
+          placeholder="Password"
+          label={this.state.password && "Password"}
+          secureTextEntry
+          value={this.state.password}
+          autoCorrect={false}
+          autoCapitalize={"none"}
+          onChangeText={password => {
+            this.setState({ password });
+          }}
+        />
+        <Button
+          title="Login"
+          disabled={this.props.isLoading}
+          onPress={() => this.props.onLogin(this.state)}
+        />
+        <TouchableOpacity onPress={() => console.log("click")}>
+          <Text style={{ fontSize: 16 }}>
+            Don't have an account? <Text style={styles.link}>Click here</Text>{" "}
+            to register.
+          </Text>
+        </TouchableOpacity>
+      </ThemeProvider>
     );
   }
 }
@@ -75,7 +71,7 @@ export default connect(
     error: state.auth.error
   }),
   { login, assignUser }
-)(LoginView);
+)(LoginForm);
 
 const theme = {
   Input: {
