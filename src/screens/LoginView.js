@@ -11,7 +11,6 @@ import { DotIndicator } from "react-native-indicators";
 import { connect } from "react-redux";
 import { login, assignUser } from "../redux/actions/authActions";
 import F8StyleSheet from "../components/F8StyleSheet";
-import { Dropdown } from "react-native-material-dropdown";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import User from "../models/User";
 import uuid from "react-native-uuid";
@@ -30,22 +29,17 @@ class LoginView extends Component {
     }, 500);
   }
 
-  async componentDidMount() {
-    await this.setState({ selectedUserId: 1 });
-    // this.autoLogin();
-  }
-
   async handleLogin() {
     const { username, password } = this.state;
     if (!username) this.setState({ usernameError: "Username required" });
     if (!password) this.setState({ passwordError: "Password required" });
     await this.props.login({ username, password });
-    // of course it doesn't wait. login() returns as soon as it dispatches.
-    this.props.navigation.navigate("Main");
   }
 
-  selectDropdown(id) {
-    this.setState({ selectedUserId: id, username: "", usernameError: "" });
+  componentWillReceiveProps(newProps) {
+    if (newProps.user) {
+      this.props.navigation.navigate("Main");
+    }
   }
 
   render() {
@@ -124,8 +118,6 @@ export default connect(
   state => ({
     isLoading: state.auth.isLoading,
     user: state.auth.user,
-    users: state.auth.users,
-    dropdownUsers: dropdownFriendlyUsers(state.auth.users),
     error: state.auth.error
   }),
   { login, assignUser }
