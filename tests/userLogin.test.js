@@ -74,20 +74,17 @@ describe("API Calls", () => {
   });
 
   describe("login api call", () => {
-    it("should return success for valid login credentials", async () => {
+    it("calls the API and simply returns the response", async () => {
       let res = await loginWithApi(creds.success);
       expect(res).toEqual(loginResponse.success);
     });
 
-    it("should return an error for an invalid credentials", async () => {
-      try {
-        await loginWithApi(creds.badUser);
-      } catch (error) {
-        expect(error).toEqual(loginResponse.failure.error);
-      }
+    it("returns the response, without throwing an error, even for invalid credentials", async () => {
+      let res = await loginWithApi(creds.badUser);
+      expect(res).toEqual(loginResponse.failure);
     });
 
-    it("should return some other error for other reasons", async () => {
+    it("throws an error if the API fetch fails", async () => {
       try {
         await loginWithApi(registration.unhandledInfo);
       } catch (error) {

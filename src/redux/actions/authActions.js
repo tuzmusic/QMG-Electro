@@ -41,21 +41,8 @@ export async function registerWithApi({ email, username, password }) {
 }
 
 export async function loginWithApi(creds) {
-  try {
-    const res = await axios.get(ApiUrls.login, { params: creds });
-    console.log(res);
-
-    if (res.data.user) {
-      return res.data;
-    } else if (res.data.error) {
-      console.log("res.error");
-
-      throw Error(res.data.error);
-    } // else, it should be an actual error
-  } catch (err) {
-    console.log("other error caught");
-    throw err;
-  }
+  const res = await axios.get(ApiUrls.login, { params: creds });
+  return res.data;
 }
 
 export async function logoutWithApi() {
@@ -70,7 +57,6 @@ export async function logoutWithApi() {
 export function* loginSaga({ creds }) {
   try {
     const res = yield call(loginWithApi, creds);
-    console.log(res);
 
     yield put({ type: "LOGIN_SUCCESS", user: res }); // not sure we NEED any user data
   } catch (error) {
