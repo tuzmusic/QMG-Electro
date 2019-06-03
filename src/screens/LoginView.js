@@ -61,11 +61,12 @@ class LoginView extends Component {
             </View>
           </Overlay>
 
+          <Image
+            source={require("../../assets/logos/ElectroLogo.png")}
+            style={styles.image}
+          />
           <ThemeProvider theme={theme}>
-            <Image
-              source={require("../../assets/logos/ElectroLogo.png")}
-              style={styles.image}
-            />
+            {this.props.error && <Text style={styles.errorText}>{this.props.error}</Text>}
             <Input
               placeholder="Username"
               label={this.state.username && "Username"}
@@ -97,7 +98,7 @@ class LoginView extends Component {
               }}
               errorMessage={this.state.passwordError}
             />
-            <Button title="Login" onPress={this.handleLogin.bind(this)} />
+            <Button title="Login" disabled={this.props.isLoading} onPress={this.handleLogin.bind(this)} />
           </ThemeProvider>
         </View>
       </KeyboardAwareScrollView>
@@ -134,11 +135,15 @@ const theme = {
       padding: 30,
       width: "100%"
     }
-  }
+  },
 };
 
 const styles = F8StyleSheet.create({
-  container: {
+   errorText: {
+    color: 'red',
+    fontSize: 16
+  },
+ container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
