@@ -94,9 +94,6 @@ describe("API Calls", () => {
   });
 
   describe("logout api call", () => {
-    // afterAll(() => {
-    //   setupMockAdapter();
-    // });
     it("should return a logout message when successful", async () => {
       let res = await logoutWithApi();
       expect(res).toEqual(loginResponse.logout);
@@ -154,13 +151,12 @@ describe("Saga Actions", () => {
       );
     });
     it("should handle errors", () => {
-      // being lazy, using an irrelevant error, but it's fine.
       gen = logoutSaga();
       gen.next();
-      expect(gen.throw(loginResponse.passwordError).value).toEqual(
+      expect(gen.throw(Error("Network Error")).value).toEqual(
         put({
           type: "LOGOUT_FAILURE",
-          error: loginResponse.passwordError.message
+          error: "Network Error"
         })
       );
     });
@@ -304,7 +300,7 @@ describe("authReducer", () => {
         authReducer(loginStartedState, actions.login.failure.resolve)
       ).toEqual({
         ...loginStartedState,
-        error: loginResponse.failure.message,
+        error: loginResponse.failure.error,
         isLoading: false
       });
     });
