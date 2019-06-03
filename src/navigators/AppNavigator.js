@@ -4,8 +4,8 @@ import AuthStack from "./AuthNavigator";
 import WelcomeScreen from "../screens/DevelopmentWelcomeView";
 const AppNavigator = createSwitchNavigator({
   // Welcome: WelcomeScreen,
-  Main: MainTabNavigator,
-  Auth: AuthStack
+  Auth: AuthStack,
+  Main: MainTabNavigator
 });
 
 export default createAppContainer(AppNavigator);

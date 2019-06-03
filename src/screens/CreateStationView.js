@@ -6,9 +6,7 @@ import { logout } from "../redux/actions/authActions";
 
 class CreateStationView extends Component {
   componentWillReceiveProps(newProps) {
-    if (!newProps.user) {
-      this.props.navigation.navigate("Auth");
-    }
+    if (!newProps.user) this.props.navigation.navigate("Auth");
   }
 
   render() {
@@ -19,7 +17,7 @@ class CreateStationView extends Component {
           containerStyle={styles.button}
           color="red"
           titleStyle={styles.text}
-          onPress={this.props.logout}
+          onPress={async () => await this.props.logout()}
           title="Log Out"
           loading={this.props.isLoading}
           disabled={this.props.isLoading}

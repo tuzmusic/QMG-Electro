@@ -18,7 +18,7 @@ import uuid from "react-native-uuid";
 class LoginView extends Component {
   state = {
     username: "testuser1",
-    password: "123123",
+    password: "1231233",
     usernameError: "",
     passwordError: ""
   };
