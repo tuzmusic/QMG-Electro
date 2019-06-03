@@ -39,9 +39,7 @@ function setupMockAdapter() {
     .onGet(ApiUrls.login, { params: creds.success })
     .reply(200, loginResponse.success)
     .onGet(ApiUrls.login, { params: creds.badUser })
-    .reply(200, loginResponse.invalidUsername)
-    .onGet(ApiUrls.login, { params: creds.badPw })
-    .reply(200, loginResponse.incorrectPassword)
+    .reply(200, loginResponse.failure)
     // logout
     .onGet(ApiUrls.logout)
     .reply(200, loginResponse.logout);
@@ -51,53 +49,37 @@ setupMockAdapter();
 
 describe("API Calls", () => {
   describe("register api call", () => {
-    it("should return a user upon successful registration", async () => {
+    it("calls the API and simply returns the response", async () => {
       let res = await registerWithApi(registration.userInfo);
       expect(res).toEqual(registerResponse.success);
     });
 
-    it("should return an error when passed a username that already exists", async () => {
-      try {
-        await registerWithApi(registration.badUserInfo);
-      } catch (error) {
-        expect(error).toEqual(registerResponse.usernameError);
-      }
+    it("returns the response, without throwing an error, even for invalid credentials", async () => {
+      const error = await registerWithApi(registration.badUserInfo);
+      expect(error).toEqual(registerResponse.usernameTaken);
     });
 
-    it("should return a generic error if there's some other error", async () => {
+    it("throws an error if the API fetch fails", async () => {
       try {
         await registerWithApi(registration.unhandledInfo);
       } catch (error) {
         expect(error.message).toEqual("Request failed with status code 404");
       }
     });
-
-    xit("should give a special alert when it receives an HTML response, indicating that the JSON APIs have been disabled", () => {});
   });
 
   describe("login api call", () => {
-    it("should return success for valid login credentials", async () => {
+    it("calls the API and simply returns the response", async () => {
       let res = await loginWithApi(creds.success);
       expect(res).toEqual(loginResponse.success);
     });
 
-    it("should return an error for an invalid user", async () => {
-      try {
-        await loginWithApi(creds.badUser);
-      } catch (error) {
-        expect(error).toEqual(loginResponse.usernameError);
-      }
+    it("returns the response, without throwing an error, even for invalid credentials", async () => {
+      const res = await loginWithApi(creds.badUser);
+      expect(res).toEqual(loginResponse.failure);
     });
 
-    it("should return an error for an invalid password", async () => {
-      try {
-        await loginWithApi(creds.badPw);
-      } catch (error) {
-        expect(error).toEqual(loginResponse.passwordError);
-      }
-    });
-
-    it("should return some other error for other reasons", async () => {
+    it("throws an error if the API fetch fails", async () => {
       try {
         await loginWithApi(registration.unhandledInfo);
       } catch (error) {
@@ -107,9 +89,6 @@ describe("API Calls", () => {
   });
 
   describe("logout api call", () => {
-    // afterAll(() => {
-    //   setupMockAdapter();
-    // });
     it("should return a logout message when successful", async () => {
       let res = await logoutWithApi();
       expect(res).toEqual(loginResponse.logout);
@@ -137,27 +116,19 @@ describe("Saga Actions", () => {
       expect(gen.next().done).toBe(true);
     });
 
-    it("should return a user object on a successful login", () => {
+    it("should return an object containing a cookie and user info on a successful login", () => {
       gen = loginSaga(creds.success);
       gen.next(); // call api
       expect(gen.next(loginResponse.success).value).toEqual(
-        put({ type: "LOGIN_SUCCESS", user: loginResponse.success.data })
+        put({ type: "LOGIN_SUCCESS", user: loginResponse.success })
       );
     });
 
-    it("should return an error when passed an invalid username", () => {
+    it("should return a failure action and error message when passed invalid credentials", () => {
       gen = loginSaga(creds.badUser);
       gen.next(); // call api
-      expect(gen.throw(loginResponse.usernameError).value).toEqual(
-        put({ type: "LOGIN_FAILURE", error: "Invalid Username" })
-      );
-    });
-
-    it("should return an error when passed an invalid password", () => {
-      gen = loginSaga(creds.badPw);
-      gen.next(); // call api
-      expect(gen.throw(loginResponse.passwordError).value).toEqual(
-        put({ type: "LOGIN_FAILURE", error: "Incorrect Password" })
+      expect(gen.next(loginResponse.failure).value).toEqual(
+        put({ type: "LOGIN_FAILURE", error: loginResponse.failure.error })
       );
     });
   });
@@ -175,13 +146,12 @@ describe("Saga Actions", () => {
       );
     });
     it("should handle errors", () => {
-      // being lazy, using an irrelevant error, but it's fine.
       gen = logoutSaga();
       gen.next();
-      expect(gen.throw(loginResponse.passwordError).value).toEqual(
+      expect(gen.throw(Error("Network Error")).value).toEqual(
         put({
           type: "LOGOUT_FAILURE",
-          error: loginResponse.passwordError.message
+          error: "Network Error"
         })
       );
     });
@@ -192,14 +162,22 @@ describe("Saga Actions", () => {
     afterEach(() => {
       expect(gen.next().done).toBe(true);
     });
-    it("should return a userId on a successful registration", () => {
+    it("should return a user on a successful registration, with name, email, PW, ID, and a cookie", () => {
       gen = registerSaga({ info: registration.userInfo });
-      expect(gen.next().value.type).toEqual("CALL"); // call api
+      gen.next(); // call api
       expect(gen.next(registerResponse.success).value).toEqual(
         put({
           type: "REGISTRATION_SUCCESS",
           user: registration.completeUser
         })
+      );
+    });
+
+    it("should return a failure action and error message when passed invalid credentials", () => {
+      gen = registerSaga(registration.badUserInfo);
+      gen.next(); // call api
+      expect(gen.next(registerResponse.usernameTaken).value).toEqual(
+        put({ type: "REGISTRATION_FAILURE", error: "Username already exists." })
       );
     });
 
@@ -211,6 +189,7 @@ describe("Saga Actions", () => {
         put({ type: "REGISTRATION_FAILURE", error: message })
       );
     });
+    xit("should give a special alert when it receives an HTML response, indicating that the JSON APIs have been disabled", () => {});
   });
 });
 
@@ -232,21 +211,12 @@ describe("integration", () => {
       ]);
     });
 
-    it("returns an failure for an invalid username", async () => {
+    it("returns a failure action with an error message for invalid credentials", async () => {
       sagaStore.dispatch(login(creds.badUser));
       await sagaStore.waitFor("LOGIN_FAILURE");
       expect(sagaStore.getCalledActions()).toEqual([
-        actions.login.badUser.start,
-        actions.login.badUser.resolve
-      ]);
-    });
-
-    it("returns an failure for an invalid password", async () => {
-      sagaStore.dispatch(login(creds.badPw));
-      await sagaStore.waitFor("LOGIN_FAILURE");
-      expect(sagaStore.getCalledActions()).toEqual([
-        actions.login.badPw.start,
-        actions.login.badPw.resolve
+        actions.login.failure.start,
+        actions.login.failure.resolve
       ]);
     });
   });
@@ -325,16 +295,16 @@ describe("authReducer", () => {
         authReducer(loginStartedState, actions.login.success.resolve)
       ).toEqual({
         ...loginStartedState,
-        user: loginResponse.success.data,
+        user: loginResponse.success,
         isLoading: false
       });
     });
     it("should set the error on an error", () => {
       expect(
-        authReducer(loginStartedState, actions.login.badUser.resolve)
+        authReducer(loginStartedState, actions.login.failure.resolve)
       ).toEqual({
         ...loginStartedState,
-        error: loginResponse.usernameError.message,
+        error: loginResponse.failure.error,
         isLoading: false
       });
     });

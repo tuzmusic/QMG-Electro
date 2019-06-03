@@ -1,38 +1,32 @@
 export const loginResponse = {
   logout: "User was logged out.",
   success: {
-    data: {
-      // this is the user object passed to the reducer
-      ID: "6",
-      user_login: "testuser1",
-      user_pass: "$P$BC5js71iidxI4lycappjRcMLowKhld/",
-      user_nicename: "testuser1",
-      user_email: "testuser@bolt.com",
-      user_url: "",
-      user_registered: "2019-05-28 20:11:49",
-      user_activation_key: "",
-      user_status: "0",
-      display_name: "testuser1"
-    },
-    ID: 6,
-    caps: {
-      subscriber: true
+    status: "ok",
+    cookie:
+      "testuser1|1560779545|rpqX0H4wlBHdQ1ww6Raon3VqRFRJBEBJjB9WC3Y631t|8a12ba20e3c71c13f1d5bac2b7eced8a13bdb999c1e364ef0f9565a6c3ca5932",
+    cookie_name: "wordpress_logged_in_de35f4716c74f1f80e223057c4a2042e",
+    user: {
+      id: 6,
+      username: "testuser1",
+      nicename: "testuser1",
+      email: "testuser@bolt.com",
+      url: "",
+      registered: "2019-05-28 20:11:49",
+      displayname: "testuser1",
+      firstname: "",
+      lastname: "",
+      nickname: "testuser1",
+      description: "",
+      capabilities: {
+        subscriber: true
+      },
+      avatar: null
     }
   },
-  incorrectPassword: {
-    code: "incorrect_password",
-    message:
-      '<strong>ERROR</strong>: The password you entered for the username <strong>testuser1</strong> is incorrect. <a href="http://joinelectro.com/wp-login.php?action=lostpassword">Lost your password?</a>',
-    data: null
-  },
-  passwordError: Error("Incorrect Password"),
-  invalidUsername: {
-    code: "invalid_username",
-    message:
-      '<strong>ERROR</strong>: Invalid username. <a href="http://joinelectro.com/wp-login.php?action=lostpassword">Lost your password?</a>',
-    data: null
-  },
-  usernameError: Error("Invalid Username")
+  failure: {
+    status: "error",
+    error: "Invalid username/email and/or password."
+  }
 };
 
 export const registerResponse = {
@@ -116,7 +110,8 @@ export const registration = {
   completeUser: {
     username: mainParams.username,
     email: mainParams.email,
-    userId: registerResponse.success.user_id
+    userId: registerResponse.success.user_id,
+    cookie: registerResponse.success.cookie
   }
 };
 
@@ -124,20 +119,13 @@ export const actions = {
   login: {
     success: {
       start: { type: "LOGIN_START", creds: creds.success },
-      resolve: { type: "LOGIN_SUCCESS", user: loginResponse.success.data }
+      resolve: { type: "LOGIN_SUCCESS", user: loginResponse.success }
     },
-    badUser: {
+    failure: {
       start: { type: "LOGIN_START", creds: creds.badUser },
       resolve: {
         type: "LOGIN_FAILURE",
-        error: loginResponse.usernameError.message
-      }
-    },
-    badPw: {
-      start: { type: "LOGIN_START", creds: creds.badPw },
-      resolve: {
-        type: "LOGIN_FAILURE",
-        error: loginResponse.passwordError.message
+        error: "Invalid username/email and/or password."
       }
     }
   },

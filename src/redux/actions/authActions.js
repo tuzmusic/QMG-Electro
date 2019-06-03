@@ -1,5 +1,5 @@
 export const ApiUrls = {
-  login: "http://joinelectro.com/wp-json/auth/login",
+  login: "https://joinelectro.com/x1H9JH7tZAb1DoJ/user/generate_auth_cookie/",
   nonce:
     "https://joinelectro.com/x1H9JH7tZAb1DoJ/get_nonce/?controller=user&method=register",
   register: "https://joinelectro.com/x1H9JH7tZAb1DoJ/user/register",
@@ -12,55 +12,36 @@ import Sugar from "sugar";
 Sugar.extend();
 
 export async function registerWithApi({ email, username, password }) {
-  try {
-    const nonce = (await axios.get(ApiUrls.nonce)).data.nonce;
-    if (!nonce) throw Error("Could not get nonce");
-    const res = await axios.get(ApiUrls.register, {
-      params: {
-        username,
-        email,
-        nonce,
-        display_name: username,
-        user_pass: password
-      }
-    });
-    if (res.data.error) {
-      throw Error(res.data.error);
+  const nonce = (await axios.get(ApiUrls.nonce)).data.nonce;
+  if (!nonce) throw Error("Could not get nonce");
+  const res = await axios.get(ApiUrls.register, {
+    params: {
+      username,
+      email,
+      nonce,
+      display_name: username,
+      user_pass: password
     }
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
+  });
+  return res.data;
 }
 
 export async function loginWithApi(creds) {
-  try {
-    const res = await axios.get(ApiUrls.login, { params: creds });
-    if (res.data.data) {
-      return res.data;
-    } else if (res.data.code) {
-      throw Error(res.data.code.titleize());
-    } // else, it should be an actual error
-  } catch (err) {
-    throw err;
-  }
+  const res = await axios.get(ApiUrls.login, { params: creds });
+  return res.data;
 }
 
 export async function logoutWithApi() {
-  try {
-    const res = await axios.get(ApiUrls.logout);
-    return res.data;
-  } catch (err) {
-    throw err;
-  }
+  const res = await axios.get(ApiUrls.logout);
+  return res.data;
 }
 
 export function* loginSaga({ creds }) {
   try {
-    console.log("Logging in as", creds.username);
-    const res = yield call(loginWithApi, creds);
-    console.log("Successfully logged in as", creds.username);
-    yield put({ type: "LOGIN_SUCCESS", user: res.data }); // not sure we NEED any user data
+    const { error, ...user } = yield call(loginWithApi, creds);
+    yield put(
+      error ? { type: "LOGIN_FAILURE", error } : { type: "LOGIN_SUCCESS", user }
+    );
   } catch (error) {
     yield put({ type: "LOGIN_FAILURE", error: error.message });
   }
@@ -77,12 +58,20 @@ export function* logoutSaga() {
 
 export function* registerSaga({ info }) {
   try {
-    let res = yield call(registerWithApi, info);
-    yield put({
-      type: "REGISTRATION_SUCCESS",
-      user: { username: info.username, email: info.email, userId: res.user_id }
-      // userId: res.user_id
-    });
+    let { error, cookie, user_id } = yield call(registerWithApi, info);
+    yield put(
+      error
+        ? { type: "REGISTRATION_FAILURE", error }
+        : {
+            type: "REGISTRATION_SUCCESS",
+            user: {
+              username: info.username,
+              email: info.email,
+              userId: user_id,
+              cookie
+            }
+          }
+    );
   } catch (error) {
     yield put({ type: "REGISTRATION_FAILURE", error: error.message });
   }
