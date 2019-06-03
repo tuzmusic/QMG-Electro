@@ -132,10 +132,10 @@ describe("Saga Actions", () => {
       );
     });
 
-    it("should return an error when passed invalid credentials", () => {
+    it("should return a failure action and error message when passed invalid credentials", () => {
       gen = loginSaga(creds.badUser);
       gen.next(); // call api
-      expect(gen.throw(loginResponse.failure.error).value).toEqual(
+      expect(gen.next(loginResponse.failure).value).toEqual(
         put({ type: "LOGIN_FAILURE", error: loginResponse.failure.error })
       );
     });
@@ -211,7 +211,7 @@ describe("integration", () => {
       ]);
     });
 
-    it("returns an failure for invalid credentials", async () => {
+    it("returns a failure action with an error message for invalid credentials", async () => {
       sagaStore.dispatch(login(creds.badUser));
       await sagaStore.waitFor("LOGIN_FAILURE");
       expect(sagaStore.getCalledActions()).toEqual([

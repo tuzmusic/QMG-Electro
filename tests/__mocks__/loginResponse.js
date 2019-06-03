@@ -124,7 +124,7 @@ export const actions = {
       start: { type: "LOGIN_START", creds: creds.badUser },
       resolve: {
         type: "LOGIN_FAILURE",
-        error: loginResponse.failure.error
+        error: "Invalid username/email and/or password."
       }
     }
   },
