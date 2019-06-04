@@ -1,22 +1,19 @@
 import React, { Component } from "react";
-import {
-  Image,
-  Input,
-  Button,
-  ThemeProvider,
-  Overlay
-} from "react-native-elements";
-import { View, Text, Picker, TouchableOpacity } from "react-native";
+import { Image, Overlay } from "react-native-elements";
+import { View, Text } from "react-native";
 import { DotIndicator } from "react-native-indicators";
 import { connect } from "react-redux";
-import { login, assignUser } from "../redux/actions/authActions";
+import { login, register } from "../redux/actions/authActions";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
-import User from "../models/User";
-import uuid from "react-native-uuid";
 import LoginForm from "../subviews/LoginForm";
 
 class LoginView extends Component {
+  state = {
+    loggingIn: true,
+    registering: false
+  };
+
   autoLogin() {
     setTimeout(() => {
       this.handleLogin();
@@ -74,37 +71,10 @@ export default connect(
     user: state.auth.user,
     error: state.auth.error
   }),
-  { login, assignUser }
+  { login, register }
 )(LoginView);
 
-const theme = {
-  Input: {
-    containerStyle: {
-      padding: 10
-    }
-  },
-  Button: {
-    containerStyle: {
-      padding: 30,
-      width: "100%"
-    }
-  },
-  Text: {
-    style: {
-      fontSize: 16
-    }
-  }
-};
-
 const styles = F8StyleSheet.create({
-  errorText: {
-    color: "red",
-    fontSize: 16
-  },
-  link: {
-    color: "blue",
-    textDecorationLine: "underline"
-  },
   container: {
     flex: 1,
     justifyContent: "center",
@@ -114,11 +84,6 @@ const styles = F8StyleSheet.create({
   superContainer: {
     flex: 1,
     justifyContent: "center"
-  },
-  inputContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
   },
   image: {
     height: 200,
