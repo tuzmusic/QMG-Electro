@@ -6,18 +6,15 @@ import F8StyleSheet from "../components/F8StyleSheet";
 
 class LoginForm extends Component {
   state = {
-    username: "",
-    email: "",
-    password: "",
-    passwordConfirmation: ""
+    username: "testuser11",
+    email: "api1@bolt.com",
+    password: "123123",
+    passwordConfirmation: "123123"
   };
 
   render() {
     return (
       <ThemeProvider theme={theme}>
-        {this.props.error && (
-          <Text style={styles.errorText}>{this.props.error}</Text>
-        )}
         <Input
           placeholder="Username"
           label={this.state.username && "Username"}

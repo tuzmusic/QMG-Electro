@@ -1,12 +1,7 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { ApiUrls } from "../../src/redux/actions/authActions";
-import {
-  loginResponse,
-  registerResponse,
-  creds,
-  registration
-} from "./loginResponse";
+import { loginResponse, registerResponse } from "./loginResponse";
 
 export function setupAuthMockAdapter() {
   let mock = new MockAdapter(axios);
@@ -14,9 +9,25 @@ export function setupAuthMockAdapter() {
     // register
     .onGet(ApiUrls.nonce)
     .reply(200, registerResponse.nonce)
-    .onGet(ApiUrls.register, { params: registration.apiParams })
+    .onGet(ApiUrls.register, {
+      params: {
+        username: "testuser1",
+        email: "api1@bolt.com",
+        nonce: "29a63be176",
+        display_name: "testuser1",
+        user_pass: "123123"
+      }
+    })
     .reply(200, registerResponse.success)
-    .onGet(ApiUrls.register, { params: registration.badUserApiParams })
+    .onGet(ApiUrls.register, {
+      params: {
+        username: "testuser11",
+        email: "api1@bolt.com",
+        nonce: "29a63be176",
+        display_name: "testuser11",
+        user_pass: "123123"
+      }
+    })
     .reply(200, registerResponse.usernameTaken)
     // login
     .onGet(ApiUrls.login)

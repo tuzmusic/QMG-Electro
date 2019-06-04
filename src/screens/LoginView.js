@@ -11,29 +11,28 @@ import RegisterForm from "../subviews/RegisterForm";
 
 class LoginView extends Component {
   state = {
-    loggingIn: true,
-    registering: false,
+    loggingIn: false,
+    registering: true,
     errors: []
   };
 
-  autoLogin() {
-    setTimeout(() => {
-      this.handleLogin();
-    }, 500);
-  }
-
   componentDidMount() {
-    // this.autoLogin();
+    // autoLogin();
+    function autoLogin() {
+      setTimeout(() => {
+        this.handleLogin();
+      }, 500);
+    }
   }
 
   async handleLogin({ username, password }) {
-    let formErrors = [];
-    if (!username) formErrors.push("Username required");
-    if (!password) formErrors.push("Password required");
+    let errors = [];
+    if (!username) errors.push("Username required");
+    if (!password) errors.push("Password required");
 
-    if (formErrors.length) {
+    if (errors.length) {
       this.props.clearAuthError();
-      return this.setState({ errors: formErrors });
+      return this.setState({ errors });
     }
 
     await this.props.login({ username, password });
@@ -46,9 +45,15 @@ class LoginView extends Component {
     if (!password) errors.push("Password required");
     if (password && !passwordConfirmation)
       errors.push("Please type your password twice");
-    if (password !== passwordConfirmation) errors.push("Passwords don't match");
-    if (errors.length > 0) return this.setState({ errors });
-    // await this.props.register({ username, email, password });
+    if (password && passwordConfirmation && password !== passwordConfirmation)
+      errors.push("Passwords don't match");
+    console.log("validation errors:", errors);
+
+    this.props.clearAuthError();
+    if (errors.length) {
+      return this.setState({ errors });
+    }
+    await this.props.register({ username, email, password });
   }
 
   componentWillReceiveProps(newProps) {
@@ -88,12 +93,14 @@ class LoginView extends Component {
             style={styles.image}
           />
 
+          {console.log("state errors in render:", this.state.errors)}
+          {console.log("props errors in render:", this.props.errors)}
           {this.state.errors.map((e, i) => (
             <Text style={styles.errorText} key={i}>
               {e}
             </Text>
           ))}
-          {this.state.errors.length === 0 && (
+          {!this.state.errors.length && (
             <Text style={styles.errorText}>{this.props.error}</Text>
           )}
 
