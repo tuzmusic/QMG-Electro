@@ -11,6 +11,7 @@ import createSagaMiddleware from "redux-saga";
 import authSaga from "./src/redux/actions/authActions";
 import GlobalFont from "react-native-global-font";
 import AppStyles from "./src/constants/Styles";
+import { setupAuthMockAdapter } from "./tests/__mocks__/axiosMocks";
 
 const combinedReducer = combineReducers({
   main: mainReducer,
@@ -32,7 +33,7 @@ export default class App extends React.Component {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <AppLoading
-          startAsync={this._loadResourcesAsync}
+          startAsync={this._handleLoading}
           onError={this._handleLoadingError}
           onFinish={this._handleFinishLoading}
         />
@@ -48,6 +49,11 @@ export default class App extends React.Component {
       );
     }
   }
+
+  _handleLoading = async () => {
+    await this._loadResourcesAsync();
+    setupAuthMockAdapter();
+  };
 
   _loadResourcesAsync = async () => {
     return Promise.all([

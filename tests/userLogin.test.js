@@ -24,8 +24,9 @@ import MockAdapter from "axios-mock-adapter";
 import SagaTester from "redux-saga-tester";
 import authSaga from "../src/redux/actions/authActions";
 
-function setupMockAdapter() {
-  ``;
+// import { setupAuthMockAdapter } from "./__mocks__/axiosMocks";
+
+export function setupAuthMockAdapter() {
   mock = new MockAdapter(axios);
   mock
     // register
@@ -45,7 +46,7 @@ function setupMockAdapter() {
     .reply(200, loginResponse.logout);
 }
 let mock;
-setupMockAdapter();
+setupAuthMockAdapter();
 
 describe("API Calls", () => {
   describe("register api call", () => {
@@ -100,10 +101,10 @@ describe("API Calls", () => {
       try {
         const res = await logoutWithApi();
         expect(res).toBe(undefined);
-        setupMockAdapter();
+        setupAuthMockAdapter();
       } catch (error) {
         expect(error).toEqual(Error("Network Error"));
-        setupMockAdapter();
+        setupAuthMockAdapter();
       }
     });
   });
@@ -268,7 +269,7 @@ describe("integration", () => {
         actions.logout.start,
         actions.logout.failure
       ]);
-      setupMockAdapter();
+      setupAuthMockAdapter();
     });
   });
 });

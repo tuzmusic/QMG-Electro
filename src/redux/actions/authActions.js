@@ -27,8 +27,6 @@ export async function registerWithApi({ email, username, password }) {
 }
 
 export async function loginWithApi(creds) {
-  console.log(creds);
-
   const res = await axios.get(ApiUrls.login, { params: creds });
   return res.data;
 }
