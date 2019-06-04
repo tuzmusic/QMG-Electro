@@ -31,8 +31,9 @@ class CreateStationView extends Component {
             Linking.openURL("http://joinelectro.com/submit-listings/")
           }
         >
-          <Text style={styles.link}>
-            Please visit the website to create a station.
+          <Text style={[styles.text, { margin: 40, textAlign: "center" }]}>
+            Please <Text style={styles.link}>visit the website</Text> to create
+            a station.
           </Text>
         </TouchableOpacity>
       </View>
@@ -55,7 +56,7 @@ const styles = {
     alignItems: "center"
   },
   text: {
-    padding: 20,
+    padding: 30,
     fontSize: 24
   },
   link: {
