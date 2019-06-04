@@ -37,6 +37,13 @@ class LoginView extends Component {
       return this.setState({ errors });
     }
 
+    let creds = { password };
+    if (username.contains("@")) {
+      creds.email = username;
+    } else {
+      creds.username = username;
+    }
+
     await this.props.login({ username, password });
   }
 

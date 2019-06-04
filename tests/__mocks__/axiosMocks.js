@@ -49,6 +49,13 @@ export function setupAuthMockAdapter() {
       }
     })
     .reply(200, loginResponse.success)
+    .onGet(ApiUrls.login, {
+      params: {
+        email: "testuser@bolt.com",
+        password: "123123"
+      }
+    })
+    .reply(200, loginResponse.success)
     .onGet(ApiUrls.login)
     .reply(200, loginResponse.failure)
     // logout

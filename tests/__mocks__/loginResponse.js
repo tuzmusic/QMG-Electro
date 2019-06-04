@@ -58,6 +58,10 @@ export const creds = {
     username: "testuser1",
     password: "123123"
   },
+  emailSuccess: {
+    email: "testuser@bolt.com",
+    password: "123123"
+  },
   badUser: {
     username: "xxx",
     password: "123123"
@@ -140,6 +144,10 @@ export const actions = {
   login: {
     success: {
       start: { type: "LOGIN_START", creds: creds.success },
+      resolve: { type: "LOGIN_SUCCESS", user: loginResponse.success }
+    },
+    emailSuccess: {
+      start: { type: "LOGIN_START", creds: creds.emailSuccess },
       resolve: { type: "LOGIN_SUCCESS", user: loginResponse.success }
     },
     failure: {

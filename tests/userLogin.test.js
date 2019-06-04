@@ -191,12 +191,21 @@ describe("integration", () => {
   });
 
   describe("login", () => {
-    it("can log in successfully", async () => {
+    it("can log in successfully with a username", async () => {
       sagaStore.dispatch(login(creds.success));
       await sagaStore.waitFor("LOGIN_SUCCESS");
       expect(sagaStore.getCalledActions()).toEqual([
         actions.login.success.start,
         actions.login.success.resolve
+      ]);
+    });
+
+    it("can log in successfully with an email", async () => {
+      sagaStore.dispatch(login(creds.emailSuccess));
+      await sagaStore.waitFor("LOGIN_SUCCESS");
+      expect(sagaStore.getCalledActions()).toEqual([
+        actions.login.emailSuccess.start,
+        actions.login.emailSuccess.resolve
       ]);
     });
 

@@ -97,8 +97,8 @@ export function clearAuthError() {
   return { type: "CLEAR_AUTH_ERROR" };
 }
 
-export function login({ username, password }) {
-  return { type: "LOGIN_START", creds: { username, password } };
+export function login(creds) {
+  return { type: "LOGIN_START", creds };
 }
 
 export function logout() {
