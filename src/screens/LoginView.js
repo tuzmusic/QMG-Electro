@@ -11,6 +11,8 @@ import RegisterForm from "../subviews/RegisterForm";
 
 class LoginView extends Component {
   state = {
+    // loggingIn: true,
+    // registering: false,
     loggingIn: false,
     registering: true,
     errors: []

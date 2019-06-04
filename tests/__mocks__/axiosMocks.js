@@ -21,17 +21,15 @@ export function setupAuthMockAdapter() {
     .reply(200, registerResponse.success)
     .onGet(ApiUrls.register, {
       params: {
-        username: "testuser11",
+        username: "testuser1dupe",
         email: "api1@bolt.com",
         nonce: "29a63be176",
-        display_name: "testuser11",
+        display_name: "testuser1dupe",
         user_pass: "123123"
       }
     })
     .reply(200, registerResponse.usernameTaken)
     // login
-    .onGet(ApiUrls.login)
-    .reply(200, loginResponse.failure)
     .onGet(ApiUrls.login, {
       params: {
         username: "testuser1",
@@ -39,6 +37,8 @@ export function setupAuthMockAdapter() {
       }
     })
     .reply(200, loginResponse.success)
+    .onGet(ApiUrls.login)
+    .reply(200, loginResponse.failure)
     // logout
     .onGet(ApiUrls.logout)
     .reply(200, loginResponse.logout);

@@ -6,8 +6,8 @@ import F8StyleSheet from "../components/F8StyleSheet";
 
 class LoginForm extends Component {
   state = {
-    username: "",
-    password: ""
+    username: "testuser1",
+    password: "123123"
   };
 
   render() {
