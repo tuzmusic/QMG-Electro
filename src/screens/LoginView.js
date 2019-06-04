@@ -47,7 +47,7 @@ class LoginView extends Component {
       errors.push("Please type your password twice");
     if (password && passwordConfirmation && password !== passwordConfirmation)
       errors.push("Passwords don't match");
-    console.log("Handling Register Submit. validation errors:", errors);
+    // console.log("Handling Register Submit. validation errors:", errors);
 
     this.props.clearAuthError();
     this.setState({ errors });
@@ -62,6 +62,7 @@ class LoginView extends Component {
   }
 
   toggleForm() {
+    this.props.clearAuthError();
     this.setState({
       errors: [],
       loggingIn: !this.state.loggingIn,
@@ -91,15 +92,6 @@ class LoginView extends Component {
             source={require("../../assets/logos/ElectroLogo.png")}
             style={styles.image}
           />
-
-          {console.log(
-            "state (validation) errors in render:",
-            this.state.errors
-          )}
-          {console.log(
-            "props (authentication) error in render:",
-            this.props.error
-          )}
           {this.state.errors.map((e, i) => (
             <Text style={styles.errorText} key={i}>
               {e}
