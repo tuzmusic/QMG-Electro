@@ -28,7 +28,9 @@ class LoginView extends Component {
 
   async handleLogin({ username, password }) {
     if (!username) {
-      return this.setState({ error: "Username required" });
+      return this.setState({
+        error: password ? "Username required" : "Username and Password required"
+      });
     }
     if (!password) {
       return this.setState({ error: "Password required" });
