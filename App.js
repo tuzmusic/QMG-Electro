@@ -52,7 +52,7 @@ export default class App extends React.Component {
 
   _handleLoading = async () => {
     await this._loadResourcesAsync();
-    setupAuthMockAdapter();
+    // setupAuthMockAdapter();
   };
 
   _loadResourcesAsync = async () => {

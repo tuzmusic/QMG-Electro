@@ -13,7 +13,7 @@ export class AuthNavigator extends Component {
   async componentDidMount() {
     const user = await AsyncStorage.getItem("electro_logged_in_user");
     if (user) {
-      console.log("User found in storage:", user);
+      // console.log("User found in storage:", user);
       this.props.setUser(JSON.parse(user));
       this.props.navigation.navigate("Main");
     }

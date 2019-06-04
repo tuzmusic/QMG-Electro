@@ -6,10 +6,10 @@ import F8StyleSheet from "../components/F8StyleSheet";
 
 class LoginForm extends Component {
   state = {
-    username: "testuser1dupe",
-    email: "api1@bolt.com",
-    password: "123123",
-    passwordConfirmation: "123123"
+    username: "",
+    email: "",
+    password: "",
+    passwordConfirmation: ""
   };
 
   render() {

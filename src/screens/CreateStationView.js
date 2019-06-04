@@ -15,7 +15,7 @@ class CreateStationView extends Component {
 
     await AsyncStorage.setItem("electro_logged_in_user", "");
     const storage = await AsyncStorage.getItem("electro_logged_in_user");
-    console.log(" newly logged out user has been saved as:", storage);
+    // console.log(" newly logged out user has been saved as:", storage);
     await this.props.logout();
   }
 
