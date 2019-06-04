@@ -80,12 +80,14 @@ class LoginView extends Component {
             <LoginForm
               onSubmit={this.handleLogin.bind(this)}
               onLinkClick={this.toggleForm.bind(this)}
+              onChangeText={() => this.setState({ error: "" })}
             />
           )}
           {this.state.registering && (
             <RegisterForm
               onLogin={this.handleLogin.bind(this)}
               onLinkClick={this.toggleForm.bind(this)}
+              onChangeText={() => this.setState({ error: "" })}
             />
           )}
         </View>

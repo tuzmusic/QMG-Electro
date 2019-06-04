@@ -20,6 +20,7 @@ class LoginForm extends Component {
           autoCorrect={false}
           autoCapitalize={"none"}
           onChangeText={username => {
+            this.props.onChangeText();
             this.setState({ username });
           }}
         />
@@ -31,6 +32,7 @@ class LoginForm extends Component {
           autoCorrect={false}
           autoCapitalize={"none"}
           onChangeText={password => {
+            this.props.onChangeText();
             this.setState({ password });
           }}
         />
