@@ -3,7 +3,7 @@ import { Image, Overlay } from "react-native-elements";
 import { View, Text } from "react-native";
 import { DotIndicator } from "react-native-indicators";
 import { connect } from "react-redux";
-import { login, register } from "../redux/actions/authActions";
+import { login, register, clearAuthError } from "../redux/actions/authActions";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import LoginForm from "../subviews/LoginForm";
@@ -32,6 +32,7 @@ class LoginView extends Component {
     if (!password) formErrors.push("Password required");
 
     if (formErrors.length) {
+      this.props.clearAuthError();
       return this.setState({ errors: formErrors });
     }
 
@@ -92,9 +93,9 @@ class LoginView extends Component {
               {e}
             </Text>
           ))}
-          {/*   {this.state.errors.length === 0 && (
+          {this.state.errors.length === 0 && (
             <Text style={styles.errorText}>{this.props.error}</Text>
-          )} */}
+          )}
 
           {this.state.loggingIn && (
             <LoginForm
@@ -122,7 +123,7 @@ export default connect(
     user: state.auth.user,
     error: state.auth.error
   }),
-  { login, register }
+  { login, register, clearAuthError }
 )(LoginView);
 
 const styles = F8StyleSheet.create({
