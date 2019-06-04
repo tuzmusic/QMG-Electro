@@ -9,6 +9,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview"
 import LoginForm from "../subviews/LoginForm";
 import RegisterForm from "../subviews/RegisterForm";
 import { validate } from "email-validator";
+import { AsyncStorage } from "react-native";
+
 class LoginView extends Component {
   state = {
     loggingIn: true,
@@ -24,7 +26,7 @@ class LoginView extends Component {
         this.handleLogin({ username: "testuser1", password: "123123" });
       }, 500);
     };
-    // autoLogin();
+    autoLogin();
   }
 
   async handleLogin({ username, password }) {
@@ -65,8 +67,21 @@ class LoginView extends Component {
     await this.props.register({ username, email, password });
   }
 
-  componentWillReceiveProps(newProps) {
+  async componentWillReceiveProps(newProps) {
     if (newProps.user) {
+      try {
+        await AsyncStorage.setItem(
+          "electro_logged_in_user",
+          JSON.stringify(newProps.user)
+        );
+        console.log(
+          "user has been saved as:",
+          await AsyncStorage.getItem("electro_logged_in_user")
+        );
+      } catch (error) {
+        console.warn("Couldn't write user to storage.", error);
+      }
+
       this.props.navigation.navigate("Main");
     }
   }

@@ -1,7 +1,6 @@
 // @flow
 import type { Action, ElectroLocation } from "../../../flowTypes";
 import type { State } from "../reducers/mainReducer";
-import { AsyncStorage } from "react-native";
 import { Constants, Location, Permissions } from "expo";
 
 type Dispatch = (action: Action | ThunkAction | PromiseAction) => any;

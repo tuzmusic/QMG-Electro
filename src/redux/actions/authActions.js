@@ -97,6 +97,10 @@ export function clearAuthError() {
   return { type: "CLEAR_AUTH_ERROR" };
 }
 
+export function setUser(user) {
+  return { type: "SET_USER", user };
+}
+
 export function login(creds) {
   return { type: "LOGIN_START", creds };
 }
