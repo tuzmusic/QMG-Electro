@@ -46,6 +46,10 @@ export const registerResponse = {
     status: "error",
     error: "Username already exists."
   },
+  emailTaken: {
+    status: "error",
+    error: "E-mail address is already in use."
+  },
   usernameError: Error("Username already exists.")
 };
 
@@ -92,9 +96,26 @@ export const registration = {
     display_name: mainCreds.username + "dupe",
     user_pass: mainCreds.password
   },
+  badEmailApiParams: {
+    username: mainCreds.username,
+    email: mainCreds.email + "dupe",
+    nonce: "29a63be176",
+    display_name: mainCreds.username,
+    user_pass: mainCreds.password
+  },
   userInfo: {
     username: mainParams.username,
     email: mainParams.email,
+    password: mainParams.user_pass
+  },
+  badUserInfo: {
+    username: mainCreds.username + "dupe",
+    email: mainParams.email,
+    password: mainParams.user_pass
+  },
+  badEmail: {
+    username: mainCreds.username,
+    email: mainParams.email + "dupe",
     password: mainParams.user_pass
   },
   badUserInfo: {
@@ -141,7 +162,14 @@ export const actions = {
       start: { type: "REGISTRATION_START", info: registration.badUserInfo },
       resolve: {
         type: "REGISTRATION_FAILURE",
-        error: registerResponse.usernameError.message
+        error: registerResponse.usernameTaken.error
+      }
+    },
+    badEmail: {
+      start: { type: "REGISTRATION_START", info: registration.badEmail },
+      resolve: {
+        type: "REGISTRATION_FAILURE",
+        error: registerResponse.emailTaken.error
       }
     },
     unhandledError: {

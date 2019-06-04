@@ -151,11 +151,22 @@ describe("Saga Actions", () => {
       );
     });
 
-    it("should return a failure action and error message when passed invalid credentials", () => {
+    it("should return a failure action and error message when passed an existing username", () => {
       gen = registerSaga(registration.badUserInfo);
       gen.next(); // call api
       expect(gen.next(registerResponse.usernameTaken).value).toEqual(
         put({ type: "REGISTRATION_FAILURE", error: "Username already exists." })
+      );
+    });
+
+    it("should return a failure action and error message when passed an existing email", () => {
+      gen = registerSaga(registration.badEmail);
+      gen.next(); // call api
+      expect(gen.next(registerResponse.emailTaken).value).toEqual(
+        put({
+          type: "REGISTRATION_FAILURE",
+          error: "E-mail address is already in use."
+        })
       );
     });
 
@@ -215,6 +226,14 @@ describe("integration", () => {
       expect(sagaStore.getCalledActions()).toEqual([
         actions.registration.badUser.start,
         actions.registration.badUser.resolve
+      ]);
+    });
+    it("returns an failure for an existing email", async () => {
+      sagaStore.dispatch(register(registration.badEmail));
+      await sagaStore.waitFor("REGISTRATION_FAILURE");
+      expect(sagaStore.getCalledActions()).toEqual([
+        actions.registration.badEmail.start,
+        actions.registration.badEmail.resolve
       ]);
     });
     it("returns an failure for other errors", async () => {
