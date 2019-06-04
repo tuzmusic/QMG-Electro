@@ -12,6 +12,9 @@ class CreateStationView extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Text style={styles.text}>
+          {this.props.user && "Logged in as " + this.props.user.user.username}
+        </Text>
         <Button
           buttonStyle={styles.logout}
           containerStyle={styles.button}
@@ -52,6 +55,7 @@ const styles = {
     alignItems: "center"
   },
   text: {
+    padding: 20,
     fontSize: 24
   },
   link: {

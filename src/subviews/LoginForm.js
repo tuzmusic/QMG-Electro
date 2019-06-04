@@ -6,16 +6,16 @@ import F8StyleSheet from "../components/F8StyleSheet";
 
 class LoginForm extends Component {
   state = {
-    username: "testuser1",
-    password: "123123"
+    username: "",
+    password: ""
   };
 
   render() {
     return (
       <ThemeProvider theme={theme}>
         <Input
-          placeholder="Username"
-          label={this.state.username && "Username"}
+          placeholder="Username or Email"
+          label={this.state.username && "Username or Email"}
           value={this.state.username}
           autoCorrect={false}
           autoCapitalize={"none"}

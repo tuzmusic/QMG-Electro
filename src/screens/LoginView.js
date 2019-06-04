@@ -11,20 +11,20 @@ import RegisterForm from "../subviews/RegisterForm";
 import { validate } from "email-validator";
 class LoginView extends Component {
   state = {
-    // loggingIn: true,
-    // registering: false,
-    loggingIn: false,
-    registering: true,
+    loggingIn: true,
+    registering: false,
+    // loggingIn: false,
+    // registering: true,
     errors: []
   };
 
   componentDidMount() {
-    // autoLogin();
-    function autoLogin() {
+    const autoLogin = () => {
       setTimeout(() => {
-        this.handleLogin();
+        this.handleLogin({ username: "testuser1", password: "123123" });
       }, 500);
-    }
+    };
+    // autoLogin();
   }
 
   async handleLogin({ username, password }) {
@@ -38,13 +38,13 @@ class LoginView extends Component {
     }
 
     let creds = { password };
-    if (username.contains("@")) {
+    if (username.includes("@")) {
       creds.email = username;
     } else {
       creds.username = username;
     }
 
-    await this.props.login({ username, password });
+    await this.props.login(creds);
   }
 
   async handleRegister({ username, email, password, passwordConfirmation }) {
