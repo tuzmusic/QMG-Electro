@@ -42,7 +42,7 @@ class LoginForm extends Component {
           disabled={this.props.isLoading}
           onPress={() => this.props.onLogin(this.state)}
         />
-        <TouchableOpacity onPress={() => console.log("click")}>
+        <TouchableOpacity onPress={this.props.onLinkClick}>
           <Text style={{ fontSize: 16 }}>
             Don't have an account? <Text style={styles.link}>Click here</Text>{" "}
             to register.

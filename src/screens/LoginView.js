@@ -7,11 +7,12 @@ import { login, register } from "../redux/actions/authActions";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import LoginForm from "../subviews/LoginForm";
+import RegisterForm from "../subviews/RegisterForm";
 
 class LoginView extends Component {
   state = {
-    loggingIn: true,
-    registering: false
+    loggingIn: false,
+    registering: true
   };
 
   autoLogin() {
@@ -35,6 +36,14 @@ class LoginView extends Component {
       this.props.navigation.navigate("Main");
     }
   }
+
+  toggleForm() {
+    this.setState({
+      loggingIn: !this.state.loggingIn,
+      registering: !this.state.registering
+    });
+  }
+
   render() {
     return (
       <KeyboardAwareScrollView contentContainerStyle={styles.superContainer}>
@@ -58,7 +67,18 @@ class LoginView extends Component {
             source={require("../../assets/logos/ElectroLogo.png")}
             style={styles.image}
           />
-          <LoginForm onLogin={this.handleLogin.bind(this)} />
+          {this.state.loggingIn && (
+            <LoginForm
+              onLogin={this.handleLogin.bind(this)}
+              onLinkClick={this.toggleForm.bind(this)}
+            />
+          )}
+          {this.state.registering && (
+            <RegisterForm
+              onLogin={this.handleLogin.bind(this)}
+              onLinkClick={this.toggleForm.bind(this)}
+            />
+          )}
         </View>
       </KeyboardAwareScrollView>
     );
