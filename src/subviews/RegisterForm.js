@@ -7,7 +7,9 @@ import F8StyleSheet from "../components/F8StyleSheet";
 class LoginForm extends Component {
   state = {
     username: "",
-    password: ""
+    email: "",
+    password: "",
+    passwordConfirmation: ""
   };
 
   render() {
@@ -27,6 +29,16 @@ class LoginForm extends Component {
           }}
         />
         <Input
+          placeholder="Email"
+          label={this.state.username && "Email"}
+          value={this.state.email}
+          autoCorrect={false}
+          autoCapitalize={"none"}
+          onChangeText={email => {
+            this.setState({ email });
+          }}
+        />
+        <Input
           placeholder="Password"
           label={this.state.password && "Password"}
           secureTextEntry
@@ -37,10 +49,21 @@ class LoginForm extends Component {
             this.setState({ password });
           }}
         />
+        <Input
+          placeholder="Retype password"
+          label={this.state.passwordConfirmation && "Retype password"}
+          secureTextEntry
+          value={this.state.passwordConfirmation}
+          autoCorrect={false}
+          autoCapitalize={"none"}
+          onChangeText={passwordConfirmation => {
+            this.setState({ passwordConfirmation });
+          }}
+        />
         <Button
           title="Register"
           disabled={this.props.isLoading}
-          onPress={() => this.props.onLogin(this.state)}
+          onPress={() => this.props.onSubmit(this.state)}
         />
         <TouchableOpacity onPress={this.props.onLinkClick}>
           <Text style={{ fontSize: 16 }}>
@@ -61,7 +84,7 @@ export default connect(state => ({
 const theme = {
   Input: {
     containerStyle: {
-      padding: 10
+      padding: 5
     }
   },
   Button: {

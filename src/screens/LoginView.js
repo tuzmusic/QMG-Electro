@@ -11,8 +11,8 @@ import RegisterForm from "../subviews/RegisterForm";
 
 class LoginView extends Component {
   state = {
-    loggingIn: true,
-    registering: false,
+    loggingIn: false,
+    registering: true,
     error: ""
   };
 
@@ -36,6 +36,17 @@ class LoginView extends Component {
       return this.setState({ error: "Password required" });
     }
     await this.props.login({ username, password });
+  }
+
+  async handleRegister({ username, email, password, passwordConfirmation }) {
+    let error;
+    if (password !== passwordConfirmation) error = "Passwords don't match";
+    if (!passwordConfirmation) error = "Please type your password twice";
+    if (!password) error = "Password required";
+    if (!email) error = "Email required";
+    if (!username) error = "Username required";
+    if (error) return this.setState({ error });
+    // await this.props.register({ username, email, password });
   }
 
   componentWillReceiveProps(newProps) {
@@ -85,7 +96,7 @@ class LoginView extends Component {
           )}
           {this.state.registering && (
             <RegisterForm
-              onLogin={this.handleLogin.bind(this)}
+              onSubmit={this.handleRegister.bind(this)}
               onLinkClick={this.toggleForm.bind(this)}
               onChangeText={() => this.setState({ error: "" })}
             />
