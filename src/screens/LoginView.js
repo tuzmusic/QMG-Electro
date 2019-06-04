@@ -8,7 +8,7 @@ import F8StyleSheet from "../components/F8StyleSheet";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import LoginForm from "../subviews/LoginForm";
 import RegisterForm from "../subviews/RegisterForm";
-
+import { validate } from "email-validator";
 class LoginView extends Component {
   state = {
     // loggingIn: true,
@@ -44,6 +44,7 @@ class LoginView extends Component {
     let errors = [];
     if (!username) errors.push("Username required");
     if (!email) errors.push("Email required");
+    if (!validate(email)) errors.push("Please enter a valid email address");
     if (!password) errors.push("Password required");
     if (password && !passwordConfirmation)
       errors.push("Please type your password twice");
