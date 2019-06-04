@@ -74,8 +74,7 @@ class LoginForm extends Component {
 }
 
 export default connect(state => ({
-  isLoading: state.auth.isLoading,
-  error: state.auth.error
+  isLoading: state.auth.isLoading
 }))(LoginForm);
 
 const theme = {
@@ -98,10 +97,6 @@ const theme = {
 };
 
 const styles = F8StyleSheet.create({
-  errorText: {
-    color: "red",
-    fontSize: 16
-  },
   link: {
     color: "blue",
     textDecorationLine: "underline"

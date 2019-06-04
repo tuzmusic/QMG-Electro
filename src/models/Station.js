@@ -1,6 +1,6 @@
 // @flow
 
-import uuid from "react-native-uuid";
+// import uuid from "react-native-uuid";
 import type { ElectroLocation, OpenObject } from "../../flowTypes";
 
 type unitOfDistance = "mi" | "km" | "nm";
@@ -83,7 +83,8 @@ export default class Station {
 
   constructor(json: StationJSON) {
     if (!json) return;
-    this.id = json.id || uuid.v1();
+    // this.id = json.id || uuid.v1();
+    this.id = json.id || Math.random();
     this.originalJSON = json;
     this.userID = json.userID;
     this.title = json.title;
@@ -170,7 +171,8 @@ export default class Station {
   static createForApiPost(json: OpenObject) {
     return {
       originalJSON: json,
-      id: uuid.v1(), // ultimately this may need to be a string
+      // id: uuid.v1(), // ultimately this may need to be a string
+      id: Math.random(),
       listing_props: {
         _job_title: [json.title],
         _job_description: [json.content],
