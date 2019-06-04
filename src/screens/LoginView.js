@@ -26,7 +26,7 @@ class LoginView extends Component {
         this.handleLogin({ username: "testuser1", password: "123123" });
       }, 500);
     };
-    autoLogin();
+    // autoLogin();
   }
 
   async handleLogin({ username, password }) {
@@ -59,7 +59,6 @@ class LoginView extends Component {
       errors.push("Please type your password twice");
     if (password && passwordConfirmation && password !== passwordConfirmation)
       errors.push("Passwords don't match");
-    // console.log("Handling Register Submit. validation errors:", errors);
 
     this.props.clearAuthError();
     this.setState({ errors });
@@ -75,7 +74,7 @@ class LoginView extends Component {
           JSON.stringify(newProps.user)
         );
         console.log(
-          "user has been saved as:",
+          "newly logged in user has been saved as:",
           await AsyncStorage.getItem("electro_logged_in_user")
         );
       } catch (error) {

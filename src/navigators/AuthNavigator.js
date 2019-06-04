@@ -10,11 +10,10 @@ const AuthStack = createSwitchNavigator({ Login: LoginScreen });
 export class AuthNavigator extends Component {
   static router = AuthStack.router;
 
-  async componentWillMount() {
+  async componentDidMount() {
     const user = await AsyncStorage.getItem("electro_logged_in_user");
     if (user) {
-      console.log("User found in storage:", JSON.parse(user));
-
+      console.log("User found in storage:", user);
       this.props.setUser(JSON.parse(user));
       this.props.navigation.navigate("Main");
     }
