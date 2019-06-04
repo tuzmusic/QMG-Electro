@@ -18,35 +18,11 @@ import {
   registration,
   actions
 } from "./__mocks__/loginResponse";
-
-import axios from "axios";
-import MockAdapter from "axios-mock-adapter";
 import SagaTester from "redux-saga-tester";
 import authSaga from "../src/redux/actions/authActions";
+import { setupAuthMockAdapter } from "./__mocks__/axiosMocks";
 
-// import { setupAuthMockAdapter } from "./__mocks__/axiosMocks";
-
-export function setupAuthMockAdapter() {
-  mock = new MockAdapter(axios);
-  mock
-    // register
-    .onGet(ApiUrls.nonce)
-    .reply(200, registerResponse.nonce)
-    .onGet(ApiUrls.register, { params: registration.apiParams })
-    .reply(200, registerResponse.success)
-    .onGet(ApiUrls.register, { params: registration.badUserApiParams })
-    .reply(200, registerResponse.usernameTaken)
-    // login
-    .onGet(ApiUrls.login, { params: creds.success })
-    .reply(200, loginResponse.success)
-    .onGet(ApiUrls.login, { params: creds.badUser })
-    .reply(200, loginResponse.failure)
-    // logout
-    .onGet(ApiUrls.logout)
-    .reply(200, loginResponse.logout);
-}
-let mock;
-setupAuthMockAdapter();
+let mock = setupAuthMockAdapter();
 
 describe("API Calls", () => {
   describe("register api call", () => {
@@ -104,7 +80,7 @@ describe("API Calls", () => {
         setupAuthMockAdapter();
       } catch (error) {
         expect(error).toEqual(Error("Network Error"));
-        setupAuthMockAdapter();
+        mock = setupAuthMockAdapter();
       }
     });
   });

@@ -9,7 +9,7 @@ import {
 } from "./loginResponse";
 
 export function setupAuthMockAdapter() {
-  const mock = new MockAdapter(axios);
+  let mock = new MockAdapter(axios);
   mock
     // register
     .onGet(ApiUrls.nonce)
