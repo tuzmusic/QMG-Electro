@@ -20,6 +20,7 @@ export default (authReducer = (
     case "REGISTRATION_START":
       return { ...state, isLoading: true, error: null };
     case "LOGIN_SUCCESS":
+    case "REGISTRATION_SUCCESS":
     case "SET_USER":
       return {
         ...state,
@@ -27,8 +28,6 @@ export default (authReducer = (
         isLoading: false,
         error: null
       };
-    case "REGISTRATION_SUCCESS":
-      return { ...state, user, isLoading: false, error: null };
     case "LOGOUT_SUCCESS":
       return { ...state, user: null, isLoading: false, error: null };
     case "LOGIN_FAILURE":
