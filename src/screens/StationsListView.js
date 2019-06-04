@@ -3,7 +3,7 @@
 import type Station from "../models/Station";
 import type { ElectroLocation } from "../../flowTypes";
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { ScrollView, View, Text } from "react-native";
 import { Dropdown } from "react-native-material-dropdown";
 import { connect } from "react-redux";
 import StationsListContainer from "../subviews/StationsListContainer";
@@ -39,7 +39,7 @@ class StationsListView extends Component<ListViewProps> {
 
   render() {
     return (
-      <View>
+      <ScrollView>
         <FilterInput
           onSelectDropdown={this.onSelectSearchRadius.bind(this)}
           startingValue={this.props.searchRadius}
@@ -52,7 +52,7 @@ class StationsListView extends Component<ListViewProps> {
           onTextPress={this.onStationClick.bind(this)}
           isLoading={this.props.isLoading}
         />
-      </View>
+      </ScrollView>
     );
   }
 }

@@ -28,7 +28,7 @@ class LoginForm extends Component {
         />
         <Input
           placeholder="Email"
-          label={this.state.username && "Email"}
+          label={this.state.email && "Email"}
           value={this.state.email}
           autoCorrect={false}
           autoCapitalize={"none"}
