@@ -34,6 +34,8 @@ export default (authReducer = (
     case "LOGOUT_FAILURE":
     case "REGISTRATION_FAILURE":
       return { ...state, error, isLoading: false };
+    case "CLEAR_AUTH_ERROR":
+      return { ...state, error: null };
     default:
       return state;
   }

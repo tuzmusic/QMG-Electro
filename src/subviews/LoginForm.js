@@ -6,8 +6,8 @@ import F8StyleSheet from "../components/F8StyleSheet";
 
 class LoginForm extends Component {
   state = {
-    username: "",
-    password: ""
+    username: "xxx",
+    password: "123123"
   };
 
   render() {
@@ -43,7 +43,7 @@ class LoginForm extends Component {
         />
         <TouchableOpacity onPress={this.props.onLinkClick}>
           <Text style={{ fontSize: 16 }}>
-            Don't have an account? <Text style={styles.link}>Click here</Text>
+            Don't have an account? <Text style={styles.link}>Click here</Text>{" "}
             to register.
           </Text>
         </TouchableOpacity>
@@ -53,8 +53,7 @@ class LoginForm extends Component {
 }
 
 export default connect(state => ({
-  isLoading: state.auth.isLoading,
-  error: state.auth.error
+  isLoading: state.auth.isLoading
 }))(LoginForm);
 
 const theme = {

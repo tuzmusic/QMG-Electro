@@ -11,8 +11,8 @@ import RegisterForm from "../subviews/RegisterForm";
 
 class LoginView extends Component {
   state = {
-    loggingIn: false,
-    registering: true,
+    loggingIn: true,
+    registering: false,
     errors: []
   };
 
@@ -27,14 +27,14 @@ class LoginView extends Component {
   }
 
   async handleLogin({ username, password }) {
-    if (!username) {
-      return this.setState({
-        error: password ? "Username required" : "Username and Password required"
-      });
+    let formErrors = [];
+    if (!username) formErrors.push("Username required");
+    if (!password) formErrors.push("Password required");
+
+    if (formErrors.length) {
+      return this.setState({ errors: formErrors });
     }
-    if (!password) {
-      return this.setState({ error: "Password required" });
-    }
+
     await this.props.login({ username, password });
   }
 
@@ -46,7 +46,7 @@ class LoginView extends Component {
     if (password && !passwordConfirmation)
       errors.push("Please type your password twice");
     if (password !== passwordConfirmation) errors.push("Passwords don't match");
-    this.setState({ errors });
+    if (errors.length > 0) return this.setState({ errors });
     // await this.props.register({ username, email, password });
   }
 
@@ -58,6 +58,7 @@ class LoginView extends Component {
 
   toggleForm() {
     this.setState({
+      errors: [],
       loggingIn: !this.state.loggingIn,
       registering: !this.state.registering
     });
@@ -91,8 +92,10 @@ class LoginView extends Component {
               {e}
             </Text>
           ))}
+          {/*   {this.state.errors.length === 0 && (
+            <Text style={styles.errorText}>{this.props.error}</Text>
+          )} */}
 
-          <Text style={styles.errorText}>{this.props.error}</Text>
           {this.state.loggingIn && (
             <LoginForm
               onSubmit={this.handleLogin.bind(this)}

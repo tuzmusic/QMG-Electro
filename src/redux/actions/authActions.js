@@ -28,6 +28,7 @@ export async function registerWithApi({ email, username, password }) {
 
 export async function loginWithApi(creds) {
   const res = await axios.get(ApiUrls.login, { params: creds });
+  // console.log("login response:", res.data);
   return res.data;
 }
 
@@ -43,7 +44,7 @@ export function* loginSaga({ creds }) {
       error ? { type: "LOGIN_FAILURE", error } : { type: "LOGIN_SUCCESS", user }
     );
   } catch (error) {
-    debugger;
+    // console.log("login error:", error.message);
     yield put({ type: "LOGIN_FAILURE", error: error.message });
   }
 }
@@ -90,6 +91,10 @@ function* watchRegister() {
 
 export default function* authSaga() {
   yield all([watchLogin(), watchLogout(), watchRegister()]);
+}
+
+export function clearAuthError() {
+  return { type: "CLEAR_AUTH_ERROR" };
 }
 
 export function login({ username, password }) {

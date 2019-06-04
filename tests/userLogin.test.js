@@ -9,6 +9,7 @@ import {
   register,
   registerSaga,
   registerWithApi,
+  clearAuthError,
   ApiUrls
 } from "../src/redux/actions/authActions";
 import {
@@ -256,6 +257,12 @@ describe("authReducer", () => {
   it("should return the initial state", () => {
     expect(authReducer(undefined, {})).toEqual(initialState);
   });
+
+  it("can clear the error remotely", () => {
+    const errorState = { ...initialState, error: "Some error" };
+    expect(authReducer(errorState, clearAuthError()).error).toBe(null);
+  });
+
   describe("login", () => {
     const loginStartedState = authReducer(
       undefined,

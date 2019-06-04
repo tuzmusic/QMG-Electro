@@ -19,9 +19,19 @@ export function setupAuthMockAdapter() {
     .onGet(ApiUrls.register, { params: registration.badUserApiParams })
     .reply(200, registerResponse.usernameTaken)
     // login
-    .onGet(ApiUrls.login, { params: creds.success })
+    .onGet(ApiUrls.login, {
+      params: {
+        username: "testuser1",
+        password: "123123"
+      }
+    })
     .reply(200, loginResponse.success)
-    .onGet(ApiUrls.login, { params: creds.badUser })
+    .onGet(ApiUrls.login, {
+      params: {
+        username: "xxx",
+        password: "123123"
+      }
+    })
     .reply(200, loginResponse.failure)
     // logout
     .onGet(ApiUrls.logout)
