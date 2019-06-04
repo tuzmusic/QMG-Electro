@@ -37,17 +37,20 @@ class CreateStationView extends Component {
           loading={this.props.isLoading}
           disabled={this.props.isLoading}
         />
-
-        <TouchableOpacity
-          onPress={() =>
-            Linking.openURL("http://joinelectro.com/submit-listings/")
-          }
-        >
-          <Text style={[styles.text, { margin: 40, textAlign: "center" }]}>
-            Please <Text style={styles.link}>visit the website</Text> to create
-            a station.
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.opacityContainer}>
+          <TouchableOpacity
+            style={styles.opacity}
+            onPress={() =>
+              Linking.openURL("http://joinelectro.com/submit-listings/")
+            }
+          >
+            <Text style={[styles.text]}>
+              Please{" "}
+              <Text style={[styles.text, styles.link]}>visit the website</Text>{" "}
+              to create a station.
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -59,7 +62,9 @@ export default connect(
 )(CreateStationView);
 
 const styles = {
-  button: { width: "65%" },
+  opacity: {},
+  opacityContainer: { padding: 80, paddingTop: 130 },
+  button: { width: "65%", margin: 30 },
   logout: { backgroundColor: "red" },
   container: {
     flex: 1,
@@ -68,14 +73,11 @@ const styles = {
     alignItems: "center"
   },
   text: {
-    padding: 30,
-    fontSize: 24
+    fontSize: 24,
+    textAlign: "center"
   },
   link: {
-    fontSize: 24,
     color: "blue",
-    textDecorationLine: "underline",
-    textAlign: "center",
-    margin: 60
+    textDecorationLine: "underline"
   }
 };
