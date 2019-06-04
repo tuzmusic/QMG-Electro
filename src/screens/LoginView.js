@@ -11,8 +11,9 @@ import RegisterForm from "../subviews/RegisterForm";
 
 class LoginView extends Component {
   state = {
-    loggingIn: false,
-    registering: true
+    loggingIn: true,
+    registering: false,
+    error: ""
   };
 
   autoLogin() {
@@ -26,8 +27,12 @@ class LoginView extends Component {
   }
 
   async handleLogin({ username, password }) {
-    if (!username) this.setState({ usernameError: "Username required" });
-    if (!password) this.setState({ passwordError: "Password required" });
+    if (!username) {
+      return this.setState({ error: "Username required" });
+    }
+    if (!password) {
+      return this.setState({ error: "Password required" });
+    }
     await this.props.login({ username, password });
   }
 
@@ -62,14 +67,16 @@ class LoginView extends Component {
               <Text>Logging in...</Text>
             </View>
           </Overlay>
-
           <Image
             source={require("../../assets/logos/ElectroLogo.png")}
             style={styles.image}
           />
+          <Text style={styles.errorText}>
+            {this.props.error || this.state.error}
+          </Text>
           {this.state.loggingIn && (
             <LoginForm
-              onLogin={this.handleLogin.bind(this)}
+              onSubmit={this.handleLogin.bind(this)}
               onLinkClick={this.toggleForm.bind(this)}
             />
           )}
@@ -95,6 +102,10 @@ export default connect(
 )(LoginView);
 
 const styles = F8StyleSheet.create({
+  errorText: {
+    color: "red",
+    fontSize: 16
+  },
   container: {
     flex: 1,
     justifyContent: "center",

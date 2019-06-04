@@ -13,9 +13,6 @@ class LoginForm extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        {this.props.error && (
-          <Text style={styles.errorText}>{this.props.error}</Text>
-        )}
         <Input
           placeholder="Username"
           label={this.state.username && "Username"}
@@ -40,11 +37,11 @@ class LoginForm extends Component {
         <Button
           title="Login"
           disabled={this.props.isLoading}
-          onPress={() => this.props.onLogin(this.state)}
+          onPress={() => this.props.onSubmit(this.state)}
         />
         <TouchableOpacity onPress={this.props.onLinkClick}>
           <Text style={{ fontSize: 16 }}>
-            Don't have an account? <Text style={styles.link}>Click here</Text>{" "}
+            Don't have an account? <Text style={styles.link}>Click here</Text>
             to register.
           </Text>
         </TouchableOpacity>
@@ -78,10 +75,6 @@ const theme = {
 };
 
 const styles = F8StyleSheet.create({
-  errorText: {
-    color: "red",
-    fontSize: 16
-  },
   link: {
     color: "blue",
     textDecorationLine: "underline"
