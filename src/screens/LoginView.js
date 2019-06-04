@@ -13,7 +13,7 @@ class LoginView extends Component {
   state = {
     loggingIn: false,
     registering: true,
-    error: ""
+    errors: []
   };
 
   autoLogin() {
@@ -39,13 +39,14 @@ class LoginView extends Component {
   }
 
   async handleRegister({ username, email, password, passwordConfirmation }) {
-    let error;
-    if (password !== passwordConfirmation) error = "Passwords don't match";
-    if (!passwordConfirmation) error = "Please type your password twice";
-    if (!password) error = "Password required";
-    if (!email) error = "Email required";
-    if (!username) error = "Username required";
-    if (error) return this.setState({ error });
+    let errors = [];
+    if (!username) errors.push("Username required");
+    if (!email) errors.push("Email required");
+    if (!password) errors.push("Password required");
+    if (password && !passwordConfirmation)
+      errors.push("Please type your password twice");
+    if (password !== passwordConfirmation) errors.push("Passwords don't match");
+    this.setState({ errors });
     // await this.props.register({ username, email, password });
   }
 
@@ -84,21 +85,26 @@ class LoginView extends Component {
             source={require("../../assets/logos/ElectroLogo.png")}
             style={styles.image}
           />
-          <Text style={styles.errorText}>
-            {this.props.error || this.state.error}
-          </Text>
+
+          {this.state.errors.map((e, i) => (
+            <Text style={styles.errorText} key={i}>
+              {e}
+            </Text>
+          ))}
+
+          <Text style={styles.errorText}>{this.props.error}</Text>
           {this.state.loggingIn && (
             <LoginForm
               onSubmit={this.handleLogin.bind(this)}
               onLinkClick={this.toggleForm.bind(this)}
-              onChangeText={() => this.setState({ error: "" })}
+              onChangeText={() => this.setState({ errors: [] })}
             />
           )}
           {this.state.registering && (
             <RegisterForm
               onSubmit={this.handleRegister.bind(this)}
               onLinkClick={this.toggleForm.bind(this)}
-              onChangeText={() => this.setState({ error: "" })}
+              onChangeText={() => this.setState({ errors: [] })}
             />
           )}
         </View>
