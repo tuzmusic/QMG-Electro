@@ -81,7 +81,7 @@ export default class Station {
   listingURL: string;
   // #endregion
 
-  constructor(json: StationJSON) {
+  constructor(json: Object) {
     if (!json) return;
     // this.id = json.id || uuid.v1();
     this.id = json.id || Math.random();
