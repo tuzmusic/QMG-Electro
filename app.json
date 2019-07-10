@@ -4,28 +4,27 @@
     "slug": "electro",
     "privacy": "public",
     "sdkVersion": "32.0.0",
-    "platforms": [
-      "ios",
-      "android"
-    ],
-    "version": "1.0.0",
+    "platforms": ["ios", "android"],
+    "version": "0.5.1",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/electro-icon-1024.png",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/electro-spash-1242x2436.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.joinelectro.ElectroMobile",
+      "supportsTablet": false
     },
-    "description": "",
+    "android": {
+      "package": "com.joinelectro.ElectroMobile"
+    },
+    "description": "Published June 4, 2019\n",
     "githubUrl": "https://github.com/tuzmusic/QMG-Electro"
   }
 }

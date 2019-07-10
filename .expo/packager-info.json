@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": 19003,
-  "packagerPid": 84322,
+  "packagerPort": 19001,
+  "packagerPid": 35873,
   "expoServerNgrokUrl": "https://59-kaa.tuzmusic.electro.exp.direct",
   "packagerNgrokUrl": "https://packager.59-kaa.tuzmusic.electro.exp.direct",
-  "ngrokPid": 84356,
+  "ngrokPid": 35916,
   "webpackServerPort": null
 }
