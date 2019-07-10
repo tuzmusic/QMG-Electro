@@ -51,7 +51,7 @@ export function* loginSaga({ creds }) {
 
 export function* logoutSaga() {
   try {
-    yield call(logoutWithApi);
+    // yield call(logoutWithApi);
     yield put({ type: "LOGOUT_SUCCESS" });
   } catch (error) {
     yield put({ type: "LOGOUT_FAILURE", error: error.message });
