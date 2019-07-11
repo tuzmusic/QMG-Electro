@@ -15,7 +15,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import F8StyleSheet from "../components/F8StyleSheet";
-import GoogleAPIKey from "../secrets";
+import GoogleMapsApiKey from "../secrets";
 import Geocoder from "react-native-geocoding";
 import { connect } from "react-redux";
 
@@ -32,7 +32,7 @@ const concord = {
   longitudeDelta: 0.00421
 };
 
-Geocoder.init(GoogleAPIKey);
+Geocoder.init(GoogleMapsApiKey);
 
 class MapScreen extends Component {
   static navigationOptions = {
@@ -127,9 +127,9 @@ class MapScreen extends Component {
   fetchSearch() {
     const searchText = this.state.searchText.split(" ").join("%20");
 
-    let url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${searchText}&inputtype=textquery&fields=formatted_address,name,geometry&key=${GoogleAPIKey}`;
+    let url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${searchText}&inputtype=textquery&fields=formatted_address,name,geometry&key=${GoogleMapsApiKey}`;
 
-    // url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=${GoogleAPIKey}`;
+    // url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=${GoogleMapsApiKey}`;
     console.log(url);
 
     fetch(url)

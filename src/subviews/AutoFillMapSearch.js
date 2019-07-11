@@ -3,7 +3,7 @@ import type { ElectroLocation } from "../../flowTypes";
 import * as React from "react";
 import { Text, TextInput, View, TouchableOpacity } from "react-native";
 import { Input } from "react-native-elements";
-import { GoogleAPIKey } from "../../secrets";
+import { GoogleMapsApiKey } from "../../secrets";
 import AppStyles from "../constants/Styles";
 import _ from "lodash";
 import { connect } from "react-redux";
@@ -31,7 +31,7 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
     showPredictions: false
   };
   async handleAddressChange() {
-    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleAPIKey}&input=${
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleMapsApiKey}&input=${
       this.state.address
     }`;
     try {
@@ -52,7 +52,7 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
   async onPredictionSelect(prediction: { [key: string]: string }) {
     this.textInput && this.textInput.blur();
     this.setState({ address: prediction.description, showPredictions: false });
-    const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleAPIKey}&placeid=${
+    const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleMapsApiKey}&placeid=${
       prediction.place_id
     }&fields=geometry`;
     try {

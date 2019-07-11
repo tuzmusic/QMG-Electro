@@ -43,8 +43,15 @@ export async function _downloadStations() {
     const json = await res.json();
     const stations = Object.assign(
       {},
-      ...json.map(s => ({ [s.id]: Station.createFromApiResponse(s) }))
+      ...json.map(s => ({ [s.id]: Station.fromApi(s) }))
     );
+
+    for (const id in stations) {
+      const station = stations[Number(id)];
+      if (!station.location && station.address) await station.setLocation();
+      console.log(station.location);
+    }
+    // return { stations };
     return { stations: { ...stations, ...CupertinoStations } };
   } catch (error) {
     console.warn(error);

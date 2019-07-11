@@ -11,7 +11,7 @@ let store = mockStore({ main: { stations: [] } });
 describe("async fetching actions", () => {
   // #region SET UP VARIABLES AND MOCKS
   const firstStationJSON = apiResponse[0];
-  const firstStationObject = Station.createFromApiResponse(firstStationJSON);
+  const firstStationObject = Station.fromApi(firstStationJSON);
   const mainApiUrl = "http://joinelectro.com/wp-json/wp/v2/job-listings/";
   const mediaDataURL = "http://joinelectro.com/wp-json/wp/v2/media/817";
   const imageURL =
@@ -29,7 +29,7 @@ describe("async fetching actions", () => {
   describe("fetchStations(shouldDownload)", () => {
     // #region SET UP
     const downloadedResponse = {
-      [firstStationJSON.id]: Station.createFromApiResponse(firstStationJSON)
+      [firstStationJSON.id]: Station.fromApi(firstStationJSON)
     };
     const expectedGetActions = [
       { type: "GET_STATIONS_START" },

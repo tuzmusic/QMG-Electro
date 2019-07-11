@@ -13,7 +13,7 @@ import {
   setCurrentStationID,
   createStation
 } from "../redux/actions/stationActions";
-import { GoogleAPIKey } from "../../secrets";
+import { GoogleMapsApiKey } from "../../secrets";
 import Sugar from "sugar";
 Sugar.extend();
 import AppStyles from "../constants/Styles";
@@ -101,7 +101,7 @@ class CreateStationView extends Component {
   state = this.emptyState;
 
   async handleAddressChange() {
-    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleAPIKey}&input=${
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleMapsApiKey}&input=${
       this.state.address
     }`;
     try {
@@ -115,7 +115,7 @@ class CreateStationView extends Component {
 
   async setAddress(prediction) {
     this.setState({ address: prediction.description, showPredictions: false });
-    const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleAPIKey}&placeid=${
+    const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleMapsApiKey}&placeid=${
       prediction.place_id
     }&fields=geometry`;
     try {
