@@ -1,8 +1,8 @@
 // @flow
 import type { Action, ElectroLocation } from "../../../flowTypes";
 import type { State } from "../reducers/mainReducer";
-import { Constants, Location, Permissions } from "expo";
-// import * as Location from "expo-location";
+import { Constants, Permissions } from "expo";
+import * as Location from "expo-location";
 // import * as Permissions from "expo-permissions";
 
 type Dispatch = (action: Action | ThunkAction | PromiseAction) => any;
