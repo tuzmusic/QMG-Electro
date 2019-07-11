@@ -58,16 +58,17 @@ class StationsListView extends Component<ListViewProps> {
 }
 
 function closestFirst(a: Station, b: Station): number {
-  return a.distanceFromLocation(this.props.location) >
-    b.distanceFromLocation(this.props.location)
-    ? 1
-    : -1;
+  if (!a.location || !b.location) return 0;
+  const distA = a.distanceFromLocation(this.props.location);
+  const distB = b.distanceFromLocation(this.props.location);
+  if (!distA || !distB) return 0;
+  return distA > distB ? 1 : -1;
 }
 
 function withinSearchRadius(station: Station): boolean {
-  return (
-    station.distanceFromLocation(this.props.location) <= this.props.searchRadius
-  );
+  const dist = station.distanceFromLocation(this.props.location);
+  if (!dist) return false;
+  return !station.location || dist <= this.props.searchRadius;
 }
 
 const mapStateToProps = state => ({
