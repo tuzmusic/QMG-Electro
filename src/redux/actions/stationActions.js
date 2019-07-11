@@ -49,10 +49,12 @@ export async function _downloadStations() {
     for (const id in stations) {
       const station = stations[Number(id)];
       if (!station.location && station.address) await station.setLocation();
-      console.log(station.location);
+      // if (!station.location) debugger;
+      // console.log(station.location);
     }
-    // return { stations };
-    return { stations: { ...stations, ...CupertinoStations } };
+    return __DEV__
+      ? { stations: { ...stations, ...CupertinoStations } }
+      : { stations };
   } catch (error) {
     console.warn(error);
     return { error };

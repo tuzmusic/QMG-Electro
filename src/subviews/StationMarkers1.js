@@ -34,20 +34,24 @@ const StationMarkers = (props: Props) => {
       pluralize("mile", station.distanceFromLocation(props.location), true) +
       " away";
     return (
-      <Marker
-        coordinate={station.location}
-        key={key}
-        onPress={props.onMarkerPress.bind(null, station)}
-      >
-        <Callout
-          onPress={props.onCalloutPress.bind(null, station)}
-          style={styles.callout}
+      station.location && (
+        <Marker
+          coordinate={station.location}
+          key={key}
+          onPress={props.onMarkerPress.bind(null, station)}
         >
-          <CellTextRow style={text.title}>{station.title}</CellTextRow>
-          <CellTextRow style={text.distance}>{distanceString}</CellTextRow>
-          <CellTextRow style={text.price}>{station.priceString()}</CellTextRow>
-        </Callout>
-      </Marker>
+          <Callout
+            onPress={props.onCalloutPress.bind(null, station)}
+            style={styles.callout}
+          >
+            <CellTextRow style={text.title}>{station.title}</CellTextRow>
+            <CellTextRow style={text.distance}>{distanceString}</CellTextRow>
+            <CellTextRow style={text.price}>
+              {station.priceString()}
+            </CellTextRow>
+          </Callout>
+        </Marker>
+      )
     );
   });
 };
