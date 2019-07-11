@@ -31,8 +31,11 @@ const StationMarkers = (props: Props) => {
   return Object.keys(props.stations).map<Marker>((key: string) => {
     const station = props.stations[key];
     const distanceString =
-      pluralize("mile", station.distanceFromLocation(props.location), true) +
-      " away";
+      pluralize(
+        "mile",
+        station.distanceFromLocation(props.location) || 0,
+        true
+      ) + " away";
     return (
       station.location && (
         <Marker

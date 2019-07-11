@@ -3,11 +3,11 @@ import type { ElectroLocation } from "../../flowTypes";
 import * as React from "react";
 import { Text, TextInput, View, TouchableOpacity } from "react-native";
 import { Input } from "react-native-elements";
-import { GoogleMapsApiKey } from "../../secrets";
 import AppStyles from "../constants/Styles";
 import _ from "lodash";
 import { connect } from "react-redux";
 import { setCurrentRegion } from "../redux/actions/locationActions";
+import ApiUrls from "../constants/ApiUrls";
 
 // #region TYPES
 type State = {
@@ -31,11 +31,8 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
     showPredictions: false
   };
   async handleAddressChange() {
-    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleMapsApiKey}&input=${
-      this.state.address
-    }`;
     try {
-      const result = await fetch(url);
+      const result = await fetch(ApiUrls.mapsSearch(this.state.address));
       const json = await result.json();
       this.setState({ addressPredictions: json.predictions });
     } catch (err) {
@@ -51,12 +48,10 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
 
   async onPredictionSelect(prediction: { [key: string]: string }) {
     this.textInput && this.textInput.blur();
+
     this.setState({ address: prediction.description, showPredictions: false });
-    const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleMapsApiKey}&placeid=${
-      prediction.place_id
-    }&fields=geometry`;
     try {
-      const result = await fetch(url);
+      const result = await fetch(ApiUrls.mapsDetails(prediction.place_id));
       const json = await result.json();
       const location = json.result.geometry.location;
       this.props.setCurrentRegion({

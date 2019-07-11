@@ -154,7 +154,6 @@ export default class Station {
     address: string
   ): Promise<?ElectroLocation> {
     try {
-      // debugger;
       const search = await fetch(ApiUrls.mapsSearch(address));
       const { predictions, ...searchData } = await search.json();
       if (searchData.error_message) throw Error(searchData.error_message);
