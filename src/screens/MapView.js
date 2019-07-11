@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { MapView } from "expo";
-import { View, Button, Text, Platform, TextInput } from "react-native";
+import {
+  View,
+  Button as NativeButton,
+  Text,
+  Platform,
+  TextInput
+} from "react-native";
+import { Button } from "react-native-elements";
 import { BLText } from "../components/StyledComponents";
 import TabBarIcon from "../components/TabBarIcon";
 import F8StyleSheet from "../components/F8StyleSheet";
@@ -13,15 +20,18 @@ import { setCurrentStationID } from "../redux/actions/stationActions";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
 import StationMarkers from "../subviews/StationMarkers1";
 import LoadingIndicator from "../components/LoadingIndicator";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const { Marker, Callout } = MapView;
 
 const LocationButton = ({ onPress }) => {
   return (
     <Callout style={styles.locationButtonCallout}>
-      <Button onPress={onPress} title={"Find Me"} style={styles.locationButton}>
-        {/* <TabBarIcon name={"location-arrow"} library={"FontAwesome"} /> */}
-      </Button>
+      <Button
+        buttonStyle={styles.locationButton}
+        onPress={onPress}
+        icon={<Icon name="location-arrow" color="#3B6EC2" size={22} />}
+      />
     </Callout>
   );
 };
@@ -30,38 +40,6 @@ const Locations = {
     latitude: 37.33233141,
     longitude: -122.0312186,
     accuracy: 0.05
-  },
-  simulatorLocation: {
-    latitude: 37.33233141,
-    longitude: -122.0312186
-  },
-  calculatedSimulatorLocation: {
-    latitude: 37.33233141,
-    latitudeDelta: 0.0004491555874955085,
-    longitude: -122.0312186,
-    longitudeDelta: -0.05737702242408729
-  },
-  precalculatedSearchedCupertino: {
-    accuracy: 0.05,
-    latitude: 37.3229978,
-    longitude: -122.0321823
-  },
-  calculatedSearchedCupertino: {
-    accuracy: 0.05,
-    latitude: 37.3229978,
-    latitudeDelta: 0.0004491555874955085,
-    longitude: -122.0321823,
-    longitudeDelta: -2.618546275831898
-  },
-  get concord() {
-    const stations = require("../../tests/__mocks__/old/StationsMock").stations;
-    const station = stations[0];
-    return {
-      latitude: station.location.latitude,
-      longitude: station.location.longitude,
-      accuracy: 0.01,
-      showMarker: true
-    };
   }
 };
 
@@ -131,18 +109,20 @@ class MapScreen extends Component {
             beforeOnPress={this.beforePressPrediction.bind(this)}
           />
         </Callout>
-        <Callout style={[styles.locationButtonCallout, { right: 100 }]}>
-          <Button
-            onPress={() =>
-              this.props.setCurrentRegion({
-                ...Locations.cupertino,
-                showMarker: true
-              })
-            }
-            title={"Cupertino"}
-            style={styles.locationButton}
-          />
-        </Callout>
+        {__DEV__ && (
+          <Callout style={[styles.locationButtonCallout, { right: 100 }]}>
+            <NativeButton
+              onPress={() =>
+                this.props.setCurrentRegion({
+                  ...Locations.cupertino,
+                  showMarker: true
+                })
+              }
+              title={"Cupertino"}
+              style={styles.locationButton}
+            />
+          </Callout>
+        )}
         <LocationButton
           onPress={() => {
             // this.setState({ region: null });
@@ -182,17 +162,16 @@ const styles = F8StyleSheet.create({
     height: 40
   },
   locationButtonCallout: {
-    borderRadius: 10,
-    opacity: 0.7,
-    backgroundColor: "lightgrey",
+    borderRadius: 50,
+    opacity: 0.9,
+    backgroundColor: "white",
     bottom: 0,
     right: 0,
-    margin: 10
+    margin: 15,
+    padding: 10
   },
   locationButton: {
-    backgroundColor: "grey",
-    borderRadius: 10,
-    opacity: 0.8
+    backgroundColor: "transparent"
   },
   container: {
     flex: 1,
