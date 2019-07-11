@@ -12,7 +12,8 @@
     "preset": "jest-expo",
     "testEnvironment": "node",
     "globals": {
-      "__DEV__": true
+      "__DEV__": true,
+      "EXPO_DEBUG": true
     }
   },
   "dependencies": {

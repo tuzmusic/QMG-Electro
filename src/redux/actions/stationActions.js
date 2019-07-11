@@ -45,7 +45,6 @@ export async function _downloadStations() {
       {},
       ...json.map(s => ({ [s.id]: Station.fromApi(s) }))
     );
-
     for (const id in stations) {
       const station = stations[Number(id)];
       if (!station.location && station.address) await station.setLocation();

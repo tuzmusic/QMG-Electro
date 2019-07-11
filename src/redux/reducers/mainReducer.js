@@ -88,8 +88,6 @@ export default function mainReducer(
     case "SET_CURRENT_USER_LOCATION":
       return { ...state, currentUserLocation: action.region };
     case "SET_SEARCH_RADIUS":
-      console.log("Radius set:", action.radius);
-
       return { ...state, searchRadiusInMiles: action.radius };
     // #endregion
     default:

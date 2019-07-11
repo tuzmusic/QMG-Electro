@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { MapView } from "expo";
 import {
   View,
   Button as NativeButton,
@@ -22,7 +21,9 @@ import StationMarkers from "../subviews/StationMarkers1";
 import LoadingIndicator from "../components/LoadingIndicator";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const { Marker, Callout } = MapView;
+import MapView, { Marker, Callout } from "react-native-maps";
+// import { MapView } from "expo";
+// const { Marker, Callout } = MapView;
 
 const LocationButton = ({ onPress }) => {
   return (
