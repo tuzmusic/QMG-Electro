@@ -12,7 +12,7 @@ export default (authReducer = (
   state = initialState,
   { user, users, error, ...action }
 ) => {
-  console.log(action.type);
+  // console.log(action.type);
 
   switch (action.type) {
     case "LOGIN_START":

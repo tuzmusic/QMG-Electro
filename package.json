@@ -41,6 +41,7 @@
     "redux-saga": "^1.0.2",
     "redux-test-utils": "^0.3.0",
     "redux-thunk": "^2.3.0",
+    "sharp-cli": "^1.10.0",
     "sugar": "^2.0.6"
   },
   "devDependencies": {
