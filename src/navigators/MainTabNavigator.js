@@ -5,7 +5,6 @@ import {
   createStackNavigator,
   createBottomTabNavigator
 } from "react-navigation";
-import { Constants } from "expo";
 
 import TabBarIcon from "../components/TabBarIcon";
 import MapScreen from "../screens/MapView";
@@ -108,12 +107,6 @@ const TabNavigator = createBottomTabNavigator(
 
 class TabContainer extends Component {
   componentWillMount() {
-    if (Platform.OS === "android" && !Constants.isDevice) {
-      return this.setState({
-        errorMessage:
-          "Oops, this will (getting location?) not work on Sketch in an Android emulator. Try it on your device!"
-      });
-    }
     this.props.getLocationAsync();
   }
 

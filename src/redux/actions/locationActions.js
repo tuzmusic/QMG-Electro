@@ -1,7 +1,7 @@
 // @flow
 import type { Action, ElectroLocation } from "../../../flowTypes";
 import type { State } from "../reducers/mainReducer";
-import { Constants, Permissions } from "expo";
+import { Permissions } from "expo";
 import * as Location from "expo-location";
 // import * as Permissions from "expo-permissions";
 
