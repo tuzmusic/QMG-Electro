@@ -19,7 +19,6 @@ export function getLocationAsync(): ThunkAction {
     let location = await Location.getCurrentPositionAsync({});
     let { latitude, longitude } = location.coords;
     let region = { latitude, longitude, accuracy: 0.05 };
-    // dispatch(setCurrentUserLocation(region));
     dispatch(setCurrentRegion(region));
   };
 }
@@ -27,8 +26,6 @@ export function getLocationAsync(): ThunkAction {
 export function setCurrentRegion(region: ElectroLocation) {
   region.accuracy = 0.05;
   const newRegion = { ...region, ...calculateRegion(region) };
-  // console.log(newRegion);
-
   return { type: "SET_CURRENT_REGION", region: newRegion };
 }
 
