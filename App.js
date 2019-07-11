@@ -24,6 +24,7 @@ const store = createStore(
   applyMiddleware(thunk, sagaMiddleware)
 );
 sagaMiddleware.run(authSaga);
+
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false

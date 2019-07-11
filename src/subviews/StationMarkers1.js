@@ -3,7 +3,6 @@ import type { ElectroLocation } from "../../flowTypes";
 import type Station from "../models/Station";
 
 import React, { Component } from "react";
-import { MapView } from "expo";
 import { View, Button, Text, Platform, TextInput } from "react-native";
 import { BLText } from "../components/StyledComponents";
 import TabBarIcon from "../components/TabBarIcon";
@@ -15,7 +14,7 @@ import {
 } from "../redux/actions/locationActions";
 import { setCurrentStationID } from "../redux/actions/stationActions";
 import pluralize from "pluralize";
-const { Marker, Callout } = MapView;
+import MapView, { Marker, Callout } from "react-native-maps";
 
 type Props = {
   stations: { [key: string]: Station },

@@ -22,8 +22,6 @@ import LoadingIndicator from "../components/LoadingIndicator";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import MapView, { Marker, Callout } from "react-native-maps";
-// import { MapView } from "expo";
-// const { Marker, Callout } = MapView;
 
 const LocationButton = ({ onPress }) => {
   return (
