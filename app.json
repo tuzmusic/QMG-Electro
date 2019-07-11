@@ -4,7 +4,10 @@
     "slug": "electro",
     "privacy": "public",
     "sdkVersion": "32.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "0.5.1",
     "orientation": "portrait",
     "icon": "./assets/electro-icon-1024.png",
@@ -16,7 +19,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "bundleIdentifier": "com.joinelectro.ElectroMobile",
       "supportsTablet": false
@@ -24,7 +29,7 @@
     "android": {
       "package": "com.joinelectro.ElectroMobile"
     },
-    "description": "",
+    "description": "v0.5.2\n- Mock stations removed\n- Code improvements",
     "githubUrl": "https://github.com/tuzmusic/QMG-Electro"
   }
 }
