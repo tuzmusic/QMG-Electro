@@ -60,10 +60,6 @@ export async function _downloadStations() {
   }
 }
 
-export function _getImageURLsForAllStations(stations) {
-  Object.values(stations).forEach(station => getImageURLForStation(station));
-}
-
 /* public */ export function getImageURLForStation(station) {
   return dispatch => {
     _getImageURLForStation(dispatch, station);
@@ -91,38 +87,4 @@ export function setCurrentStationID(id) {
   return dispatch => {
     dispatch({ type: "SET_CURRENT_STATION", stationID: id });
   };
-}
-
-export function createStation(formData) {
-  return async dispatch => {
-    const station = new Station(formData);
-    try {
-      // const returnedStation = await postStationToApi(station);
-      await dispatch({ type: "CREATE_STATION", station }); // will eventually be dispatching returnedStation
-      dispatch({ type: "SAVE_STATIONS" });
-      return station;
-    } catch (error) {
-      dispatch({ type: "CREATE_STATION_ERROR", error });
-    }
-  };
-}
-
-export function deleteStation(station) {
-  return dispatch => {
-    dispatch({ type: "DELETE_STATION", station });
-    dispatch({ type: "SAVE_STATIONS" });
-  };
-}
-
-function _postStationToApi(station) {
-  const apiFriendlyStation = Station.createForApiPost(station);
-  // POST apiFriendlyStation to API
-  fetch("url")
-    .then(res => res.json())
-    .then(json => {
-      return json; // this may not be quite right...
-    })
-    .catch(error => {
-      return error;
-    });
 }

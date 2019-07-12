@@ -10,10 +10,7 @@ import {
 import { Image, Avatar, Button } from "react-native-elements";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
-import {
-  getImageURLForStation,
-  deleteStation
-} from "../redux/actions/stationActions";
+import { getImageURLForStation } from "../redux/actions/stationActions";
 import { MaterialIndicator } from "react-native-indicators";
 
 const CellTextRow = props => (
@@ -122,11 +119,6 @@ class StationDetailView extends Component {
     }
   }
 
-  async onDelete() {
-    this.props.navigation.navigate("ListScreen");
-    this.props.deleteStation(this.props.station);
-  }
-
   render() {
     if (!this.props.station) return null;
     const { station, users } = this.props;
@@ -165,14 +157,6 @@ class StationDetailView extends Component {
           <CellTextRow style={[text.content, { paddingTop: 20 }]}>
             {station.content.replace("<p>", "").replace("</p>", "")}
           </CellTextRow>
-          {/* <View style={styles.buttonContainer}>
-            <Button
-              title="Delete Listing"
-              containerStyle={{ width: "100%" }}
-              buttonStyle={{ backgroundColor: "red" }}
-              onPress={this.onDelete.bind(this)}
-            />
-          </View> */}
         </View>
       </ScrollView>
     );
@@ -187,7 +171,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getImageURLForStation, deleteStation }
+  { getImageURLForStation }
 )(StationDetailView);
 
 const baseSize = 17;

@@ -29,11 +29,6 @@ export function setCurrentRegion(region: ElectroLocation) {
   return { type: "SET_CURRENT_REGION", region: newRegion };
 }
 
-export function setCurrentUserLocation(location: ElectroLocation) {
-  const region = calculateRegion(location);
-  return { type: "SET_CURRENT_USER_LOCATION", region };
-}
-
 export function setSearchRadius(radius: number) {
   return { type: "SET_SEARCH_RADIUS", radius };
 }
