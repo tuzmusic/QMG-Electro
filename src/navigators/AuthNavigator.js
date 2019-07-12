@@ -11,9 +11,12 @@ export class AuthNavigator extends Component {
   static router = AuthStack.router;
 
   async componentDidMount() {
+    this.loginStoredUser();
+  }
+
+  async loginStoredUser() {
     const user = await AsyncStorage.getItem("electro_logged_in_user");
     if (user) {
-      // console.log("User found in storage:", user);
       this.props.setUser(JSON.parse(user));
       this.props.navigation.navigate("Main");
     }
@@ -24,11 +27,7 @@ export class AuthNavigator extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { user: state.auth.user };
-};
-
 export default connect(
-  mapStateToProps,
+  null,
   { setUser }
 )(AuthNavigator);
