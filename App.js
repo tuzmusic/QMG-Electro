@@ -32,10 +32,13 @@ export default class App extends React.Component {
 
   componentDidMount = async () => {
     await this._loadResourcesAsync();
+    console.log("next line");
   };
 
   render() {
-    return (
+    console.log(this.state);
+
+    return !this.state.isLoadingComplete ? null : (
       <Provider store={store}>
         <View style={styles.container}>
           {Platform.OS === "ios" && <StatusBar barStyle="default" />}
@@ -75,7 +78,11 @@ export default class App extends React.Component {
       Font.loadAsync({
         din1451alt: require("./assets/fonts/din1451alt.ttf")
         // ...Icon.Ionicons.font
-      }).then(() => GlobalFont.applyGlobal(AppStyles.font))
+      }).then(() => {
+        GlobalFont.applyGlobal(AppStyles.font);
+        console.log("global font applied");
+        this.setState({ isLoadingComplete: true });
+      })
     ]);
   };
 
