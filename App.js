@@ -30,8 +30,21 @@ export default class App extends React.Component {
     isLoadingComplete: false
   };
 
+  componentDidMount = async () => {
+    await this._loadResourcesAsync();
+  };
+
   render() {
-    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+    return (
+      <Provider store={store}>
+        <View style={styles.container}>
+          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+          <AppContainer />
+        </View>
+      </Provider>
+    );
+    {
+      /* if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <AppLoading
           startAsync={this._handleLoading}
@@ -48,6 +61,7 @@ export default class App extends React.Component {
           </View>
         </Provider>
       );
+    } */
     }
   }
 
