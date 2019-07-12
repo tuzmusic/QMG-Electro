@@ -66,17 +66,13 @@ class LoginView extends Component {
     await this.props.register({ username, email, password });
   }
 
-  async componentWillReceiveProps(newProps) {
+  async loginUser(newProps) {
     if (newProps.user) {
       try {
         await AsyncStorage.setItem(
           "electro_logged_in_user",
           JSON.stringify(newProps.user)
         );
-        // console.log(
-        // "newly logged in user has been saved as:",
-        // await AsyncStorage.getItem("electro_logged_in_user")
-        // );
       } catch (error) {
         console.warn("Couldn't write user to storage.", error);
       }
@@ -95,6 +91,7 @@ class LoginView extends Component {
   }
 
   render() {
+    if (this.props.user) this.loginUser(this.props);
     return (
       <KeyboardAwareScrollView contentContainerStyle={styles.superContainer}>
         <View style={styles.container}>

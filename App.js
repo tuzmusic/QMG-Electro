@@ -1,6 +1,6 @@
 import React from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
-import { AppLoading, Font } from "expo";
+import { Font } from "expo";
 import AppContainer from "./src/navigators/AppNavigator";
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
@@ -31,13 +31,11 @@ export default class App extends React.Component {
   };
 
   componentDidMount = async () => {
-    await this._loadResourcesAsync();
-    console.log("next line");
+    await this._handleLoading();
+    this._handleFinishLoading();
   };
 
   render() {
-    console.log(this.state);
-
     return !this.state.isLoadingComplete ? null : (
       <Provider store={store}>
         <View style={styles.container}>
@@ -46,31 +44,10 @@ export default class App extends React.Component {
         </View>
       </Provider>
     );
-    {
-      /* if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
-      return (
-        <AppLoading
-          startAsync={this._handleLoading}
-          onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}
-        />
-      );
-    } else {
-      return (
-        <Provider store={store}>
-          <View style={styles.container}>
-            {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-            <AppContainer />
-          </View>
-        </Provider>
-      );
-    } */
-    }
   }
 
   _handleLoading = async () => {
     await this._loadResourcesAsync();
-    // setupAuthMockAdapter();
   };
 
   _loadResourcesAsync = async () => {
@@ -78,11 +55,7 @@ export default class App extends React.Component {
       Font.loadAsync({
         din1451alt: require("./assets/fonts/din1451alt.ttf")
         // ...Icon.Ionicons.font
-      }).then(() => {
-        GlobalFont.applyGlobal(AppStyles.font);
-        console.log("global font applied");
-        this.setState({ isLoadingComplete: true });
-      })
+      }).then(() => GlobalFont.applyGlobal(AppStyles.font))
     ]);
   };
 
