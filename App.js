@@ -1,6 +1,6 @@
 import React from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
-import { AppLoading, Font, Icon } from "expo";
+import { AppLoading, Font } from "expo";
 import AppContainer from "./src/navigators/AppNavigator";
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
@@ -59,8 +59,8 @@ export default class App extends React.Component {
   _loadResourcesAsync = async () => {
     return Promise.all([
       Font.loadAsync({
-        din1451alt: require("./assets/fonts/din1451alt.ttf"),
-        ...Icon.Ionicons.font
+        din1451alt: require("./assets/fonts/din1451alt.ttf")
+        // ...Icon.Ionicons.font
       }).then(() => GlobalFont.applyGlobal(AppStyles.font))
     ]);
   };
