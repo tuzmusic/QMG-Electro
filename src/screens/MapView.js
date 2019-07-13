@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  Button as NativeButton,
-  Text,
-  Platform,
-  TextInput
-} from "react-native";
+import { View, Text, Platform, TextInput } from "react-native";
 import { Button } from "react-native-elements";
 import { BLText } from "../components/StyledComponents";
 import TabBarIcon from "../components/TabBarIcon";
@@ -23,37 +17,17 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 import MapView, { Marker, Callout } from "react-native-maps";
 
-const LocationButton = ({ onPress }) => {
-  return (
-    <Callout style={styles.locationButtonCallout}>
-      <Button
-        buttonStyle={styles.locationButton}
-        onPress={onPress}
-        icon={<Icon name="location-arrow" color="#3B6EC2" size={22} />}
-      />
-    </Callout>
-  );
-};
-const Locations = {
-  cupertino: {
-    latitude: 37.33233141,
-    longitude: -122.0312186,
-    accuracy: 0.05
-  }
-};
-
-const CurrentRegionMarker = ({ currentRegion }) => {
-  return currentRegion && currentRegion.showMarker ? (
-    <Marker coordinate={currentRegion} pinColor={"green"} />
-  ) : null;
-};
-
 class MapScreen extends Component {
   static navigationOptions = {
     title: "Nearby Stations"
   };
 
   state = { region: null };
+  goToCupertino = () =>
+    this.props.setCurrentRegion({
+      ...Locations.cupertino,
+      showMarker: true
+    });
 
   onMarkerPress = station => {
     this.setState({
@@ -100,20 +74,7 @@ class MapScreen extends Component {
             beforeOnPress={this.beforePressPrediction.bind(this)}
           />
         </Callout>
-        {__DEV__ && (
-          <Callout style={[styles.locationButtonCallout, { right: 100 }]}>
-            <NativeButton
-              onPress={() =>
-                this.props.setCurrentRegion({
-                  ...Locations.cupertino,
-                  showMarker: true
-                })
-              }
-              title={"Cupertino"}
-              style={styles.locationButton}
-            />
-          </Callout>
-        )}
+        {__DEV__ && <CupertinoButton onPress={this.goToCupertino.bind(this)} />}
         <LocationButton
           onPress={() => {
             // this.setState({ region: null });
@@ -124,6 +85,38 @@ class MapScreen extends Component {
     );
   }
 }
+
+const LocationButton = ({ onPress }) => {
+  return (
+    // callout can't have borderRadius in android
+    <Callout style={styles.locationButtonCallout}>
+      <Button
+        buttonStyle={styles.locationButton}
+        onPress={onPress}
+        icon={<Icon name="location-arrow" color="#3B6EC2" size={22} />}
+      />
+    </Callout>
+  );
+};
+const Locations = {
+  cupertino: {
+    latitude: 37.33233141,
+    longitude: -122.0312186,
+    accuracy: 0.05
+  }
+};
+
+const CurrentRegionMarker = ({ currentRegion }) => {
+  return currentRegion && currentRegion.showMarker ? (
+    <Marker coordinate={currentRegion} pinColor={"green"} />
+  ) : null;
+};
+
+const CupertinoButton = props => (
+  <Callout style={[styles.locationButtonCallout, { right: 100 }]}>
+    <Button onPress={props.onPress} title={"Cupertino"} />
+  </Callout>
+);
 
 const mapStateToProps = state => {
   return {
@@ -137,7 +130,7 @@ export default connect(
   mapStateToProps,
   { getLocationAsync, setCurrentRegion, setCurrentStationID }
 )(MapScreen);
-
+const buttonSize = "15%";
 const styles = F8StyleSheet.create({
   searchCallout: {
     backgroundColor: "white",
@@ -153,16 +146,18 @@ const styles = F8StyleSheet.create({
     height: 40
   },
   locationButtonCallout: {
-    borderRadius: 50,
     opacity: 0.9,
-    backgroundColor: "white",
+    backgroundColor: "transparent",
     bottom: 0,
     right: 0,
-    margin: 15,
-    padding: 10
+    height: buttonSize,
+    width: buttonSize,
+    margin: 15
   },
   locationButton: {
-    backgroundColor: "transparent"
+    backgroundColor: "white",
+    borderRadius: 50,
+    padding: 10
   },
   container: {
     flex: 1,
