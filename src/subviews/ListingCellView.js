@@ -48,24 +48,26 @@ export default connect(state => ({ location: state.main.currentRegion }))(
   ListingCellView
 );
 
-const baseSize = 16;
+const baseSize = 14;
 const text = F8StyleSheet.create({
   title: {
     fontWeight: "bold",
-    fontSize: baseSize + 3
+    fontSize: baseSize + 2
   },
   address: {
-    fontSize: baseSize - 1
+    fontSize: baseSize
   },
   distance: {
-    fontSize: baseSize
+    fontSize: baseSize,
+    textAlign: "right"
   },
   caption: {
     textAlign: "center"
   },
   price: {
-    fontSize: 16,
-    color: "green"
+    fontSize: baseSize,
+    color: "green",
+    textAlign: "right"
   }
 });
 
