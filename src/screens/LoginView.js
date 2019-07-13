@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Image, Overlay } from "react-native-elements";
-import { View, Text } from "react-native";
+import { View, Text, KeyboardAvoidingView } from "react-native";
 import { DotIndicator } from "react-native-indicators";
 import { connect } from "react-redux";
 import { login, register, clearAuthError } from "../redux/actions/authActions";
@@ -93,7 +93,11 @@ class LoginView extends Component {
   render() {
     if (this.props.user) this.loginUser(this.props);
     return (
-      <KeyboardAwareScrollView contentContainerStyle={styles.superContainer}>
+      <KeyboardAvoidingView
+        style={styles.superContainer}
+        enabled
+        behavior="height"
+      >
         <View style={styles.container}>
           <Overlay
             containerStyle={styles.modal}
@@ -137,7 +141,7 @@ class LoginView extends Component {
             />
           )}
         </View>
-      </KeyboardAwareScrollView>
+      </KeyboardAvoidingView>
     );
   }
 }
