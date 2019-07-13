@@ -39,7 +39,7 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
   }
 
   async componentDidMount() {
-    // setTimeout(this.setSamplePrediction.bind(this), 1000);
+    setTimeout(this.setSamplePrediction.bind(this), 1000);
   }
 
   async handleAddressChange() {
@@ -65,6 +65,8 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
       const result = await fetch(ApiUrls.mapsDetails(prediction.place_id));
       const json = await result.json();
       const location = json.result.geometry.location;
+      // console.log(Platform.OS, "setting region for", this.state.address);
+
       this.props.setCurrentRegion({
         latitude: location.lat,
         longitude: location.lng,

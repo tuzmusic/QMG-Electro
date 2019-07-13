@@ -42,12 +42,6 @@ const Locations = {
   }
 };
 
-function automate() {
-  const stations = require("../../tests/__mocks__/old/StationsMock").stations;
-  const station = stations[0];
-  this.props.setCurrentRegion(Locations.cupertino);
-}
-
 const CurrentRegionMarker = ({ currentRegion }) => {
   return currentRegion && currentRegion.showMarker ? (
     <Marker coordinate={currentRegion} pinColor={"green"} />
@@ -57,10 +51,6 @@ const CurrentRegionMarker = ({ currentRegion }) => {
 class MapScreen extends Component {
   static navigationOptions = {
     title: "Nearby Stations"
-  };
-
-  componentDidMount = () => {
-    // setTimeout(automate.bind(this), 2000);
   };
 
   state = { region: null };
@@ -82,6 +72,8 @@ class MapScreen extends Component {
     await this.setState({ region: null });
   };
   render() {
+    // console.log(Platform.OS, this.props.currentRegion);
+
     return (
       <View style={styles.container}>
         <LoadingIndicator

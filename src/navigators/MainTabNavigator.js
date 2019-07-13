@@ -69,8 +69,8 @@ UserStack.navigationOptions = {
 const TabNavigator = createBottomTabNavigator(
   {
     MapStack,
-    ListStack
-    // UserStack
+    ListStack,
+    UserStack
   },
   {
     initialRouteName: "UserStack",
@@ -86,6 +86,7 @@ class TabContainer extends Component {
   }
 
   componentDidMount = async () => {
+    // await this.props.fetchStations();
     if (!__DEV__) await this.props.fetchStations();
   };
 
