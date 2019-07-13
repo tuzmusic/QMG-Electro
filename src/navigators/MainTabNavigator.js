@@ -52,27 +52,6 @@ MapStack.navigationOptions = {
   )
 };
 
-const CreateStationStack = createStackNavigator({
-  CreateScreen: CreateStationScreen
-});
-
-CreateStationStack.navigationOptions = {
-  tabBarLabel: "Me",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      library={"FontAwesome"}
-      name={
-        Platform.OS === "ios"
-          ? focused
-            ? "user-circle"
-            : "user-circle-o"
-          : "md-add"
-      }
-    />
-  )
-};
-
 const UserStack = createStackNavigator({
   Profile: UserProfileScreen
 });
@@ -93,13 +72,11 @@ UserStack.navigationOptions = {
 const TabNavigator = createBottomTabNavigator(
   {
     MapStack,
-    ListStack,
-    CreateStationStack
+    ListStack
   },
   {
     initialRouteName: "UserStack",
     initialRouteName: "ListStack",
-    initialRouteName: "CreateStationStack",
     initialRouteName: "MapStack",
     butt: "butt"
   }
@@ -111,10 +88,7 @@ class TabContainer extends Component {
   }
 
   componentDidMount = async () => {
-    await this.props.fetchStations({
-      useCache: GET_CACHED,
-      shouldDownload: SHOULD_DOWNLOAD
-    });
+    await this.props.fetchStations();
   };
 
   static router = TabNavigator.router;
@@ -122,18 +96,8 @@ class TabContainer extends Component {
     return <TabNavigator navigation={this.props.navigation} />;
   }
 }
-const mapStateToProps = state => {
-  return {
-    stations: state.main.stations,
-    userLocation: state.main.currentRegion
-  };
-};
-const mapDispatchToProps = {
-  fetchStations,
-  getLocationAsync
-};
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  ({ main }) => ({ stations: main.stations, userLocation: main.currentRegion }),
+  { fetchStations, getLocationAsync }
 )(TabContainer);

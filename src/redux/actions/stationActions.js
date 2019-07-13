@@ -9,15 +9,11 @@ function results({ stations, error }) {
   };
 }
 
-export function fetchStations({ useCache, shouldDownload }) {
+export function fetchStations() {
   return async dispatch => {
-    if (!useCache && !shouldDownload) return;
     dispatch({ type: "GET_STATIONS_START" });
-    if (useCache) dispatch(results(await _getCachedStations()));
-    if (shouldDownload) {
-      dispatch(results(await _downloadStations()));
-      dispatch({ type: "SAVE_STATIONS" });
-    }
+    dispatch(results(await _downloadStations()));
+    dispatch({ type: "SAVE_STATIONS" });
   };
 }
 
