@@ -8,11 +8,12 @@ import _ from "lodash";
 import { connect } from "react-redux";
 import { setCurrentRegion } from "../redux/actions/locationActions";
 import ApiUrls from "../constants/ApiUrls";
+import { Platform } from "react-native";
 
 // #region TYPES
 type State = {
   address: string,
-  addressPredictions: [],
+  addressPredictions: Object[],
   showPredictions: boolean
 };
 
@@ -30,6 +31,17 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
     addressPredictions: [],
     showPredictions: false
   };
+
+  async setSamplePrediction() {
+    await this.setState({ address: "88 n spring st 03301" });
+    await this.handleAddressChange();
+    this.onPredictionSelect(this.state.addressPredictions[0]);
+  }
+
+  async componentDidMount() {
+    // setTimeout(this.setSamplePrediction.bind(this), 1000);
+  }
+
   async handleAddressChange() {
     try {
       const result = await fetch(ApiUrls.mapsSearch(this.state.address));
@@ -48,7 +60,6 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
 
   async onPredictionSelect(prediction: { [key: string]: string }) {
     this.textInput && this.textInput.blur();
-
     this.setState({ address: prediction.description, showPredictions: false });
     try {
       const result = await fetch(ApiUrls.mapsDetails(prediction.place_id));

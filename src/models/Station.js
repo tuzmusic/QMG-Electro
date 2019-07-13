@@ -167,7 +167,7 @@ export default class Station {
         longitude: location.lng
       };
     } catch (error) {
-      console.log("Error getting location for address in station:", error);
+      // console.log("Error getting location for address in station:", error);
     }
   }
 }

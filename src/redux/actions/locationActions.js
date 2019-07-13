@@ -3,7 +3,7 @@ import type { Action, ElectroLocation } from "../../../flowTypes";
 import type { State } from "../reducers/mainReducer";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
-
+import { Platform } from "react-native";
 type Dispatch = (action: Action | ThunkAction | PromiseAction) => any;
 type GetState = () => State;
 type ThunkAction = (dispatch: Dispatch, getState: GetState) => any;
@@ -15,7 +15,8 @@ export function getLocationAsync(): ThunkAction {
     if (status !== "granted") {
       return console.warn("Permission to access location was denied");
     }
-    let location = await Location.getCurrentPositionAsync({});
+    let location = await Location.getCurrentPositionAsync();
+
     let { latitude, longitude } = location.coords;
     let region = { latitude, longitude, accuracy: 0.05 };
     dispatch(setCurrentRegion(region));
@@ -25,6 +26,9 @@ export function getLocationAsync(): ThunkAction {
 export function setCurrentRegion(region: ElectroLocation) {
   region.accuracy = 0.05;
   const newRegion = { ...region, ...calculateRegion(region) };
+  // California is lat ~ 37.35
+  if (newRegion.latitude > 40) console.log(Platform.OS, newRegion);
+
   return { type: "SET_CURRENT_REGION", region: newRegion };
 }
 
