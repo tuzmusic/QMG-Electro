@@ -69,7 +69,7 @@ const styles = {
   container: {
     flex: 1,
     marginTop: 100,
-    justifyContent: "flow-start",
+    // justifyContent: "flow-start",
     alignItems: "center"
   },
   text: {

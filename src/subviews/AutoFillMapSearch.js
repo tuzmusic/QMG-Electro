@@ -39,7 +39,7 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
   }
 
   async componentDidMount() {
-    setTimeout(this.setSamplePrediction.bind(this), 1000);
+    // setTimeout(this.setSamplePrediction.bind(this), 1000);
   }
 
   async handleAddressChange() {
@@ -77,6 +77,7 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
       console.error(err);
     }
   }
+
   render() {
     const predictions = this.state.addressPredictions.map(prediction => (
       <TouchableOpacity
