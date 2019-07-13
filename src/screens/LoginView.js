@@ -4,8 +4,6 @@ import { View, Text, KeyboardAvoidingView } from "react-native";
 import { DotIndicator } from "react-native-indicators";
 import { connect } from "react-redux";
 import { login, register, clearAuthError } from "../redux/actions/authActions";
-import F8StyleSheet from "../components/F8StyleSheet";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import LoginForm from "../subviews/LoginForm";
 import RegisterForm from "../subviews/RegisterForm";
 import { validate } from "email-validator";
@@ -155,7 +153,7 @@ export default connect(
   { login, register, clearAuthError }
 )(LoginView);
 
-const styles = F8StyleSheet.create({
+const styles = {
   errorText: {
     color: "red",
     fontSize: 16
@@ -186,4 +184,4 @@ const styles = F8StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   }
-});
+};

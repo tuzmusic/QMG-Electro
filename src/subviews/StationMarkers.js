@@ -40,7 +40,7 @@ const StationMarkers = (props: Props) => {
         <Marker
           coordinate={station.location}
           key={key}
-          onPress={props.onMarkerPress.bind(null, station)}
+          // onPress={props.onMarkerPress.bind(null, station)}
         >
           <Callout
             onPress={props.onCalloutPress.bind(null, station)}
