@@ -17,7 +17,7 @@ import {
 } from "../redux/actions/locationActions";
 import { setCurrentStationID } from "../redux/actions/stationActions";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
-import StationMarkers from "../subviews/StationMarkers1";
+import StationMarkers from "../subviews/StationMarkers";
 import LoadingIndicator from "../components/LoadingIndicator";
 import Icon from "react-native-vector-icons/FontAwesome";
 
