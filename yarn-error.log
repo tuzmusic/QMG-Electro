@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.15.2/libexec/bin/yarn.js add expo-font
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.15.2/libexec/bin/yarn.js add react-native-maps
 
 PATH: 
   /Users/TuzMacbookPro2017/.rvm/gems/ruby-2.3.7/bin:/Users/TuzMacbookPro2017/.rvm/gems/ruby-2.3.7@global/bin:/Users/TuzMacbookPro2017/.rvm/rubies/ruby-2.3.7/bin:/Applications/Postgres.app/Contents/Versions/latest/bin:/usr/local:/usr/local/bin:/usr/local/sbin:/usr/bin:/Users/TuzMacbookPro2017/Library/Android/sdk/platform-tools::/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/TuzMacbookPro2017/.rvm/bin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/TuzMacbookPro2017/Development/QMG-local/APPS/ELECTRO/node_modules/.bin/atob'
+  Error: EACCES: permission denied, unlink '/Users/TuzMacbookPro2017/Development/QMG-local/APPS/ELECTRO/node_modules/.bin/acorn'
 
 npm manifest: 
   {
