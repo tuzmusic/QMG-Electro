@@ -31,5 +31,7 @@
     },
     "description": "v0.5.3\n- Android fixes:\n  - Location button appearance\n  - Fix \"Me\" tab, logout\n- Text inputs should now stay visible when keyboard is shown\n\nKnown bugs: \n- In Android, searching the map sometimes (usually) moves the map to a a region halfway across the world. ",
     "githubUrl": "https://github.com/tuzmusic/QMG-Electro"
-  }
+  },
+  "displayName": "Electro",
+  "name": "Electro"
 }
