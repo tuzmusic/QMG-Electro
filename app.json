@@ -4,7 +4,10 @@
     "slug": "electro",
     "privacy": "public",
     "sdkVersion": "33.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "0.5.2",
     "orientation": "portrait",
     "icon": "./assets/electro-icon-1024.png",
@@ -16,7 +19,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "bundleIdentifier": "com.joinelectro.ElectroMobile",
       "supportsTablet": false

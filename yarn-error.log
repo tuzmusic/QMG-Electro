@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.15.2/libexec/bin/yarn.js add global sharp-cli@1.10.0
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.15.2/libexec/bin/yarn.js
 
 PATH: 
-  /Users/TuzMacbookPro2017/.rvm/gems/ruby-2.3.7/bin:/Users/TuzMacbookPro2017/.rvm/gems/ruby-2.3.7@global/bin:/Users/TuzMacbookPro2017/.rvm/rubies/ruby-2.3.7/bin:/Applications/Postgres.app/Contents/Versions/latest/bin:/usr/local:/usr/local/bin:/usr/local/sbin:/usr/bin:/Users/TuzMacbookPro2017/Library/Android/sdk/platform-tools::/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/TuzMacbookPro2017/.rvm/bin
+  /Users/TuzMacbookPro2017/.npm-global/bin:/Users/TuzMacbookPro2017/.npm-global/bin:/Users/TuzMacbookPro2017/.rvm/gems/ruby-2.3.7/bin:/Users/TuzMacbookPro2017/.rvm/gems/ruby-2.3.7@global/bin:/Users/TuzMacbookPro2017/.rvm/rubies/ruby-2.3.7/bin:/Applications/Postgres.app/Contents/Versions/latest/bin:/usr/local:/usr/local/bin:/usr/local/sbin:/usr/bin:/Users/TuzMacbookPro2017/Library/Android/sdk/platform-tools::/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/TuzMacbookPro2017/.rvm/bin:/Users/TuzMacbookPro2017/.rvm/bin
 
 Yarn version: 
   1.15.2
@@ -39,8 +39,10 @@ npm manifest:
       "axios": "^0.18.0",
       "email-validator": "^2.0.4",
       "expo-permissions": "^5.0.1",
+      "expo": "^33.0.0",
       "flow-bin": "^0.98.1",
       "flow-typed": "^2.5.2",
+      "global": "^4.4.0",
       "native-base": "^2.12.1",
       "pluralize": "^7.0.0",
       "react": "16.8.3",
@@ -61,7 +63,7 @@ npm manifest:
       "redux-saga": "^1.0.2",
       "redux-test-utils": "^0.3.0",
       "redux-thunk": "^2.3.0",
-      "sharp-cli": "^1.10.0",
+      "sharp-cli": "1.10.0",
       "sugar": "^2.0.6"
     },
     "devDependencies": {
@@ -4681,6 +4683,14 @@ Lockfile:
       min-document "^2.19.0"
       process "~0.5.1"
   
+  global@^4.4.0:
+    version "4.4.0"
+    resolved "https://registry.yarnpkg.com/global/-/global-4.4.0.tgz#3e7b105179006a323ed71aafca3e9c57a5cc6406"
+    integrity sha512-wv/LAoHdRE3BeTGz53FAamhGlPLhlssK45usmGFThIi4XqnBmjKQ16u+RNbP7WvigRZDxUsM0J3gcQ5yicaL0w==
+    dependencies:
+      min-document "^2.19.0"
+      process "^0.11.10"
+  
   globals@^11.0.1:
     version "11.12.0"
     resolved "https://registry.yarnpkg.com/globals/-/globals-11.12.0.tgz#ab8795338868a0babd8525758018c2a7eb95c42e"
@@ -7731,6 +7741,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.0.tgz#a37d732f4271b4ab1ad070d35508e8290788ffaa"
     integrity sha512-MtEC1TqN0EU5nephaJ4rAtThHtC86dNN9qCuEhtshvpVBkAW5ZO7BASN9REnF9eoXGcRub+pFuKEpOHE+HbEMw==
   
+  process@^0.11.10:
+    version "0.11.10"
+    resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
+    integrity sha1-czIwDoQBYb2j5podHZGn1LwW8YI=
+  
   process@~0.5.1:
     version "0.5.2"
     resolved "https://registry.yarnpkg.com/process/-/process-0.5.2.tgz#1638d8a8e34c2f440a91db95ab9aeb677fc185cf"
@@ -8841,7 +8856,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.1.0.tgz#d0bd85536887b6fe7c0d818cb962d9d91c54e656"
     integrity sha512-BvE/TwpZX4FXExxOxZyRGQQv651MSwmWKZGqvmPcRIjDqWub67kTKuIMx43cZZrS/cBBzwBcNDWoFxt2XEFIpQ==
   
-  sharp-cli@^1.10.0:
+  sharp-cli@1.10.0:
     version "1.10.0"
     resolved "https://registry.yarnpkg.com/sharp-cli/-/sharp-cli-1.10.0.tgz#d201c85303ee66be286051157c2161053860aeb3"
     integrity sha512-Sh3nXZGzGBNwnl++qSvtdlGaP0DRcEmGoD72xac7wJGmdMA2Afab/TMnBghNtxf10ym5ydTvW6Q6WrK7GEalxQ==
