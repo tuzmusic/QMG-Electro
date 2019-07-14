@@ -22,6 +22,7 @@
     "expo-permissions": "^5.0.1",
     "flow-bin": "^0.98.1",
     "flow-typed": "^2.5.2",
+    "global": "^4.4.0",
     "native-base": "^2.12.1",
     "pluralize": "^7.0.0",
     "react": "16.8.3",
@@ -42,7 +43,7 @@
     "redux-saga": "^1.0.2",
     "redux-test-utils": "^0.3.0",
     "redux-thunk": "^2.3.0",
-    "sharp-cli": "^1.10.0",
+    "sharp-cli": "1.10.0",
     "sugar": "^2.0.6"
   },
   "devDependencies": {
