@@ -82,17 +82,6 @@ export default function mainReducer(
       AsyncStorage.setItem("electro_stations", storageString);
       return state;
     // #endregion
-    // #region LOCATION ACTIONS
-
-    /*     case "SET_CURRENT_REGION":
-      return { ...state, currentRegion: action.region };
-    case "SET_CURRENT_USER_LOCATION":
-      return { ...state, currentUserLocation: action.region };
-    case "SET_SEARCH_RADIUS":
-      return { ...state, searchRadiusInMiles: action.radius };
- */
-
-    // #endregion
     default:
       return state;
   }

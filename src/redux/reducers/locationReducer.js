@@ -11,11 +11,10 @@ export default function dealsReducer(
   state: LocationState = initialState,
   action: LocationAction
 ): LocationState {
-  // console.log(action.type);
+  // if (!action.type.startsWith("@@")) console.log(action.type);
 
   switch (action.type) {
     case "USER_LOCATION_START":
-      // return { ...state, loadingMessage: "Getting Location..." };
       return { ...state, loadingMessage: "" };
     case "USER_LOCATION_SUCCESS":
     case "SET_CURRENT_REGION":

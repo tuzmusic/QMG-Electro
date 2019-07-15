@@ -29,7 +29,7 @@ export function getLocationAsync(): LocationAction {
 export function* getLocationSaga(): Saga<void> {
   try {
     const region = yield call(getUserLocation);
-    console.log("saga", region);
+    // console.log("saga", region);
 
     yield put({ type: "USER_LOCATION_SUCCESS", region });
   } catch (error) {

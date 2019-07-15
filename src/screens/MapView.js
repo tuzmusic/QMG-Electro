@@ -46,7 +46,7 @@ class MapScreen extends Component {
   };
 
   render() {
-    console.log("MapView", this.props.currentRegion);
+    // console.log("MapView", this.props.currentRegion);
 
     return (
       <View style={styles.container}>

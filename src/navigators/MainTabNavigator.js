@@ -78,8 +78,8 @@ class TabContainer extends Component {
   }
 
   componentDidMount = async () => {
-    if (!__DEV__) await this.props.fetchStations();
-    // await this.props.fetchStations();
+    // if (!__DEV__) await this.props.fetchStations();
+    await this.props.fetchStations();
   };
 
   static router = TabNavigator.router;

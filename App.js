@@ -6,8 +6,9 @@ import {
   View,
   AppRegistry
 } from "react-native";
+import { registerRootComponent } from "expo";
 import * as Font from "expo-font";
-import AppContainer from "./src/navigators/AppNavigator";
+import AppContainer from "./src/navigators/AppContainer";
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import mainReducer from "./src/redux/reducers/mainReducer";
@@ -15,7 +16,9 @@ import authReducer from "./src/redux/reducers/authReducer";
 import locationReducer from "./src/redux/reducers/locationReducer";
 import thunk from "redux-thunk";
 import createSagaMiddleware from "redux-saga";
-import locationSaga from "./src/redux/actions/locationActions";
+import locationSaga, {
+  getLocationAsync
+} from "./src/redux/actions/locationActions";
 import authSaga from "./src/redux/actions/authActions";
 import GlobalFont from "react-native-global-font";
 import AppStyles from "./src/constants/Styles";
@@ -82,7 +85,7 @@ export default class App extends React.Component {
     this.setState({ isLoadingComplete: true });
   };
 }
-import { registerRootComponent } from "expo";
+
 registerRootComponent(App);
 
 const styles = StyleSheet.create({
