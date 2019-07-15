@@ -55,9 +55,9 @@ class MapScreen extends Component {
           isVisible={this.props.isLoading}
         />
         <MapView
-          provider={MapView.PROVIDER_GOOGLE}
+          // provider={MapView.PROVIDER_GOOGLE}
           style={{ flex: 1 }}
-          region={this.props.currentRegion}
+          // region={this.props.currentRegion}
           showsUserLocation={true}
         >
           <StationMarkers
