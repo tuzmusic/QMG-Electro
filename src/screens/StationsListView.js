@@ -67,15 +67,20 @@ function closestFirst(a: Station, b: Station): number {
 
 function withinSearchRadius(station: Station): boolean {
   const dist = station.distanceFromLocation(this.props.location);
-  if (!dist) return false;
-  return !station.location || dist <= this.props.searchRadius;
+  if (dist) {
+    const bool = dist <= this.props.searchRadius;
+    return bool;
+  } else if (this.props.searchRadius === 1e100) {
+    return true;
+  }
+  return false;
 }
 
-const mapStateToProps = state => ({
-  stations: Object.values(state.main.stations),
-  isLoading: state.main.isLoading,
-  location: state.main.currentRegion,
-  searchRadius: state.main.searchRadiusInMiles
+const mapStateToProps = ({ main, location }) => ({
+  stations: Object.values(main.stations),
+  isLoading: main.isLoading,
+  location: main.currentRegion,
+  searchRadius: location.searchRadiusInMiles
 });
 
 export const StationsListViewBasic = StationsListView;

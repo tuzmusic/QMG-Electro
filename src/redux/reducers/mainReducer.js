@@ -47,6 +47,7 @@ export default function mainReducer(
     case "GET_STATIONS_START":
       return { ...state, isLoading: true };
     case "GET_STATIONS_SUCCESS":
+      // debugger;
       return {
         ...state,
         stations: { ...state.stations, ...action.stations },
