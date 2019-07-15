@@ -46,7 +46,7 @@ class MapScreen extends Component {
   };
 
   render() {
-    // console.log(Platform.OS, this.props.currentRegion);
+    console.log("MapView", this.props.currentRegion);
 
     return (
       <View style={styles.container}>
@@ -57,7 +57,7 @@ class MapScreen extends Component {
         <MapView
           // provider={MapView.PROVIDER_GOOGLE}
           style={{ flex: 1 }}
-          // region={this.props.currentRegion}
+          region={this.props.currentRegion}
           showsUserLocation={true}
         >
           <StationMarkers
@@ -104,13 +104,11 @@ const CupertinoButton = props => (
   </Callout>
 );
 
-const mapStateToProps = state => {
-  return {
-    stations: state.main.stations,
-    currentRegion: state.main.currentRegion,
-    isLoading: state.main.isLoading
-  };
-};
+const mapStateToProps = ({ main, location }) => ({
+  stations: main.stations,
+  currentRegion: location.currentRegion,
+  isLoading: main.isLoading
+});
 
 export default connect(
   mapStateToProps,

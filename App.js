@@ -12,8 +12,10 @@ import { combineReducers, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import mainReducer from "./src/redux/reducers/mainReducer";
 import authReducer from "./src/redux/reducers/authReducer";
+import locationReducer from "./src/redux/reducers/locationReducer";
 import thunk from "redux-thunk";
 import createSagaMiddleware from "redux-saga";
+import locationSaga from "./src/redux/actions/locationActions";
 import authSaga from "./src/redux/actions/authActions";
 import GlobalFont from "react-native-global-font";
 import AppStyles from "./src/constants/Styles";
@@ -21,7 +23,8 @@ import { setupAuthMockAdapter } from "./tests/__mocks__/axiosMocks";
 
 const combinedReducer = combineReducers({
   main: mainReducer,
-  auth: authReducer
+  auth: authReducer,
+  location: locationReducer
 });
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -29,7 +32,13 @@ const store = createStore(
   {},
   applyMiddleware(thunk, sagaMiddleware)
 );
-sagaMiddleware.run(authSaga);
+
+function* rootSaga(): Saga<void> {
+  sagaMiddleware.run(locationSaga);
+  sagaMiddleware.run(authSaga);
+}
+
+sagaMiddleware.run(rootSaga);
 
 export default class App extends React.Component {
   state = {
