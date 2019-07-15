@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Input, Button, ThemeProvider } from "react-native-elements";
-import { Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, Linking } from "react-native";
 import { connect } from "react-redux";
-import F8StyleSheet from "../components/F8StyleSheet";
 
 class LoginForm extends Component {
   state = {
@@ -11,6 +10,7 @@ class LoginForm extends Component {
   };
 
   render() {
+    const regUrl = "https://joinelectro.com/registration-new/";
     return (
       <ThemeProvider theme={theme}>
         <Input
@@ -41,10 +41,10 @@ class LoginForm extends Component {
           disabled={this.props.isLoading}
           onPress={() => this.props.onSubmit(this.state)}
         />
-        <TouchableOpacity onPress={this.props.onLinkClick}>
-          <Text style={{ fontSize: 16 }}>
-            Don't have an account? <Text style={styles.link}>Click here</Text>{" "}
-            to register.
+        <Text style={styles.text}>Don't have an account?</Text>
+        <TouchableOpacity onPress={() => Linking.openURL(regUrl)}>
+          <Text style={[styles.text, styles.link]}>
+            Register on our website.
           </Text>
         </TouchableOpacity>
       </ThemeProvider>
@@ -70,14 +70,15 @@ const theme = {
   },
   Text: {
     style: {
-      fontSize: 16
+      fontSize: 26
     }
   }
 };
 
-const styles = F8StyleSheet.create({
+const styles = {
+  text: { fontSize: 20 },
   link: {
     color: "blue",
     textDecorationLine: "underline"
   }
-});
+};

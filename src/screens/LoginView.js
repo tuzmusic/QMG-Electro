@@ -170,8 +170,7 @@ const styles = {
   },
   image: {
     height: 200,
-    width: 200,
-    marginBottom: 40
+    width: 200
   },
   modalContainer: {
     flex: 1,
