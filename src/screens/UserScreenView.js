@@ -22,34 +22,34 @@ class CreateStationView extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>
-          {this.props.user &&
-            "Logged in as " +
-              (this.props.user.username || this.props.user.user.username)}
-        </Text>
-        <Button
-          buttonStyle={styles.logout}
-          containerStyle={styles.button}
-          color="red"
-          titleStyle={styles.text}
-          onPress={this.performLogout.bind(this)}
-          title="Log Out"
-          loading={this.props.isLoading}
-          disabled={this.props.isLoading}
-        />
-        <View style={styles.opacityContainer}>
+        <View style={styles.topSection}>
+          <Text style={styles.text}>
+            {this.props.user &&
+              "Logged in as " +
+                (this.props.user.username || this.props.user.user.username)}
+          </Text>
+          <Button
+            buttonStyle={styles.logout}
+            containerStyle={styles.button}
+            color="red"
+            titleStyle={styles.text}
+            onPress={this.performLogout.bind(this)}
+            title="Log Out"
+            loading={this.props.isLoading}
+            disabled={this.props.isLoading}
+          />
+        </View>
+        <View style={styles.bottomSection}>
+          <Text style={[styles.text]}>Please</Text>
           <TouchableOpacity
             style={styles.opacity}
             onPress={() =>
               Linking.openURL("http://joinelectro.com/submit-listings/")
             }
           >
-            <Text style={[styles.text]}>
-              Please{" "}
-              <Text style={[styles.text, styles.link]}>visit the website</Text>{" "}
-              to create a station.
-            </Text>
+            <Text style={[styles.text, styles.link]}>visit the website</Text>
           </TouchableOpacity>
+          <Text style={[styles.text]}>to create a station.</Text>
         </View>
       </View>
     );
@@ -62,22 +62,15 @@ export default connect(
 )(CreateStationView);
 
 const styles = {
-  opacity: {},
-  opacityContainer: { padding: 80, paddingTop: 130 },
-  button: { width: "65%", margin: 30 },
-  logout: { backgroundColor: "red" },
   container: {
     flex: 1,
-    marginTop: 100,
-    // justifyContent: "flow-start",
+    marginVertical: 80,
+    justifyContent: "space-around",
     alignItems: "center"
   },
-  text: {
-    fontSize: 24,
-    textAlign: "center"
-  },
-  link: {
-    color: "blue",
-    textDecorationLine: "underline"
-  }
+  topSection: { width: "100%", alignItems: "center" },
+  button: { width: "65%", marginTop: 30 },
+  logout: { backgroundColor: "red" },
+  text: { fontSize: 24, textAlign: "center" },
+  link: { color: "blue", textDecorationLine: "underline" }
 };
