@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "0.5.2",
+    "version": "0.5.4",
     "orientation": "portrait",
     "icon": "./assets/electro-icon-1024.png",
     "splash": {
@@ -29,7 +29,7 @@
     "android": {
       "package": "com.joinelectro.ElectroMobile"
     },
-    "description": "v0.5.3\n- Android fixes:\n  - Location button appearance\n  - Fix \"Me\" tab, logout\n- Text inputs should now stay visible when keyboard is shown\n\nKnown bugs: \n- In Android, searching the map sometimes (usually) moves the map to a a region halfway across the world. ",
+    "description": "v0.5.4\n- iOS build should work. The icons (tab bar, location button) are causing problems with the build, so they're not working currently.\n- The online database currently has only one station with a valid address. These stations are now displayed in the list when an \"infinity\" search radius is selected.\n (note that addresses are still calculated by the app itself, using a Google Maps call, rather than the data from joinelectro.com).\n\nv0.5.3\n- Android fixes:\n  - Location button appearance\n  - Fix \"Me\" tab, logout\n- Text inputs should now stay visible when keyboard is shown\n\nKnown bugs: \n- In Android, searching the map sometimes (usually) moves the map to a a region halfway across the world. ",
     "githubUrl": "https://github.com/tuzmusic/QMG-Electro"
   },
   "displayName": "Electro",
