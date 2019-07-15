@@ -6,7 +6,7 @@ import {
   createBottomTabNavigator
 } from "react-navigation";
 
-import TabBarIcon from "../components/TabBarIcon";
+// import TabBarIcon from "../components/TabBarIcon";
 import MapScreen from "../screens/MapView";
 import StationsListScreen from "../screens/StationsListView";
 import StationDetailScreen from "../screens/StationDetailView";
@@ -23,13 +23,13 @@ const ListStack = createStackNavigator({
 });
 
 ListStack.navigationOptions = {
-  tabBarLabel: "List",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === "ios" ? "ios-list" : "md-list"}
-    />
-  )
+  tabBarLabel: "List"
+  // tabBarIcon: ({ focused }) => (
+  //   <TabBarIcon
+  //     focused={focused}
+  //     name={Platform.OS === "ios" ? "ios-list" : "md-list"}
+  //   />
+  // )
 };
 
 const MapStack = createStackNavigator({
@@ -39,14 +39,14 @@ const MapStack = createStackNavigator({
 });
 
 MapStack.navigationOptions = {
-  tabBarLabel: "Map",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={focused ? "map" : "map-o"}
-      library={"FontAwesome"}
-    />
-  )
+  tabBarLabel: "Map"
+  // tabBarIcon: ({ focused }) => (
+  //   <TabBarIcon
+  //     focused={focused}
+  //     name={focused ? "map" : "map-o"}
+  //     library={"FontAwesome"}
+  //   />
+  // )
 };
 
 const UserStack = createStackNavigator({
@@ -54,14 +54,14 @@ const UserStack = createStackNavigator({
 });
 
 UserStack.navigationOptions = {
-  tabBarLabel: "Me",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={focused ? "user-circle" : "user-circle-o"}
-      library={"FontAwesome"}
-    />
-  )
+  tabBarLabel: "Me"
+  // tabBarIcon: ({ focused }) => (
+  //   <TabBarIcon
+  //     focused={focused}
+  //     name={focused ? "user-circle" : "user-circle-o"}
+  //     library={"FontAwesome"}
+  //   />
+  // )
 };
 
 // #endregion

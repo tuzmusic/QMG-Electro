@@ -53,7 +53,7 @@ export default class App extends React.Component {
   }
 
   _handleLoading = async () => {
-    // await this._loadResourcesAsync();
+    await this._loadResourcesAsync();
   };
 
   _loadResourcesAsync = async () => {
