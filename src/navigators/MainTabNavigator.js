@@ -10,7 +10,7 @@ import TabBarIcon from "../components/TabBarIcon";
 import MapScreen from "../screens/MapView";
 import StationsListScreen from "../screens/StationsListView";
 import StationDetailScreen from "../screens/StationDetailView";
-import UserProfileScreen from "../screens/CreateStationView";
+import UserScreen from "../screens/UserScreenView";
 
 import { fetchStations } from "../redux/actions/stationActions";
 import { getLocationAsync } from "../redux/actions/locationActions";
@@ -48,7 +48,7 @@ MapStack.navigationOptions = {
 };
 
 const UserStack = createStackNavigator({
-  Profile: UserProfileScreen
+  UserScreen
 });
 
 UserStack.navigationOptions = {
@@ -78,8 +78,8 @@ class TabContainer extends Component {
   }
 
   componentDidMount = async () => {
-    // if (!__DEV__) await this.props.fetchStations();
-    await this.props.fetchStations();
+    if (!__DEV__) await this.props.fetchStations();
+    // await this.props.fetchStations();
   };
 
   static router = TabNavigator.router;
