@@ -10,7 +10,6 @@ import {
 import MapScreen from "../screens/MapView";
 import StationsListScreen from "../screens/StationsListView";
 import StationDetailScreen from "../screens/StationDetailView";
-// import UserProfileScreen from "../screens/UserProfileView";
 import UserProfileScreen from "../screens/CreateStationView";
 
 import { fetchStations } from "../redux/actions/stationActions";
