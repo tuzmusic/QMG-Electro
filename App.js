@@ -1,5 +1,11 @@
- import React from "react";
-import { Platform, StatusBar, StyleSheet, View } from "react-native";
+import React from "react";
+import {
+  Platform,
+  StatusBar,
+  StyleSheet,
+  View,
+  AppRegistry
+} from "react-native";
 import * as Font from "expo-font";
 import AppContainer from "./src/navigators/AppNavigator";
 import { combineReducers, createStore, applyMiddleware } from "redux";
@@ -67,6 +73,8 @@ export default class App extends React.Component {
     this.setState({ isLoadingComplete: true });
   };
 }
+import { registerRootComponent } from "expo";
+registerRootComponent(App);
 
 const styles = StyleSheet.create({
   container: {

@@ -10,7 +10,6 @@ import TabBarIcon from "../components/TabBarIcon";
 import MapScreen from "../screens/MapView";
 import StationsListScreen from "../screens/StationsListView";
 import StationDetailScreen from "../screens/StationDetailView";
-// import UserProfileScreen from "../screens/UserProfileView";
 import UserProfileScreen from "../screens/CreateStationView";
 
 import { fetchStations } from "../redux/actions/stationActions";
@@ -22,14 +21,19 @@ const ListStack = createStackNavigator({
   StationDetail: StationDetailScreen
 });
 
-ListStack.navigationOptions = {
-  tabBarLabel: "List",
-  tabBarIcon: ({ focused }) => (
+function icon(focused, focIcon, unfocIcon, library) {
+  return (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === "ios" ? "ios-list" : "md-list"}
+      name={focused ? focIcon : unfocIcon || focIcon}
+      library={library}
     />
-  )
+  );
+}
+
+ListStack.navigationOptions = {
+  tabBarLabel: "List",
+  tabBarIcon: ({ focused }) => icon(focused, "ios-list")
 };
 
 const MapStack = createStackNavigator({
@@ -40,13 +44,7 @@ const MapStack = createStackNavigator({
 
 MapStack.navigationOptions = {
   tabBarLabel: "Map",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={focused ? "map" : "map-o"}
-      library={"FontAwesome"}
-    />
-  )
+  tabBarIcon: ({ focused }) => icon(focused, "map", "map-o", "FontAwesome")
 };
 
 const UserStack = createStackNavigator({
@@ -55,13 +53,7 @@ const UserStack = createStackNavigator({
 
 UserStack.navigationOptions = {
   tabBarLabel: "Me",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={focused ? "user-circle" : "user-circle-o"}
-      library={"FontAwesome"}
-    />
-  )
+  tabBarIcon: ({ f }) => icon(f, "user-circle", "user-circle-o", "FontAwesome")
 };
 
 // #endregion
@@ -86,8 +78,8 @@ class TabContainer extends Component {
   }
 
   componentDidMount = async () => {
-    await this.props.fetchStations();
     // if (!__DEV__) await this.props.fetchStations();
+    await this.props.fetchStations();
   };
 
   static router = TabNavigator.router;
