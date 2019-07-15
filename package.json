@@ -14,6 +14,7 @@
       "EXPO_DEBUG": true
     }
   },
+  "main": "App.js",
   "dependencies": {
     "@expo/samples": "2.1.1",
     "axios": "^0.18.0",

@@ -73,8 +73,8 @@ export default class App extends React.Component {
     this.setState({ isLoadingComplete: true });
   };
 }
-
-AppRegistry.registerComponent("main", () => App);
+import { registerRootComponent } from "expo";
+registerRootComponent(App);
 
 const styles = StyleSheet.create({
   container: {

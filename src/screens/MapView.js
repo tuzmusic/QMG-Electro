@@ -10,7 +10,7 @@ import { setCurrentStationID } from "../redux/actions/stationActions";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
 import StationMarkers from "../subviews/StationMarkers";
 import LoadingIndicator from "../components/LoadingIndicator";
-// import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/FontAwesome";
 import MapView, { Marker, Callout } from "react-native-maps";
 
 class MapScreen extends Component {
@@ -86,7 +86,7 @@ const LocationButton = ({ onPress }) => {
       <Button
         buttonStyle={styles.locationButton}
         onPress={onPress}
-        // icon={<Icon name="location-arrow" color="#3B6EC2" size={20} />}
+        icon={<Icon name="location-arrow" color="#3B6EC2" size={20} />}
       />
     </Callout>
   );
