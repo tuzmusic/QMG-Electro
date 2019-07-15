@@ -6,7 +6,6 @@ import {
   View,
   AppRegistry
 } from "react-native";
-import { registerRootComponent } from "expo";
 import * as Font from "expo-font";
 import AppContainer from "./src/navigators/AppContainer";
 import { combineReducers, createStore, applyMiddleware } from "redux";
@@ -86,7 +85,7 @@ export default class App extends React.Component {
   };
 }
 
-registerRootComponent(App);
+AppRegistry.registerComponent("main", () => App);
 
 const styles = StyleSheet.create({
   container: {
