@@ -1,4 +1,4 @@
-import React from "react";
+ import React from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import * as Font from "expo-font";
 import AppContainer from "./src/navigators/AppNavigator";
