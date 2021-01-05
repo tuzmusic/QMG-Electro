@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@expo/samples": "2.1.1",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "email-validator": "^2.0.4",
     "expo": "^33.0.0",
     "expo-permissions": "^5.0.1",
